@@ -1,3 +1,130 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+/* Fondo general */
+body {
+  background: #f5f6fa;
+  color: #1a1a1a;
+  padding: 20px;
+}
+
+/* Contenedor principal */
+.container {
+  max-width: 1100px;
+  margin: auto;
+}
+
+/* Títulos */
+h1 {
+  font-size: 36px;
+  font-weight: bold;
+  margin-bottom: 5px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+h2 {
+  font-size: 24px;
+  margin-top: 35px;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Texto suave */
+.subtitle {
+  font-size: 16px;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+/* Tarjetas */
+.card {
+  background: white;
+  border-radius: 10px;
+  padding: 16px;
+  box-shadow: 0px 0px 6px rgba(0,0,0,0.1);
+  margin-bottom: 16px;
+}
+
+/* Lista de ranking */
+.ranking-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  background: #fff;
+  border-radius: 6px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+}
+
+/* Selector usuario */
+.user-select {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #aaa;
+  background: white;
+}
+
+/* Inputs */
+.input {
+  padding: 10px;
+  width: 100%;
+  border-radius: 8px;
+  border: 1px solid #aaa;
+  margin-bottom: 10px;
+}
+
+/* Botones */
+.btn {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  background: #2b7cff;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background: #1a63d8;
+}
+
+.btn-secondary {
+  background: #ccc;
+  color: #222;
+}
+
+.btn-secondary:hover {
+  background: #b5b5b5;
+}
+
+/* Modal */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal {
+  background: white;
+  padding: 20px;
+  width: 350px;
+  border-radius: 12px;
+  box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+}
