@@ -153,3 +153,54 @@ body{
   .ranking-cards{display:flex; gap:10px}
   .container{padding:0 14px}
 }
+/* ---------- AUTH PAGES ---------- */
+
+.auth-wrapper {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #0e0e10;
+  padding: 20px;
+}
+
+.auth-card {
+  background: #1a1a1d;
+  padding: 28px;
+  width: 100%;
+  max-width: 380px;
+  border-radius: 16px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, .35);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.auth-card h2 {
+  text-align: center;
+  margin-bottom: 8px;
+  color: #f0f0f0;
+}
+
+.auth-card input {
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #333;
+  background: #121214;
+  color: white;
+  font-size: 15px;
+}
+
+.auth-card input:focus {
+  border-color: #6366f1;
+  outline: none;
+}
+
+.auth-alt {
+  text-align: center;
+  margin-top: 4px;
+}
+
+.auth-alt a {
+  color: #6366f1;
+}
