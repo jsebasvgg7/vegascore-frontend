@@ -1,39 +1,305 @@
-/* --------------------------------
-   HEADER
-----------------------------------*/
-.app-header{
-  background: linear-gradient(180deg, #000 0%, #1A1A1A 100%);
-  color:white;
-  padding:24px 28px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  border-bottom: 1px solid rgba(255,255,255,0.03);
+/* ================================
+   HEADER PREMIUM - VERSIÓN MEJORADA
+================================ */
+
+.app-header {
+  background: linear-gradient(135deg, #0a0a0b 0%, #1a1a1d 50%, #2d2d30 100%);
+  color: white;
+  padding: 20px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255, 138, 0, 0.15);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  position: relative;
+  overflow: hidden;
 }
 
-.header-left{display:flex; gap:16px; align-items:center}
-.logo-box{
-  width:56px; height:56px; display:flex; align-items:center; justify-content:center;
-  background:white; color:#111; border-radius:12px; font-size:26px;
+/* Efecto de brillo animado en el borde superior */
+.app-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, 
+    transparent,
+    #ff8a00,
+    #ff6b35,
+    #ff8a00,
+    transparent
+  );
+  background-size: 200% 100%;
+  animation: header-shine 3s linear infinite;
 }
-.title-wrap .app-title{font-size:20px; margin:0}
-.title-wrap .app-sub{font-size:13px; color:rgba(255,255,255,0.75); margin-top:4px}
 
-/* Right section */
-.header-right{display:flex; gap:12px; align-items:center}
-.user-bubble{
-  display:flex; gap:12px; align-items:center; background: rgba(255,255,255,0.06);
-  padding:10px 14px; border-radius:16px; cursor:pointer; border:1px solid rgba(255,255,255,0.06);
+@keyframes header-shine {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
 }
-.avatar{width:40px; height:40px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:rgba(255,255,255,0.9); color:#111}
-.user-info .user-name{font-weight:600}
-.user-info .user-meta{font-size:12px; color:rgba(255,255,255,0.7)}
-.icon-btn{background:transparent; border:1px solid rgba(255,255,255,0.06); color:white; padding:8px 10px; border-radius:10px; cursor:pointer}
 
-/* Header responsive */
+/* Efecto de partículas sutiles de fondo */
+.app-header::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: 
+    radial-gradient(circle at 20% 50%, rgba(255, 138, 0, 0.03) 0%, transparent 50%),
+    radial-gradient(circle at 80% 50%, rgba(255, 107, 53, 0.03) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+/* Left Section */
+.header-left {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+.logo-box {
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #ffffff 0%, #f5f5f5 100%);
+  color: #ff8a00;
+  border-radius: 16px;
+  font-size: 28px;
+  box-shadow: 
+    0 8px 20px rgba(255, 138, 0, 0.3),
+    0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.logo-box::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  background: linear-gradient(45deg, #ff8a00, #ff6b35, #ff8a00);
+  background-size: 200% 200%;
+  border-radius: 16px;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s;
+  animation: logo-gradient 3s ease infinite;
+}
+
+@keyframes logo-gradient {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+.logo-box:hover {
+  transform: scale(1.05) rotate(-5deg);
+}
+
+.logo-box:hover::before {
+  opacity: 1;
+}
+
+.title-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.app-title {
+  font-size: 22px;
+  font-weight: 800;
+  margin: 0;
+  background: linear-gradient(135deg, #ffffff 0%, #e0e0e0 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -0.5px;
+  text-shadow: 0 2px 10px rgba(255, 255, 255, 0.1);
+}
+
+.app-sub {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.65);
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.app-sub::before {
+  content: '⚽';
+  font-size: 12px;
+  animation: ball-spin 4s linear infinite;
+}
+
+@keyframes ball-spin {
+  0%, 100% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Right Section */
+.header-right {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+.user-bubble {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
+  padding: 10px 18px;
+  border-radius: 20px;
+  cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.user-bubble::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, 
+    rgba(255, 138, 0, 0.1) 0%, 
+    rgba(255, 107, 53, 0.1) 100%
+  );
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.user-bubble:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 138, 0, 0.4);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 138, 0, 0.2);
+}
+
+.user-bubble:hover::before {
+  opacity: 1;
+}
+
+.avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #ff8a00 0%, #ff6b35 100%);
+  color: white;
+  font-weight: 700;
+  font-size: 16px;
+  box-shadow: 
+    0 4px 12px rgba(255, 138, 0, 0.4),
+    0 0 0 3px rgba(255, 138, 0, 0.1);
+  transition: all 0.3s;
+  position: relative;
+}
+
+.user-bubble:hover .avatar {
+  transform: scale(1.1);
+  box-shadow: 
+    0 6px 16px rgba(255, 138, 0, 0.5),
+    0 0 0 3px rgba(255, 138, 0, 0.2);
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.user-name {
+  font-weight: 700;
+  font-size: 15px;
+  color: white;
+  letter-spacing: -0.2px;
+}
+
+.user-meta {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.user-meta::before {
+  content: '🏆';
+  font-size: 11px;
+}
+
+.icon-btn {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: white;
+  padding: 11px 12px;
+  border-radius: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.icon-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255, 138, 0, 0.2), rgba(255, 107, 53, 0.2));
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.icon-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 138, 0, 0.4);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 138, 0, 0.2);
+}
+
+.icon-btn:hover::before {
+  opacity: 1;
+}
+
+.icon-btn:active {
+  transform: translateY(0);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .app-header {
+    padding: 18px 24px;
+  }
+
+  .logo-box {
+    width: 56px;
+    height: 56px;
+    font-size: 26px;
+  }
+
+  .app-title {
+    font-size: 20px;
+  }
+}
+
 @media (max-width: 768px) {
   .app-header {
-    padding: 16px;
+    padding: 16px 18px;
     flex-direction: column;
     gap: 16px;
     align-items: stretch;
@@ -44,16 +310,17 @@
   }
 
   .logo-box {
-    width: 48px;
-    height: 48px;
-    font-size: 22px;
+    width: 52px;
+    height: 52px;
+    font-size: 24px;
+    border-radius: 14px;
   }
 
-  .title-wrap .app-title {
+  .app-title {
     font-size: 18px;
   }
 
-  .title-wrap .app-sub {
+  .app-sub {
     font-size: 12px;
   }
 
@@ -64,26 +331,34 @@
 
   .user-bubble {
     flex: 1;
-    padding: 10px 12px;
+    padding: 10px 14px;
+    border-radius: 16px;
   }
 
   .avatar {
-    width: 36px;
-    height: 36px;
+    width: 40px;
+    height: 40px;
+    font-size: 15px;
   }
 
-  .user-info .user-name {
+  .user-name {
     font-size: 14px;
   }
 
-  .user-info .user-meta {
+  .user-meta {
     font-size: 11px;
+  }
+
+  .icon-btn {
+    padding: 10px 11px;
+    border-radius: 12px;
   }
 }
 
 @media (max-width: 480px) {
   .app-header {
-    padding: 14px;
+    padding: 14px 16px;
+    gap: 14px;
   }
 
   .header-left {
@@ -91,39 +366,58 @@
   }
 
   .logo-box {
-    width: 44px;
-    height: 44px;
-    font-size: 20px;
-    border-radius: 10px;
+    width: 48px;
+    height: 48px;
+    font-size: 22px;
+    border-radius: 12px;
   }
 
-  .title-wrap .app-title {
+  .app-title {
     font-size: 16px;
   }
 
-  .title-wrap .app-sub {
+  .app-sub {
     font-size: 11px;
   }
 
   .user-bubble {
-    padding: 8px 10px;
+    padding: 8px 12px;
     gap: 10px;
+    border-radius: 14px;
   }
 
   .avatar {
-    width: 32px;
-    height: 32px;
+    width: 36px;
+    height: 36px;
+    font-size: 14px;
   }
 
-  .user-info .user-name {
+  .user-name {
     font-size: 13px;
   }
 
-  .user-info .user-meta {
+  .user-meta {
     font-size: 10px;
   }
 
   .icon-btn {
-    padding: 6px 8px;
+    padding: 9px 10px;
+    border-radius: 10px;
   }
+}
+
+/* Animación de entrada */
+@keyframes header-slide-down {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.app-header {
+  animation: header-slide-down 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
