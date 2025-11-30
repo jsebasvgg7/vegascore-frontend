@@ -1,5 +1,6 @@
 // src/components/Header.jsx
 import React from "react";
+import { Trophy, User, LogOut } from "lucide-react";
 import { supabase } from "../utils/supabaseClient";
 import "../index.css";
 
@@ -14,7 +15,9 @@ export default function Header({ currentUser, users = [] }) {
   return (
     <header className="app-header">
       <div className="header-left">
-        <div className="logo-box">🏆</div>
+        <div className="logo-box">
+          <Trophy size={28} />
+        </div>
         <div className="title-wrap">
           <h1 className="app-title">Predicciones de Fútbol</h1>
           <div className="app-sub">Compite y demuestra tu conocimiento</div>
@@ -23,7 +26,9 @@ export default function Header({ currentUser, users = [] }) {
 
       <div className="header-right">
         <div className="user-bubble">
-          <div className="avatar">👤</div>
+          <div className="avatar">
+            <User size={20} />
+          </div>
           <div className="user-info">
             <div className="user-name">{currentUser?.name ?? "Invitado"}</div>
             <div className="user-meta">{currentUser?.points ?? 0} pts • #{position} de {users.length}</div>
@@ -31,7 +36,7 @@ export default function Header({ currentUser, users = [] }) {
         </div>
 
         <button className="icon-btn" onClick={handleLogout} aria-label="Cerrar sesión">
-          🚪
+          <LogOut size={18} />
         </button>
       </div>
     </header>

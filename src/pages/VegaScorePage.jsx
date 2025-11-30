@@ -1,5 +1,6 @@
 // src/pages/VegaScorePage.jsx
 import React, { useEffect, useState } from "react";
+import { Trophy, TrendingUp, Target, Percent, Plus, CheckCircle } from "lucide-react";
 import Header from "../components/Header";
 import MatchCard from "../components/MatchCard";
 import RankingSidebar from "../components/RankingSidebar";
@@ -138,7 +139,10 @@ export default function VegaScorePage() {
 
   const setMatchResult = async (matchId, homeScore, awayScore) => {
     try {
-      await supabase
+      console.log(`🎯 Finalizando partido ${matchId}: ${homeScore}-${awayScore}`);
+
+      // 1️⃣ Actualizar el resultado del partido
+      const { error: updateError } = await supabase
         .from("matches")
         .update({ 
           result_home: homeScore, 
@@ -147,52 +151,103 @@ export default function VegaScorePage() {
         })
         .eq("id", matchId);
 
-      const { data } = await supabase.from("matches").select("*, predictions(*)");
-      setMatches(data);
-      await calculatePoints(data);
-      alert("¡Partido finalizado y puntos calculados!");
+      if (updateError) throw updateError;
+
+      // 2️⃣ Obtener el partido actualizado con todas sus predicciones
+      const { data: match, error: matchError } = await supabase
+        .from("matches")
+        .select("*, predictions(*)")
+        .eq("id", matchId)
+        .single();
+
+      if (matchError) throw matchError;
+
+      console.log(`📊 Partido encontrado con ${match.predictions.length} predicciones`);
+
+      // 3️⃣ Calcular puntos para cada predicción
+      const resultDiff = Math.sign(homeScore - awayScore); // 1=local, 0=empate, -1=visitante
+
+      for (const prediction of match.predictions) {
+        const predDiff = Math.sign(prediction.home_score - prediction.away_score);
+        let pointsEarned = 0;
+
+        // Resultado exacto = 5 puntos
+        if (prediction.home_score === homeScore && prediction.away_score === awayScore) {
+          pointsEarned = 5;
+          console.log(`✅ Usuario ${prediction.user_id}: Resultado exacto (+5 pts)`);
+        } 
+        // Acertó ganador/empate = 3 puntos
+        else if (resultDiff === predDiff) {
+          pointsEarned = 3;
+          console.log(`✅ Usuario ${prediction.user_id}: Acertó resultado (+3 pts)`);
+        } else {
+          console.log(`❌ Usuario ${prediction.user_id}: No acertó (0 pts)`);
+        }
+
+        // 4️⃣ Obtener estadísticas actuales del usuario
+        const { data: userData, error: userError } = await supabase
+          .from("users")
+          .select("points, predictions, correct")
+          .eq("id", prediction.user_id)
+          .single();
+
+        if (userError) {
+          console.error(`Error al obtener usuario ${prediction.user_id}:`, userError);
+          continue;
+        }
+
+        // 5️⃣ Calcular nuevas estadísticas
+        const newPoints = (userData.points || 0) + pointsEarned;
+        const newPredictions = (userData.predictions || 0) + 1;
+        const newCorrect = (userData.correct || 0) + (pointsEarned > 0 ? 1 : 0);
+
+        console.log(`📈 Actualizando usuario ${prediction.user_id}:`, {
+          points: `${userData.points} → ${newPoints}`,
+          predictions: `${userData.predictions} → ${newPredictions}`,
+          correct: `${userData.correct} → ${newCorrect}`
+        });
+
+        // 6️⃣ Actualizar estadísticas del usuario
+        const { error: updateUserError } = await supabase
+          .from("users")
+          .update({
+            points: newPoints,
+            predictions: newPredictions,
+            correct: newCorrect
+          })
+          .eq("id", prediction.user_id);
+
+        if (updateUserError) {
+          console.error(`Error al actualizar usuario ${prediction.user_id}:`, updateUserError);
+        }
+      }
+
+      // 7️⃣ Recargar todos los datos actualizados
+      const { data: updatedUsers } = await supabase
+        .from("users")
+        .select("*")
+        .order("points", { ascending: false });
+
+      const { data: updatedMatches } = await supabase
+        .from("matches")
+        .select("*, predictions(*)");
+
+      setUsers(updatedUsers || []);
+      setMatches(updatedMatches || []);
+      
+      // Actualizar el usuario actual
+      const updatedCurrentUser = updatedUsers?.find(u => u.id === currentUser.id);
+      if (updatedCurrentUser) {
+        setCurrentUser(updatedCurrentUser);
+      }
+
+      console.log("✅ Partido finalizado y estadísticas actualizadas");
+      alert("¡Partido finalizado! Los puntos han sido calculados y actualizados.");
+
     } catch (err) {
+      console.error("Error al finalizar partido:", err);
       alert(`Error: ${err.message}`);
     }
-  };
-
-  const calculatePoints = async (matchesData) => {
-    const updates = {};
-    users.forEach((u) => {
-      updates[u.id] = { points: 0, predictions: 0, correct: 0 };
-    });
-
-    matchesData.forEach((m) => {
-      if (m.status !== "finished") return;
-      m.predictions.forEach((p) => {
-        const user = updates[p.user_id];
-        if (!user) return;
-
-        user.predictions++;
-        const realDiff = Math.sign(m.result_home - m.result_away);
-        const predDiff = Math.sign(p.home_score - p.away_score);
-
-        if (p.home_score === m.result_home && p.away_score === m.result_away) {
-          user.points += 5;
-          user.correct++;
-        } else if (realDiff === predDiff) {
-          user.points += 3;
-          user.correct++;
-        }
-      });
-    });
-
-    for (const userId in updates) {
-      await supabase.from("users").update(updates[userId]).eq("id", userId);
-    }
-
-    const { data } = await supabase
-      .from("users")
-      .select("*")
-      .order("points", { ascending: false });
-
-    setUsers(data);
-    setCurrentUser(data.find((u) => u.id === currentUser.id));
   };
 
   // --- RENDER ---
@@ -219,13 +274,14 @@ export default function VegaScorePage() {
     <div className="vega-root">
       <Header
         currentUser={currentUser}
-        users={users}
+        users={sortedUsers}
       />
 
       <main className="container">
         {/* --- Stats --- */}
         <section className="stats-row">
           <div className="stat-card">
+            <Trophy className="stat-icon" size={24} color="#ff8a00" />
             <div className="stat-label">Posición</div>
             <div className="stat-value">
               #{sortedUsers.findIndex((u) => u.id === currentUser?.id) + 1}
@@ -233,11 +289,13 @@ export default function VegaScorePage() {
           </div>
 
           <div className="stat-card">
+            <TrendingUp className="stat-icon" size={24} color="#ff8a00" />
             <div className="stat-label">Puntos</div>
             <div className="stat-value">{currentUser?.points ?? 0}</div>
           </div>
 
           <div className="stat-card">
+            <Target className="stat-icon" size={24} color="#ff8a00" />
             <div className="stat-label">Aciertos</div>
             <div className="stat-value">
               {currentUser?.correct ?? 0}/{currentUser?.predictions ?? 0}
@@ -245,6 +303,7 @@ export default function VegaScorePage() {
           </div>
 
           <div className="stat-card">
+            <Percent className="stat-icon" size={24} color="#ff8a00" />
             <div className="stat-label">Precisión</div>
             <div className="stat-value">
               {currentUser?.predictions > 0
@@ -280,7 +339,8 @@ export default function VegaScorePage() {
             <RankingSidebar users={sortedUsers} />
             <div className="admin-quick card">
               <button className="btn" onClick={() => setShowAdminModal(true)}>
-                ➕ Agregar Partido
+                <Plus size={18} style={{ marginRight: '8px' }} />
+                Agregar Partido
               </button>
 
               <button
@@ -288,12 +348,27 @@ export default function VegaScorePage() {
                 style={{ marginTop: '8px' }}
                 onClick={() => {
                   const id = prompt("ID del partido a finalizar:");
-                  const h = prompt("Goles local:");
-                  const a = prompt("Goles visitante:");
-                  if (id && h && a) setMatchResult(id, parseInt(h), parseInt(a));
+                  if (!id) return;
+                  
+                  const h = prompt("Goles equipo local:");
+                  if (h === null) return;
+                  
+                  const a = prompt("Goles equipo visitante:");
+                  if (a === null) return;
+                  
+                  const homeScore = parseInt(h);
+                  const awayScore = parseInt(a);
+                  
+                  if (isNaN(homeScore) || isNaN(awayScore)) {
+                    alert("Por favor ingresa números válidos");
+                    return;
+                  }
+                  
+                  setMatchResult(id, homeScore, awayScore);
                 }}
               >
-                ✅ Finalizar Partido
+                <CheckCircle size={18} style={{ marginRight: '8px' }} />
+                Finalizar Partido
               </button>
             </div>
           </aside>

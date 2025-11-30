@@ -1,14 +1,15 @@
 // src/components/AdminModal.jsx
 import React, { useState } from "react";
+import { X, Plus, Calendar, Clock, Shield } from "lucide-react";
 
 export default function AdminModal({ onAdd, onClose }) {
   const [form, setForm] = useState({
     id: "",
     league: "",
-    home_team: "",  // ✅ Cambiado de homeTeam
-    away_team: "",  // ✅ Cambiado de awayTeam
-    home_team_logo: "🏠",  // ✅ Cambiado
-    away_team_logo: "✈️",  // ✅ Cambiado
+    home_team: "",
+    away_team: "",
+    home_team_logo: "🏠",
+    away_team_logo: "✈️",
     date: "",
     time: "",
   });
@@ -34,78 +35,146 @@ export default function AdminModal({ onAdd, onClose }) {
   return (
     <div className="modal-backdrop">
       <div className="modal card">
-        <h2 className="modal-title">Agregar Partido</h2>
-
-        <input 
-          className="input" 
-          name="id" 
-          placeholder="ID (ej: match-001)" 
-          value={form.id}
-          onChange={handleChange} 
-        />
-        
-        <input 
-          className="input" 
-          name="league" 
-          placeholder="Liga (ej: Premier League)" 
-          value={form.league}
-          onChange={handleChange} 
-        />
-        
-        <input 
-          className="input" 
-          name="home_team" 
-          placeholder="Equipo Local" 
-          value={form.home_team}
-          onChange={handleChange} 
-        />
-        
-        <input 
-          className="input" 
-          name="away_team" 
-          placeholder="Equipo Visitante" 
-          value={form.away_team}
-          onChange={handleChange} 
-        />
-
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
-          <input 
-            className="input" 
-            name="home_team_logo" 
-            placeholder="Logo Local (emoji)" 
-            value={form.home_team_logo}
-            onChange={handleChange}
-            maxLength={2}
-          />
-          
-          <input 
-            className="input" 
-            name="away_team_logo" 
-            placeholder="Logo Visitante (emoji)" 
-            value={form.away_team_logo}
-            onChange={handleChange}
-            maxLength={2}
-          />
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+          <h2 className="modal-title" style={{ margin: 0, display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <Plus size={20} />
+            Agregar Partido
+          </h2>
+          <button 
+            onClick={onClose} 
+            style={{ 
+              background: 'transparent', 
+              border: 'none', 
+              cursor: 'pointer',
+              padding: '4px',
+              display: 'flex',
+              alignItems: 'center'
+            }}
+          >
+            <X size={20} />
+          </button>
         </div>
 
-        <input 
-          className="input" 
-          name="date" 
-          type="date" 
-          value={form.date}
-          onChange={handleChange} 
-        />
-        
-        <input 
-          className="input" 
-          name="time" 
-          type="time" 
-          value={form.time}
-          onChange={handleChange} 
-        />
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+          <div>
+            <label style={{ fontSize: '13px', color: '#666', marginBottom: '4px', display: 'block' }}>
+              ID del partido
+            </label>
+            <input 
+              className="input" 
+              name="id" 
+              placeholder="match-001" 
+              value={form.id}
+              onChange={handleChange} 
+            />
+          </div>
+          
+          <div>
+            <label style={{ fontSize: '13px', color: '#666', marginBottom: '4px', display: 'flex', alignItems: 'center', gap: '4px' }}>
+              <Shield size={14} />
+              Liga
+            </label>
+            <input 
+              className="input" 
+              name="league" 
+              placeholder="Premier League" 
+              value={form.league}
+              onChange={handleChange} 
+            />
+          </div>
+          
+          <div>
+            <label style={{ fontSize: '13px', color: '#666', marginBottom: '4px', display: 'block' }}>
+              Equipo Local
+            </label>
+            <input 
+              className="input" 
+              name="home_team" 
+              placeholder="Manchester United" 
+              value={form.home_team}
+              onChange={handleChange} 
+            />
+          </div>
+          
+          <div>
+            <label style={{ fontSize: '13px', color: '#666', marginBottom: '4px', display: 'block' }}>
+              Equipo Visitante
+            </label>
+            <input 
+              className="input" 
+              name="away_team" 
+              placeholder="Liverpool" 
+              value={form.away_team}
+              onChange={handleChange} 
+            />
+          </div>
 
-        <button className="btn" onClick={submit}>Agregar Partido</button>
-        <button className="btn secondary" onClick={onClose}>Cerrar</button>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+            <div>
+              <label style={{ fontSize: '13px', color: '#666', marginBottom: '4px', display: 'block' }}>
+                Logo Local
+              </label>
+              <input 
+                className="input" 
+                name="home_team_logo" 
+                placeholder="🏠" 
+                value={form.home_team_logo}
+                onChange={handleChange}
+                maxLength={2}
+              />
+            </div>
+            
+            <div>
+              <label style={{ fontSize: '13px', color: '#666', marginBottom: '4px', display: 'block' }}>
+                Logo Visitante
+              </label>
+              <input 
+                className="input" 
+                name="away_team_logo" 
+                placeholder="✈️" 
+                value={form.away_team_logo}
+                onChange={handleChange}
+                maxLength={2}
+              />
+            </div>
+          </div>
+
+          <div>
+            <label style={{ fontSize: '13px', color: '#666', marginBottom: '4px', display: 'flex', alignItems: 'center', gap: '4px' }}>
+              <Calendar size={14} />
+              Fecha
+            </label>
+            <input 
+              className="input" 
+              name="date" 
+              type="date" 
+              value={form.date}
+              onChange={handleChange} 
+            />
+          </div>
+          
+          <div>
+            <label style={{ fontSize: '13px', color: '#666', marginBottom: '4px', display: 'flex', alignItems: 'center', gap: '4px' }}>
+              <Clock size={14} />
+              Hora
+            </label>
+            <input 
+              className="input" 
+              name="time" 
+              type="time" 
+              value={form.time}
+              onChange={handleChange} 
+            />
+          </div>
+
+          <button className="btn" onClick={submit}>
+            <Plus size={18} style={{ marginRight: '6px', display: 'inline' }} />
+            Agregar Partido
+          </button>
+          <button className="btn secondary" onClick={onClose}>
+            Cerrar
+          </button>
+        </div>
       </div>
     </div>
   );
