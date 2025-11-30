@@ -3,24 +3,28 @@
 @tailwind utilities;
 
 /* -------------------------------
-   GLOBAL THEME + Figma-inspired
+   GLOBAL THEME - Purple Palette
 ---------------------------------*/
 :root{
   --bg: #f5f6fa;
   --card: #ffffff;
   --muted: #777777;
-  --accent: #ff8a00;
-  --glass: rgba(255,255,255,0.12);
+  --accent: #60519b;
+  --accent-light: #8b7fc7;
+  --dark-bg: #1e202c;
+  --dark-secondary: #31323e;
+  --light-text: #bfc0d1;
+  --glass: rgba(96, 81, 155, 0.12);
   --border: rgba(0,0,0,0.06);
   --radius-2xl: 20px;
-  --shadow: 0 8px 30px rgba(16,16,18,0.08);
-  --small-shadow: 0 4px 14px rgba(16,16,18,0.06);
+  --shadow: 0 8px 30px rgba(96, 81, 155, 0.15);
+  --small-shadow: 0 4px 14px rgba(96, 81, 155, 0.1);
 }
 
 *{box-sizing:border-box}
 html,body,#root{height:100%}
 body{
-  background:var(--bg);
+  background: linear-gradient(135deg, #f5f6fa 0%, #e8e9f3 100%);
   font-family: Inter, "Segoe UI", Roboto, Arial, sans-serif;
   color:#111;
   margin:0;
@@ -34,8 +38,37 @@ body{
 .container{max-width:1180px; margin:28px auto; padding:0 18px}
 .centered{display:flex; align-items:center; justify-content:center; min-height:200px}
 
-.card{background:var(--card); padding:16px; border-radius:var(--radius-2xl); box-shadow:var(--small-shadow); border:1px solid var(--border)}
+.card{
+  background:var(--card); 
+  padding:16px; 
+  border-radius:var(--radius-2xl); 
+  box-shadow:var(--small-shadow); 
+  border:1px solid var(--border)
+}
 
 /* Main grid */
 .main-grid{display:grid; grid-template-columns: 2fr 1fr; gap:24px; margin-top:24px}
 .right-col{display:flex; flex-direction:column; gap:18px}
+
+@media (max-width: 1024px) {
+  .main-grid {
+    grid-template-columns: 1fr;
+  }
+  .right-col {
+    order: -1;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0 12px;
+    margin: 16px auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0 10px;
+    margin: 12px auto;
+  }
+}

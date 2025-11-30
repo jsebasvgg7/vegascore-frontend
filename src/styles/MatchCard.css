@@ -1,14 +1,14 @@
 /* ======================
-   MATCH CARD 
+   MATCH CARD - Purple
 ====================== */
 
 .match-card-premium {
   background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
   border-radius: 24px;
   padding: 0;
-  border: 1px solid rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(96, 81, 155, 0.1);
   box-shadow: 
-    0 4px 20px rgba(0, 0, 0, 0.08),
+    0 4px 20px rgba(96, 81, 155, 0.12),
     0 0 0 1px rgba(255, 255, 255, 0.5) inset;
   overflow: hidden;
   position: relative;
@@ -21,7 +21,7 @@
   left: 0;
   right: 0;
   height: 4px;
-  background: linear-gradient(90deg, #ff8a00, #ff6b35, #ff8a00);
+  background: linear-gradient(90deg, #60519b, #8b7fc7, #60519b);
   background-size: 200% 100%;
   animation: shimmer 3s ease-in-out infinite;
 }
@@ -32,7 +32,7 @@
 }
 
 .match-header-premium {
-  background: linear-gradient(135deg, #1a1a1d 0%, #2d2d30 100%);
+  background: linear-gradient(135deg, #1e202c 0%, #31323e 100%);
   padding: 16px 20px;
   display: flex;
   justify-content: space-between;
@@ -43,13 +43,13 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  background: rgba(255, 138, 0, 0.15);
-  color: #ff8a00;
+  background: rgba(96, 81, 155, 0.2);
+  color: #8b7fc7;
   padding: 6px 12px;
   border-radius: 20px;
   font-size: 13px;
   font-weight: 600;
-  border: 1px solid rgba(255, 138, 0, 0.3);
+  border: 1px solid rgba(96, 81, 155, 0.3);
 }
 
 .match-datetime {
@@ -61,7 +61,7 @@
   display: flex;
   align-items: center;
   gap: 5px;
-  color: rgba(255, 255, 255, 0.8);
+  color: #bfc0d1;
   font-size: 12px;
 }
 
@@ -100,7 +100,7 @@
 .team-logo-bg {
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, #ff8a00 0%, #ff6b35 100%);
+  background: linear-gradient(135deg, #60519b 0%, #8b7fc7 100%);
   border-radius: 16px;
   opacity: 0.1;
   animation: pulse 2s ease-in-out infinite;
@@ -171,9 +171,9 @@
 
 .score-input-premium:focus {
   outline: none;
-  border-color: #ff8a00;
+  border-color: #60519b;
   background: white;
-  box-shadow: 0 0 0 4px rgba(255, 138, 0, 0.1);
+  box-shadow: 0 0 0 4px rgba(96, 81, 155, 0.15);
   transform: scale(1.05);
 }
 
@@ -201,7 +201,7 @@
   padding: 14px 24px;
   border: none;
   border-radius: 14px;
-  background: linear-gradient(135deg, #ff8a00 0%, #ff6b35 100%);
+  background: linear-gradient(135deg, #60519b 0%, #8b7fc7 100%);
   color: white;
   font-weight: 700;
   font-size: 15px;
@@ -217,7 +217,7 @@
 
 .predict-btn-premium:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(255, 138, 0, 0.3);
+  box-shadow: 0 8px 20px rgba(96, 81, 155, 0.4);
 }
 
 .predict-btn-premium:active {
@@ -249,9 +249,18 @@
     align-items: flex-start;
   }
 
+  .league-badge {
+    font-size: 12px;
+    padding: 5px 10px;
+  }
+
   .match-datetime {
     width: 100%;
     justify-content: flex-start;
+  }
+
+  .datetime-item {
+    font-size: 11px;
   }
 
   .teams-premium {
@@ -285,6 +294,10 @@
   .team-name-premium {
     font-size: 15px;
     text-align: center;
+  }
+
+  .team-label {
+    font-size: 10px;
   }
 
   .score-section {
@@ -323,7 +336,7 @@
   }
 
   .datetime-item {
-    font-size: 11px;
+    font-size: 10px;
   }
 
   .teams-premium {
@@ -345,7 +358,7 @@
   }
 
   .team-label {
-    font-size: 10px;
+    font-size: 9px;
   }
 
   .score-input-premium {
