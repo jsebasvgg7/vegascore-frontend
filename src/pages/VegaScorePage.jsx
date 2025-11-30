@@ -316,22 +316,45 @@ export default function VegaScorePage() {
         {/* --- Main Grid --- */}
         <section className="main-grid">
           <div className="left-col">
-            <h2 className="section-title">Próximos Partidos</h2>
-            <div className="matches-container">
-              {pendingMatches.length === 0 ? (
-                <div className="card-empty">No hay partidos disponibles</div>
-              ) : (
-                pendingMatches.map((m) => (
-                  <MatchCard
-                    key={m.id}
-                    match={m}
-                    userPred={m.predictions?.find(
-                      (p) => p.user_id === currentUser?.id
-                    )}
-                    onPredict={makePrediction}
-                  />
-                ))
-              )}
+            <div className="matches-section-premium">
+              {/* Header de la sección */}
+              <div className="matches-header-premium">
+                <div className="matches-title-section">
+                  <div className="matches-icon-wrapper">
+                    <Trophy size={22} />
+                  </div>
+                  <div>
+                    <h2 className="matches-title-premium">Próximos Partidos</h2>
+                    <p className="matches-subtitle-premium">Haz tus predicciones y gana puntos</p>
+                  </div>
+                </div>
+                <div className="matches-badge">
+                  <Target size={14} />
+                  <span>{pendingMatches.length} disponibles</span>
+                </div>
+              </div>
+
+              {/* Contenedor de partidos */}
+              <div className="matches-container">
+                {pendingMatches.length === 0 ? (
+                  <div className="matches-empty-state">
+                    <div className="matches-empty-icon">⚽</div>
+                    <div className="matches-empty-text">No hay partidos disponibles</div>
+                    <div className="matches-empty-subtext">Los nuevos partidos aparecerán aquí</div>
+                  </div>
+                ) : (
+                  pendingMatches.map((m) => (
+                    <MatchCard
+                      key={m.id}
+                      match={m}
+                      userPred={m.predictions?.find(
+                        (p) => p.user_id === currentUser?.id
+                      )}
+                      onPredict={makePrediction}
+                    />
+                  ))
+                )}
+              </div>
             </div>
           </div>
 
