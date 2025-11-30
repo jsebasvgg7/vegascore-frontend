@@ -10,10 +10,6 @@
   box-shadow: 
     0 4px 20px rgba(96, 81, 155, 0.12),
     0 0 0 1px rgba(255, 255, 255, 0.5) inset;
-  height: fit-content;
-  max-height: calc(100vh - 200px);
-  display: flex;
-  flex-direction: column;
 }
 
 .ranking-header-premium {
