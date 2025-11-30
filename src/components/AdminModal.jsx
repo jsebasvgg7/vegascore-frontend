@@ -12,6 +12,8 @@ export default function AdminModal({ onAdd, onClose }) {
     away_team_logo: "✈️",
     date: "",
     time: "",
+    deadLine: "",
+    deadLine_time:""
   });
 
   const handleChange = (e) => {
@@ -190,45 +192,6 @@ export default function AdminModal({ onAdd, onClose }) {
           </div>
         </div>
 
-        {/* Fecha límite */}
-          <div className="datetime-grid-premium">
-            <div className="form-group-premium">
-              <label className="form-label-premium">
-                <Calendar size={14} />
-                <span>Fecha Límite</span>
-                <span className="required">*</span>
-              </label>
-              <input 
-                className="form-input-premium" 
-                name="deadline" 
-                type="date" 
-                value={form.deadline}
-                onChange={handleChange}
-              />
-            </div>
-
-            <div className="form-group-premium">
-              <label className="form-label-premium">
-                <Calendar size={14} />
-                <span>Hora Límite</span>
-                <span className="required">*</span>
-              </label>
-              <input 
-                className="form-input-premium" 
-                name="deadline_time" 
-                type="time" 
-                value={form.deadline_time}
-                onChange={handleChange}
-              />
-            </div>
-          </div>
-
-          <div className="form-hint" style={{ marginTop: '-10px', marginBottom: '10px' }}>
-            Fecha y hora hasta la cual se pueden hacer predicciones
-          </div>
-        </div>
-
-
         {/* Footer con botones */}
         <div className="modal-footer-premium">
           <button className="modal-btn-premium secondary" onClick={onClose}>
@@ -240,5 +203,6 @@ export default function AdminModal({ onAdd, onClose }) {
           </button>
         </div>
       </div>
+    </div>
   );
 }

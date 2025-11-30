@@ -137,6 +137,16 @@ export default function VegaScorePage() {
   const makePrediction = async (matchId, homeScore, awayScore) => {
     if (!currentUser) return;
 
+    const match = matches.find(m => m.id === matchId);
+    if (match?.deadline) {
+      const now = new Date();
+      const deadline = new Date(match.deadline);
+      if (now > deadline) {
+        toast.warning("El tiempo para hacer predicciones ha expirado");
+        return;
+      }
+    }
+
     setActionLoading(true);
     try {
       const { error } = await supabase.from("predictions").upsert({

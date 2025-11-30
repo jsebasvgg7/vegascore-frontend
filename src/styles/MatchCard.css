@@ -384,3 +384,30 @@
     border-radius: 12px;
   }
 }
+
+.score-input-premium {
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  border: 2px solid #e5e5e5;
+  background: #fafafa;
+  text-align: center;
+  font-size: 22px;
+  font-weight: 700;
+  color: #111;
+  transition: all 0.2s;
+}
+
+.score-input-premium:focus {
+  outline: none;
+  border-color: #60519b;
+  background: white;
+  box-shadow: 0 0 0 4px rgba(96, 81, 155, 0.15);
+  transform: scale(1.05);
+}
+
+.score-input-premium:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: #f0f0f0;
+}
