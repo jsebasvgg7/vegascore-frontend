@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { 
-  User, Mail, Calendar, Trophy, TrendingUp, Target, Flame, 
+  User, Calendar, Trophy, TrendingUp, Target, Flame, 
   Star, Award, Edit2, Save, X, ArrowLeft, Activity, Percent,
   CheckCircle2, XCircle, Clock, Medal
 } from 'lucide-react';
-import '../styles/ProfilePage.css'
+import { supabase } from '../utils/supabaseClient';
+import '../styles/ProfilePage.css';
 
 export default function ProfilePage({ currentUser, onBack }) {
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(false);
   const [historyLoading, setHistoryLoading] = useState(true);
+  const [notification, setNotification] = useState(null);
   const [userData, setUserData] = useState({
     name: currentUser?.name || '',
     email: currentUser?.email || '',
@@ -23,7 +25,12 @@ export default function ProfilePage({ currentUser, onBack }) {
     best_streak: 0,
     last_prediction_date: null
   });
-  const toast = useToast();
+
+  // Sistema de notificación simple interno
+  const showNotification = (message, type = 'success') => {
+    setNotification({ message, type });
+    setTimeout(() => setNotification(null), 3000);
+  };
 
   useEffect(() => {
     loadUserData();
@@ -83,7 +90,7 @@ export default function ProfilePage({ currentUser, onBack }) {
       setPredictionHistory(data || []);
     } catch (err) {
       console.error('Error loading prediction history:', err);
-      toast.error('Error al cargar el historial');
+      showNotification('Error al cargar el historial', 'error');
     } finally {
       setHistoryLoading(false);
     }
@@ -149,11 +156,11 @@ export default function ProfilePage({ currentUser, onBack }) {
     const d1 = new Date(date1);
     const d2 = new Date(date2);
     const diffDays = Math.abs((d1 - d2) / (1000 * 60 * 60 * 24));
-    return diffDays <= 7; // Considerar consecutivo si es dentro de 7 días
+    return diffDays <= 7;
   };
 
   const checkPredictionCorrect = (prediction, match) => {
-    if (!match.result_home === 0 && !match.result_away === 0) return false;
+    if (match.result_home === null || match.result_away === null) return false;
     
     const predDiff = Math.sign(prediction.home_score - prediction.away_score);
     const resultDiff = Math.sign(match.result_home - match.result_away);
@@ -176,16 +183,15 @@ export default function ProfilePage({ currentUser, onBack }) {
 
       if (error) throw error;
 
-      toast.success('¡Perfil actualizado exitosamente! 🎉');
+      showNotification('¡Perfil actualizado exitosamente! 🎉', 'success');
       setIsEditing(false);
       
-      // Actualizar el usuario actual
-      if (window.location.reload) {
-        setTimeout(() => window.location.reload(), 1000);
-      }
+      setTimeout(() => {
+        onBack();
+      }, 1500);
     } catch (err) {
       console.error('Error updating profile:', err);
-      toast.error('Error al actualizar el perfil');
+      showNotification('Error al actualizar el perfil', 'error');
     } finally {
       setLoading(false);
     }
@@ -224,6 +230,15 @@ export default function ProfilePage({ currentUser, onBack }) {
 
   return (
     <div className="profile-page">
+      {/* Notificación simple */}
+      {notification && (
+        <div className={`simple-notification ${notification.type}`}>
+          {notification.type === 'success' && <CheckCircle2 size={20} />}
+          {notification.type === 'error' && <XCircle size={20} />}
+          <span>{notification.message}</span>
+        </div>
+      )}
+
       {/* Header */}
       <div className="profile-header">
         <button className="back-button" onClick={onBack}>

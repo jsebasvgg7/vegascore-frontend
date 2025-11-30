@@ -2,6 +2,54 @@
    PROFILE PAGE - Purple Theme
 ========================================== */
 
+/* Sistema de notificación simple interno */
+.simple-notification {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 24px;
+  border-radius: 14px;
+  font-weight: 600;
+  font-size: 14px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  animation: notification-slide-in 0.3s ease;
+}
+
+@keyframes notification-slide-in {
+  from {
+    opacity: 0;
+    transform: translateX(100px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.simple-notification.success {
+  background: #22c55e;
+  color: white;
+}
+
+.simple-notification.error {
+  background: #ef4444;
+  color: white;
+}
+
+.simple-notification.warning {
+  background: #f59e0b;
+  color: white;
+}
+
+.simple-notification.info {
+  background: #3b82f6;
+  color: white;
+}
+
 .profile-page {
   min-height: 100vh;
   background: linear-gradient(135deg, #f5f6fa 0%, #e8e9f3 100%);

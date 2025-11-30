@@ -4,7 +4,7 @@ import Header from "../components/Header";
 import MatchCard from "../components/MatchCard";
 import RankingSidebar from "../components/RankingSidebar";
 import AdminModal from "../components/AdminModal";
-import ProfilePage from "./ProfilePage"; 
+import ProfilePage from "./ProfilePage"; // ← NUEVO IMPORT
 import { PageLoader, MatchListSkeleton, StatCardSkeleton, LoadingOverlay } from "../components/LoadingStates";
 import { ToastContainer, useToast } from "../components/Toast";
 import { supabase } from "../utils/supabaseClient";
@@ -16,7 +16,7 @@ export default function VegaScorePage() {
   const [users, setUsers] = useState([]);
   const [currentUser, setCurrentUser] = useState(null);
   const [showAdminModal, setShowAdminModal] = useState(false);
-  const [showProfile, setShowProfile] = useState(false); 
+  const [showProfile, setShowProfile] = useState(false); // ← NUEVO ESTADO
   const [loading, setLoading] = useState(true);
   const [actionLoading, setActionLoading] = useState(false);
   const toast = useToast();
@@ -283,7 +283,19 @@ export default function VegaScorePage() {
       <>
         <ProfilePage 
           currentUser={currentUser} 
-          onBack={() => setShowProfile(false)} 
+          onBack={() => {
+            setShowProfile(false);
+            // Recargar datos actualizados
+            const loadData = async () => {
+              const { data: updatedUser } = await supabase
+                .from("users")
+                .select("*")
+                .eq("id", currentUser.id)
+                .single();
+              if (updatedUser) setCurrentUser(updatedUser);
+            };
+            loadData();
+          }}
         />
         <ToastContainer toasts={toast.toasts} removeToast={toast.removeToast} />
       </>

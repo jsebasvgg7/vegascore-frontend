@@ -1,3 +1,4 @@
+// src/components/Header.jsx - VERSIÓN ACTUALIZADA CON BOTÓN DE PERFIL
 import React from "react";
 import { Trophy, User, LogOut, User2 } from "lucide-react"; // ← AGREGAR User2
 import { supabase } from "../utils/supabaseClient";
