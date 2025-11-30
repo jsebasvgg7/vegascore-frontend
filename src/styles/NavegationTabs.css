@@ -1,0 +1,147 @@
+/* ===========================================
+   NAVIGATION TABS - Purple Theme
+=========================================== */
+
+.navigation-tabs {
+  display: flex;
+  gap: 12px;
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  padding: 8px;
+  border-radius: 20px;
+  border: 1px solid rgba(96, 81, 155, 0.1);
+  box-shadow: 0 4px 12px rgba(96, 81, 155, 0.08);
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+.nav-tab {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px 24px;
+  border: none;
+  border-radius: 14px;
+  background: transparent;
+  color: #666;
+  font-weight: 700;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.nav-tab::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(96, 81, 155, 0.05), rgba(139, 127, 199, 0.05));
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.nav-tab:hover {
+  color: #60519b;
+  transform: translateY(-2px);
+}
+
+.nav-tab:hover::before {
+  opacity: 1;
+}
+
+.nav-tab.active {
+  background: linear-gradient(135deg, #60519b 0%, #8b7fc7 100%);
+  color: white;
+  box-shadow: 0 4px 16px rgba(96, 81, 155, 0.4);
+}
+
+.nav-tab.active:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(96, 81, 155, 0.5);
+}
+
+.tab-indicator {
+  position: absolute;
+  bottom: 4px;
+  left: 50%;
+  transform: translateX(-50%) scaleX(0);
+  width: 80%;
+  height: 3px;
+  background: white;
+  border-radius: 10px;
+  transition: transform 0.3s;
+}
+
+.nav-tab.active .tab-indicator {
+  transform: translateX(-50%) scaleX(1);
+}
+
+/* Animación de entrada */
+.navigation-tabs {
+  animation: tabs-slide-in 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes tabs-slide-in {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .navigation-tabs {
+    gap: 8px;
+    padding: 6px;
+    border-radius: 16px;
+    margin-bottom: 16px;
+  }
+
+  .nav-tab {
+    padding: 12px 16px;
+    font-size: 14px;
+    gap: 8px;
+    border-radius: 12px;
+  }
+
+  .nav-tab svg {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .navigation-tabs {
+    gap: 6px;
+    padding: 5px;
+    border-radius: 14px;
+    margin-bottom: 12px;
+  }
+
+  .nav-tab {
+    padding: 10px 12px;
+    font-size: 13px;
+    gap: 6px;
+    border-radius: 10px;
+  }
+
+  .nav-tab svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .nav-tab span {
+    display: none;
+  }
+
+  /* Mostrar solo iconos en móvil pequeño */
+  .nav-tab {
+    justify-content: center;
+  }
+}
