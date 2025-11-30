@@ -11,26 +11,6 @@
     0 4px 20px rgba(96, 81, 155, 0.12),
     0 0 0 1px rgba(255, 255, 255, 0.5) inset;
   position: relative;
-  height: fit-content;
-  max-height: calc(100vh - 200px);
-  overflow-y: auto;
-}
-.admin-panel-premium::-webkit-scrollbar {
-  width: 6px;
-}
-
-.admin-panel-premium::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.05);
-  border-radius: 10px;
-}
-
-.admin-panel-premium::-webkit-scrollbar-thumb {
-  background: rgba(96, 81, 155, 0.3);
-  border-radius: 10px;
-}
-
-.admin-panel-premium::-webkit-scrollbar-thumb:hover {
-  background: rgba(96, 81, 155, 0.5);
 }
 
 .admin-panel-premium::before {
