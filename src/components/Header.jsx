@@ -1,8 +1,7 @@
-// src/components/Header.jsx
 import React from "react";
 import { Trophy, User, LogOut } from "lucide-react";
 import { supabase } from "../utils/supabaseClient";
-import "../index.css";
+import "../styles/Header.css";
 
 export default function Header({ currentUser, users = [] }) {
   const position = currentUser ? users.findIndex((u) => u.id === currentUser.id) + 1 : 0;

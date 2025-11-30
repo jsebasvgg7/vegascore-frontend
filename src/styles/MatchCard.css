@@ -1,0 +1,373 @@
+/* ======================
+   MATCH CARD 
+====================== */
+
+.match-card-premium {
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  border-radius: 24px;
+  padding: 0;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 
+    0 4px 20px rgba(0, 0, 0, 0.08),
+    0 0 0 1px rgba(255, 255, 255, 0.5) inset;
+  overflow: hidden;
+  position: relative;
+}
+
+.match-card-premium::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #ff8a00, #ff6b35, #ff8a00);
+  background-size: 200% 100%;
+  animation: shimmer 3s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+.match-header-premium {
+  background: linear-gradient(135deg, #1a1a1d 0%, #2d2d30 100%);
+  padding: 16px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.league-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 138, 0, 0.15);
+  color: #ff8a00;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  border: 1px solid rgba(255, 138, 0, 0.3);
+}
+
+.match-datetime {
+  display: flex;
+  gap: 12px;
+}
+
+.datetime-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 12px;
+}
+
+.teams-premium {
+  padding: 28px 24px;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 20px;
+  align-items: center;
+}
+
+.team-premium {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.team-premium.home {
+  justify-content: flex-start;
+}
+
+.team-premium.away {
+  justify-content: flex-end;
+  flex-direction: row-reverse;
+}
+
+.team-logo-container {
+  position: relative;
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.team-logo-bg {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #ff8a00 0%, #ff6b35 100%);
+  border-radius: 16px;
+  opacity: 0.1;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 0.1; }
+  50% { transform: scale(1.05); opacity: 0.15; }
+}
+
+.team-logo-premium {
+  font-size: 40px;
+  position: relative;
+  z-index: 1;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+}
+
+.team-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.team-premium.away .team-info {
+  align-items: flex-end;
+}
+
+.team-name-premium {
+  font-size: 16px;
+  font-weight: 700;
+  color: #111;
+  line-height: 1.2;
+}
+
+.team-label {
+  font-size: 11px;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 600;
+}
+
+.score-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.score-inputs-premium {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.score-input-premium {
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  border: 2px solid #e5e5e5;
+  background: #fafafa;
+  text-align: center;
+  font-size: 22px;
+  font-weight: 700;
+  color: #111;
+  transition: all 0.2s;
+}
+
+.score-input-premium:focus {
+  outline: none;
+  border-color: #ff8a00;
+  background: white;
+  box-shadow: 0 0 0 4px rgba(255, 138, 0, 0.1);
+  transform: scale(1.05);
+}
+
+.vs-premium {
+  font-weight: 800;
+  font-size: 14px;
+  color: #999;
+  letter-spacing: 1px;
+}
+
+.prediction-badge {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: #e8f5e9;
+  color: #2e7d32;
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.predict-btn-premium {
+  margin: 0 24px 24px;
+  padding: 14px 24px;
+  border: none;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #ff8a00 0%, #ff6b35 100%);
+  color: white;
+  font-weight: 700;
+  font-size: 15px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s;
+}
+
+.predict-btn-premium:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(255, 138, 0, 0.3);
+}
+
+.predict-btn-premium:active {
+  transform: translateY(0);
+}
+
+.btn-glow {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  transform: translateX(-100%);
+  transition: transform 0.6s;
+}
+
+.predict-btn-premium:hover .btn-glow {
+  transform: translateX(100%);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .match-card-premium {
+    border-radius: 20px;
+  }
+
+  .match-header-premium {
+    padding: 14px 16px;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+  }
+
+  .match-datetime {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .teams-premium {
+    padding: 20px 16px;
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .team-premium {
+    justify-content: center !important;
+    flex-direction: row !important;
+  }
+
+  .team-premium.away {
+    flex-direction: row !important;
+  }
+
+  .team-info {
+    align-items: center !important;
+  }
+
+  .team-logo-container {
+    width: 56px;
+    height: 56px;
+  }
+
+  .team-logo-premium {
+    font-size: 36px;
+  }
+
+  .team-name-premium {
+    font-size: 15px;
+    text-align: center;
+  }
+
+  .score-section {
+    order: 2;
+  }
+
+  .score-inputs-premium {
+    gap: 10px;
+  }
+
+  .score-input-premium {
+    width: 52px;
+    height: 52px;
+    font-size: 20px;
+  }
+
+  .predict-btn-premium {
+    margin: 0 16px 20px;
+    padding: 12px 20px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .match-card-premium {
+    border-radius: 18px;
+  }
+
+  .match-header-premium {
+    padding: 12px 14px;
+  }
+
+  .league-badge {
+    font-size: 11px;
+    padding: 5px 10px;
+  }
+
+  .datetime-item {
+    font-size: 11px;
+  }
+
+  .teams-premium {
+    padding: 18px 14px;
+    gap: 16px;
+  }
+
+  .team-logo-container {
+    width: 52px;
+    height: 52px;
+  }
+
+  .team-logo-premium {
+    font-size: 32px;
+  }
+
+  .team-name-premium {
+    font-size: 14px;
+  }
+
+  .team-label {
+    font-size: 10px;
+  }
+
+  .score-input-premium {
+    width: 48px;
+    height: 48px;
+    font-size: 18px;
+    border-radius: 12px;
+  }
+
+  .vs-premium {
+    font-size: 12px;
+  }
+
+  .prediction-badge {
+    font-size: 10px;
+    padding: 4px 8px;
+  }
+
+  .predict-btn-premium {
+    margin: 0 14px 16px;
+    padding: 11px 18px;
+    font-size: 13px;
+    border-radius: 12px;
+  }
+}

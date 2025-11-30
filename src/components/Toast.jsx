@@ -1,6 +1,6 @@
-// src/components/Toast.jsx
 import React, { useEffect, useState } from 'react';
 import { CheckCircle, XCircle, AlertCircle, Info, X } from 'lucide-react';
+import "../styles/Toast.css";
 
 const Toast = ({ message, type = 'success', duration = 3000, onClose }) => {
   const [isExiting, setIsExiting] = useState(false);

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { X, Plus, Calendar, Clock, Shield, Zap, Home, Plane } from "lucide-react";
+import "../styles/AdminModal.css";
 
 export default function AdminModal({ onAdd, onClose }) {
   const [form, setForm] = useState({

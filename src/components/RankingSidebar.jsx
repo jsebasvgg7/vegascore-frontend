@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Medal, Crown, Award, Trophy, Flame, TrendingUp, Star } from "lucide-react";
+import "../styles/RankingSidebar.css";
 
 export default function RankingSidebar({ users }) {
   const [hoveredIndex, setHoveredIndex] = useState(null);

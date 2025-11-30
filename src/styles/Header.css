@@ -1,0 +1,129 @@
+/* --------------------------------
+   HEADER
+----------------------------------*/
+.app-header{
+  background: linear-gradient(180deg, #000 0%, #1A1A1A 100%);
+  color:white;
+  padding:24px 28px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+}
+
+.header-left{display:flex; gap:16px; align-items:center}
+.logo-box{
+  width:56px; height:56px; display:flex; align-items:center; justify-content:center;
+  background:white; color:#111; border-radius:12px; font-size:26px;
+}
+.title-wrap .app-title{font-size:20px; margin:0}
+.title-wrap .app-sub{font-size:13px; color:rgba(255,255,255,0.75); margin-top:4px}
+
+/* Right section */
+.header-right{display:flex; gap:12px; align-items:center}
+.user-bubble{
+  display:flex; gap:12px; align-items:center; background: rgba(255,255,255,0.06);
+  padding:10px 14px; border-radius:16px; cursor:pointer; border:1px solid rgba(255,255,255,0.06);
+}
+.avatar{width:40px; height:40px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:rgba(255,255,255,0.9); color:#111}
+.user-info .user-name{font-weight:600}
+.user-info .user-meta{font-size:12px; color:rgba(255,255,255,0.7)}
+.icon-btn{background:transparent; border:1px solid rgba(255,255,255,0.06); color:white; padding:8px 10px; border-radius:10px; cursor:pointer}
+
+/* Header responsive */
+@media (max-width: 768px) {
+  .app-header {
+    padding: 16px;
+    flex-direction: column;
+    gap: 16px;
+    align-items: stretch;
+  }
+
+  .header-left {
+    gap: 12px;
+  }
+
+  .logo-box {
+    width: 48px;
+    height: 48px;
+    font-size: 22px;
+  }
+
+  .title-wrap .app-title {
+    font-size: 18px;
+  }
+
+  .title-wrap .app-sub {
+    font-size: 12px;
+  }
+
+  .header-right {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .user-bubble {
+    flex: 1;
+    padding: 10px 12px;
+  }
+
+  .avatar {
+    width: 36px;
+    height: 36px;
+  }
+
+  .user-info .user-name {
+    font-size: 14px;
+  }
+
+  .user-info .user-meta {
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 480px) {
+  .app-header {
+    padding: 14px;
+  }
+
+  .header-left {
+    gap: 10px;
+  }
+
+  .logo-box {
+    width: 44px;
+    height: 44px;
+    font-size: 20px;
+    border-radius: 10px;
+  }
+
+  .title-wrap .app-title {
+    font-size: 16px;
+  }
+
+  .title-wrap .app-sub {
+    font-size: 11px;
+  }
+
+  .user-bubble {
+    padding: 8px 10px;
+    gap: 10px;
+  }
+
+  .avatar {
+    width: 32px;
+    height: 32px;
+  }
+
+  .user-info .user-name {
+    font-size: 13px;
+  }
+
+  .user-info .user-meta {
+    font-size: 10px;
+  }
+
+  .icon-btn {
+    padding: 6px 8px;
+  }
+}

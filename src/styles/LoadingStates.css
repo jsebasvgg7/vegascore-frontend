@@ -1,0 +1,233 @@
+/* ============================================
+   LOADING STATES & SKELETONS
+============================================ */
+
+/* Spinner principal */
+.spinner-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.spinner-icon {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Page Loader */
+.page-loader {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.page-loader-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+.logo-loader {
+  font-size: 64px;
+  animation: logo-bounce 1s ease-in-out infinite;
+  filter: drop-shadow(0 4px 20px rgba(255, 138, 0, 0.4));
+}
+
+@keyframes logo-bounce {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-10px) scale(1.1); }
+}
+
+.loader-text {
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0;
+  animation: fade-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes fade-pulse {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+/* Skeleton base */
+.skeleton {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s ease-in-out infinite;
+  border-radius: 8px;
+}
+
+@keyframes skeleton-loading {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.skeleton-card {
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Match Card Skeleton */
+.skeleton-badge {
+  width: 120px;
+  height: 24px;
+  border-radius: 12px;
+}
+
+.skeleton-datetime {
+  width: 150px;
+  height: 20px;
+}
+
+.skeleton-logo {
+  width: 64px;
+  height: 64px;
+  border-radius: 16px;
+}
+
+.skeleton-team-name {
+  width: 140px;
+  height: 18px;
+  margin-bottom: 8px;
+}
+
+.skeleton-team-label {
+  width: 80px;
+  height: 14px;
+}
+
+.skeleton-score {
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+}
+
+.skeleton-button {
+  margin: 0 24px 24px;
+  height: 48px;
+  border-radius: 14px;
+}
+
+/* Ranking Skeleton */
+.skeleton-rank-number {
+  width: 40px;
+  height: 24px;
+  border-radius: 6px;
+}
+
+.skeleton-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+}
+
+.skeleton-rank-name {
+  width: 120px;
+  height: 16px;
+  margin-bottom: 6px;
+}
+
+.skeleton-rank-stats {
+  width: 100px;
+  height: 12px;
+}
+
+.skeleton-points {
+  width: 50px;
+  height: 24px;
+  border-radius: 6px;
+}
+
+/* Stats Card Skeleton */
+.skeleton-stat-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  margin: 0 auto 12px;
+}
+
+.skeleton-stat-label {
+  width: 80px;
+  height: 14px;
+  margin: 0 auto 8px;
+}
+
+.skeleton-stat-value {
+  width: 60px;
+  height: 28px;
+  margin: 0 auto;
+  border-radius: 6px;
+}
+
+/* Loading Overlay */
+.loading-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9998;
+  animation: overlay-fade-in 0.2s ease;
+}
+
+@keyframes overlay-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.loading-overlay-content {
+  background: white;
+  padding: 32px 48px;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.loading-overlay-text {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #111;
+}
+
+/* Button Spinner */
+.button-spinner {
+  animation: spin 1s linear infinite;
+}
+
+/* Skeleton responsive */
+@media (max-width: 768px) {
+  .skeleton-team-name {
+    width: 120px;
+  }
+
+  .skeleton-badge {
+    width: 100px;
+    height: 22px;
+  }
+
+  .skeleton-datetime {
+    width: 130px;
+  }
+
+  .loading-overlay-content {
+    padding: 24px 36px;
+  }
+}

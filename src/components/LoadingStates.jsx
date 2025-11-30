@@ -1,8 +1,7 @@
-// src/components/LoadingStates.jsx
 import React from 'react';
 import { Loader2 } from 'lucide-react';
+import "../styles/LoadingStates.css";
 
-// Spinner principal
 export const Spinner = ({ size = 40, color = '#ff8a00' }) => {
   return (
     <div className="spinner-wrapper">

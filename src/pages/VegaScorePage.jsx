@@ -8,7 +8,8 @@ import AdminModal from "../components/AdminModal";
 import { PageLoader, MatchListSkeleton, StatCardSkeleton, LoadingOverlay } from "../components/LoadingStates";
 import { ToastContainer, useToast } from "../components/Toast";
 import { supabase } from "../utils/supabaseClient";
-import "../index.css";
+import "../styles/VegaScorePage.css";
+import "../styles/AdminPanel.css";
 
 export default function VegaScorePage() {
   const [matches, setMatches] = useState([]);

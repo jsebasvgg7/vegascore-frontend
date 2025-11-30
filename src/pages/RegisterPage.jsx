@@ -1,7 +1,7 @@
-// src/pages/RegisterPage.jsx
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { supabase } from "../utils/supabaseClient";
+import "../styles/Auth.css";
 
 export default function RegisterPage() {
   const [loading, setLoading] = useState(false);

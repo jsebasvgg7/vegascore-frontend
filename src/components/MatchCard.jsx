@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Calendar, Clock, TrendingUp, Zap, CheckCircle2 } from "lucide-react";
+import "../styles/MatchCard.css";
 
 export default function MatchCard({ match, userPred, onPredict }) {
   const [homeScore, setHomeScore] = useState(userPred?.home_score ?? "");
