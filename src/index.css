@@ -323,3 +323,180 @@ body{
   .stats-row{grid-template-columns: repeat(2, 1fr)}
   .container{padding:0 14px}
 }
+
+@media (max-width: 768px){
+  /* Header móvil */
+  .app-header{
+    flex-direction: column;
+    gap: 16px;
+    padding: 16px;
+  }
+  
+  .header-left{
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .header-right{
+    width: 100%;
+    justify-content: space-between;
+  }
+  
+  .logo-box{
+    width: 48px;
+    height: 48px;
+    font-size: 22px;
+  }
+  
+  .title-wrap .app-title{
+    font-size: 18px;
+  }
+  
+  .title-wrap .app-sub{
+    font-size: 12px;
+  }
+  
+  /* Stats en columna */
+  .stats-row{
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  
+  /* Match card móvil */
+  .match-card{
+    padding: 14px;
+  }
+  
+  .teams-row{
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .team{
+    width: 100%;
+    flex-direction: row;
+    justify-content: center;
+    gap: 12px;
+  }
+  
+  .team-logo{
+    font-size: 28px;
+  }
+  
+  .team-name{
+    font-size: 14px;
+  }
+  
+  .prediction-inputs{
+    gap: 8px;
+  }
+  
+  .score-input{
+    width: 50px;
+    height: 50px;
+    font-size: 18px;
+  }
+  
+  /* Modal móvil */
+  .modal{
+    width: 90%;
+    max-width: 360px;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+  
+  /* User bubble móvil */
+  .user-bubble{
+    flex: 1;
+  }
+  
+  .user-info .user-name{
+    font-size: 14px;
+  }
+  
+  .user-info .user-meta{
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 480px){
+  /* Header ultra compacto */
+  .header-left{
+    gap: 10px;
+  }
+  
+  .logo-box{
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+  }
+  
+  .title-wrap .app-title{
+    font-size: 16px;
+  }
+  
+  .avatar{
+    width: 32px;
+    height: 32px;
+    font-size: 14px;
+  }
+  
+  /* Stats más compactas */
+  .stat-card{
+    padding: 16px;
+  }
+  
+  .stat-label{
+    font-size: 12px;
+  }
+  
+  .stat-value{
+    font-size: 20px;
+  }
+  
+  /* Match card ultra compacto */
+  .match-header{
+    flex-direction: column;
+    gap: 4px;
+    text-align: center;
+  }
+  
+  .team-name{
+    font-size: 13px;
+  }
+  
+  .score-input{
+    width: 45px;
+    height: 45px;
+  }
+  
+  /* Ranking más pequeño */
+  .ranking{
+    padding: 14px;
+  }
+  
+  .ranking-title{
+    font-size: 16px;
+  }
+  
+  .ranking-item{
+    padding: 8px;
+    font-size: 13px;
+  }
+  
+  /* Container más ajustado */
+  .container{
+    padding: 0 10px;
+    margin: 16px auto;
+  }
+  
+  /* Botones más grandes para touch */
+  .btn{
+    padding: 12px;
+    font-size: 15px;
+  }
+  
+  .predict-btn{
+    padding: 12px;
+  }
+}
