@@ -13,7 +13,7 @@
 .right-col {
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 16px;
 }
 
 /* Stats Section */
