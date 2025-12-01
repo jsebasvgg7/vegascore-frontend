@@ -1827,3 +1827,470 @@
     gap: 12px;
   }
 }
+@media (max-width: 768px) {
+  .profile-page {
+    padding: 16px 12px;
+  }
+  
+  .profile-page::before {
+    height: 250px;
+    border-radius: 0 0 30px 30px;
+  }
+  
+  .profile-header {
+    margin-bottom: 20px;
+    flex-direction: row;
+    gap: 12px;
+  }
+  
+  .back-button {
+    padding: 10px 16px;
+    border-radius: 12px;
+    font-size: 14px;
+  }
+  
+  .profile-page-title {
+    font-size: 28px;
+  }
+  
+  .profile-container {
+    gap: 20px;
+  }
+  
+  /* Top Section Mobile */
+  .profile-top-section {
+    gap: 16px;
+  }
+  
+  .avatar-card {
+    flex-direction: row;
+    text-align: left;
+    padding: 20px;
+    gap: 16px;
+    border-radius: 20px;
+  }
+  
+  .avatar-display {
+    width: 90px;
+    height: 90px;
+    border: 4px solid white;
+  }
+  
+  .avatar-placeholder {
+    font-size: 40px;
+  }
+  
+  .avatar-badge {
+    padding: 6px 12px;
+    font-size: 11px;
+    bottom: -8px;
+  }
+  
+  .user-name {
+    font-size: 22px;
+    margin-bottom: 6px;
+  }
+  
+  .user-email {
+    font-size: 13px;
+  }
+  
+  .user-favorites {
+    justify-content: flex-start;
+    gap: 8px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+  }
+  
+  .favorite-item {
+    padding: 8px 12px;
+    font-size: 12px;
+    border-radius: 10px;
+  }
+  
+  .user-joined {
+    font-size: 12px;
+  }
+  
+  .edit-profile-button {
+    padding: 12px 20px;
+    font-size: 14px;
+    border-radius: 12px;
+  }
+  
+  /* Stats Card Mobile */
+  .stats-card {
+    padding: 20px;
+    border-radius: 20px;
+  }
+  
+  .stats-header {
+    margin-bottom: 16px;
+  }
+  
+  .stats-header h3 {
+    font-size: 18px;
+  }
+  
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  
+  .stat-item {
+    padding: 16px;
+    border-radius: 14px;
+    flex-direction: column;
+    text-align: center;
+    gap: 8px;
+  }
+  
+  .stat-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+  }
+  
+  .stat-label {
+    font-size: 11px;
+  }
+  
+  .stat-value {
+    font-size: 28px;
+  }
+  
+  /* Middle Section Mobile */
+  .profile-middle-section {
+    gap: 16px;
+  }
+  
+  .level-card,
+  .streaks-card {
+    padding: 20px;
+    border-radius: 20px;
+  }
+  
+  .level-header {
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  
+  .level-title {
+    font-size: 24px;
+  }
+  
+  .level-subtitle {
+    font-size: 13px;
+  }
+  
+  .level-points {
+    align-items: flex-start;
+  }
+  
+  .current-points {
+    font-size: 20px;
+  }
+  
+  .next-level-points {
+    font-size: 12px;
+  }
+  
+  .progress-container {
+    margin-bottom: 20px;
+  }
+  
+  .progress-bar {
+    height: 16px;
+    margin-bottom: 8px;
+  }
+  
+  .progress-label {
+    font-size: 12px;
+  }
+  
+  .mini-achievements-section {
+    padding-top: 16px;
+  }
+  
+  .section-header h4 {
+    font-size: 16px;
+  }
+  
+  .mini-achievements-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  
+  .mini-achievement {
+    padding: 14px;
+    border-radius: 12px;
+  }
+  
+  .achievement-icon {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .achievement-label {
+    font-size: 11px;
+  }
+  
+  .achievement-value {
+    font-size: 18px;
+  }
+  
+  /* Streaks Mobile */
+  .streaks-header {
+    margin-bottom: 16px;
+  }
+  
+  .streaks-header h3 {
+    font-size: 18px;
+  }
+  
+  .streaks-content {
+    gap: 12px;
+  }
+  
+  .streak-item {
+    padding: 16px;
+    border-radius: 14px;
+    gap: 12px;
+  }
+  
+  .streak-icon {
+    width: 56px;
+    height: 56px;
+  }
+  
+  .streak-value {
+    font-size: 32px;
+  }
+  
+  .streak-badge,
+  .record-badge {
+    position: static;
+    margin-top: 8px;
+    align-self: flex-start;
+  }
+  
+  /* Form Mobile */
+  .form-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  .form-header h3 {
+    font-size: 18px;
+  }
+  
+  .form-input,
+  .form-textarea {
+    padding: 12px 16px;
+    font-size: 14px;
+  }
+  
+  .form-actions {
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  /* History Mobile - COMPACTO Y ATRACTIVO */
+  .history-card {
+    padding: 20px;
+    border-radius: 20px;
+  }
+  
+  .history-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  
+  .history-title-section h3 {
+    font-size: 18px;
+  }
+  
+  .view-all-button {
+    padding: 10px 16px;
+    font-size: 13px;
+    align-self: stretch;
+    justify-content: center;
+  }
+  
+  .history-list {
+    gap: 12px;
+  }
+  
+  .history-item {
+    padding: 14px;
+    border-radius: 14px;
+    gap: 12px;
+  }
+  
+  .history-item:hover {
+    transform: none;
+  }
+  
+  /* Match Info Compacto */
+  .match-info {
+    gap: 8px;
+  }
+  
+  .league-badge {
+    padding: 4px 10px;
+    font-size: 10px;
+    border-radius: 8px;
+  }
+  
+  .teams {
+    flex-direction: row;
+    gap: 8px;
+    align-items: center;
+  }
+  
+  .team {
+    flex-direction: column;
+    gap: 6px;
+    flex: 1;
+    min-width: 0;
+  }
+  
+  .home-team {
+    justify-content: center;
+    align-items: flex-end;
+  }
+  
+  .away-team {
+    justify-content: center;
+    align-items: flex-start;
+  }
+  
+  .team-name {
+    font-size: 13px;
+    font-weight: 700;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    text-align: center;
+  }
+  
+  .team-logo {
+    font-size: 24px;
+    order: -1;
+  }
+  
+  .vs {
+    font-size: 14px;
+    padding: 0 8px;
+    font-weight: 900;
+  }
+  
+  .match-time {
+    font-size: 11px;
+    justify-content: center;
+  }
+  
+  /* Prediction Result Compacto */
+  .prediction-result {
+    padding: 12px;
+    border-radius: 12px;
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .scores {
+    flex-direction: row;
+    gap: 20px;
+    justify-content: center;
+    width: 100%;
+  }
+  
+  .score-section {
+    flex: 1;
+  }
+  
+  .score-label {
+    font-size: 10px;
+    margin-bottom: 4px;
+  }
+  
+  .score-value {
+    font-size: 24px;
+  }
+  
+  .result-status {
+    padding: 10px 16px;
+    border-radius: 10px;
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .status-icon {
+    width: 16px;
+    height: 16px;
+  }
+  
+  .status-label {
+    font-size: 12px;
+  }
+  
+  .status-points {
+    font-size: 11px;
+  }
+  
+  /* Titles & Achievements Mobile */
+  .titles-achievements-section {
+    gap: 16px;
+  }
+  
+  .active-title-card,
+  .titles-container,
+  .achievements-container {
+    padding: 20px;
+    border-radius: 20px;
+  }
+  
+  .active-title-header h3,
+  .section-header h3 {
+    font-size: 16px;
+  }
+  
+  .title-main-info {
+    gap: 12px;
+  }
+  
+  .title-icon-large {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .title-name {
+    font-size: 22px;
+  }
+  
+  .title-description {
+    font-size: 13px;
+  }
+  
+  .achievements-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    max-height: none;
+  }
+  
+  .achievement-card {
+    padding: 14px;
+  }
+  
+  .achievement-name {
+    font-size: 14px;
+  }
+  
+  .achievement-desc {
+    font-size: 12px;
+  }
+}
