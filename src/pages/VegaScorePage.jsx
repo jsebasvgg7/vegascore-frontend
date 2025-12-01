@@ -6,6 +6,7 @@ import LeagueCard from "../components/LeagueCard";
 import AwardCard from "../components/AwardCard";
 import RankingSidebar from "../components/RankingSidebar";
 import NavigationTabs from "../components/NavigationTabs";
+import NavigationTabsTwo from "../components/NavigationTabsTwo";
 import AdminModal from "../components/AdminModal";
 import AdminLeagueModal from "../components/AdminLeagueModal";
 import AdminAwardModal from "../components/AdminAwardModal";
@@ -787,6 +788,7 @@ export default function VegaScorePage() {
                   </div>
                 </div>
               ) : (
+                
                 // AWARDS TAB
                 <div className="matches-section-premium">
                   <div className="matches-header-premium">

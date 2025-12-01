@@ -1,0 +1,166 @@
+/* ===========================================
+   NAVIGATION TABS TWO (Ranking/Admin) - Purple Theme
+=========================================== */
+
+.navigation-tabs-two {
+  display: flex;
+  gap: 10px;
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  padding: 7px;
+  border-radius: 18px;
+  border: 1px solid rgba(96, 81, 155, 0.1);
+  box-shadow: 0 4px 12px rgba(96, 81, 155, 0.08);
+  margin-bottom: 18px;
+  animation: tabs-two-slide-in 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes tabs-two-slide-in {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.nav-tab-two {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  padding: 13px 22px;
+  border: none;
+  border-radius: 13px;
+  background: transparent;
+  color: #666;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.nav-tab-two::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(96, 81, 155, 0.05), rgba(139, 127, 199, 0.05));
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.nav-tab-two:hover {
+  color: #60519b;
+  transform: translateY(-2px);
+}
+
+.nav-tab-two:hover::before {
+  opacity: 1;
+}
+
+.nav-tab-two.active {
+  background: linear-gradient(135deg, #60519b 0%, #8b7fc7 100%);
+  color: white;
+  box-shadow: 0 4px 16px rgba(96, 81, 155, 0.4);
+}
+
+.nav-tab-two.active:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(96, 81, 155, 0.5);
+}
+
+.tab-indicator-two {
+  position: absolute;
+  bottom: 4px;
+  left: 50%;
+  transform: translateX(-50%) scaleX(0);
+  width: 75%;
+  height: 3px;
+  background: white;
+  border-radius: 10px;
+  transition: transform 0.3s;
+}
+
+.nav-tab-two.active .tab-indicator-two {
+  transform: translateX(-50%) scaleX(1);
+}
+
+/* Efecto de brillo al pasar el mouse */
+.nav-tab-two::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transform: translateX(-100%);
+  transition: transform 0.6s;
+}
+
+.nav-tab-two:hover::after {
+  transform: translateX(100%);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .navigation-tabs-two {
+    gap: 8px;
+    padding: 6px;
+    border-radius: 15px;
+    margin-bottom: 14px;
+  }
+
+  .nav-tab-two {
+    padding: 11px 18px;
+    font-size: 13px;
+    gap: 7px;
+    border-radius: 11px;
+  }
+
+  .nav-tab-two svg {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .navigation-tabs-two {
+    gap: 6px;
+    padding: 5px;
+    border-radius: 13px;
+    margin-bottom: 12px;
+  }
+
+  .nav-tab-two {
+    padding: 10px 14px;
+    font-size: 12px;
+    gap: 6px;
+    border-radius: 10px;
+  }
+
+  .nav-tab-two svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  /* Ocultar texto en móviles muy pequeños */
+  .nav-tab-two span {
+    display: none;
+  }
+
+  .nav-tab-two {
+    justify-content: center;
+    padding: 10px;
+  }
+}
+
+/* Animación al hacer clic */
+.nav-tab-two:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.nav-tab-two.active:active {
+  transform: translateY(0) scale(0.98);
+}
