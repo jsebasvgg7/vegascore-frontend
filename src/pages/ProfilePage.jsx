@@ -511,7 +511,7 @@ export default function ProfilePage({ currentUser, onBack }) {
             <div className="profile-stats-grid">
           <div className="profile-stat-card primary">
             <div className="stat-icon-wrapper">
-              <TrendingUp size={20} />
+              <TrendingUp size={16} />
             </div>
                 <div className="mini-achievement-info">
                   <span className="mini-achievement-label">Total Puntos</span>
