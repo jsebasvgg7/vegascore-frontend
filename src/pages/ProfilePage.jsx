@@ -5,7 +5,9 @@ import {
   CheckCircle2, XCircle, Clock, Medal, Globe, Heart, Zap,
   Crown, Shield, Rocket, Sparkles, TrendingDown, BarChart3,
   Gamepad2, Award as AwardIcon, Target as TargetIcon,
-  Clock as ClockIcon, Users, MapPin, Flag
+  Clock as ClockIcon, Users, MapPin, Flag, ScrollText, BookOpen, Layers, BadgeCheck, Gem,
+  Trophy as TrophyIcon, Zap as ZapIcon, Target as TargetIcon,
+  CheckCircle, XCircle, Star as StarIcon
 } from 'lucide-react';
 import { supabase } from '../utils/supabaseClient';
 import AvatarUpload from '../components/AvatarUpload';
@@ -35,11 +37,142 @@ export default function ProfilePage({ currentUser, onBack }) {
     best_streak: 0,
     last_prediction_date: null
   });
+  const [userAchievements, setUserAchievements] = useState([]);
+  const [userTitles, setUserTitles] = useState([]);
+  const [availableAchievements, setAvailableAchievements] = useState([]);
+  const [availableTitles, setAvailableTitles] = useState([]);
+  const [achievementsLoading, setAchievementsLoading] = useState(true);
 
   const showNotification = (message, type = 'success') => {
     setNotification({ message, type });
     setTimeout(() => setNotification(null), 3000);
   };
+
+  useEffect(() => {
+  const loadAchievementsAndTitles = async () => {
+    if (!currentUser) return;
+    
+    try {
+      setAchievementsLoading(true);
+      
+      // 1. Cargar logros disponibles
+      const { data: achievementsData, error: achievementsError } = await supabase
+        .from('available_achievements')
+        .select('*')
+        .order('requirement_value', { ascending: true });
+
+      if (achievementsError) throw achievementsError;
+      setAvailableAchievements(achievementsData || []);
+
+      // 2. Cargar títulos disponibles
+      const { data: titlesData, error: titlesError } = await supabase
+        .from('available_titles')
+        .select('*');
+
+      if (titlesError) throw titlesError;
+      setAvailableTitles(titlesData || []);
+
+      // 3. Calcular logros obtenidos (basado en stats del usuario)
+      const calculatedAchievements = calculateAchievements(
+        achievementsData || [],
+        {
+          points: currentUser?.points || 0,
+          predictions: currentUser?.predictions || 0,
+          correct: currentUser?.correct || 0,
+          current_streak: streakData.current_streak
+        }
+      );
+      setUserAchievements(calculatedAchievements);
+
+      // 4. Calcular títulos obtenidos (basado en logros obtenidos)
+      const calculatedTitles = calculateTitles(
+        titlesData || [],
+        calculatedAchievements
+      );
+      setUserTitles(calculatedTitles);
+
+    } catch (err) {
+      console.error('Error loading achievements:', err);
+    } finally {
+      setAchievementsLoading(false);
+    }
+  };
+
+  loadAchievementsAndTitles();
+}, [currentUser, streakData]);
+
+// Funciones helper para calcular logros y títulos
+const calculateAchievements = (availableAchievements, userStats) => {
+  if (!availableAchievements || !userStats) return [];
+
+  return availableAchievements.filter(achievement => {
+    switch (achievement.requirement_type) {
+      case 'points':
+        return userStats.points >= achievement.requirement_value;
+      case 'predictions':
+        return userStats.predictions >= achievement.requirement_value;
+      case 'correct':
+        return userStats.correct >= achievement.requirement_value;
+      case 'streak':
+        return userStats.current_streak >= achievement.requirement_value;
+      default:
+        return false;
+    }
+  });
+};
+
+const calculateTitles = (availableTitles, userAchievements) => {
+  if (!availableTitles || !userAchievements) return [];
+  
+  return availableTitles.filter(title => {
+    const requiredAchievementId = title.requirement_achievement_id;
+    return userAchievements.some(achievement => achievement.id === requiredAchievementId);
+  });
+};
+
+// Función para obtener el emoji del ícono
+const getIconEmoji = (iconText) => {
+  const emojiMap = {
+    '🎯': '🎯',
+    '🌟': '🌟',
+    '⭐': '⭐',
+    '✨': '✨',
+    '💫': '💫',
+    '🎪': '🎪',
+    '🎭': '🎭',
+    '🎨': '🎨',
+    '🔥': '🔥',
+    '🌋': '🌋',
+    '☄️': '☄️'
+  };
+  return emojiMap[iconText] || '🏆';
+};
+
+// Función para determinar el color basado en la categoría
+const getCategoryColor = (category) => {
+  switch(category) {
+    case 'Inicio': return 'var(--primary-purple)';
+    case 'Progreso': return 'var(--info)';
+    case 'Precisión': return 'var(--success)';
+    case 'Racha': return 'var(--danger)';
+    default: return 'var(--primary-purple)';
+  }
+};
+
+// Función para determinar el título activo (el más alto obtenido)
+const getActiveTitle = () => {
+  if (userTitles.length === 0) return null;
+  
+  // Ordenar títulos por "valor" (puedes ajustar esta lógica)
+  const sortedTitles = [...userTitles].sort((a, b) => {
+    const order = ['leyenda', 'oráculo', 'visionario', 'pronosticador', 'novato'];
+    return order.indexOf(b.id) - order.indexOf(a.id);
+  });
+  
+  return sortedTitles[0];
+};
+
+const activeTitle = getActiveTitle();
 
   useEffect(() => {
     loadUserData();
@@ -259,6 +392,8 @@ export default function ProfilePage({ currentUser, onBack }) {
   const pointsToNextLevel = nextLevelPoints - currentPoints;
   const levelProgress = (pointsInLevel / 20) * 100;
 
+
+
   return (
     <div className="profile-page">
       {notification && (
@@ -477,7 +612,9 @@ export default function ProfilePage({ currentUser, onBack }) {
                   </div>
                   <div className="achievement-info">
                     <div className="achievement-label">Ranking</div>
-                    <div className="achievement-value">#{(currentUser?.rank || '--')}</div>
+                    <div className="achievement-value">
+                      #{(currentUser?.rank || '--')}
+                      </div>
                   </div>
                 </div>
 
@@ -536,6 +673,212 @@ export default function ProfilePage({ currentUser, onBack }) {
                 )}
               </div>
             </div>
+          </div>
+        </div>
+        {/* ========== SECCIÓN DE TÍTULOS Y LOGROS ========== */}
+        <div className="titles-achievements-section">
+          {/* Título Activo */}
+          <div className="active-title-card">
+            <div className="active-title-header">
+              <Crown size={24} className="title-crown" />
+              <h3>Título Activo</h3>
+              {activeTitle && (
+                <div className="title-active-badge">
+                  <Sparkles size={14} />
+                  <span>Equipado</span>
+                </div>
+              )}
+            </div>
+            
+            {activeTitle ? (
+              <div className="current-title-display" style={{ borderColor: activeTitle.color }}>
+                <div className="title-main-info">
+                  <div className="title-icon-large" style={{ color: activeTitle.color }}>
+                    <Gem size={32} />
+                  </div>
+                  <div className="title-details">
+                    <h4 className="title-name" style={{ color: activeTitle.color }}>
+                      {activeTitle.name}
+                    </h4>
+                    <p className="title-description">{activeTitle.description}</p>
+                  </div>
+                </div>
+                <div className="title-stats">
+                  <div className="title-stat">
+                    <ScrollText size={16} />
+                    <span>{userTitles.length} títulos obtenidos</span>
+                  </div>
+                  <div className="title-stat">
+                    <BookOpen size={16} />
+                    <span>{userAchievements.length}/{availableAchievements.length} logros</span>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div className="no-title-message">
+                <div className="no-title-icon">
+                  <Shield size={40} />
+                </div>
+                <div className="no-title-text">
+                  <h4>Aún no has obtenido títulos</h4>
+                  <p>Completa logros para desbloquear títulos especiales</p>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Títulos Obtenidos */}
+          <div className="titles-container">
+            <div className="titles-header">
+              <div className="section-header">
+                <Layers size={20} />
+                <h3>Títulos Obtenidos</h3>
+                <span className="count-badge">{userTitles.length}</span>
+              </div>
+              <button className="view-all-btn">
+                <span>Ver Todos</span>
+                <ArrowLeft size={16} className="rotate-180" />
+              </button>
+            </div>
+            
+            {achievementsLoading ? (
+              <div className="loading-titles">
+                <Activity size={24} className="spinner" />
+                <span>Cargando títulos...</span>
+              </div>
+            ) : userTitles.length === 0 ? (
+              <div className="empty-titles">
+                <div className="empty-icon">
+                  <TrophyIcon size={32} />
+                </div>
+                <div className="empty-text">
+                  <h4>Sin títulos</h4>
+                  <p>Completa logros para desbloquear títulos</p>
+                </div>
+              </div>
+            ) : (
+              <div className="titles-grid">
+                {userTitles.slice(0, 4).map((title, index) => (
+                  <div 
+                    key={title.id} 
+                    className={`title-card ${title.id === activeTitle?.id ? 'active' : ''}`}
+                    style={{ 
+                      borderLeft: `4px solid ${title.color || 'var(--primary-purple)'}`,
+                      background: title.id === activeTitle?.id 
+                        ? `linear-gradient(135deg, ${title.color}15, transparent)` 
+                        : 'var(--card-gradient)'
+                    }}
+                  >
+                    <div className="title-card-header">
+                      <div className="title-icon-small" style={{ color: title.color }}>
+                        <Crown size={18} />
+                      </div>
+                      <div className="title-card-info">
+                        <h4 className="title-card-name" style={{ color: title.color }}>
+                          {title.name}
+                        </h4>
+                        <p className="title-card-desc">{title.description}</p>
+                      </div>
+                    </div>
+                    {title.id === activeTitle?.id && (
+                      <div className="title-active-indicator">
+                        <BadgeCheck size={14} />
+                        <span>Activo</span>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Logros Obtenidos */}
+          <div className="achievements-container">
+            <div className="achievements-header">
+              <div className="section-header">
+                <AwardIcon size={20} />
+                <h3>Logros Obtenidos</h3>
+                <span className="count-badge">
+                  {userAchievements.length}/{availableAchievements.length}
+                </span>
+              </div>
+              <div className="progress-indicator">
+                <div className="progress-bar-small">
+                  <div 
+                    className="progress-fill-small" 
+                    style={{ 
+                      width: availableAchievements.length > 0 
+                        ? `${(userAchievements.length / availableAchievements.length) * 100}%` 
+                        : '0%' 
+                    }}
+                  ></div>
+                </div>
+                <span className="progress-text">
+                  {Math.round((userAchievements.length / availableAchievements.length) * 100)}%
+                </span>
+              </div>
+            </div>
+            
+            {achievementsLoading ? (
+              <div className="loading-achievements">
+                <Activity size={24} className="spinner" />
+                <span>Cargando logros...</span>
+              </div>
+            ) : (
+              <div className="achievements-grid">
+                {userAchievements.slice(0, 8).map((achievement, index) => (
+                  <div 
+                    key={achievement.id} 
+                    className="achievement-card"
+                    style={{ 
+                      borderColor: getCategoryColor(achievement.category),
+                      background: `linear-gradient(135deg, ${getCategoryColor(achievement.category)}10, transparent)`
+                    }}
+                  >
+                    <div className="achievement-icon-wrapper">
+                      <div className="achievement-emoji">{getIconEmoji(achievement.icon)}</div>
+                      {index < 3 && (
+                        <div className="achievement-new-badge">
+                          <Sparkles size={12} />
+                        </div>
+                      )}
+                    </div>
+                    <div className="achievement-info">
+                      <h4 className="achievement-name">{achievement.name}</h4>
+                      <p className="achievement-desc">{achievement.description}</p>
+                      <div className="achievement-category" style={{ color: getCategoryColor(achievement.category) }}>
+                        {achievement.category}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+                
+                {userAchievements.length === 0 && (
+                  <div className="no-achievements">
+                    <div className="no-achievements-icon">
+                      <TargetIcon size={40} />
+                    </div>
+                    <div className="no-achievements-text">
+                      <h4>Sin logros aún</h4>
+                      <p>Comienza a hacer predicciones para desbloquear logros</p>
+                    </div>
+                  </div>
+                )}
+                
+                {/* Mostrar logros no obtenidos (bloqueados) */}
+                {userAchievements.length < availableAchievements.length && (
+                  <div className="locked-achievements-info">
+                    <div className="locked-icon">
+                      <XCircle size={20} />
+                    </div>
+                    <div className="locked-text">
+                      <span>{availableAchievements.length - userAchievements.length} logros por desbloquear</span>
+                      <small>Sigue participando para desbloquear más</small>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         </div>
 
