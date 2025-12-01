@@ -33,7 +33,8 @@ export default function VegaScorePage() {
   const [leagueToFinish, setLeagueToFinish] = useState(null);
   const [awardToFinish, setAwardToFinish] = useState(null);
   const [showProfile, setShowProfile] = useState(false);
-  const [activeTab, setActiveTab] = useState('matches'); // 'matches' | 'leagues' | 'awards'
+  const [activeTab, setActiveTab] = useState('matches');
+  const [rightTab, setRightTab] = useState('ranking');
   const [loading, setLoading] = useState(true);
   const [actionLoading, setActionLoading] = useState(false);
   const toast = useToast();
@@ -832,9 +833,23 @@ export default function VegaScorePage() {
             </div>
 
             <aside className={`right-col ${!currentUser?.is_admin ? 'single-column' : ''}`}>
-              <RankingSidebar users={sortedUsers} />
-
+              
+              {/* Tabs secundarias - Solo para admins */}
               {currentUser?.is_admin && (
+                <NavigationTabsTwo 
+                  activeTab={rightTab} 
+                  onTabChange={setRightTab}
+                  isAdmin={currentUser?.is_admin}
+                />
+              )}
+
+              {/* RANKING - Mostrar cuando rightTab === 'ranking' */}
+              {(rightTab === 'ranking' || !currentUser?.is_admin) && (
+                <RankingSidebar users={sortedUsers} />
+              )}
+
+              {/* ADMIN PANEL - Solo mostrar cuando rightTab === 'admin' Y es admin */}
+              {rightTab === 'admin' && currentUser?.is_admin && (
                 <div className="admin-panel-premium">
                   <div className="admin-header">
                     <div className="admin-title-section">
@@ -923,21 +938,16 @@ export default function VegaScorePage() {
                       onClick={() => {
                         const id = prompt("ID del partido a finalizar:");
                         if (!id) return;
-
                         const h = prompt("Goles equipo local:");
                         if (h === null) return;
-
                         const a = prompt("Goles equipo visitante:");
                         if (a === null) return;
-
                         const homeScore = parseInt(h);
                         const awayScore = parseInt(a);
-
                         if (isNaN(homeScore) || isNaN(awayScore)) {
                           toast.warning("Por favor ingresa números válidos");
                           return;
                         }
-
                         setMatchResult(id, homeScore, awayScore);
                       }}
                     >
@@ -1009,6 +1019,7 @@ export default function VegaScorePage() {
                   </div>
                 </div>
               )}
+
             </aside>
           </section>
         </main>
