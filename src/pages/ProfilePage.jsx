@@ -583,11 +583,6 @@ export default function ProfilePage({ currentUser, onBack }) {
                 <div className="stat-info">
                   <div className="stat-label">Ranking Global</div>
                   <div className="stat-value">#{userRanking.position || '--'}</div>
-                  <div className="stat-sublabel">
-                    {userRanking.totalUsers > 0 
-                      ? `Top ${Math.round((userRanking.position / userRanking.totalUsers) * 100)}%`
-                      : 'Sin ranking'}
-                  </div>
                 </div>
               </div>
             </div>
