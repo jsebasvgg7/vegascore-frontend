@@ -20,18 +20,22 @@ function AppRoutes() {
     // Obtener sesión inicial
     const initSession = async () => {
       try {
+        console.log("🔍 Iniciando carga de sesión...");
         const { data: { session }, error } = await supabase.auth.getSession();
         
         if (error) {
-          console.error("Error al obtener sesión:", error);
+          console.error("❌ Error al obtener sesión:", error);
           setLoading(false);
           return;
         }
 
+        console.log("✅ Sesión obtenida:", session ? "Usuario conectado" : "Sin sesión");
         setSession(session);
         
         // Si hay sesión, cargar datos del usuario
         if (session?.user) {
+          console.log("🔍 Buscando perfil para user ID:", session.user.id);
+          
           const { data: userData, error: userError } = await supabase
             .from("users")
             .select("*")
@@ -39,14 +43,18 @@ function AppRoutes() {
             .maybeSingle();
           
           if (userError) {
-            console.error("Error al cargar usuario:", userError);
+            console.error("❌ Error al cargar usuario:", userError);
           } else if (userData) {
+            console.log("✅ Usuario encontrado:", userData.name, "- Admin:", userData.is_admin);
             setCurrentUser(userData);
+          } else {
+            console.warn("⚠️ No se encontró perfil de usuario");
           }
         }
       } catch (err) {
-        console.error("Error en initSession:", err);
+        console.error("❌ Error en initSession:", err);
       } finally {
+        console.log("✅ Carga de sesión completada");
         setLoading(false);
       }
     };
@@ -55,19 +63,26 @@ function AppRoutes() {
 
     // Escuchar cambios de sesión
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (_event, session) => {
-        console.log("Auth state changed:", _event, session?.user?.id);
+      async (event, session) => {
+        console.log("🔄 Auth state changed:", event, session?.user?.id);
         setSession(session);
         
         if (session?.user) {
-          const { data: userData } = await supabase
+          console.log("🔍 Recargando perfil de usuario...");
+          const { data: userData, error } = await supabase
             .from("users")
             .select("*")
             .eq("auth_id", session.user.id)
             .maybeSingle();
           
-          setCurrentUser(userData);
+          if (error) {
+            console.error("❌ Error recargando usuario:", error);
+          } else if (userData) {
+            console.log("✅ Usuario recargado:", userData.name);
+            setCurrentUser(userData);
+          }
         } else {
+          console.log("🔓 Sesión cerrada");
           setCurrentUser(null);
         }
       }
@@ -83,11 +98,24 @@ function AppRoutes() {
     return (
       <div className="auth-wrapper">
         <div className="auth-card" style={{ textAlign: "center" }}>
-          <p style={{ color: "#fff" }}>Cargando...</p>
+          <div style={{ marginBottom: "16px" }}>
+            <div className="spinner-large" style={{
+              width: "40px",
+              height: "40px",
+              border: "4px solid #f3f4f6",
+              borderTopColor: "#60519b",
+              borderRadius: "50%",
+              animation: "spin 1s linear infinite",
+              margin: "0 auto"
+            }}></div>
+          </div>
+          <p style={{ color: "#fff", margin: 0 }}>Cargando...</p>
         </div>
       </div>
     );
   }
+
+  console.log("🎯 Estado actual - Session:", !!session, "User:", !!currentUser);
 
   return (
     <Routes>
