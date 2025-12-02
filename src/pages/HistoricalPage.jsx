@@ -1,4 +1,4 @@
-import "../styles/HistorialPage.css";
+import "../styles/HistoricalPage.css";
 import useHistory from "../hooks/useHistory";
 
 export default function HistorialPage() {

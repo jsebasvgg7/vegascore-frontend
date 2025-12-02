@@ -22,13 +22,13 @@ export default function App() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Obtener sesión inicial
+    // Sesión inicial
     supabase.auth.getSession().then(({ data }) => {
       setSession(data?.session || null);
       setLoading(false);
     });
 
-    // Escuchar cambios de sesión
+    // Listener de cambios de sesión
     const { data: listener } = supabase.auth.onAuthStateChange(
       (_event, session) => setSession(session)
     );
@@ -54,16 +54,16 @@ export default function App() {
         {/* LOGIN */}
         <Route
           path="/"
-          element={session ? <Navigate to="/app" /> : <LoginPage />}
+          element={!session ? <LoginPage /> : <Navigate to="/app/home" />}
         />
 
         {/* REGISTER */}
         <Route
           path="/register"
-          element={session ? <Navigate to="/app" /> : <RegisterPage />}
+          element={!session ? <RegisterPage /> : <Navigate to="/app/home" />}
         />
 
-        {/* RUTAS PROTEGIDAS CON LAYOUT */}
+        {/* RUTAS PROTEGIDAS */}
         <Route
           path="/app"
           element={session ? <VegaLayout /> : <Navigate to="/" />}
