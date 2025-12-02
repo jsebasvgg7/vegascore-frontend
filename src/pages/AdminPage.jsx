@@ -360,10 +360,6 @@ export default function AdminPage({ currentUser, onBack }) {
       <div className="admin-page">
         {/* Header */}
         <div className="admin-page-header">
-          <button className="back-button" onClick={onBack}>
-            <ArrowLeft size={20} />
-            <span>Volver</span>
-          </button>
           <h1 className="admin-page-title">
             <Shield size={36} />
             Panel de Administración
