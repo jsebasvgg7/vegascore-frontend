@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import API from "../api/api";
+import { supabase } from "../utils/supabaseClient";
 
 export default function useAwards() {
   const [awards, setAwards] = useState([]);
@@ -7,9 +7,20 @@ export default function useAwards() {
 
   const loadAwards = async () => {
     setLoading(true);
-    const res = await API.get("/awards");
-    setAwards(res.data);
-    setLoading(false);
+    try {
+      const { data, error } = await supabase
+        .from("awards")
+        .select("*, award_predictions(*)")
+        .order("created_at", { ascending: false });
+      
+      if (error) throw error;
+      setAwards(data || []);
+    } catch (error) {
+      console.error("Error loading awards:", error);
+      setAwards([]);
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {

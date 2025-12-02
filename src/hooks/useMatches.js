@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import API from "../api/api";
+import { supabase } from "../utils/supabaseClient";
 
 export default function useMatches() {
   const [matches, setMatches] = useState([]);
@@ -7,9 +7,20 @@ export default function useMatches() {
 
   const loadMatches = async () => {
     setLoading(true);
-    const res = await API.get("/matches");
-    setMatches(res.data);
-    setLoading(false);
+    try {
+      const { data, error } = await supabase
+        .from("matches")
+        .select("*, predictions(*)")
+        .order("date", { ascending: true });
+      
+      if (error) throw error;
+      setMatches(data || []);
+    } catch (error) {
+      console.error("Error loading matches:", error);
+      setMatches([]);
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
