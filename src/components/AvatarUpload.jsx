@@ -154,7 +154,7 @@ export default function AvatarUpload({ currentUrl, userId, onUploadComplete }) {
             ) : (
               <Upload size={16} />
             )}
-            <span>{preview ? 'Cambiar' : 'Subir foto'}</span>
+            <span>{preview ? '' : ''}</span>
           </button>
           
           {/* Botón de Eliminar (solo si hay una foto) */}
@@ -165,7 +165,7 @@ export default function AvatarUpload({ currentUrl, userId, onUploadComplete }) {
               disabled={uploading}
             >
               <X size={16} />
-              <span>Eliminar</span>
+              <span></span>
             </button>
           )}
         </div>
