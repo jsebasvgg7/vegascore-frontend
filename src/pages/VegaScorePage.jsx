@@ -1,5 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { Trophy, TrendingUp, Target, Percent, Plus, CheckCircle, Shield, Settings, Zap, Star, Award as AwardIcon } from "lucide-react";
+// src/pages/VegaScorePage.jsx - VERSIÓN REFACTORIZADA
+import React, { useState } from "react";
+import { Trophy, TrendingUp, Target, Percent, Plus, CheckCircle, Shield, Star, Award as AwardIcon } from "lucide-react";
+
+// Components
 import Header from "../components/Header";
 import MatchCard from "../components/MatchCard";
 import LeagueCard from "../components/LeagueCard";
@@ -13,18 +16,26 @@ import AdminAwardModal from "../components/AdminAwardModal";
 import FinishLeagueModal from "../components/FinishLeagueModal";
 import FinishAwardModal from "../components/FinishAwardModal";
 import ProfilePage from "./ProfilePage";
-import { PageLoader, MatchListSkeleton, StatCardSkeleton, LoadingOverlay } from "../components/LoadingStates";
+import { PageLoader, LoadingOverlay } from "../components/LoadingStates";
 import { ToastContainer, useToast } from "../components/Toast";
-import { supabase } from "../utils/supabaseClient";
+
+// Custom Hooks
+import { useDataLoader } from "../hooks/useDataLoader";
+import { useMatches } from "../hooks/useMatches";
+import { useLeagues } from "../hooks/useLeagues";
+import { useAwards } from "../hooks/useAwards";
+
+// Styles
 import "../styles/VegaScorePage.css";
 import "../styles/AdminPanel.css";
 
 export default function VegaScorePage() {
-  const [matches, setMatches] = useState([]);
-  const [leagues, setLeagues] = useState([]);
-  const [awards, setAwards] = useState([]);
-  const [users, setUsers] = useState([]);
-  const [currentUser, setCurrentUser] = useState(null);
+  // ========== STATE MANAGEMENT ==========
+  const [showProfile, setShowProfile] = useState(false);
+  const [activeTab, setActiveTab] = useState('matches');
+  const [rightTab, setRightTab] = useState('ranking');
+
+  // Modales de Admin
   const [showAdminModal, setShowAdminModal] = useState(false);
   const [showAdminLeagueModal, setShowAdminLeagueModal] = useState(false);
   const [showAdminAwardModal, setShowAdminAwardModal] = useState(false);
@@ -32,112 +43,47 @@ export default function VegaScorePage() {
   const [showFinishAwardModal, setShowFinishAwardModal] = useState(false);
   const [leagueToFinish, setLeagueToFinish] = useState(null);
   const [awardToFinish, setAwardToFinish] = useState(null);
-  const [showProfile, setShowProfile] = useState(false);
-  const [activeTab, setActiveTab] = useState('matches');
-  const [rightTab, setRightTab] = useState('ranking');
-  const [loading, setLoading] = useState(true);
-  const [actionLoading, setActionLoading] = useState(false);
+
   const toast = useToast();
 
-  // --- CARGA INICIAL DE DATOS ---
-  useEffect(() => {
-    const loadData = async () => {
-      try {
-        // 1️⃣ Obtener usuario autenticado
-        const { data: authUser, error: authError } = await supabase.auth.getUser();
-        if (authError) throw authError;
+  // ========== CUSTOM HOOKS ==========
+  const {
+    currentUser,
+    users,
+    matches,
+    leagues,
+    awards,
+    loading,
+    error,
+    updateUsers,
+    updateMatches,
+    updateLeagues,
+    updateAwards
+  } = useDataLoader();
 
-        if (!authUser?.user) {
-          window.location.href = "/";
-          return;
-        }
+  const {
+    loading: matchesLoading,
+    makePrediction,
+    addMatch,
+    finishMatch
+  } = useMatches(currentUser);
 
-        console.log("Auth User ID:", authUser.user.id);
+  const {
+    loading: leaguesLoading,
+    makeLeaguePrediction,
+    addLeague,
+    finishLeague: finishLeagueHook
+  } = useLeagues(currentUser);
 
-        // 2️⃣ Perfil del usuario autenticado
-        const { data: profile, error: profileError } = await supabase
-          .from("users")
-          .select("*")
-          .eq("auth_id", authUser.user.id)
-          .maybeSingle();
+  const {
+    loading: awardsLoading,
+    makeAwardPrediction,
+    addAward,
+    finishAward: finishAwardHook
+  } = useAwards(currentUser);
 
-        if (profileError) {
-          console.error("Error al cargar perfil:", profileError);
-          toast.error("Error al cargar tu perfil");
-          return;
-        }
-
-        // Si no existe el perfil, crearlo automáticamente
-        if (!profile) {
-          console.log("Perfil no encontrado, creando uno nuevo...");
-
-          const { data: newProfile, error: createError } = await supabase
-            .from("users")
-            .insert({
-              auth_id: authUser.user.id,
-              name: authUser.user.email?.split('@')[0] || "Usuario",
-              email: authUser.user.email,
-              points: 0,
-              predictions: 0,
-              correct: 0
-            })
-            .select()
-            .single();
-
-          if (createError) {
-            console.error("Error al crear perfil:", createError);
-            toast.error("No se pudo crear tu perfil");
-            return;
-          }
-
-          console.log("Perfil creado:", newProfile);
-          setCurrentUser(newProfile);
-          toast.success("¡Bienvenido! Tu perfil ha sido creado");
-        } else {
-          console.log("Perfil encontrado:", profile);
-          setCurrentUser(profile);
-        }
-
-        // 3️⃣ Listado de todos los usuarios
-        const { data: userList } = await supabase
-          .from("users")
-          .select("*")
-          .order("points", { ascending: false });
-        setUsers(userList || []);
-
-        // 4️⃣ Cargar partidos con sus predicciones
-        const { data: matchList } = await supabase
-          .from("matches")
-          .select("*, predictions(*)");
-        setMatches(matchList || []);
-
-        // 5️⃣ Cargar ligas con sus predicciones
-        const { data: leagueList } = await supabase
-          .from("leagues")
-          .select("*, league_predictions(*)");
-        setLeagues(leagueList || []);
-
-        // 6️⃣ Cargar premios individuales con sus predicciones
-        const { data: awardList } = await supabase
-          .from("awards")
-          .select("*, award_predictions(*)");
-        setAwards(awardList || []);
-
-      } catch (err) {
-        console.error("Error en loadData:", err);
-        toast.error(`Error al cargar datos: ${err.message}`);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadData();
-  }, []);
-
-  // --- FUNCIONES DE PARTIDOS ---
-  const makePrediction = async (matchId, homeScore, awayScore) => {
-    if (!currentUser) return;
-
+  // ========== HANDLERS - MATCHES ==========
+  const handleMakePrediction = async (matchId, homeScore, awayScore) => {
     const match = matches.find(m => m.id === matchId);
     if (match?.deadline) {
       const now = new Date();
@@ -148,474 +94,167 @@ export default function VegaScorePage() {
       }
     }
 
-    setActionLoading(true);
-    try {
-      const { error } = await supabase.from("predictions").upsert({
-        match_id: matchId,
-        user_id: currentUser.id,
-        home_score: homeScore,
-        away_score: awayScore,
-      }, {
-        onConflict: 'match_id,user_id'
-      });
-
-      if (error) throw error;
-
-      const { data: matchList } = await supabase
-        .from("matches")
-        .select("*, predictions(*)");
-      setMatches(matchList);
-
-      toast.success("¡Predicción guardada exitosamente! 🎯");
-    } catch (err) {
-      console.error("Error al guardar predicción:", err);
-      toast.error(`Error al guardar: ${err.message}`);
-    } finally {
-      setActionLoading(false);
-    }
+    await makePrediction(
+      matchId,
+      homeScore,
+      awayScore,
+      (matchList) => {
+        updateMatches(matchList);
+        toast.success("¡Predicción guardada exitosamente! 🎯");
+      },
+      (error) => toast.error(`Error: ${error}`)
+    );
   };
 
-  const addMatch = async (match) => {
-    setActionLoading(true);
-    try {
-      const { error } = await supabase.from("matches").insert(match);
-      if (error) throw error;
-
-      const { data } = await supabase.from("matches").select("*, predictions(*)");
-      setMatches(data);
-      toast.success("¡Partido agregado correctamente! ⚽");
-    } catch (err) {
-      toast.error(`Error: ${err.message}`);
-    } finally {
-      setActionLoading(false);
-    }
+  const handleAddMatch = async (match) => {
+    await addMatch(
+      match,
+      (data) => {
+        updateMatches(data);
+        toast.success("¡Partido agregado correctamente! ⚽");
+      },
+      (error) => toast.error(`Error: ${error}`)
+    );
   };
 
-  const setMatchResult = async (matchId, homeScore, awayScore) => {
-    setActionLoading(true);
-    try {
-      console.log(`🎯 Finalizando partido ${matchId}: ${homeScore}-${awayScore}`);
-
-      // 1️⃣ Actualizar el resultado del partido
-      const { error: updateError } = await supabase
-        .from("matches")
-        .update({ 
-          result_home: homeScore, 
-          result_away: awayScore, 
-          status: "finished" 
-        })
-        .eq("id", matchId);
-
-      if (updateError) throw updateError;
-
-      // 2️⃣ Obtener el partido actualizado con todas sus predicciones
-      const { data: match, error: matchError } = await supabase
-        .from("matches")
-        .select("*, predictions(*)")
-        .eq("id", matchId)
-        .single();
-
-      if (matchError) throw matchError;
-
-      console.log(`📊 Partido encontrado con ${match.predictions.length} predicciones`);
-
-      // 3️⃣ Calcular puntos para cada predicción
-      const resultDiff = Math.sign(homeScore - awayScore);
-      let exactPredictions = 0;
-      let correctResults = 0;
-
-      for (const prediction of match.predictions) {
-        const predDiff = Math.sign(prediction.home_score - prediction.away_score);
-        let pointsEarned = 0;
-
-        if (prediction.home_score === homeScore && prediction.away_score === awayScore) {
-          pointsEarned = 5;
-          exactPredictions++;
-          console.log(`✅ Usuario ${prediction.user_id}: Resultado exacto (+5 pts)`);
-        } else if (resultDiff === predDiff) {
-          pointsEarned = 3;
-          correctResults++;
-          console.log(`✅ Usuario ${prediction.user_id}: Acertó resultado (+3 pts)`);
+  const handleSetMatchResult = async (matchId, homeScore, awayScore) => {
+    await finishMatch(
+      matchId,
+      homeScore,
+      awayScore,
+      (result) => {
+        updateUsers(result.users);
+        updateMatches(result.matches);
+        
+        const { exactPredictions, correctResults } = result.stats;
+        if (exactPredictions > 0 || correctResults > 0) {
+          toast.success(`¡Partido finalizado! ${exactPredictions} exactas, ${correctResults} acertadas 🎉`);
         } else {
-          console.log(`❌ Usuario ${prediction.user_id}: No acertó (0 pts)`);
+          toast.info("Partido finalizado. No hubo predicciones correctas.");
         }
-
-        const { data: userData, error: userError } = await supabase
-          .from("users")
-          .select("points, predictions, correct")
-          .eq("id", prediction.user_id)
-          .single();
-
-        if (userError) {
-          console.error(`Error al obtener usuario ${prediction.user_id}:`, userError);
-          continue;
-        }
-
-        const newPoints = (userData.points || 0) + pointsEarned;
-        const newPredictions = (userData.predictions || 0) + 1;
-        const newCorrect = (userData.correct || 0) + (pointsEarned > 0 ? 1 : 0);
-
-        const { error: updateUserError } = await supabase
-          .from("users")
-          .update({
-            points: newPoints,
-            predictions: newPredictions,
-            correct: newCorrect
-          })
-          .eq("id", prediction.user_id);
-
-        if (updateUserError) {
-          console.error(`Error al actualizar usuario ${prediction.user_id}:`, updateUserError);
-        }
-      }
-
-      // 4️⃣ Recargar datos
-      const { data: updatedUsers } = await supabase
-        .from("users")
-        .select("*")
-        .order("points", { ascending: false });
-
-      const { data: updatedMatches } = await supabase
-        .from("matches")
-        .select("*, predictions(*)");
-
-      setUsers(updatedUsers || []);
-      setMatches(updatedMatches || []);
-
-      const updatedCurrentUser = updatedUsers?.find(u => u.id === currentUser.id);
-      if (updatedCurrentUser) {
-        setCurrentUser(updatedCurrentUser);
-      }
-
-      console.log("✅ Partido finalizado");
-
-      if (exactPredictions > 0 || correctResults > 0) {
-        toast.success(`¡Partido finalizado! ${exactPredictions} exactas, ${correctResults} acertadas 🎉`);
-      } else {
-        toast.info("Partido finalizado. No hubo predicciones correctas.");
-      }
-
-    } catch (err) {
-      console.error("Error al finalizar partido:", err);
-      toast.error(`Error: ${err.message}`);
-    } finally {
-      setActionLoading(false);
-    }
+      },
+      (error) => toast.error(`Error: ${error}`)
+    );
   };
 
-  // --- FUNCIONES DE LIGAS ---
-  const makeLeaguePrediction = async (leagueId, champion, topScorer, topAssist, mvp) => {
-    if (!currentUser) return;
-
-    setActionLoading(true);
-    try {
-      const { error } = await supabase.from("league_predictions").upsert({
-        league_id: leagueId,
-        user_id: currentUser.id,
-        predicted_champion: champion,
-        predicted_top_scorer: topScorer,
-        predicted_top_assist: topAssist,
-        predicted_mvp: mvp,
-      }, {
-        onConflict: 'league_id,user_id'
-      });
-
-      if (error) throw error;
-
-      const { data: leagueList } = await supabase
-        .from("leagues")
-        .select("*, league_predictions(*)");
-      setLeagues(leagueList);
-
-      toast.success("¡Predicción de liga guardada exitosamente! 🏆");
-    } catch (err) {
-      console.error("Error al guardar predicción de liga:", err);
-      toast.error(`Error al guardar: ${err.message}`);
-    } finally {
-      setActionLoading(false);
-    }
+  // ========== HANDLERS - LEAGUES ==========
+  const handleMakeLeaguePrediction = async (leagueId, champion, topScorer, topAssist, mvp) => {
+    await makeLeaguePrediction(
+      leagueId,
+      champion,
+      topScorer,
+      topAssist,
+      mvp,
+      (leagueList) => {
+        updateLeagues(leagueList);
+        toast.success("¡Predicción de liga guardada exitosamente! 🏆");
+      },
+      (error) => toast.error(`Error: ${error}`)
+    );
   };
 
-  const addLeague = async (league) => {
-    setActionLoading(true);
-    try {
-      const { error } = await supabase.from("leagues").insert(league);
-      if (error) throw error;
-
-      const { data } = await supabase.from("leagues").select("*, league_predictions(*)");
-      setLeagues(data);
-      toast.success("¡Liga agregada correctamente! 🏆");
-    } catch (err) {
-      toast.error(`Error: ${err.message}`);
-    } finally {
-      setActionLoading(false);
-    }
+  const handleAddLeague = async (league) => {
+    await addLeague(
+      league,
+      (data) => {
+        updateLeagues(data);
+        toast.success("¡Liga agregada correctamente! 🏆");
+      },
+      (error) => toast.error(`Error: ${error}`)
+    );
   };
 
-  const finishLeague = async (leagueId, results) => {
-    setActionLoading(true);
-    try {
-      console.log(`🏆 Finalizando liga ${leagueId}`);
-
-      // 1️⃣ Actualizar la liga con los resultados
-      const { error: updateError } = await supabase
-        .from("leagues")
-        .update({ 
-          status: "finished",
-          champion: results.champion,
-          top_scorer: results.top_scorer,
-          top_scorer_goals: results.top_scorer_goals,
-          top_assist: results.top_assist,
-          top_assist_count: results.top_assist_count,
-          mvp_player: results.mvp_player
-        })
-        .eq("id", leagueId);
-
-      if (updateError) throw updateError;
-
-      // 2️⃣ Obtener la liga con todas sus predicciones
-      const { data: league, error: leagueError } = await supabase
-        .from("leagues")
-        .select("*, league_predictions(*)")
-        .eq("id", leagueId)
-        .single();
-
-      if (leagueError) throw leagueError;
-
-      console.log(`📊 Liga encontrada con ${league.league_predictions.length} predicciones`);
-
-      // 3️⃣ Calcular puntos para cada predicción (5 puntos por cada predicción correcta)
-      for (const prediction of league.league_predictions) {
-        let pointsEarned = 0;
-
-        // Verificar cada predicción
-        if (prediction.predicted_champion?.toLowerCase() === results.champion.toLowerCase()) {
-          pointsEarned += 5;
-        }
-        if (prediction.predicted_top_scorer?.toLowerCase() === results.top_scorer.toLowerCase()) {
-          pointsEarned += 5;
-        }
-        if (prediction.predicted_top_assist?.toLowerCase() === results.top_assist.toLowerCase()) {
-          pointsEarned += 5;
-        }
-        if (prediction.predicted_mvp?.toLowerCase() === results.mvp_player.toLowerCase()) {
-          pointsEarned += 5;
-        }
-
-        console.log(`Usuario ${prediction.user_id}: ${pointsEarned} puntos`);
-
-        // Actualizar points_earned en la predicción de liga
-        const { error: updatePredError } = await supabase
-          .from("league_predictions")
-          .update({ points_earned: pointsEarned })
-          .eq("id", prediction.id);
-
-        if (updatePredError) {
-          console.error(`Error al actualizar predicción:`, updatePredError);
-        }
-
-        // Actualizar puntos del usuario
-        const { data: userData, error: userError } = await supabase
-          .from("users")
-          .select("points")
-          .eq("id", prediction.user_id)
-          .single();
-
-        if (userError) {
-          console.error(`Error al obtener usuario ${prediction.user_id}:`, userError);
-          continue;
-        }
-
-        const newPoints = (userData.points || 0) + pointsEarned;
-
-        const { error: updateUserError } = await supabase
-          .from("users")
-          .update({ points: newPoints })
-          .eq("id", prediction.user_id);
-
-        if (updateUserError) {
-          console.error(`Error al actualizar usuario:`, updateUserError);
-        }
-      }
-
-      // 4️⃣ Recargar datos
-      const { data: updatedUsers } = await supabase
-        .from("users")
-        .select("*")
-        .order("points", { ascending: false });
-
-      const { data: updatedLeagues } = await supabase
-        .from("leagues")
-        .select("*, league_predictions(*)");
-
-      setUsers(updatedUsers || []);
-      setLeagues(updatedLeagues || []);
-
-      const updatedCurrentUser = updatedUsers?.find(u => u.id === currentUser.id);
-      if (updatedCurrentUser) {
-        setCurrentUser(updatedCurrentUser);
-      }
-
-      toast.success("¡Liga finalizada! Puntos distribuidos 🏆");
-      setShowFinishLeagueModal(false);
-      setLeagueToFinish(null);
-
-    } catch (err) {
-      console.error("Error al finalizar liga:", err);
-      toast.error(`Error: ${err.message}`);
-    } finally {
-      setActionLoading(false);
-    }
+  const handleFinishLeague = async (leagueId, results) => {
+    await finishLeagueHook(
+      leagueId,
+      results,
+      (result) => {
+        updateUsers(result.users);
+        updateLeagues(result.leagues);
+        toast.success("¡Liga finalizada! Puntos distribuidos 🏆");
+        setShowFinishLeagueModal(false);
+        setLeagueToFinish(null);
+      },
+      (error) => toast.error(`Error: ${error}`)
+    );
   };
 
-  // --- FUNCIONES DE PREMIOS ---
-  const makeAwardPrediction = async (awardId, predictedWinner) => {
-    if (!currentUser) return;
-
-    setActionLoading(true);
-    try {
-      const { error } = await supabase.from("award_predictions").upsert({
-        award_id: awardId,
-        user_id: currentUser.id,
-        predicted_winner: predictedWinner,
-      }, {
-        onConflict: 'award_id,user_id'
-      });
-
-      if (error) throw error;
-
-      const { data: awardList } = await supabase
-        .from("awards")
-        .select("*, award_predictions(*)");
-      setAwards(awardList);
-
-      toast.success("¡Predicción guardada exitosamente! 🏆");
-    } catch (err) {
-      console.error("Error al guardar predicción de premio:", err);
-      toast.error(`Error al guardar: ${err.message}`);
-    } finally {
-      setActionLoading(false);
-    }
+  // ========== HANDLERS - AWARDS ==========
+  const handleMakeAwardPrediction = async (awardId, predictedWinner) => {
+    await makeAwardPrediction(
+      awardId,
+      predictedWinner,
+      (awardList) => {
+        updateAwards(awardList);
+        toast.success("¡Predicción guardada exitosamente! 🏆");
+      },
+      (error) => toast.error(`Error: ${error}`)
+    );
   };
 
-  const addAward = async (award) => {
-    setActionLoading(true);
-    try {
-      const { error } = await supabase.from("awards").insert(award);
-      if (error) throw error;
-
-      const { data } = await supabase.from("awards").select("*, award_predictions(*)");
-      setAwards(data);
-      toast.success("¡Premio agregado correctamente! 🥇");
-    } catch (err) {
-      toast.error(`Error: ${err.message}`);
-    } finally {
-      setActionLoading(false);
-    }
+  const handleAddAward = async (award) => {
+    await addAward(
+      award,
+      (data) => {
+        updateAwards(data);
+        toast.success("¡Premio agregado correctamente! 🥇");
+      },
+      (error) => toast.error(`Error: ${error}`)
+    );
   };
 
-  const finishAward = async (awardId, winner) => {
-    setActionLoading(true);
-    try {
-      console.log(`🏅 Finalizando premio ${awardId} - ganador: ${winner}`);
-
-      // 1️⃣ Actualizar el premio con el ganador y estado
-      const { error: updateError } = await supabase
-        .from("awards")
-        .update({ status: "finished", winner })
-        .eq("id", awardId);
-
-      if (updateError) throw updateError;
-
-      // 2️⃣ Obtener el premio con todas sus predicciones
-      const { data: award, error: awardError } = await supabase
-        .from("awards")
-        .select("*, award_predictions(*)")
-        .eq("id", awardId)
-        .single();
-
-      if (awardError) throw awardError;
-
-      // 3️⃣ Repartir puntos (10 puntos por acierto)
-      for (const prediction of award.award_predictions) {
-        let pointsEarned = 0;
-
-        if (prediction.predicted_winner?.toLowerCase() === winner.toLowerCase()) {
-          pointsEarned = 10;
-        }
-
-        // Actualizar points_earned en la predicción
-        const { error: updatePredError } = await supabase
-          .from("award_predictions")
-          .update({ points_earned: pointsEarned })
-          .eq("id", prediction.id);
-
-        if (updatePredError) {
-          console.error("Error al actualizar predicción:", updatePredError);
-        }
-
-        // Actualizar puntos y contadores del usuario
-        const { data: userData, error: userError } = await supabase
-          .from("users")
-          .select("points, predictions, correct")
-          .eq("id", prediction.user_id)
-          .single();
-
-        if (userError) {
-          console.error(`Error al obtener usuario ${prediction.user_id}:`, userError);
-          continue;
-        }
-
-        const newPoints = (userData.points || 0) + pointsEarned;
-        const newPredictions = (userData.predictions || 0) + 1;
-        const newCorrect = (userData.correct || 0) + (pointsEarned > 0 ? 1 : 0);
-
-        const { error: updateUserError } = await supabase
-          .from("users")
-          .update({
-            points: newPoints,
-            predictions: newPredictions,
-            correct: newCorrect
-          })
-          .eq("id", prediction.user_id);
-
-        if (updateUserError) {
-          console.error(`Error al actualizar usuario ${prediction.user_id}:`, updateUserError);
-        }
-      }
-
-      // 4️⃣ Recargar datos
-      const { data: updatedUsers } = await supabase
-        .from("users")
-        .select("*")
-        .order("points", { ascending: false });
-
-      const { data: updatedAwards } = await supabase
-        .from("awards")
-        .select("*, award_predictions(*)");
-
-      setUsers(updatedUsers || []);
-      setAwards(updatedAwards || []);
-
-      const updatedCurrentUser = updatedUsers?.find(u => u.id === currentUser.id);
-      if (updatedCurrentUser) {
-        setCurrentUser(updatedCurrentUser);
-      }
-
-      toast.success("¡Premio finalizado! Puntos distribuidos 🥇");
-      setShowFinishAwardModal(false);
-      setAwardToFinish(null);
-    } catch (err) {
-      console.error("Error al finalizar premio:", err);
-      toast.error(`Error: ${err.message}`);
-    } finally {
-      setActionLoading(false);
-    }
+  const handleFinishAward = async (awardId, winner) => {
+    await finishAwardHook(
+      awardId,
+      winner,
+      (result) => {
+        updateUsers(result.users);
+        updateAwards(result.awards);
+        toast.success("¡Premio finalizado! Puntos distribuidos 🥇");
+        setShowFinishAwardModal(false);
+        setAwardToFinish(null);
+      },
+      (error) => toast.error(`Error: ${error}`)
+    );
   };
 
-  // --- RENDER ---
+  // ========== HANDLERS - ADMIN ==========
+  const handleQuickFinishMatch = (matchId) => {
+    const h = prompt("Goles equipo local:");
+    if (h === null) return;
+    const a = prompt("Goles equipo visitante:");
+    if (a === null) return;
+    const homeScore = parseInt(h);
+    const awayScore = parseInt(a);
+    if (isNaN(homeScore) || isNaN(awayScore)) {
+      toast.warning("Por favor ingresa números válidos");
+      return;
+    }
+    handleSetMatchResult(matchId, homeScore, awayScore);
+  };
+
+  const handlePromptFinishMatch = () => {
+    const id = prompt("ID del partido a finalizar:");
+    if (!id) return;
+    const match = matches.find(m => m.id === id);
+    if (!match) {
+      toast.warning("Partido no encontrado");
+      return;
+    }
+    handleQuickFinishMatch(id);
+  };
+
+  // ========== RENDER ==========
   if (loading) {
     return <PageLoader />;
+  }
+
+  if (error) {
+    return (
+      <div className="centered">
+        <div>Error: {error}</div>
+      </div>
+    );
   }
 
   if (!currentUser) {
@@ -626,24 +265,13 @@ export default function VegaScorePage() {
     );
   }
 
-  // Mostrar perfil si está activo
+  // Mostrar perfil
   if (showProfile) {
     return (
       <>
         <ProfilePage 
           currentUser={currentUser} 
-          onBack={() => {
-            setShowProfile(false);
-            const loadData = async () => {
-              const { data: updatedUser } = await supabase
-                .from("users")
-                .select("*")
-                .eq("id", currentUser.id)
-                .single();
-              if (updatedUser) setCurrentUser(updatedUser);
-            };
-            loadData();
-          }}
+          onBack={() => setShowProfile(false)}
         />
         <ToastContainer toasts={toast.toasts} removeToast={toast.removeToast} />
       </>
@@ -654,6 +282,7 @@ export default function VegaScorePage() {
   const pendingMatches = matches.filter((m) => m.status === "pending");
   const activeLeagues = leagues.filter((l) => l.status === "active");
   const activeAwards = awards.filter((a) => a.status === "active");
+  const isLoading = matchesLoading || leaguesLoading || awardsLoading;
 
   return (
     <>
@@ -703,14 +332,12 @@ export default function VegaScorePage() {
           {/* --- Main Grid --- */}
           <section className="main-grid">
             <div className="left-col">
-              {/* Tabs de navegación */}
               <NavigationTabs 
                 activeTab={activeTab} 
                 onTabChange={setActiveTab} 
               />
 
-              {/* Contenido según tab activo */}
-              {activeTab === 'matches' ? (
+              {activeTab === 'matches' && (
                 <div className="matches-section-premium">
                   <div className="matches-header-premium">
                     <div className="matches-title-section">
@@ -743,13 +370,15 @@ export default function VegaScorePage() {
                           userPred={m.predictions?.find(
                             (p) => p.user_id === currentUser?.id
                           )}
-                          onPredict={makePrediction}
+                          onPredict={handleMakePrediction}
                         />
                       ))
                     )}
                   </div>
                 </div>
-              ) : activeTab === 'leagues' ? (
+              )}
+
+              {activeTab === 'leagues' && (
                 <div className="matches-section-premium">
                   <div className="matches-header-premium">
                     <div className="matches-title-section">
@@ -782,15 +411,15 @@ export default function VegaScorePage() {
                           userPrediction={league.league_predictions?.find(
                             (p) => p.user_id === currentUser?.id
                           )}
-                          onPredict={makeLeaguePrediction}
+                          onPredict={handleMakeLeaguePrediction}
                         />
                       ))
                     )}
                   </div>
                 </div>
-              ) : (
-                
-                // AWARDS TAB
+              )}
+
+              {activeTab === 'awards' && (
                 <div className="matches-section-premium">
                   <div className="matches-header-premium">
                     <div className="matches-title-section">
@@ -823,7 +452,7 @@ export default function VegaScorePage() {
                           userPrediction={award.award_predictions?.find(
                             (p) => p.user_id === currentUser?.id
                           )}
-                          onPredict={makeAwardPrediction}
+                          onPredict={handleMakeAwardPrediction}
                         />
                       ))
                     )}
@@ -833,8 +462,6 @@ export default function VegaScorePage() {
             </div>
 
             <aside className={`right-col ${!currentUser?.is_admin ? 'single-column' : ''}`}>
-              
-              {/* Tabs secundarias - Solo para admins */}
               {currentUser?.is_admin && (
                 <NavigationTabsTwo 
                   activeTab={rightTab} 
@@ -843,12 +470,10 @@ export default function VegaScorePage() {
                 />
               )}
 
-              {/* RANKING - Mostrar cuando rightTab === 'ranking' */}
               {(rightTab === 'ranking' || !currentUser?.is_admin) && (
                 <RankingSidebar users={sortedUsers} />
               )}
 
-              {/* ADMIN PANEL - Solo mostrar cuando rightTab === 'admin' Y es admin */}
               {rightTab === 'admin' && currentUser?.is_admin && (
                 <div className="admin-panel-premium">
                   <div className="admin-header">
@@ -862,7 +487,6 @@ export default function VegaScorePage() {
                       </div>
                     </div>
                     <div className="admin-badge-active">
-                      <Zap size={14} />
                       <span>Activo</span>
                     </div>
                   </div>
@@ -870,12 +494,12 @@ export default function VegaScorePage() {
                   <div className="admin-stats-grid">
                     <div className="admin-stat-item">
                       <div className="admin-stat-icon pending">
-                        <Settings size={16} />
+                        <CheckCircle size={16} />
                       </div>
                       <div className="admin-stat-info">
                         <span className="admin-stat-label">Partidos</span>
                         <span className="admin-stat-value">
-                          {matches.filter(m => m.status === 'pending').length}
+                          {pendingMatches.length}
                         </span>
                       </div>
                     </div>
@@ -887,7 +511,7 @@ export default function VegaScorePage() {
                       <div className="admin-stat-info">
                         <span className="admin-stat-label">Ligas</span>
                         <span className="admin-stat-value">
-                          {leagues.filter(l => l.status === 'active').length}
+                          {activeLeagues.length}
                         </span>
                       </div>
                     </div>
@@ -899,7 +523,7 @@ export default function VegaScorePage() {
                       <div className="admin-stat-info">
                         <span className="admin-stat-label">Premios</span>
                         <span className="admin-stat-value">
-                          {awards.filter(a => a.status === 'active').length}
+                          {activeAwards.length}
                         </span>
                       </div>
                     </div>
@@ -935,21 +559,7 @@ export default function VegaScorePage() {
 
                     <button
                       className="admin-btn secondary"
-                      onClick={() => {
-                        const id = prompt("ID del partido a finalizar:");
-                        if (!id) return;
-                        const h = prompt("Goles equipo local:");
-                        if (h === null) return;
-                        const a = prompt("Goles equipo visitante:");
-                        if (a === null) return;
-                        const homeScore = parseInt(h);
-                        const awayScore = parseInt(a);
-                        if (isNaN(homeScore) || isNaN(awayScore)) {
-                          toast.warning("Por favor ingresa números válidos");
-                          return;
-                        }
-                        setMatchResult(id, homeScore, awayScore);
-                      }}
+                      onClick={handlePromptFinishMatch}
                     >
                       <CheckCircle size={18} />
                       <span>Finalizar Partido</span>
@@ -970,13 +580,7 @@ export default function VegaScorePage() {
                         </div>
                         <button
                           className="admin-quick-btn"
-                          onClick={() => {
-                            const h = prompt("Goles equipo local:");
-                            if (h === null) return;
-                            const a = prompt("Goles equipo visitante:");
-                            if (a === null) return;
-                            setMatchResult(match.id, parseInt(h), parseInt(a));
-                          }}
+                          onClick={() => handleQuickFinishMatch(match.id)}
                         >
                           <CheckCircle size={16} />
                         </button>
@@ -989,7 +593,7 @@ export default function VegaScorePage() {
                       </div>
                     )}
                   </div>
-                  
+
                   <div className="admin-quick-matches">
                     <div className="admin-section-title">
                       <span>Ligas Activas</span>
@@ -1014,7 +618,7 @@ export default function VegaScorePage() {
                       </div>
                     ))}
 
-                    {leagues.filter(l => l.status === 'active').length === 0 && (
+                    {activeLeagues.length === 0 && (
                       <div className="admin-empty-state">
                         <span>No hay ligas activas</span>
                       </div>
@@ -1045,7 +649,7 @@ export default function VegaScorePage() {
                       </div>
                     ))}
 
-                    {awards.filter(a => a.status === 'active').length === 0 && (
+                    {activeAwards.length === 0 && (
                       <div className="admin-empty-state">
                         <span>No hay premios activos</span>
                       </div>
@@ -1053,25 +657,25 @@ export default function VegaScorePage() {
                   </div>
                 </div>
               )}
-
             </aside>
           </section>
         </main>
 
+        {/* Modales */}
         {showAdminModal && (
-          <AdminModal onAdd={addMatch} onClose={() => setShowAdminModal(false)} />
+          <AdminModal onAdd={handleAddMatch} onClose={() => setShowAdminModal(false)} />
         )}
 
         {showAdminLeagueModal && (
           <AdminLeagueModal 
-            onAdd={addLeague} 
+            onAdd={handleAddLeague} 
             onClose={() => setShowAdminLeagueModal(false)} 
           />
         )}
 
         {showAdminAwardModal && (
           <AdminAwardModal 
-            onAdd={addAward}
+            onAdd={handleAddAward}
             onClose={() => setShowAdminAwardModal(false)}
           />
         )}
@@ -1079,7 +683,7 @@ export default function VegaScorePage() {
         {showFinishLeagueModal && leagueToFinish && (
           <FinishLeagueModal 
             league={leagueToFinish}
-            onFinish={finishLeague}
+            onFinish={handleFinishLeague}
             onClose={() => {
               setShowFinishLeagueModal(false);
               setLeagueToFinish(null);
@@ -1090,7 +694,7 @@ export default function VegaScorePage() {
         {showFinishAwardModal && awardToFinish && (
           <FinishAwardModal
             award={awardToFinish}
-            onFinish={finishAward}
+            onFinish={handleFinishAward}
             onClose={() => {
               setShowFinishAwardModal(false);
               setAwardToFinish(null);
@@ -1098,7 +702,7 @@ export default function VegaScorePage() {
           />
         )}
 
-        {actionLoading && <LoadingOverlay message="Procesando..." />}
+        {isLoading && <LoadingOverlay message="Procesando..." />}
       </div>
 
       <ToastContainer toasts={toast.toasts} removeToast={toast.removeToast} />
