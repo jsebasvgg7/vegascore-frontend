@@ -1,4 +1,3 @@
-
 import { useEffect, useState, useCallback } from "react";
 import { supabase } from "../utils/supabaseClient";
 import { useAuth } from "../context/AuthContext";
@@ -9,24 +8,22 @@ export function useDashboardData() {
   const [matches, setMatches] = useState([]);
   const [leagues, setLeagues] = useState([]);
   const [awards, setAwards] = useState([]);
-  const [users, setUsers] = useState([]); // Aunque los users se usan más en Ranking, los cargamos aquí
+  const [users, setUsers] = useState([]); 
 
   const [loading, setLoading] = useState(true);
 
-  // Función de mapeo para inyectar la predicción del usuario en el objeto principal
+  // Mapea la predicción del usuario logueado en la propiedad 'prediction' del objeto principal
   const mapPredictions = (data, predictionKey, userId) => {
     return data.map(item => {
-      // Intenta encontrar la predicción que pertenece al usuario actual (userId)
+      // item[predictionKey] contiene el array de predicciones de ese partido/liga/premio
       const userPrediction = item[predictionKey].find(
-        // NOTA: Asumimos que la columna en las tablas de predicción es 'user_id'
-        (pred) => pred.user_id === userId
+        (pred) => pred.user_id === userId // Asumimos 'user_id' es la columna de vínculo
       );
 
       return {
         ...item,
-        // Inyectamos la predicción como una propiedad 'prediction' si existe
         prediction: userPrediction || null,
-        // Opcional: limpiar la lista original de predicciones para no duplicar datos
+        // Eliminamos el array completo de predicciones para evitar datos redundantes
         [predictionKey]: undefined, 
       };
     });
@@ -42,15 +39,14 @@ export function useDashboardData() {
     setLoading(true);
 
     try {
-      // 1. Cargar datos base (Partidos, Ligas, Premios)
       
       // ---- A. PARTIDOS ----
-      // Hacemos un LEFT JOIN para traer TODAS las predicciones y luego filtramos en mapPredictions
+      // Eliminamos el !left para que Supabase infiera la relación directamente por el nombre de la tabla.
       const { data: matchesData, error: matchesError } = await supabase
         .from('matches')
         .select(`
           *,
-          match_predictions!left(
+          match_predictions( 
             id, user_id, home_score_pred, away_score_pred, status, points
           )
         `)
@@ -66,7 +62,7 @@ export function useDashboardData() {
         .from('leagues')
         .select(`
           *,
-          league_predictions!left(
+          league_predictions( 
             id, user_id, champion_pred, topscorer_pred, topassist_pred, mvp_pred, status, points
           )
         `)
@@ -82,7 +78,7 @@ export function useDashboardData() {
         .from('awards')
         .select(`
           *,
-          award_predictions!left(
+          award_predictions( 
             id, user_id, winner_pred, status, points
           )
         `)
@@ -93,7 +89,7 @@ export function useDashboardData() {
       setAwards(processedAwards);
       
       
-      // ---- D. USUARIOS (Para Ranking/Perfil) ----
+      // ---- D. USUARIOS ----
       const { data: usersData, error: usersError } = await supabase
         .from('users')
         .select('*')
@@ -104,22 +100,21 @@ export function useDashboardData() {
 
 
     } catch (error) {
+      // Aquí verás el error de la DB
       console.error("Error al cargar los datos del Dashboard y Predicciones:", error);
     } finally {
       setLoading(false);
     }
-  }, []); // Dependencia vacía para que no se recree a menos que la llamemos manualmente
+  }, []); 
 
   
-  // EFECTO PRINCIPAL: Cargar los datos cuando el currentUser.id esté disponible
+  // EFECTO PRINCIPAL
   useEffect(() => {
-    // Usamos currentUser.id porque este es el ID primario de la tabla 'users'
     if (currentUser?.id) { 
       fetchAllData(currentUser.id);
     }
   }, [currentUser?.id, fetchAllData]);
   
-  // Función para forzar la recarga de datos
   const refreshData = () => {
     if (currentUser?.id) {
         fetchAllData(currentUser.id);
