@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { Upload, Camera, X, Loader2 } from 'lucide-react';
 import { supabase } from '../utils/supabaseClient';
-import '../styles/profilePage.css';
+import '../styles/ProfilePage.css';
 
 export default function AvatarUpload({ currentUrl, userId, onUploadComplete }) {
   const [uploading, setUploading] = useState(false);
