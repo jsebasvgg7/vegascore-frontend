@@ -1385,6 +1385,5 @@ const handleDeleteTitle = async (titleId) => {
         />
       )}
     </div>
-  );
 </div>
 )}

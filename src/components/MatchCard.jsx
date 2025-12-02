@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Calendar, Clock, TrendingUp, Zap, CheckCircle2 } from "lucide-react";
+import { Calendar, Clock, Zap, CheckCircle2 } from "lucide-react";
 import "../styles/MatchCard.css";
 
 export default function MatchCard({ match, userPred, onPredict }) {
@@ -23,96 +23,97 @@ export default function MatchCard({ match, userPred, onPredict }) {
 
   return (
     <div 
-      className="match-card-premium"
+      className="match-card-modern"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      style={{
-        transform: isHovered ? 'translateY(-4px)' : 'translateY(0)',
-        transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
-      }}
     >
-      {/* Header con gradiente */}
-      <div className="match-header-premium">
-        <div className="league-badge">
-          <Zap size={14} />
-          <span>{match.league}</span>
+      {/* Header Compacto */}
+      <div className="match-header-modern">
+        <div className="match-league-info">
+          <Zap size={14} className="league-icon" />
+          <span className="league-name">{match.league}</span>
         </div>
-        
-        <div className="match-datetime">
-          <div className="datetime-item">
-            <Calendar size={13} />
-            <span>{match.date}</span>
-          </div>
-          <div className="datetime-item">
-            <Clock size={13} />
-            <span>{match.time}</span>
-          </div>
+        <div className="match-datetime-info">
+          <span className="match-date">
+            <Calendar size={12} />
+            {match.date}
+          </span>
+          <span className="match-time">
+            <Clock size={12} />
+            {match.time}
+          </span>
         </div>
       </div>
 
-      {/* Equipos con animación */}
-      <div className="teams-premium">
-        <div className="team-premium home">
-          <div className="team-logo-container">
-            <div className="team-logo-bg"></div>
-            <span className="team-logo-premium">{match.home_team_logo}</span>
-          </div>
-          <div className="team-info">
-            <span className="team-name-premium">{match.home_team}</span>
-            <span className="team-label">Local</span>
-          </div>
-        </div>
-
-        {/* Score inputs con diseño moderno */}
-        <div className="score-section">
-          <div className="score-inputs-premium">
-            <input
-              type="number"
-              min="0"
-              max="20"
-              className="score-input-premium"
-              value={homeScore}
-              onChange={(e) => setHomeScore(e.target.value)}
-              placeholder="?"
-            />
-            <div className="vs-premium">VS</div>
-            <input
-              type="number"
-              min="0"
-              max="20"
-              className="score-input-premium"
-              value={awayScore}
-              onChange={(e) => setAwayScore(e.target.value)}
-              placeholder="?"
-            />
-          </div>
-          
-          {hasPrediction && (
-            <div className="prediction-badge">
-              <CheckCircle2 size={14} />
-              <span>Predicción guardada</span>
+      {/* Equipos en Layout Horizontal */}
+      <div className="match-teams-container">
+        {/* Equipo Local */}
+        <div className="team-box team-home">
+          <div className="team-color-indicator home-color"></div>
+          <div className="team-content">
+            <span className="team-logo">{match.home_team_logo}</span>
+            <div className="team-details">
+              <span className="team-name">{match.home_team}</span>
+              <span className="team-label">Local</span>
             </div>
-          )}
+          </div>
         </div>
 
-        <div className="team-premium away">
-          <div className="team-info">
-            <span className="team-name-premium">{match.away_team}</span>
-            <span className="team-label">Visitante</span>
+        {/* Marcador Central */}
+        <div className="score-center">
+          <input
+            type="number"
+            min="0"
+            max="20"
+            className="score-input"
+            value={homeScore}
+            onChange={(e) => setHomeScore(e.target.value)}
+            placeholder="?"
+            disabled={isDisabled}
+          />
+          <span className="vs-text">:</span>
+          <input
+            type="number"
+            min="0"
+            max="20"
+            className="score-input"
+            value={awayScore}
+            onChange={(e) => setAwayScore(e.target.value)}
+            placeholder="?"
+            disabled={isDisabled}
+          />
+        </div>
+
+        {/* Equipo Visitante */}
+        <div className="team-box team-away">
+          <div className="team-content">
+            <div className="team-details">
+              <span className="team-name">{match.away_team}</span>
+              <span className="team-label">Visitante</span>
+            </div>
+            <span className="team-logo">{match.away_team_logo}</span>
           </div>
-          <div className="team-logo-container">
-            <div className="team-logo-bg"></div>
-            <span className="team-logo-premium">{match.away_team_logo}</span>
-          </div>
+          <div className="team-color-indicator away-color"></div>
         </div>
       </div>
 
-      {/* Botón con gradiente y efecto */}
-      <button className="predict-btn-premium" onClick={handleSubmit}>
-        <TrendingUp size={18} />
-        <span>{hasPrediction ? "Actualizar Predicción" : "Guardar Predicción"}</span>
-        <div className="btn-glow"></div>
-      </button>
+      {/* Footer con Estado */}
+      <div className="match-footer-modern">
+        {hasPrediction && !isDisabled ? (
+          <div className="prediction-status saved">
+            <CheckCircle2 size={14} />
+            <span>Predicción guardada</span>
+          </div>
+        ) : (
+          <button 
+            className="predict-button-modern" 
+            onClick={handleSubmit}
+            disabled={isDisabled}
+          >
+            <span>{hasPrediction ? "Actualizar" : "Guardar"}</span>
+          </button>
+        )}
+      </div>
     </div>
   );
 }
