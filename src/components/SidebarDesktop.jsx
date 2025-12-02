@@ -27,7 +27,7 @@ export default function SidebarDesktop({ onToggleSidebar }) {
           <Trophy /> {open && "Ranking"}
         </Link>
 
-        <Link to="/app/historial" className={pathname.includes("historial") ? "active" : ""}>
+        <Link to="/app/historical" className={pathname.includes("historical") ? "active" : ""}>
           <History /> {open && "Historial"}
         </Link>
 
