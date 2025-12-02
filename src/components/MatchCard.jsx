@@ -63,12 +63,7 @@ export default function MatchCard({ match, userPred, onPredict }) {
             disabled={isDisabled}
           />
         </div>
-
-        {/* VS Divisor */}
-        <div className="vs-divider">
-          <span className="vs-text">VS</span>
-        </div>
-
+        
         {/* Equipo Visitante */}
         <div className="team-box team-away">
           <input
