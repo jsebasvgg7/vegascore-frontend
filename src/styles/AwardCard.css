@@ -1,17 +1,18 @@
 /* ===========================================
-   AWARD CARD - Purple Theme
+   AWARD CARD - Ultra Modern & Compact
 =========================================== */
 
 .award-card-premium {
-  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
-  border-radius: 24px;
-  padding: 0;
-  border: 1px solid rgba(96, 81, 155, 0.1);
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 215, 0, 0.08);
   box-shadow: 
-    0 4px 20px rgba(96, 81, 155, 0.12),
-    0 0 0 1px rgba(255, 255, 255, 0.5) inset;
+    0 2px 16px rgba(255, 215, 0, 0.1),
+    0 0 0 1px rgba(255, 255, 255, 0.8) inset;
   overflow: hidden;
   position: relative;
+  will-change: transform;
 }
 
 .award-card-premium::before {
@@ -20,171 +21,184 @@
   top: 0;
   left: 0;
   right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, #ffd700, #ffed4e, #ffd700);
-  background-size: 200% 100%;
-  animation: award-shimmer 3s ease-in-out infinite;
+  height: 3px;
+  background: linear-gradient(90deg, #ffd700, #ffed4e, #ffc107);
+  opacity: 0;
+  transition: opacity 0.3s;
 }
 
-@keyframes award-shimmer {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
+.award-card-premium:hover::before {
+  opacity: 1;
 }
 
 .award-header-premium {
-  background: linear-gradient(135deg, #1e202c 0%, #31323e 100%);
-  padding: 20px 24px;
+  background: linear-gradient(135deg, #2a2d3a 0%, #3a3d4a 100%);
+  padding: 14px 18px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 12px;
 }
 
 .award-logo-section {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
+  min-width: 0;
+  flex: 1;
 }
 
 .award-logo-big {
-  font-size: 56px;
-  filter: drop-shadow(0 4px 12px rgba(255, 215, 0, 0.4));
-  animation: award-logo-float 3s ease-in-out infinite;
+  font-size: 48px;
+  flex-shrink: 0;
+  filter: drop-shadow(0 3px 10px rgba(255, 215, 0, 0.3));
+  transition: transform 0.3s;
 }
 
-@keyframes award-logo-float {
-  0%, 100% { transform: translateY(0) rotate(0deg); }
-  50% { transform: translateY(-8px) rotate(5deg); }
+.award-card-premium:hover .award-logo-big {
+  transform: scale(1.05) rotate(-5deg);
 }
 
 .award-info-header {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 3px;
+  min-width: 0;
 }
 
 .award-name-premium {
   margin: 0;
-  font-size: 22px;
+  font-size: 18px;
   font-weight: 700;
   color: white;
   background: linear-gradient(135deg, #ffd700, #ffed4e);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .award-season {
-  font-size: 13px;
-  color: #bfc0d1;
+  font-size: 12px;
+  color: #b0b3c7;
   font-weight: 600;
 }
 
 .award-deadline {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
   background: rgba(245, 158, 11, 0.2);
-  color: #f59e0b;
-  padding: 6px 12px;
-  border-radius: 20px;
-  font-size: 12px;
+  color: #fbbf24;
+  padding: 5px 10px;
+  border-radius: 16px;
+  font-size: 11px;
   font-weight: 600;
-  border: 1px solid rgba(245, 158, 11, 0.3);
+  border: 1px solid rgba(245, 158, 11, 0.25);
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .award-status.finished {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
   background: rgba(34, 197, 94, 0.2);
-  color: #22c55e;
-  padding: 6px 12px;
-  border-radius: 20px;
-  font-size: 12px;
+  color: #4ade80;
+  padding: 5px 10px;
+  border-radius: 16px;
+  font-size: 11px;
   font-weight: 600;
-  border: 1px solid rgba(34, 197, 94, 0.3);
+  border: 1px solid rgba(34, 197, 94, 0.25);
+  flex-shrink: 0;
 }
 
 .award-prediction-form {
-  padding: 28px 24px;
+  padding: 18px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 12px;
 }
 
 .prediction-field-award {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
 }
 
 .prediction-label-award {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-size: 13px;
+  gap: 6px;
+  font-size: 11px;
   font-weight: 700;
-  color: #666;
+  color: #6b6e7f;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.8px;
 }
 
 .prediction-input-award {
   width: 100%;
-  padding: 16px 18px;
-  border-radius: 14px;
-  border: 2px solid #e5e5e5;
-  background: linear-gradient(135deg, #fafafa 0%, #f5f5f5 100%);
-  font-size: 16px;
+  padding: 13px 15px;
+  border-radius: 11px;
+  border: 2px solid #e8e9f0;
+  background: #fafbfc;
+  font-size: 14px;
   font-weight: 600;
-  color: #111;
-  transition: all 0.2s;
+  color: #1a1d2e;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.prediction-input-award::placeholder {
+  color: #c5c7d4;
 }
 
 .prediction-input-award:focus {
   outline: none;
   border-color: #ffd700;
   background: white;
-  box-shadow: 0 0 0 4px rgba(255, 215, 0, 0.2);
-  transform: translateY(-2px);
+  box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.15);
+  transform: translateY(-1px);
 }
 
 .prediction-input-award:disabled {
   opacity: 0.6;
   cursor: not-allowed;
-  background: #f0f0f0;
+  background: #f0f1f5;
 }
 
 .actual-result-award {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 12px 16px;
-  background: #e8f5e9;
-  border-radius: 12px;
-  font-size: 14px;
-  color: #2e7d32;
+  gap: 6px;
+  padding: 8px 11px;
+  background: linear-gradient(135deg, #d4f4dd, #c8f0d8);
+  border-radius: 10px;
+  font-size: 12px;
+  color: #1e7a3d;
   font-weight: 600;
-  border: 1px solid #c8e6c9;
+  border: 1px solid rgba(34, 197, 94, 0.2);
+  animation: fadeInScale 0.3s ease;
 }
 
 .correct-badge-award {
-  color: #1b5e20;
+  color: #15803d;
   font-weight: 800;
-  margin-left: 8px;
 }
 
 .award-category-badge {
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 8px 14px;
-  background: rgba(96, 81, 155, 0.1);
-  border: 1px solid rgba(96, 81, 155, 0.2);
-  border-radius: 12px;
-  font-size: 12px;
+  gap: 5px;
+  padding: 6px 11px;
+  background: rgba(255, 215, 0, 0.1);
+  border: 1px solid rgba(255, 215, 0, 0.2);
+  border-radius: 10px;
+  font-size: 11px;
   font-weight: 600;
-  color: #60519b;
+  color: #d97706;
   align-self: flex-start;
 }
 
@@ -192,187 +206,271 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  padding: 14px 20px;
-  margin: 0 24px 24px;
-  background: #e8f5e9;
-  color: #2e7d32;
-  border-radius: 14px;
+  gap: 8px;
+  padding: 11px 16px;
+  margin: 0 18px 18px;
+  background: linear-gradient(135deg, #d4f4dd, #c8f0d8);
+  color: #1e7a3d;
+  border-radius: 11px;
   font-weight: 700;
-  font-size: 14px;
-  border: 2px solid #c8e6c9;
+  font-size: 13px;
+  border: 1px solid rgba(34, 197, 94, 0.2);
+  animation: fadeInScale 0.3s ease;
 }
 
 .points-earned-award {
-  background: #2e7d32;
+  background: #1e7a3d;
   color: white;
-  padding: 4px 10px;
-  border-radius: 12px;
-  font-size: 12px;
+  padding: 3px 9px;
+  border-radius: 10px;
+  font-size: 11px;
+  font-weight: 800;
 }
 
 .final-points-banner-award {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  padding: 16px 20px;
-  margin: 0 24px 24px;
-  background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
-  color: #1e202c;
-  border-radius: 14px;
+  gap: 8px;
+  padding: 13px 18px;
+  margin: 0 18px 18px;
+  background: linear-gradient(135deg, #ffd700 0%, #ffed4e 50%, #ffc107 100%);
+  color: #78350f;
+  border-radius: 11px;
   font-weight: 700;
-  font-size: 15px;
-  box-shadow: 0 4px 12px rgba(255, 215, 0, 0.4);
+  font-size: 14px;
+  box-shadow: 0 4px 14px rgba(255, 215, 0, 0.3);
 }
 
 .predict-award-btn {
-  margin: 0 24px 24px;
-  padding: 14px 24px;
+  margin: 0 18px 18px;
+  padding: 13px 20px;
   border: none;
-  border-radius: 14px;
-  background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
-  color: #1e202c;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #ffd700 0%, #ffed4e 50%, #ffc107 100%);
+  color: #78350f;
   font-weight: 700;
-  font-size: 15px;
+  font-size: 14px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: 8px;
   position: relative;
   overflow: hidden;
-  transition: all 0.3s;
-  box-shadow: 0 4px 12px rgba(255, 215, 0, 0.3);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 14px rgba(255, 215, 0, 0.25);
+}
+
+.predict-award-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+  transition: left 0.5s;
+}
+
+.predict-award-btn:hover::before {
+  left: 100%;
 }
 
 .predict-award-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(255, 215, 0, 0.5);
+  box-shadow: 0 6px 20px rgba(255, 215, 0, 0.4);
 }
 
 .predict-award-btn:active {
   transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(255, 215, 0, 0.3);
 }
 
 .btn-glow-award {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
-  transform: translateX(-100%);
-  transition: transform 0.6s;
+  display: none;
 }
 
-.predict-award-btn:hover .btn-glow-award {
-  transform: translateX(100%);
-}
+/* ===============================
+   RESPONSIVE - Mobile First
+=============================== */
 
-/* Responsive */
 @media (max-width: 768px) {
-  .award-card-premium {
-    border-radius: 20px;
-  }
-
-  .award-header-premium {
-    padding: 16px 18px;
-    flex-direction: column;
-    gap: 12px;
-    align-items: flex-start;
-  }
-
-  .award-logo-big {
-    font-size: 48px;
-  }
-
-  .award-name-premium {
-    font-size: 20px;
-  }
-
-  .award-season {
-    font-size: 12px;
-  }
-
-  .award-deadline,
-  .award-status.finished {
-    font-size: 11px;
-    padding: 5px 10px;
-  }
-
-  .award-prediction-form {
-    padding: 20px 18px;
-  }
-
-  .prediction-label-award {
-    font-size: 12px;
-  }
-
-  .prediction-input-award {
-    padding: 14px 16px;
-    font-size: 15px;
-  }
-
-  .prediction-saved-badge-award {
-    margin: 0 18px 20px;
-    padding: 12px 16px;
-    font-size: 13px;
-  }
-
-  .final-points-banner-award {
-    margin: 0 18px 20px;
-    padding: 14px 16px;
-    font-size: 14px;
-  }
-
-  .predict-award-btn {
-    margin: 0 18px 20px;
-    padding: 12px 20px;
-    font-size: 14px;
-  }
-}
-
-@media (max-width: 480px) {
   .award-card-premium {
     border-radius: 18px;
   }
 
   .award-header-premium {
-    padding: 14px 16px;
+    padding: 12px 14px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
   }
 
   .award-logo-big {
-    font-size: 40px;
+    font-size: 42px;
   }
 
   .award-name-premium {
-    font-size: 18px;
+    font-size: 17px;
+  }
+
+  .award-season {
+    font-size: 11px;
+  }
+
+  .award-deadline,
+  .award-status.finished {
+    font-size: 10px;
+    padding: 4px 9px;
   }
 
   .award-prediction-form {
-    padding: 18px 16px;
+    padding: 14px;
+  }
+
+  .prediction-label-award {
+    font-size: 10px;
   }
 
   .prediction-input-award {
-    padding: 12px 14px;
-    font-size: 14px;
-    border-radius: 12px;
+    padding: 11px 13px;
+    font-size: 13px;
+    border-radius: 10px;
+  }
+
+  .actual-result-award {
+    padding: 7px 10px;
+    font-size: 11px;
+  }
+
+  .award-category-badge {
+    font-size: 10px;
+    padding: 5px 10px;
   }
 
   .prediction-saved-badge-award {
-    margin: 0 16px 18px;
-    padding: 11px 14px;
+    margin: 0 14px 16px;
+    padding: 10px 14px;
     font-size: 12px;
   }
 
   .final-points-banner-award {
-    margin: 0 16px 18px;
-    padding: 12px 14px;
+    margin: 0 14px 16px;
+    padding: 12px 16px;
     font-size: 13px;
   }
 
   .predict-award-btn {
-    margin: 0 16px 18px;
-    padding: 11px 18px;
+    margin: 0 14px 16px;
+    padding: 12px 18px;
     font-size: 13px;
-    border-radius: 12px;
+    border-radius: 11px;
+  }
+}
+
+@media (max-width: 480px) {
+  .award-card-premium {
+    border-radius: 16px;
+  }
+
+  .award-header-premium {
+    padding: 11px 12px;
+  }
+
+  .award-logo-big {
+    font-size: 38px;
+  }
+
+  .award-name-premium {
+    font-size: 16px;
+  }
+
+  .award-season {
+    font-size: 10px;
+  }
+
+  .award-deadline,
+  .award-status.finished {
+    font-size: 9px;
+    padding: 4px 8px;
+  }
+
+  .award-prediction-form {
+    padding: 12px;
+  }
+
+  .prediction-label-award {
+    font-size: 10px;
+    gap: 5px;
+  }
+
+  .prediction-input-award {
+    padding: 10px 12px;
+    font-size: 12px;
+    border-radius: 9px;
+  }
+
+  .actual-result-award {
+    padding: 6px 9px;
+    font-size: 10px;
+  }
+
+  .award-category-badge {
+    font-size: 9px;
+    padding: 4px 9px;
+  }
+
+  .prediction-saved-badge-award {
+    margin: 0 12px 14px;
+    padding: 9px 12px;
+    font-size: 11px;
+    border-radius: 10px;
+  }
+
+  .points-earned-award {
+    padding: 2px 7px;
+    font-size: 10px;
+  }
+
+  .final-points-banner-award {
+    margin: 0 12px 14px;
+    padding: 11px 14px;
+    font-size: 12px;
+    border-radius: 10px;
+  }
+
+  .predict-award-btn {
+    margin: 0 12px 14px;
+    padding: 11px 16px;
+    font-size: 12px;
+    border-radius: 10px;
+  }
+}
+
+/* Animaciones de entrada */
+.award-card-premium {
+  animation: slideInUp 0.4s ease-out;
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
   }
 }

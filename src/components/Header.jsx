@@ -29,7 +29,7 @@ export default function Header({ currentUser, users = [], onProfileClick }) {
           <Trophy size={28} />
         </div>
         <div className="title-wrap">
-          <h1 className="app-title">Vega Score</h1>
+          <h1 className="app-title">V. Score</h1>
           <div className="app-sub">Inicio</div>
         </div>
       </div>
