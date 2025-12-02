@@ -1,17 +1,17 @@
 /* ===========================================
-   LEAGUE CARD - Purple Theme
+   LEAGUE CARD - Futuristic Design
 =========================================== */
 
 .league-card-premium {
-  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
-  border-radius: 24px;
-  padding: 0;
-  border: 1px solid rgba(96, 81, 155, 0.1);
+  background: linear-gradient(145deg, #ffffff 0%, #fafbff 100%);
+  border-radius: 20px;
+  border: 1px solid rgba(139, 92, 246, 0.1);
   box-shadow: 
-    0 4px 20px rgba(96, 81, 155, 0.12),
-    0 0 0 1px rgba(255, 255, 255, 0.5) inset;
+    0 8px 32px rgba(139, 92, 246, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
   overflow: hidden;
   position: relative;
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .league-card-premium::before {
@@ -20,92 +20,138 @@
   top: 0;
   left: 0;
   right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, #60519b, #8b7fc7, #60519b);
-  background-size: 200% 100%;
-  animation: league-shimmer 3s ease-in-out infinite;
+  height: 2px;
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    #8b5cf6 25%, 
+    #a78bfa 50%, 
+    #8b5cf6 75%, 
+    transparent 100%
+  );
+  opacity: 0;
+  transition: opacity 0.3s;
 }
 
-@keyframes league-shimmer {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
+.league-card-premium:hover::before {
+  opacity: 1;
+}
+
+.league-card-premium:hover {
+  transform: translateY(-8px) scale(1.01);
+  box-shadow: 
+    0 20px 48px rgba(139, 92, 246, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
 }
 
 .league-header-premium {
-  background: linear-gradient(135deg, #1e202c 0%, #31323e 100%);
-  padding: 20px 24px;
+  background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
+  padding: 18px 22px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.league-header-premium::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 250px;
+  height: 250px;
+  background: radial-gradient(circle, rgba(167, 139, 250, 0.12) 0%, transparent 70%);
+  border-radius: 50%;
+  transform: translate(-40%, -40%);
 }
 
 .league-logo-section {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 14px;
+  min-width: 0;
+  position: relative;
+  z-index: 1;
 }
 
 .league-logo-big {
-  font-size: 48px;
-  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
-  animation: league-logo-float 3s ease-in-out infinite;
+  font-size: 52px;
+  flex-shrink: 0;
+  filter: drop-shadow(0 4px 12px rgba(167, 139, 250, 0.3));
+  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-@keyframes league-logo-float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-5px); }
+.league-card-premium:hover .league-logo-big {
+  transform: scale(1.15) rotate(8deg);
 }
 
 .league-info-header {
   display: flex;
   flex-direction: column;
   gap: 4px;
+  min-width: 0;
 }
 
 .league-name-premium {
   margin: 0;
-  font-size: 22px;
-  font-weight: 700;
+  font-size: 20px;
+  font-weight: 800;
   color: white;
+  letter-spacing: -0.5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .league-season {
-  font-size: 13px;
-  color: #bfc0d1;
-  font-weight: 600;
+  font-size: 12px;
+  color: #a5b4fc;
+  font-weight: 700;
+  letter-spacing: 0.5px;
 }
 
 .league-deadline {
   display: flex;
   align-items: center;
   gap: 6px;
-  background: rgba(245, 158, 11, 0.2);
-  color: #f59e0b;
+  background: rgba(251, 191, 36, 0.2);
+  backdrop-filter: blur(10px);
+  color: #fcd34d;
   padding: 6px 12px;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: 600;
-  border: 1px solid rgba(245, 158, 11, 0.3);
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 700;
+  border: 1px solid rgba(251, 191, 36, 0.3);
+  white-space: nowrap;
+  position: relative;
+  z-index: 1;
 }
 
 .league-status.finished {
   display: flex;
   align-items: center;
   gap: 6px;
-  background: rgba(34, 197, 94, 0.2);
-  color: #22c55e;
+  background: rgba(74, 222, 128, 0.2);
+  backdrop-filter: blur(10px);
+  color: #86efac;
   padding: 6px 12px;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: 600;
-  border: 1px solid rgba(34, 197, 94, 0.3);
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 700;
+  border: 1px solid rgba(74, 222, 128, 0.3);
+  position: relative;
+  z-index: 1;
 }
 
 .league-predictions-form {
-  padding: 28px 24px;
+  padding: 24px;
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+  background: linear-gradient(180deg, 
+    rgba(139, 92, 246, 0.02) 0%, 
+    transparent 100%
+  );
 }
 
 .prediction-field {
@@ -121,70 +167,77 @@
 .prediction-label {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-size: 13px;
-  font-weight: 700;
-  color: #666;
+  gap: 7px;
+  font-size: 11px;
+  font-weight: 800;
+  color: #8b5cf6;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 1px;
+}
+
+.prediction-label svg {
+  opacity: 0.8;
 }
 
 .prediction-input {
   width: 100%;
-  padding: 14px 16px;
+  padding: 13px 16px;
   border-radius: 14px;
-  border: 2px solid #e5e5e5;
-  background: #fafafa;
+  border: 2px solid #e9d5ff;
+  background: linear-gradient(135deg, #faf5ff 0%, #ffffff 100%);
   font-size: 15px;
-  font-weight: 600;
-  color: #111;
-  transition: all 0.2s;
+  font-weight: 700;
+  color: #1e1b4b;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 2px 8px rgba(139, 92, 246, 0.05);
+}
+
+.prediction-input::placeholder {
+  color: #d8b4fe;
 }
 
 .prediction-input.champion-input {
   font-size: 16px;
-  font-weight: 700;
-  background: linear-gradient(135deg, #fafafa 0%, #f5f5f5 100%);
-  border-color: rgba(96, 81, 155, 0.2);
-}
-
-.prediction-input.champion-input:focus {
-  border-color: #60519b;
-  background: white;
-  box-shadow: 0 0 0 4px rgba(96, 81, 155, 0.2);
-  transform: translateY(-2px);
+  font-weight: 800;
+  padding: 15px 18px;
+  border-color: #c084fc;
+  background: linear-gradient(135deg, #f5f3ff 0%, #ffffff 100%);
 }
 
 .prediction-input:focus {
   outline: none;
-  border-color: #60519b;
-  background: white;
-  box-shadow: 0 0 0 4px rgba(96, 81, 155, 0.15);
+  border-color: #8b5cf6;
+  background: #ffffff;
+  box-shadow: 
+    0 0 0 4px rgba(139, 92, 246, 0.1),
+    0 8px 20px rgba(139, 92, 246, 0.12);
   transform: translateY(-2px);
 }
 
 .prediction-input:disabled {
   opacity: 0.6;
   cursor: not-allowed;
-  background: #f0f0f0;
+  background: #f1f5f9;
 }
 
 .actual-result {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 7px;
   padding: 10px 14px;
-  background: #e8f5e9;
+  background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
   border-radius: 12px;
   font-size: 13px;
-  color: #2e7d32;
-  font-weight: 600;
-  border: 1px solid #c8e6c9;
+  color: #166534;
+  font-weight: 700;
+  border: 1px solid rgba(34, 197, 94, 0.2);
+  box-shadow: 0 2px 8px rgba(34, 197, 94, 0.08);
+  animation: slideInUp 0.4s ease;
 }
 
 .correct-badge {
-  color: #1b5e20;
-  font-weight: 800;
+  color: #15803d;
+  font-weight: 900;
 }
 
 .prediction-saved-badge {
@@ -192,22 +245,26 @@
   align-items: center;
   justify-content: center;
   gap: 10px;
-  padding: 14px 20px;
+  padding: 13px 20px;
   margin: 0 24px 24px;
-  background: #e8f5e9;
-  color: #2e7d32;
+  background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+  color: #166534;
   border-radius: 14px;
-  font-weight: 700;
+  font-weight: 800;
   font-size: 14px;
-  border: 2px solid #c8e6c9;
+  border: 1px solid rgba(34, 197, 94, 0.2);
+  box-shadow: 0 4px 16px rgba(34, 197, 94, 0.12);
+  animation: slideInUp 0.4s ease;
 }
 
 .points-earned {
-  background: #2e7d32;
+  background: #15803d;
   color: white;
   padding: 4px 10px;
-  border-radius: 12px;
+  border-radius: 10px;
   font-size: 12px;
+  font-weight: 900;
+  box-shadow: 0 2px 8px rgba(21, 128, 61, 0.3);
 }
 
 .final-points-banner {
@@ -215,24 +272,26 @@
   align-items: center;
   justify-content: center;
   gap: 10px;
-  padding: 16px 20px;
+  padding: 16px 24px;
   margin: 0 24px 24px;
-  background: linear-gradient(135deg, #60519b 0%, #8b7fc7 100%);
+  background: linear-gradient(135deg, #8b5cf6 0%, #a78bfa 100%);
   color: white;
   border-radius: 14px;
-  font-weight: 700;
+  font-weight: 800;
   font-size: 15px;
-  box-shadow: 0 4px 12px rgba(96, 81, 155, 0.4);
+  box-shadow: 
+    0 8px 24px rgba(139, 92, 246, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 .predict-league-btn {
   margin: 0 24px 24px;
-  padding: 14px 24px;
+  padding: 16px 28px;
   border: none;
-  border-radius: 14px;
-  background: linear-gradient(135deg, #60519b 0%, #8b7fc7 100%);
+  border-radius: 16px;
+  background: linear-gradient(135deg, #8b5cf6 0%, #a78bfa 100%);
   color: white;
-  font-weight: 700;
+  font-weight: 800;
   font-size: 15px;
   cursor: pointer;
   display: flex;
@@ -241,115 +300,59 @@
   gap: 10px;
   position: relative;
   overflow: hidden;
-  transition: all 0.3s;
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 
+    0 8px 24px rgba(139, 92, 246, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  letter-spacing: 0.5px;
 }
 
-.predict-league-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(96, 81, 155, 0.4);
-}
-
-.predict-league-btn:active {
-  transform: translateY(0);
-}
-
-.btn-glow {
+.predict-league-btn::before {
+  content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-  transform: translateX(-100%);
+  background: linear-gradient(135deg, transparent 0%, rgba(255, 255, 255, 0.2) 50%, transparent 100%);
+  transform: translateX(-100%) skewX(-15deg);
   transition: transform 0.6s;
 }
 
-.predict-league-btn:hover .btn-glow {
-  transform: translateX(100%);
+.predict-league-btn:hover::before {
+  transform: translateX(100%) skewX(-15deg);
 }
 
-/* Responsive */
+.predict-league-btn:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 
+    0 16px 40px rgba(139, 92, 246, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.predict-league-btn:active {
+  transform: translateY(-1px) scale(0.98);
+}
+
+.btn-glow {
+  display: none;
+}
+
+/* ===============================
+   RESPONSIVE
+=============================== */
+
 @media (max-width: 768px) {
-  .league-card-premium {
-    border-radius: 20px;
-  }
-
-  .league-header-premium {
-    padding: 16px 18px;
-    flex-direction: column;
-    gap: 12px;
-    align-items: flex-start;
-  }
-
-  .league-logo-big {
-    font-size: 40px;
-  }
-
-  .league-name-premium {
-    font-size: 20px;
-  }
-
-  .league-season {
-    font-size: 12px;
-  }
-
-  .league-deadline,
-  .league-status.finished {
-    font-size: 11px;
-    padding: 5px 10px;
-  }
-
-  .league-predictions-form {
-    padding: 20px 18px;
-    grid-template-columns: 1fr;
-    gap: 16px;
-  }
-
-  .prediction-field.full-width {
-    grid-column: 1;
-  }
-
-  .prediction-label {
-    font-size: 12px;
-  }
-
-  .prediction-input {
-    padding: 12px 14px;
-    font-size: 14px;
-  }
-
-  .actual-result {
-    padding: 8px 12px;
-    font-size: 12px;
-  }
-
-  .prediction-saved-badge {
-    margin: 0 18px 20px;
-    padding: 12px 16px;
-    font-size: 13px;
-  }
-
-  .final-points-banner {
-    margin: 0 18px 20px;
-    padding: 14px 16px;
-    font-size: 14px;
-  }
-
-  .predict-league-btn {
-    margin: 0 18px 20px;
-    padding: 12px 20px;
-    font-size: 14px;
-  }
-}
-
-@media (max-width: 480px) {
   .league-card-premium {
     border-radius: 18px;
   }
 
   .league-header-premium {
-    padding: 14px 16px;
+    padding: 16px 18px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
   }
 
   .league-logo-big {
-    font-size: 36px;
+    font-size: 46px;
   }
 
   .league-name-premium {
@@ -360,8 +363,14 @@
     font-size: 11px;
   }
 
+  .league-deadline,
+  .league-status.finished {
+    font-size: 10px;
+    padding: 5px 10px;
+  }
+
   .league-predictions-form {
-    padding: 18px 16px;
+    padding: 18px;
     grid-template-columns: 1fr;
     gap: 14px;
   }
@@ -370,33 +379,125 @@
     grid-column: 1;
   }
 
+  .prediction-label {
+    font-size: 10px;
+  }
+
   .prediction-input {
-    padding: 11px 12px;
+    padding: 12px 14px;
+    font-size: 14px;
+  }
+
+  .prediction-input.champion-input {
+    padding: 14px 16px;
+    font-size: 15px;
+  }
+
+  .actual-result {
+    padding: 9px 12px;
+    font-size: 12px;
+  }
+
+  .prediction-saved-badge {
+    margin: 0 18px 18px;
+    padding: 12px 18px;
+    font-size: 13px;
+  }
+
+  .final-points-banner {
+    margin: 0 18px 18px;
+    padding: 14px 20px;
+    font-size: 14px;
+  }
+
+  .predict-league-btn {
+    margin: 0 18px 18px;
+    padding: 14px 24px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .league-card-premium {
+    border-radius: 16px;
+  }
+
+  .league-header-premium {
+    padding: 14px 16px;
+  }
+
+  .league-logo-big {
+    font-size: 40px;
+  }
+
+  .league-name-premium {
+    font-size: 17px;
+  }
+
+  .league-season {
+    font-size: 10px;
+  }
+
+  .league-predictions-form {
+    padding: 16px;
+    gap: 13px;
+  }
+
+  .prediction-label {
+    font-size: 10px;
+    gap: 6px;
+  }
+
+  .prediction-input {
+    padding: 11px 13px;
     font-size: 13px;
     border-radius: 12px;
   }
 
+  .prediction-input.champion-input {
+    padding: 13px 15px;
+    font-size: 14px;
+  }
+
   .actual-result {
-    padding: 8px 10px;
+    padding: 8px 11px;
     font-size: 11px;
   }
 
   .prediction-saved-badge {
-    margin: 0 16px 18px;
-    padding: 11px 14px;
+    margin: 0 16px 16px;
+    padding: 11px 16px;
     font-size: 12px;
+    border-radius: 12px;
+  }
+
+  .points-earned {
+    padding: 3px 8px;
+    font-size: 11px;
   }
 
   .final-points-banner {
-    margin: 0 16px 18px;
-    padding: 12px 14px;
+    margin: 0 16px 16px;
+    padding: 13px 18px;
     font-size: 13px;
+    border-radius: 12px;
   }
 
   .predict-league-btn {
-    margin: 0 16px 18px;
-    padding: 11px 18px;
+    margin: 0 16px 16px;
+    padding: 13px 20px;
     font-size: 13px;
-    border-radius: 12px;
+    border-radius: 14px;
+  }
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }

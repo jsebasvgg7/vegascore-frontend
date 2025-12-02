@@ -1,4 +1,3 @@
-// src/App.jsx
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { supabase } from "./utils/supabaseClient";
@@ -6,6 +5,8 @@ import { supabase } from "./utils/supabaseClient";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import VegaScorePage from "./pages/VegaScorePage";
+import RankingPage from "./pages/RankingPage";
+import AdminPage from "./pages/AdminPage";
 
 export default function App() {
   const [session, setSession] = useState(null);
@@ -58,6 +59,18 @@ export default function App() {
         <Route
           path="/app"
           element={session ? <VegaScorePage /> : <Navigate to="/" />}
+        />
+
+        {/* Página de Ranking */}
+        <Route
+          path="/ranking"
+          element={session ? <RankingPage /> : <Navigate to="/" />}
+        />
+
+        {/* Página de Admin */}
+        <Route
+          path="/admin"
+          element={session ? <AdminPage /> : <Navigate to="/" />}
         />
       </Routes>
     </BrowserRouter>
