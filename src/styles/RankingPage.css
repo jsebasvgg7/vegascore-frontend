@@ -997,6 +997,152 @@
 .ranking-table-body::-webkit-scrollbar-thumb:hover {
   background: #5B21B6;
 }
+/* Podio Mobile - Horizontal Compact */
+  .podium-container {
+    padding: 20px 12px;
+  }
+  
+  .podium-title-section {
+    margin-bottom: 16px;
+  }
+  
+  .podium-title {
+    font-size: 18px;
+  }
+  
+  .podium-wrapper {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    align-items: end;
+  }
+  
+  .podium-place {
+    animation: none;
+  }
+  
+  .podium-place.first {
+    order: 2;
+  }
+  
+  .podium-place.second {
+    order: 1;
+  }
+  
+  .podium-place.third {
+    order: 3;
+  }
+  
+  .podium-rank-badge {
+    gap: 4px;
+  }
+  
+  .podium-rank-badge svg {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .gold-badge svg {
+    width: 28px;
+    height: 28px;
+  }
+  
+  .rank-text {
+    font-size: 12px;
+  }
+  
+  .rank-text.champion {
+    font-size: 14px;
+  }
+  
+  .podium-card {
+    padding: 12px 8px;
+  }
+  
+  .champion-card {
+    transform: scale(1.05);
+    padding: 14px 8px;
+  }
+  
+  .podium-avatar {
+    width: 50px;
+    height: 50px;
+    font-size: 20px;
+    border: 3px solid white;
+  }
+  
+  .champion-avatar {
+    width: 65px;
+    height: 65px;
+    font-size: 26px;
+    border: 4px solid #F59E0B;
+  }
+  
+  .avatar-ring {
+    width: 70px;
+    height: 70px;
+    border-width: 2px;
+  }
+  
+  .gold-ring {
+    width: 85px;
+    height: 85px;
+  }
+  
+  .champion-sparkles .sparkle {
+    display: none;
+  }
+  
+  .podium-avatar-container {
+    margin-bottom: 8px;
+  }
+  
+  .podium-user-name {
+    font-size: 12px;
+    margin-bottom: 6px;
+  }
+  
+  .champion-name {
+    font-size: 13px;
+  }
+  
+  .champion-badge-label {
+    font-size: 8px;
+    padding: 3px 8px;
+    margin-bottom: 8px;
+  }
+  
+  .podium-stats-container {
+    flex-direction: column;
+    gap: 6px;
+    padding-top: 8px;
+  }
+  
+  .podium-stat-item {
+    gap: 4px;
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .podium-stat-item svg {
+    width: 12px;
+    height: 12px;
+  }
+  
+  .podium-stat-value {
+    font-size: 13px;
+  }
+  
+  .champion-value {
+    font-size: 15px;
+  }
+  
+  .podium-stat-label {
+    font-size: 9px;
+  }
+  
+  .podium-divider {
+    display: none;
+  }
 
 /* Responsive */
 @media (max-width: 1200px) {
@@ -1053,7 +1199,7 @@
     grid-template-columns: 1fr;
     gap: 24px;
   } 
-  
+
   .your-position-card {
   padding: 16px;
   }
