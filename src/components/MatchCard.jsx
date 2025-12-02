@@ -63,9 +63,17 @@ export default function MatchCard({ match, userPred, onPredict }) {
             disabled={isDisabled}
           />
         </div>
-        
+
         {/* Equipo Visitante */}
         <div className="team-box team-away">
+          <div className="team-color-indicator away-color"></div>
+          <div className="team-content">
+            <span className="team-logo">{match.away_team_logo}</span>
+            <div className="team-details">
+              <span className="team-name">{match.away_team}</span>
+              <span className="team-label">Visitante</span>
+            </div>
+          </div>
           <input
             type="number"
             min="0"
@@ -76,14 +84,6 @@ export default function MatchCard({ match, userPred, onPredict }) {
             placeholder="?"
             disabled={isDisabled}
           />
-          <div className="team-content">
-            <div className="team-details">
-              <span className="team-name">{match.away_team}</span>
-              <span className="team-label">Visitante</span>
-            </div>
-            <span className="team-logo">{match.away_team_logo}</span>
-          </div>
-          <div className="team-color-indicator away-color"></div>
         </div>
       </div>
 
