@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { supabase } from "./utils/supabaseClient";
+import { useDarkMode } from "./hooks/useDarkMode";
 
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
@@ -11,6 +12,7 @@ import AdminPage from "./pages/AdminPage";
 export default function App() {
   const [session, setSession] = useState(null);
   const [loading, setLoading] = useState(true);
+  const { isDark, toggleDarkMode } = useDarkMode(); 
 
   useEffect(() => {
     // Obtener sesión inicial
