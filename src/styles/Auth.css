@@ -101,7 +101,6 @@
   font-family: inherit;
   color: #ffffff;
   transition: all 0.3s ease;
-  outline: none;
 }
 
 .auth-card input:focus {
