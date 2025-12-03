@@ -1,5 +1,5 @@
 import React from "react";
-import { Trophy, LogOut, User2, Award, Shield } from "lucide-react";
+import { Trophy, LogOut, User2, Award, Shield, Bell} from "lucide-react";
 import { supabase } from "../utils/supabaseClient";
 import { useNavigate, useLocation } from "react-router-dom";
 import "../styles/Header.css";
