@@ -586,14 +586,21 @@ const handleDeleteTitle = async (titleId) => {
               <div className="card-content-wrapper">
                 {/* Sección del Avatar */}
                 <div className="avatar-section-new">
-                  <div className="avatar-container-new">
-                    {isEditing ? (
+                  {isEditing ? (
+                    <div className="avatar-container-new">
                       <AvatarUpload
                         currentUrl={userData.avatar_url}
                         userId={currentUser.id}
                         onUploadComplete={handleAvatarUpload}
                       />
-                    ) : (
+                      {/* Nivel Badge dentro del container cuando edita */}
+                      <div className="level-badge-floating">
+                        <Crown size={14} fill="currentColor" />
+                        <span>Lvl {userData.level}</span>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="avatar-container-new">
                       <div className="avatar-display-new">
                         {userData.avatar_url ? (
                           <img 
@@ -607,13 +614,13 @@ const handleDeleteTitle = async (titleId) => {
                           </div>
                         )}
                       </div>
-                    )}
-                    {/* Nivel Badge Flotante */}
-                    <div className="level-badge-floating">
-                      <Crown size={14} fill="currentColor" />
-                      <span>Lvl {userData.level}</span>
+                      {/* Nivel Badge flotante en la esquina */}
+                      <div className="level-badge-floating">
+                        <Crown size={14} fill="currentColor" />
+                        <span>Lvl {userData.level}</span>
+                      </div>
                     </div>
-                  </div>
+                  )}
                 </div>
                 
                 {/* Sección de Info */}

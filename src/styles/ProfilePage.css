@@ -2180,24 +2180,35 @@ box-shadow: none;
 border: 1px solid #ccc;
 }
 }
+/* Level Badge - Flotante en la esquina inferior derecha del avatar */
+.level-badge-floating {
+  position: absolute;
+  bottom: 0;
+  right: -8px;
+  background: var(--primary-gradient);
+  border: 3px solid var(--bg-card);
+  border-radius: 20px;
+  padding: clamp(3px, 1vw, 4px) clamp(8px, 2vw, 12px);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: clamp(0.65rem, 2vw, 0.75rem);
+  font-weight: 700;
+  color: white;
+  box-shadow: var(--shadow-sm);
+  z-index: 10;
+  /* Eliminamos transform para que esté en la esquina */
+}
 
-/* ==================== AVATAR UPLOAD - HORIZONTAL LAYOUT ==================== */
-.avatar-upload-container {
+/* Contenedor del avatar debe ser relativo */
+.avatar-display-new {
   position: relative;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: inline-block;
+  width: clamp(80px, 18vw, 120px);
+  height: clamp(80px, 18vw, 120px);
 }
 
-.avatar-upload-horizontal-group {
-  display: flex;
-  align-items: center;
-  gap: clamp(1rem, 3vw, 1.5rem);
-  justify-content: center;
-}
-
-/* Avatar Preview Wrapper */
+/* Avatar Preview Wrapper también debe ser relativo cuando está editando */
 .avatar-preview-wrapper {
   position: relative;
   width: clamp(80px, 18vw, 120px);
@@ -2212,220 +2223,31 @@ border: 1px solid #ccc;
   flex-shrink: 0;
 }
 
-.avatar-preview-wrapper:hover {
-  transform: scale(1.05);
-  box-shadow: var(--shadow-lg);
-  border-color: var(--primary);
-}
-
-.avatar-preview-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-.avatar-placeholder-upload {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--primary-gradient);
-  color: white;
-}
-
-/* Overlay de cámara */
-.camera-overlay {
+/* Cuando está editando, el badge debe estar sobre el preview wrapper */
+.avatar-upload-horizontal-group .level-badge-floating {
   position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  transition: opacity var(--transition-base);
-  color: white;
-}
-
-.avatar-preview-wrapper:hover .camera-overlay {
-  opacity: 1;
-}
-
-/* Loading Overlay */
-.avatar-loading-overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.7);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  z-index: 10;
-}
-
-/* Botones de Acción (lado derecho) */
-.avatar-actions-side {
-  display: flex;
-  flex-direction: column;
-  gap: clamp(0.5rem, 2vw, 0.75rem);
-}
-
-.avatar-btn {
-  width: clamp(40px, 10vw, 48px);
-  height: clamp(40px, 10vw, 48px);
-  border-radius: 50%;
-  border: 2px solid transparent;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all var(--transition-base);
-  box-shadow: var(--shadow-md);
-  flex-shrink: 0;
-}
-
-.avatar-btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  transform: none !important;
-}
-
-.avatar-btn.primary {
-  background: var(--primary-gradient);
-  color: white;
-  border-color: var(--bg-card);
-}
-
-.avatar-btn.primary:hover:not(:disabled) {
-  transform: scale(1.1);
-  box-shadow: var(--shadow-glow);
-}
-
-.avatar-btn.secondary {
-  background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%);
-  color: white;
-  border-color: var(--bg-card);
-}
-
-.avatar-btn.secondary:hover:not(:disabled) {
-  transform: scale(1.1);
-  box-shadow: 0 0 24px rgba(239, 68, 68, 0.4);
-}
-
-.avatar-btn svg {
-  display: block;
-  flex-shrink: 0;
-}
-
-/* Animación del spinner */
-.avatar-btn .spinner,
-.avatar-loading-overlay .spinner {
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-/* Ajuste para que funcione dentro de avatar-display-new */
-.avatar-display-new .avatar-upload-container {
-  width: clamp(80px, 18vw, 120px);
-  height: auto;
+  bottom: 0;
+  right: -8px;
+  /* Se mantiene en la esquina del avatar */
 }
 
 /* Responsive */
 @media (max-width: 768px) {
-  .avatar-upload-horizontal-group {
-    gap: clamp(0.75rem, 2.5vw, 1rem);
-  }
-  
-  .avatar-preview-wrapper {
-    width: 100px;
-    height: 100px;
-  }
-  
-  .avatar-btn {
-    width: 44px;
-    height: 44px;
+  .level-badge-floating {
+    right: -6px;
+    padding: 3px 8px;
   }
 }
 
 @media (max-width: 480px) {
-  .avatar-upload-horizontal-group {
-    gap: 0.75rem;
+  .level-badge-floating {
+    right: -4px;
+    padding: 2px 6px;
+    font-size: 0.65rem;
   }
   
-  .avatar-preview-wrapper {
-    width: 80px;
-    height: 80px;
-    border-width: 3px;
+  .level-badge-floating svg {
+    width: 12px;
+    height: 12px;
   }
-  
-  .avatar-btn {
-    width: 40px;
-    height: 40px;
-  }
-  
-  .avatar-btn svg {
-    width: 14px;
-    height: 14px;
-  }
-}
-
-/* Ajuste para el contenedor padre */
-.avatar-section-new {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: clamp(-40px, -8vw, -60px);
-  z-index: 5;
-}
-
-.avatar-container-new {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* Level Badge - Siempre relativo a su contenedor padre */
-.level-badge-floating {
-  position: absolute;
-  bottom: -12px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: var(--primary-gradient);
-  border: 3px solid var(--bg-card);
-  border-radius: 20px;
-  padding: clamp(3px, 1vw, 4px) clamp(8px, 2vw, 12px);
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  font-size: clamp(0.65rem, 2vw, 0.75rem);
-  font-weight: 700;
-  color: white;
-  box-shadow: var(--shadow-sm);
-  z-index: 10;
-}
-
-/* Contenedores relativos */
-.avatar-display-new {
-  position: relative;
-  display: inline-block;
-}
-
-.avatar-container-new {
-  position: relative;
-}
-
-/* Cuando está editando, el badge sigue al avatar en el grupo horizontal */
-.avatar-upload-horizontal-group {
-  position: relative;
-}
-
-.avatar-preview-wrapper {
-  position: relative;
 }
