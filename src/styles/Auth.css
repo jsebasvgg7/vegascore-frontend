@@ -7,7 +7,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #f0f0f0; /* <= CAMBIO A: Fondo Gris Claro */
+  background: #0a0a0a; /* <= CAMBIO: Fondo Negro Oscuro */
   padding: 20px;
   position: relative;
   overflow: hidden;
@@ -20,6 +20,7 @@
   position: absolute;
   width: 120px;
   height: 120px;
+  /* Mantengo el blanco semi-transparente para el contraste con el fondo oscuro */
   border: 2px solid rgba(255, 255, 255, 0.15);
   pointer-events: none;
 }
@@ -48,6 +49,7 @@
   width: 100%;
   max-width: 380px;
   /* El fondo de la tarjeta es semi-transparente para el efecto "vidrio esmerilado" */
+  /* Lo mantengo semi-transparente pero puedes probar con rgba(0, 0, 0, 0.6) para más oscuridad si quieres. */
   background: rgba(0, 0, 0, 0.4);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
@@ -55,7 +57,7 @@
   border-radius: 24px;
   padding: 40px 36px;
   z-index: 10;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5); /* Sombra un poco más oscura para el fondo negro */
 }
 
 .auth-card h2 {
@@ -81,8 +83,8 @@
 }
 
 .auth-card input:focus {
-  border-color: rgba(255, 255, 255, 0.5);
-  background: rgba(255, 255, 255, 0.05);
+  border-color: #6a11cb; /* Bordes morados al enfocar */
+  background: rgba(106, 17, 203, 0.1); /* Fondo morado muy ligero al enfocar */
 }
 
 .auth-card input::placeholder {
@@ -97,7 +99,8 @@
   margin-top: 10px;
   border: none;
   border-radius: 50px;
-  background: linear-gradient(90deg, #ff6b9d 0%, #ffa459 100%);
+  /* CAMBIO: Gradiente de Morado a Azul Púrpura */
+  background: linear-gradient(90deg, #6a11cb 0%, #2575fc 100%);
   color: white;
   font-size: 15px;
   font-weight: 500;
@@ -110,7 +113,8 @@
 
 .auth-card .btn:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(255, 107, 157, 0.4);
+  /* CAMBIO: Sombra Morada */
+  box-shadow: 0 8px 20px rgba(106, 17, 203, 0.5);
 }
 
 .auth-card .btn:active:not(:disabled) {
@@ -126,7 +130,6 @@
   display: flex;
   justify-content: space-between;
   margin-top: 24px;
-  font-size: 12px;
   color: rgba(255, 255, 255, 0.5);
 }
 
@@ -145,13 +148,13 @@
 
 .auth-alt a:hover,
 .auth-alt button:hover {
-  color: rgba(255, 255, 255, 0.8);
+  color: #6a11cb; /* Enlaces morados al hacer hover */
 }
 
 .success-message {
   margin-top: 16px;
   font-size: 13px;
-  color: #4ade80;
+  color: #4ade80; /* Mantengo el verde para éxito */
   text-align: center;
   font-weight: 400;
 }
@@ -159,7 +162,7 @@
 .error-message {
   margin-top: 16px;
   font-size: 13px;
-  color: #ff6b9d;
+  color: #ff6b9d; /* Mantengo el color de error que es un rosa fuerte */
   text-align: center;
   font-weight: 400;
 }
