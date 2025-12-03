@@ -412,3 +412,43 @@
     height: 17px;
   }
 }
+/* ================================
+   DARK MODE BUTTON
+================================ */
+
+.icon-btn.darkmode-btn {
+  background: rgba(96, 81, 155, 0.15);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(96, 81, 155, 0.3);
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+
+.icon-btn.darkmode-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #FDB813 0%, #F59E0B 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.dark-mode .icon-btn.darkmode-btn::before {
+  opacity: 1;
+}
+
+.icon-btn.darkmode-btn svg {
+  position: relative;
+  z-index: 1;
+  transition: transform 0.3s ease;
+}
+
+.icon-btn.darkmode-btn:hover svg {
+  transform: rotate(20deg) scale(1.1);
+}
+
+.dark-mode .icon-btn.darkmode-btn {
+  background: rgba(253, 184, 19, 0.2);
+  border-color: rgba(253, 184, 19, 0.4);
+}

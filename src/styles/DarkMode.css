@@ -1,0 +1,264 @@
+/* ==========================================
+   DARK MODE STYLES
+========================================== */
+
+:root {
+  /* Light Mode Colors (default) */
+  --bg-primary: #F8FAFC;
+  --bg-secondary: #F1F5F9;
+  --bg-card: #FFFFFF;
+  --bg-card-secondary: #F9FAFB;
+  
+  --text-primary: #1F2937;
+  --text-secondary: #6B7280;
+  --text-tertiary: #9CA3AF;
+  
+  --border-primary: #E5E7EB;
+  --border-secondary: #F3F4F6;
+  
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.05);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  
+  --purple-primary: #7C3AED;
+  --purple-dark: #5B21B6;
+  --purple-light: #8B5CF6;
+}
+
+/* Dark Mode Colors */
+.dark-mode {
+  --bg-primary: #0F172A;
+  --bg-secondary: #1E293B;
+  --bg-card: #1E293B;
+  --bg-card-secondary: #334155;
+  
+  --text-primary: #F1F5F9;
+  --text-secondary: #CBD5E1;
+  --text-tertiary: #94A3B8;
+  
+  --border-primary: #334155;
+  --border-secondary: #475569;
+  
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+  
+  --purple-primary: #A78BFA;
+  --purple-dark: #8B5CF6;
+  --purple-light: #C4B5FD;
+}
+
+/* Aplicar colores a elementos globales */
+body {
+  background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+  color: var(--text-primary);
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* Cards */
+.card,
+.stat-card,
+.match-card-modern,
+.league-card-premium,
+.award-card-premium,
+.avatar-card,
+.stats-card,
+.level-card,
+.streaks-card,
+.history-card,
+.edit-form-card,
+.active-title-card,
+.titles-container,
+.achievements-container,
+.podium-container,
+.ranking-table-container,
+.admin-stat-card,
+.admin-content-area,
+.your-position-card {
+  background: var(--bg-card) !important;
+  border-color: var(--border-primary) !important;
+  box-shadow: var(--shadow-md) !important;
+  transition: all 0.3s ease;
+}
+
+/* Text Colors */
+.user-name,
+.stat-value,
+.level-title,
+.streak-value,
+.achievement-name,
+.title-card-name,
+.ranking-page-title,
+.admin-page-title,
+.profile-page-title,
+h1, h2, h3, h4, h5, h6 {
+  color: var(--text-primary) !important;
+}
+
+.stat-label,
+.user-email,
+.level-subtitle,
+.streak-label,
+.achievement-desc,
+.user-stats-mini,
+.rank-stats-text {
+  color: var(--text-secondary) !important;
+}
+
+/* Borders */
+.form-input,
+.form-textarea,
+.search-bar,
+.filter-buttons,
+.sort-buttons {
+  border-color: var(--border-primary) !important;
+  background: var(--bg-card) !important;
+  color: var(--text-primary) !important;
+}
+
+.form-input:focus,
+.form-textarea:focus {
+  background: var(--bg-card) !important;
+}
+
+/* Inputs placeholders */
+.form-input::placeholder,
+.form-textarea::placeholder,
+.search-bar input::placeholder {
+  color: var(--text-tertiary) !important;
+}
+
+/* Match Card */
+.match-header-modern {
+  background: linear-gradient(135deg, var(--bg-card-secondary) 0%, var(--bg-card) 100%) !important;
+}
+
+.match-teams-container {
+  background: var(--bg-card-secondary) !important;
+}
+
+.team-box {
+  background: var(--bg-card) !important;
+}
+
+.team-name {
+  color: var(--text-primary) !important;
+}
+
+.team-label {
+  color: var(--text-secondary) !important;
+}
+
+.score-input-inline {
+  background: var(--bg-card-secondary) !important;
+  border-color: var(--border-primary) !important;
+  color: var(--text-primary) !important;
+}
+
+/* League & Award Cards */
+.league-header-premium,
+.award-header-premium {
+  background: linear-gradient(135deg, var(--bg-card-secondary) 0%, var(--bg-card) 100%) !important;
+}
+
+.league-name-premium,
+.award-name-premium {
+  color: var(--text-primary) !important;
+}
+
+.league-season,
+.award-season {
+  color: var(--text-secondary) !important;
+}
+
+.prediction-input,
+.prediction-input-award {
+  background: var(--bg-card) !important;
+  border-color: var(--border-primary) !important;
+  color: var(--text-primary) !important;
+}
+
+/* Profile Page Specific */
+.avatar-card.premium-layout .card-banner {
+  background: linear-gradient(135deg, var(--purple-primary) 0%, var(--purple-dark) 100%) !important;
+}
+
+.badge-text .badge-value {
+  color: var(--text-primary) !important;
+}
+
+.info-badge {
+  background: var(--bg-card) !important;
+  border-color: var(--border-primary) !important;
+}
+
+.mini-achievement {
+  background: var(--bg-card) !important;
+  border-color: var(--border-primary) !important;
+}
+
+.streak-item {
+  background: var(--bg-card) !important;
+}
+
+/* History Items */
+.history-item {
+  background: var(--bg-card) !important;
+  border-color: var(--border-primary) !important;
+}
+
+.match-time {
+  color: var(--text-secondary) !important;
+}
+
+.score-value {
+  color: var(--text-primary) !important;
+}
+
+/* Ranking Page */
+.ranking-table-row {
+  border-color: var(--border-secondary) !important;
+}
+
+.ranking-table-row:hover {
+  background: var(--bg-card-secondary) !important;
+}
+
+.ranking-table-header {
+  background: var(--bg-card-secondary) !important;
+  border-color: var(--border-primary) !important;
+}
+
+/* Admin Page */
+.admin-item-card {
+  background: var(--bg-card-secondary) !important;
+  border-color: var(--border-primary) !important;
+}
+
+.item-league,
+.item-title {
+  color: var(--text-primary) !important;
+}
+
+.item-teams,
+.item-subtitle {
+  color: var(--text-secondary) !important;
+}
+
+/* Titles & Achievements */
+.title-card {
+  background: var(--bg-card) !important;
+  border-color: var(--border-primary) !important;
+}
+
+.achievement-card {
+  background: var(--bg-card) !important;
+  border-color: var(--border-primary) !important;
+}
+
+/* Dark Mode Toggle Animation */
+.dark-mode-transition * {
+  transition: background-color 0.3s ease, 
+              border-color 0.3s ease, 
+              color 0.3s ease !important;
+}
