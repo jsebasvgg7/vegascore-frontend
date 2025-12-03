@@ -2391,23 +2391,3 @@ border: 1px solid #ccc;
   justify-content: center;
 }
 
-/* Ajuste del level badge para que no interfiera */
-.level-badge-floating {
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  background: var(--primary-gradient);
-  border: 3px solid var(--bg-card);
-  border-radius: 20px;
-  padding: clamp(3px, 1vw, 4px) clamp(8px, 2vw, 12px);
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  font-size: clamp(0.65rem, 2vw, 0.75rem);
-  font-weight: 700;
-  color: white;
-  box-shadow: var(--shadow-sm);
-  z-index: 10;
-  margin-bottom: -12px;
-}
