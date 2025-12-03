@@ -70,7 +70,7 @@ export default function AwardCard({ award, userPrediction, onPredict }) {
             className="prediction-input-award"
             value={predictedWinner}
             onChange={(e) => setPredictedWinner(e.target.value)}
-            placeholder="Ej: Lionel Messi, Erling Haaland, Kylian Mbappé"
+            placeholder="...Ingresa el nombre del ganador"
             disabled={isFinished}
           />
           

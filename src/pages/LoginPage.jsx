@@ -23,12 +23,12 @@ export default function LoginPage() {
 
   return (
     <div className="auth-wrapper">
-      <form className="auth-card" onSubmit={login}>
-        <h2>Iniciar Sesión</h2>
+      <div className="auth-card">
+        <h2>Login</h2>
 
         <input
           type="email"
-          placeholder="Correo electrónico"
+          placeholder="Username"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
@@ -36,20 +36,21 @@ export default function LoginPage() {
 
         <input
           type="password"
-          placeholder="Contraseña"
+          placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
         />
 
-        <button className="btn" disabled={loading}>
+        <button className="btn" onClick={login} disabled={loading}>
           {loading ? "Cargando..." : "Entrar"}
         </button>
 
-        <p className="auth-alt">
-          ¿No tienes cuenta? <Link to="/register">Crear cuenta</Link>
-        </p>
-      </form>
+        <div className="auth-alt">
+          <Link to="/forgot-password">Forgot Password?</Link>
+          <Link to="/register">Signup</Link>
+        </div>
+      </div>
     </div>
   );
 }

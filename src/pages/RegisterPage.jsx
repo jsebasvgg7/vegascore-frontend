@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { supabase } from "../utils/supabaseClient";
 import "../styles/Auth.css";
 
@@ -8,8 +8,7 @@ export default function RegisterPage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [message, setMessage] = useState(""); // ⬅️ AGREGADO
-  const navigate = useNavigate();
+  const [message, setMessage] = useState("");
 
   const register = async (e) => {
     e.preventDefault();
@@ -34,11 +33,11 @@ export default function RegisterPage() {
 
       if (insertError) throw insertError;
 
-      setMessage("Revisa tu correo para activar tu cuenta"); // ⬅️ MENSAJE EN CONTENEDOR
+      setMessage("Revisa tu correo para activar tu cuenta");
 
     } catch (error) {
       console.error("Error en registro:", error);
-      setMessage(`Error: ${error.message}`); // ⬅️ También mostramos errores abajo
+      setMessage(`Error: ${error.message}`);
     } finally {
       setLoading(false);
     }
@@ -46,12 +45,12 @@ export default function RegisterPage() {
 
   return (
     <div className="auth-wrapper">
-      <form className="auth-card" onSubmit={register}>
-        <h2>Crear Cuenta</h2>
+      <div className="auth-card">
+        <h2>Signup</h2>
 
         <input
           type="text"
-          placeholder="Nombre de usuario"
+          placeholder="Username"
           value={name}
           onChange={(e) => setName(e.target.value)}
           required
@@ -60,7 +59,7 @@ export default function RegisterPage() {
 
         <input
           type="email"
-          placeholder="Correo electrónico"
+          placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
@@ -68,24 +67,24 @@ export default function RegisterPage() {
 
         <input
           type="password"
-          placeholder="Contraseña (mínimo 6 caracteres)"
+          placeholder="Password (min. 6 characters)"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
           minLength={6}
         />
 
-        <button className="btn" disabled={loading}>
-          {loading ? "Creando cuenta..." : "Registrarse"}
+        <button className="btn" onClick={register} disabled={loading}>
+          {loading ? "Creando cuenta..." : "Crear Cuenta"}
         </button>
 
-        {/* ⬅️ MENSAJE ABAJO DEL BOTÓN */}
         {message && <p className="success-message">{message}</p>}
 
-        <p className="auth-alt">
-          ¿Ya tienes cuenta? <Link to="/">Iniciar sesión</Link>
-        </p>
-      </form>
+        <div className="auth-alt">
+          <span></span>
+          <Link to="/">Ya tengo cuenta</Link>
+        </div>
+      </div>
     </div>
   );
 }
