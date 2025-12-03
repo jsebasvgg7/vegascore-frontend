@@ -10,6 +10,7 @@ import NavigationTabs from "../components/NavigationTabs";
 import ProfilePage from "./ProfilePage";
 import RankingPage from "./RankingPage";
 import AdminPage from "./AdminPage";
+import NotificationsPage from "./NotificationsPage"; // AÑADIR ESTA LÍNEA
 import { PageLoader, LoadingOverlay } from "../components/LoadingStates";
 import { ToastContainer, useToast } from "../components/Toast";
 
@@ -27,6 +28,7 @@ export default function VegaScorePage() {
   const [showProfile, setShowProfile] = useState(false);
   const [showRanking, setShowRanking] = useState(false);
   const [showAdmin, setShowAdmin] = useState(false);
+  const [showNotifications, setShowNotifications] = useState(false);
   const [activeTab, setActiveTab] = useState('matches');
 
   const toast = useToast();
@@ -72,7 +74,9 @@ export default function VegaScorePage() {
     setShowProfile(false);
     setShowRanking(false);
     setShowAdmin(false);
+    setShowNotifications(false); // AÑADIR ESTA LÍNEA
   };
+
   // ========== HANDLERS - MATCHES ==========
   const handleMakePrediction = async (matchId, homeScore, awayScore) => {
     const match = matches.find(m => m.id === matchId);
@@ -180,6 +184,19 @@ export default function VegaScorePage() {
           currentUser={currentUser}
           users={users.sort((a, b) => b.points - a.points)}
           onBack={() => setShowAdmin(false)}
+        />
+        <ToastContainer toasts={toast.toasts} removeToast={toast.removeToast} />
+      </>
+    );
+  }
+
+  // AÑADIR ESTE BLOQUE COMPLETO
+  if (showNotifications) {
+    return (
+      <>
+        <NotificationsPage 
+          currentUser={currentUser}
+          onBack={() => setShowNotifications(false)}
         />
         <ToastContainer toasts={toast.toasts} removeToast={toast.removeToast} />
       </>
