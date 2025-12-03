@@ -1,13 +1,12 @@
+// src/components/Header.jsx
 import React from "react";
-import { Trophy, LogOut, User2, Award, Shield, Moon, Sun } from "lucide-react";
+import { Trophy, LogOut, User2, Award, Shield } from "lucide-react";
 import { supabase } from "../utils/supabaseClient";
 import { useNavigate } from "react-router-dom";
-import { useDarkMode } from "../hooks/useDarkMode";
 import "../styles/Header.css";
 
 export default function Header({ currentUser, users = [], onProfileClick }) {
   const navigate = useNavigate();
-  const { isDark, toggleDarkMode } = useDarkMode();
   const position = currentUser ? users.findIndex((u) => u.id === currentUser.id) + 1 : 0;
 
   const handleLogout = async () => {
@@ -37,16 +36,6 @@ export default function Header({ currentUser, users = [], onProfileClick }) {
 
       <div className="header-right">
         
-        {/* Botón de Dark Mode */}
-        <button 
-          className="icon-btn darkmode-btn" 
-          onClick={toggleDarkMode} 
-          aria-label="Toggle Dark Mode"
-          title={isDark ? "Modo Claro" : "Modo Oscuro"}
-        >
-          {isDark ? <Sun size={18} /> : <Moon size={18} />}
-        </button>
-
         {/* Botón de admin - Solo si es administrador */}
         {currentUser?.is_admin && (
           <button 
@@ -69,6 +58,7 @@ export default function Header({ currentUser, users = [], onProfileClick }) {
           <Award size={18} />
           {position > 0 && <span className="position-badge">#{position}</span>}
         </button>
+
 
         {/* Botón de perfil */}
         <button 

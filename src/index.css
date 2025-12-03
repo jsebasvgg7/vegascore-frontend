@@ -1,7 +1,6 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import './styles/DarkMode.css';
 /* -------------------------------
    GLOBAL THEME - Purple Palette
 ---------------------------------*/
@@ -71,25 +70,4 @@ body{
     padding: 0 10px;
     margin: 12px auto;
   }
-}
-/* ==========================================
-   DARK MODE VARIABLES
-========================================== */
-
-:root {
-  --bg-primary: #F8FAFC;
-  --bg-secondary: #F1F5F9;
-  --bg-card: #FFFFFF;
-  --text-primary: #1F2937;
-  --text-secondary: #6B7280;
-  --border-primary: #E5E7EB;
-}
-
-.dark-mode {
-  --bg-primary: #0F172A;
-  --bg-secondary: #1E293B;
-  --bg-card: #1E293B;
-  --text-primary: #F1F5F9;
-  --text-secondary: #CBD5E1;
-  --border-primary: #334155;
 }
