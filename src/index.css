@@ -31,13 +31,6 @@ body{
   -webkit-font-smoothing:antialiased;
   -moz-osx-font-smoothing:grayscale;
 }
-body {
-  background-image: url('https://i.pinimg.com/736x/7f/e8/80/7fe88088972c98b799a3874b02e31ab6.jpg');
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
-  background-color: #1a1a1a; /* Fallback */
-}
 
 /* --------------------------------
    LAYOUT
