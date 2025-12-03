@@ -1,7 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { supabase } from "./utils/supabaseClient";
-import { useDarkMode } from "./hooks/useDarkMode";
 
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
@@ -11,8 +10,7 @@ import AdminPage from "./pages/AdminPage";
 
 export default function App() {
   const [session, setSession] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const { isDark, toggleDarkMode } = useDarkMode();
+  const [loading, setLoading] = useState(true); 
 
   useEffect(() => {
     // Obtener sesión inicial
@@ -31,15 +29,6 @@ export default function App() {
       listener.subscription.unsubscribe();
     };
   }, []);
-
-  // NUEVO: Aplicar/remover clase dark-mode en el documento
-  useEffect(() => {
-    if (isDark) {
-      document.documentElement.classList.add('dark-mode');
-    } else {
-      document.documentElement.classList.remove('dark-mode');
-    }
-  }, [isDark]);
 
   if (loading) {
     return (
