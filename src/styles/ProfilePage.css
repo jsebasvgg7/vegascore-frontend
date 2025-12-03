@@ -1781,15 +1781,12 @@ height: 100%;
 background: var(--primary-gradient);
 transition: width var(--transition-base);
 }
+
 .avatar-display-new {
-width: 100%;
-height: 100%;
-  }
-.avatar-display-new img {
-width: 100%;
-height: 100%;
-object-fit: cover; 
+position: relative;
+display: inline-block;
 }
+
 /* ==================== MODALES ==================== */
 .modal-overlay {
 position: fixed;
