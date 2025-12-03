@@ -552,11 +552,7 @@ const handleDeleteTitle = async (titleId) => {
           <span>{notification.message}</span>
         </div>
       )}
-
-      <div className="profile-header">
-        <h1 className="profile-page-title">Mi Perfil</h1>
-      </div>
-
+      
       <div className="profile-container">
         {/* SECCIÓN SUPERIOR: Información y Stats */}
         <div className="profile-top-section">

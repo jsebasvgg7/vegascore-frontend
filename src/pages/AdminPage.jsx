@@ -358,14 +358,6 @@ export default function AdminPage({ currentUser, onBack }) {
   return (
     <>
       <div className="admin-page">
-        {/* Header */}
-        <div className="admin-page-header">
-          <h1 className="admin-page-title">
-            <Shield size={36} />
-            Panel de Administración
-          </h1>
-        </div>
-
         <div className="admin-page-container">
           {/* Stats Overview */}
           <div className="admin-stats-overview">

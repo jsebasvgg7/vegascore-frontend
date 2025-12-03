@@ -38,7 +38,7 @@ export default function Header({ currentUser, users = [], onProfileClick }) {
 
   return (
     <>
-      {/* Header Superior - Solo visible en desktop */}
+      {/* Header Superior */}
       <header className="app-header">
         <div className="header-left">
           <button 
@@ -63,7 +63,7 @@ export default function Header({ currentUser, users = [], onProfileClick }) {
 
         <div className="header-right">
           <button 
-            className="icon-btn notifications-btn" 
+            className="icon-btn notifications-btn desktop-only" 
             onClick={handleNotificationsClick} 
             aria-label="Ver notificaciones"
             title="Notificaciones"
@@ -73,7 +73,7 @@ export default function Header({ currentUser, users = [], onProfileClick }) {
 
           {currentUser?.is_admin && (
             <button 
-              className="icon-btn admin-btn" 
+              className="icon-btn admin-btn desktop-only" 
               onClick={handleAdminClick} 
               aria-label="Panel de administración"
               title="Panel de Administración"
@@ -83,7 +83,7 @@ export default function Header({ currentUser, users = [], onProfileClick }) {
           )}
 
           <button 
-            className="icon-btn ranking-btn" 
+            className="icon-btn ranking-btn desktop-only" 
             onClick={handleRankingClick} 
             aria-label="Ver ranking"
             title="Ver Ranking Global"
@@ -92,7 +92,7 @@ export default function Header({ currentUser, users = [], onProfileClick }) {
           </button>
 
           <button 
-            className="icon-btn profile-btn" 
+            className="icon-btn profile-btn desktop-only" 
             onClick={handleProfileClick} 
             aria-label="Ver perfil"
             title="Ver Perfil"
@@ -100,8 +100,9 @@ export default function Header({ currentUser, users = [], onProfileClick }) {
             <User2 size={18} />
           </button>
 
+          {/* Botón de LOGOUT - Siempre visible */}
           <button 
-            className="icon-btn" 
+            className="icon-btn logout-btn" 
             onClick={handleLogout} 
             aria-label="Cerrar sesión"
             title="Cerrar Sesión"

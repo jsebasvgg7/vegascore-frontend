@@ -106,14 +106,6 @@ export default function RankingPage({ currentUser, onBack }) {
 
   return (
     <div className="ranking-page">
-      {/* Header */}
-      <div className="ranking-page-header">
-        <h1 className="ranking-page-title">
-          <Trophy size={32} />
-          Ranking Global
-        </h1>
-      </div>
-
       <div className="ranking-page-container">
         {/* Stats Cards */}
         <div className="ranking-stats-grid">
