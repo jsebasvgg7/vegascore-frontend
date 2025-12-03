@@ -190,14 +190,6 @@ export default function VegaScorePage() {
   return (
     <>
       <div className="vega-root">
-        <Header
-          currentUser={currentUser}
-          users={sortedUsers}
-          onProfileClick={() => setShowProfile(true)}
-          onRankingClick={() => setShowRanking(true)}
-          onAdminClick={() => setShowAdmin(true)}
-        />
-
         <main className="container">
           {/* --- Stats --- */}
           <section className="stats-row">

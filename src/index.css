@@ -71,3 +71,12 @@ body{
     margin: 12px auto;
   }
 }
+
+/* Layout con Header */
+body.has-header {
+  padding-top: 0;
+}
+
+.vega-root {
+  min-height: calc(100vh - 80px);
+}
