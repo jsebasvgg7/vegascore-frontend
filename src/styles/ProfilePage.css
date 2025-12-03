@@ -234,7 +234,6 @@
   overflow: hidden;
   box-shadow: var(--shadow-md);
   background: var(--bg-tertiary);
-  position: relative;
 }
 
 .avatar-image {
@@ -256,7 +255,7 @@
 }
 
 .level-badge-floating {
-  position: relative;
+  position: absolute;
   bottom: 0;
   right: -8px;
   background: var(--primary-gradient);
@@ -272,6 +271,7 @@
   box-shadow: var(--shadow-sm);
   z-index: 10;
 }
+
 /* User Info */
 .user-info-new {
   text-align: center;
