@@ -16,13 +16,14 @@ import AvatarUpload from '../components/AvatarUpload';
 import AchievementsSection from '../components/AchievementsSection';
 import AdminAchievementsModal from '../components/AdminAchievementsModal';
 import AdminTitlesModal from '../components/AdminTitlesModal';
+import { ToastContainer, useToast } from '../components/Toast';
 import '../styles/ProfilePage.css';
 
 export default function ProfilePage({ currentUser, onBack }) {
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(false);
   const [historyLoading, setHistoryLoading] = useState(true);
-  const [notification, setNotification] = useState(null);
+  const toast = useToast();
   const [userData, setUserData] = useState({
     name: currentUser?.name || '',
     email: currentUser?.email || '',
@@ -62,10 +63,6 @@ export default function ProfilePage({ currentUser, onBack }) {
     pointsFromPrev: 0
   });
 
-  const showNotification = (message, type = 'success') => {
-    setNotification({ message, type });
-    setTimeout(() => setNotification(null), 3000);
-  };
 
   useEffect(() => {
     loadUserData();
@@ -225,7 +222,7 @@ export default function ProfilePage({ currentUser, onBack }) {
       setPredictionHistory(data || []);
     } catch (err) {
       console.error('Error loading prediction history:', err);
-      showNotification('Error al cargar el historial', 'error');
+      toast.error('Error al cargar el historial');
     } finally {
       setHistoryLoading(false);
     }
@@ -321,7 +318,7 @@ export default function ProfilePage({ currentUser, onBack }) {
 
       if (error) throw error;
 
-      showNotification('¡Perfil actualizado exitosamente! 🎉', 'success');
+      toast.success('¡Perfil actualizado con éxito!');
       setIsEditing(false);
       
       setTimeout(() => {
@@ -329,7 +326,7 @@ export default function ProfilePage({ currentUser, onBack }) {
       }, 1500);
     } catch (err) {
       console.error('Error updating profile:', err);
-      showNotification('Error al actualizar el perfil', 'error');
+      toast.error('Error al actualizar el perfil');
     } finally {
       setLoading(false);
     }
@@ -337,7 +334,8 @@ export default function ProfilePage({ currentUser, onBack }) {
 
   const handleAvatarUpload = (newUrl) => {
     setUserData({ ...userData, avatar_url: newUrl });
-    showNotification('¡Foto de perfil actualizada!', 'success');
+    toast.success('¡Avatar actualizado con éxito!');
+
   };
   const handleViewAllHistory = () => {
     setShowAllHistory(prev => !prev);
@@ -449,7 +447,7 @@ const handleSaveAchievement = async (achievementData) => {
 
     if (error) throw error;
 
-    showNotification('¡Logro guardado exitosamente!', 'success');
+    toast.success('¡Logro guardado exitosamente!');
     
     // Recargar logros
     const { data } = await supabase
@@ -459,7 +457,7 @@ const handleSaveAchievement = async (achievementData) => {
     setAvailableAchievements(data || []);
   } catch (err) {
     console.error('Error saving achievement:', err);
-    showNotification('Error al guardar el logro', 'error');
+    toast.error('Error al guardar el logro');
   }
 };
 
@@ -472,7 +470,7 @@ const handleDeleteAchievement = async (achievementId) => {
 
     if (error) throw error;
 
-    showNotification('Logro eliminado correctamente', 'success');
+    toast.success('¡Logro eliminado correctamente!');
     
     // Recargar logros
     const { data } = await supabase
@@ -482,7 +480,7 @@ const handleDeleteAchievement = async (achievementId) => {
     setAvailableAchievements(data || []);
   } catch (err) {
     console.error('Error deleting achievement:', err);
-    showNotification('Error al eliminar el logro', 'error');
+    toast.error('Error al eliminar el logro');
   }
 };
 
@@ -494,7 +492,7 @@ const handleSaveTitle = async (titleData) => {
 
     if (error) throw error;
 
-    showNotification('¡Título guardado exitosamente!', 'success');
+    toast.success('Título guardado correctamente');
     
     // Recargar títulos
     const { data } = await supabase
@@ -503,7 +501,7 @@ const handleSaveTitle = async (titleData) => {
     setAvailableTitles(data || []);
   } catch (err) {
     console.error('Error saving title:', err);
-    showNotification('Error al guardar el título', 'error');
+    toast.error('Error al guardar el título');
   }
 };
 
@@ -516,7 +514,7 @@ const handleDeleteTitle = async (titleId) => {
 
     if (error) throw error;
 
-    showNotification('Título eliminado correctamente', 'success');
+    toast.success('Título eliminado correctamente');
     
     // Recargar títulos
     const { data } = await supabase
@@ -525,7 +523,7 @@ const handleDeleteTitle = async (titleId) => {
     setAvailableTitles(data || []);
   } catch (err) {
     console.error('Error deleting title:', err);
-    showNotification('Error al eliminar el título', 'error');
+    toast.error('Error al eliminar el título');
   }
 };
 
@@ -545,14 +543,6 @@ const handleDeleteTitle = async (titleId) => {
 
   return (
     <div className="profile-page">
-      {notification && (
-        <div className={`simple-notification ${notification.type}`}>
-          {notification.type === 'success' && <CheckCircle2 size={20} />}
-          {notification.type === 'error' && <XCircle size={20} />}
-          <span>{notification.message}</span>
-        </div>
-      )}
-      
       <div className="profile-container">
         {/* SECCIÓN SUPERIOR: Información y Stats */}
         <div className="profile-top-section">
@@ -588,6 +578,7 @@ const handleDeleteTitle = async (titleId) => {
                         currentUrl={userData.avatar_url}
                         userId={currentUser.id}
                         onUploadComplete={handleAvatarUpload}
+                        toast={toast}
                       />
                       {/* Nivel Badge dentro del container cuando edita */}
                       <div className="level-badge-floating">
@@ -1363,6 +1354,7 @@ const handleDeleteTitle = async (titleId) => {
         </div>
       </div>
     </div>
+    <ToastContainer toasts={toast.toasts} removeToast={toast.removeToast} />
     {/* Modales de Administración */}
       {showAdminAchievementsModal && (
         <AdminAchievementsModal
