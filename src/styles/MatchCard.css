@@ -291,3 +291,41 @@
     font-size: 13px;
   }
 }
+/* ===================================
+   INPUT DENTRO DE LA CELDA DE MARCADOR
+=================================== */
+
+/* Hace que el input ocupe toda la celda de marcador */
+.score-input-in-cell {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  border: none;
+  background: transparent;
+  text-align: center;
+  font-size: 20px; /* Igual al tamaño de fuente de .score-cell-light */
+  font-weight: 800; /* Igual al peso de fuente de .score-cell-light */
+  color: inherit; /* Hereda el color del texto, que cambia con la clase .has-prediction */
+}
+
+.score-input-in-cell:focus {
+  outline: none; /* Eliminar el borde de enfoque predeterminado */
+  background: rgba(255, 255, 255, 0.5); /* Sutil fondo al enfocar para visibilidad */
+}
+
+.score-input-in-cell::placeholder {
+  color: #9ca3af;
+  opacity: 0.8;
+}
+
+/* Ocultar las flechas del input type="number" en navegadores */
+.score-input-in-cell::-webkit-outer-spin-button,
+.score-input-in-cell::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.score-input-in-cell[type=number] {
+  -moz-appearance: textfield;
+}
