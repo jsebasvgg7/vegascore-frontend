@@ -1,5 +1,5 @@
 import React from "react";
-import { Trophy, LogOut, User2, Award, Shield, Bell, Home } from "lucide-react";
+import { Trophy, LogOut, User2, Award, Shield, Bell, Home, BarChart3 } from "lucide-react";
 import { supabase } from "../utils/supabaseClient";
 import { useNavigate, useLocation } from "react-router-dom";
 import "../styles/Header.css";
@@ -34,6 +34,10 @@ export default function Header({ currentUser, users = [], onProfileClick }) {
     navigate("/notifications");
   };
 
+  const handleStatsClick = () => {
+    navigate("/stats");
+  }
+
   const isActive = (path) => location.pathname === path;
 
   return (
@@ -57,6 +61,7 @@ export default function Header({ currentUser, users = [], onProfileClick }) {
               {location.pathname === '/admin' && 'Administración'}
               {location.pathname === '/profile' && 'Perfil'}
               {location.pathname === '/notifications' && 'Notificaciones'}
+              {location.pathname === '/stats' && 'Estadísticas'}
             </div>
           </div>
         </div>
@@ -69,6 +74,14 @@ export default function Header({ currentUser, users = [], onProfileClick }) {
             title="Notificaciones"
           >
             <Bell size={18} />
+          </button>
+          <button 
+            className="icon-btn stats-btn desktop-only" 
+            onClick={handleStatsClick}
+            aria-label="Ver estadísticas"
+            title="Ver Estadísticas"
+          >
+            <BarChart3 size={18} />
           </button>
 
           {currentUser?.is_admin && (
@@ -139,6 +152,14 @@ export default function Header({ currentUser, users = [], onProfileClick }) {
         >
           <Bell size={24} />
           <span>Notificaciones</span>
+        </button>
+        <button 
+          className={`bottom-nav-btn ${isActive('/stats') ? 'active' : ''}`}
+          onClick={handleStatsClick}
+          aria-label="Estadísticas"
+        >
+          <BarChart3 size={24} />
+          <span>Estadísticas</span>
         </button>
 
         {currentUser?.is_admin && (

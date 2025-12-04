@@ -10,7 +10,8 @@ import NavigationTabs from "../components/NavigationTabs";
 import ProfilePage from "./ProfilePage";
 import RankingPage from "./RankingPage";
 import AdminPage from "./AdminPage";
-import NotificationsPage from "./NotificationsPage"; // AÑADIR ESTA LÍNEA
+import NotificationsPage from "./NotificationsPage"; // AÑADIR ESTA 
+import StatsPage from "./StatsPage";
 import { PageLoader, LoadingOverlay } from "../components/LoadingStates";
 import { ToastContainer, useToast } from "../components/Toast";
 
@@ -29,6 +30,7 @@ export default function VegaScorePage() {
   const [showRanking, setShowRanking] = useState(false);
   const [showAdmin, setShowAdmin] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
+  const [showStats, setShowStats] = useState(false);
   const [activeTab, setActiveTab] = useState('matches');
 
   const toast = useToast();
@@ -74,7 +76,8 @@ export default function VegaScorePage() {
     setShowProfile(false);
     setShowRanking(false);
     setShowAdmin(false);
-    setShowNotifications(false); // AÑADIR ESTA LÍNEA
+    setShowNotifications(false); // AÑADIR ESTA 
+    setShowStats(false);
   };
 
   // ========== HANDLERS - MATCHES ==========
@@ -197,6 +200,17 @@ export default function VegaScorePage() {
         <NotificationsPage 
           currentUser={currentUser}
           onBack={() => setShowNotifications(false)}
+        />
+        <ToastContainer toasts={toast.toasts} removeToast={toast.removeToast} />
+      </>
+    );
+  }
+  if (showStats) {
+    return (
+      <>
+        <StatsPage 
+          currentUser={currentUser}
+          onBack={() => setShowStats(false)}
         />
         <ToastContainer toasts={toast.toasts} removeToast={toast.removeToast} />
       </>

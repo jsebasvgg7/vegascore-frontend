@@ -10,6 +10,7 @@ import RankingPage from "./pages/RankingPage";
 import AdminPage from "./pages/AdminPage";
 import ProfilePage from "./pages/ProfilePage";
 import NotificationsPage from "./pages/NotificationsPage";
+import StatsPage from "./pages/StatsPage";
 import { PageLoader } from "./components/LoadingStates";
 
 export default function App() {
@@ -140,6 +141,10 @@ export default function App() {
           element={session ? <ProfilePage currentUser={currentUser} onBack={() => window.history.back()} /> : <Navigate to="/" />}
         />
       </Routes>
+        <route path="/stats"
+          element={session ? <StatsPage currentUser={currentUser} /> : <Navigate to="/" />}
+        />
+
     </BrowserRouter>
   );
 }
