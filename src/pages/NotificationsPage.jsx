@@ -143,7 +143,6 @@ export default function NotificationsPage({ currentUser }) {
             onClick={() => setFilter('all')}
           >
             <Filter size={16} />
-            <span>Todas</span>
             <span className="chip-count">{notifications.length}</span>
           </button>
 
@@ -152,7 +151,6 @@ export default function NotificationsPage({ currentUser }) {
             onClick={() => setFilter('new')}
           >
             <Trophy size={16} />
-            <span>Nuevos Partidos</span>
             <span className="chip-count">
               {notifications.filter(n => n.type === 'new').length}
             </span>
@@ -163,7 +161,6 @@ export default function NotificationsPage({ currentUser }) {
             onClick={() => setFilter('finished')}
           >
             <CheckCircle2 size={16} />
-            <span>Finalizados</span>
             <span className="chip-count">
               {notifications.filter(n => n.type === 'finished').length}
             </span>
@@ -196,7 +193,6 @@ export default function NotificationsPage({ currentUser }) {
                 <div className="notif-content">
                   <div className="notif-header">
                     <h4 className="notif-title">{notif.title}</h4>
-                    <span className="notif-time">{getTimeAgo(notif.created_at)}</span>
                   </div>
 
                   <p className="notif-description">{notif.description}</p>
