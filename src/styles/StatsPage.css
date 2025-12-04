@@ -688,77 +688,94 @@
 /* League Stats - Mobile Fix */
 @media (max-width: 768px) {
   .league-stats-list {
-    gap: 10px;
+    gap: 12px;
   }
 
   .league-stat-item {
-    display: grid;
-    grid-template-columns: auto 1fr auto;
-    grid-template-rows: auto auto;
-    gap: 8px 10px;
-    padding: 12px;
-    align-items: center;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 14px;
+    align-items: stretch;
+  }
+
+  .league-stat-item > * {
+    width: 100%;
+  }
+
+  /* Top row: rank + info */
+  .league-stat-item {
+    position: relative;
   }
 
   .league-rank {
-    grid-column: 1;
-    grid-row: 1 / 3;
-    width: 32px;
-    height: 32px;
-    font-size: 13px;
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    width: 36px;
+    height: 36px;
+    font-size: 14px;
   }
 
   .league-info {
-    grid-column: 2;
-    grid-row: 1 / 3;
+    padding-left: 52px;
+    margin-bottom: 4px;
   }
 
   .league-name {
-    font-size: 13px;
-    margin-bottom: 2px;
+    font-size: 14px;
+    margin-bottom: 4px;
   }
 
   .league-details {
-    font-size: 11px;
+    font-size: 12px;
   }
 
+  /* Bottom row: accuracy + points side by side */
   .league-accuracy {
-    grid-column: 3;
-    grid-row: 1;
+    display: inline-flex;
+    justify-content: flex-start;
     margin: 0;
   }
 
   .accuracy-circle {
-    width: 45px;
-    height: 45px;
+    width: 50px;
+    height: 50px;
   }
 
   .accuracy-circle svg {
-    width: 45px;
-    height: 45px;
+    width: 50px;
+    height: 50px;
   }
 
   .accuracy-circle svg circle {
-    r: 18;
-    cx: 22.5;
-    cy: 22.5;
+    r: 19;
+    cx: 25;
+    cy: 25;
   }
 
   .accuracy-value {
-    font-size: 11px;
+    font-size: 12px;
   }
 
   .league-points {
-    grid-column: 3;
-    grid-row: 2;
-    padding: 4px 10px;
-    font-size: 12px;
-    justify-self: end;
+    display: inline-flex;
+    padding: 6px 14px;
+    font-size: 13px;
+    margin-left: 12px;
+    margin-top: 8px;
   }
 
   .league-points svg {
     width: 14px;
     height: 14px;
+  }
+
+  /* Create a flex container for accuracy and points */
+  .league-stat-item::after {
+    content: '';
+    display: table;
+    clear: both;
   }
 }
 
