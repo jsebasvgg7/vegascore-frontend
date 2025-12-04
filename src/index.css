@@ -204,6 +204,14 @@ body {
     margin-bottom: 25px !important;
   }
 }
+/* Override para asegurar que los toasts sean visibles */
+.toast-container {
+  pointer-events: none !important;
+}
+
+.toast-notification {
+  pointer-events: all !important;
+}
 
 /* ================================
    SCROLL SUAVE Y PERFORMANCE
