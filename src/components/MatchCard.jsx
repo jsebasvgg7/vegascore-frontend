@@ -22,51 +22,68 @@ export default function MatchCard({ match, userPred, onPredict }) {
 
   return (
     <div className="match-card-modern">
-      {/* Header con Liga */}
+      {/* Header Compacto */}
       <div className="match-header-modern">
         <div className="match-league-info">
-          <span className="league-icon">{match.league === "LaLiga" ? "⚽" : "⚽"}</span>
+          <Zap size={14} className="league-icon" />
           <span className="league-name">{match.league}</span>
+        </div>
+        <div className="match-datetime-info">
+          <span className="match-date">
+            <Calendar size={12} />
+            {match.date}
+          </span>
+          <span className="match-time">
+            <Clock size={12} />
+            {match.time}
+          </span>
         </div>
       </div>
 
-      {/* Contenedor Principal de Equipos y Marcador */}
-      <div className="match-main-container">
+      {/* Equipos con Marcador Integrado */}
+      <div className="match-teams-container">
         {/* Equipo Local */}
-        <div className="team-section">
-          <span className="team-logo-large">{match.home_team_logo}</span>
-          <span className="team-name-display">{match.home_team}</span>
-        </div>
-
-        {/* Marcador Central */}
-        <div className="score-section">
+        <div className="team-box team-home">
+          <div className="team-color-indicator home-color"></div>
+          <div className="team-content">
+            <span className="team-logo">{match.home_team_logo}</span>
+            <div className="team-details">
+              <span className="team-name">{match.home_team}</span>
+              <span className="team-label">Local</span>
+            </div>
+          </div>
           <input
             type="number"
             min="0"
             max="20"
-            className="score-input-central"
+            className="score-input-inline"
             value={homeScore}
             onChange={(e) => setHomeScore(e.target.value)}
-            placeholder="-"
-            disabled={isDisabled}
-          />
-          <span className="score-separator">-</span>
-          <input
-            type="number"
-            min="0"
-            max="20"
-            className="score-input-central"
-            value={awayScore}
-            onChange={(e) => setAwayScore(e.target.value)}
-            placeholder="-"
+            placeholder="?"
             disabled={isDisabled}
           />
         </div>
 
         {/* Equipo Visitante */}
-        <div className="team-section">
-          <span className="team-logo-large">{match.away_team_logo}</span>
-          <span className="team-name-display">{match.away_team}</span>
+        <div className="team-box team-away">
+          <div className="team-color-indicator away-color"></div>
+          <div className="team-content">
+            <span className="team-logo">{match.away_team_logo}</span>
+            <div className="team-details">
+              <span className="team-name">{match.away_team}</span>
+              <span className="team-label">Visitante</span>
+            </div>
+          </div>
+          <input
+            type="number"
+            min="0"
+            max="20"
+            className="score-input-inline"
+            value={awayScore}
+            onChange={(e) => setAwayScore(e.target.value)}
+            placeholder="?"
+            disabled={isDisabled}
+          />
         </div>
       </div>
 
