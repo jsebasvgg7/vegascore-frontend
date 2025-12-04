@@ -1328,78 +1328,97 @@
 }
 
 /* ==========================================
-   RESPONSIVE DESIGN
+   RESPONSIVE DESIGN - COMPACTO
 ========================================== */
 
 @media (max-width: 1200px) {
   .stats-grid-modern {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+  }
+  
+  .stat-card-modern {
+    padding: 16px;
+  }
+  
+  .stat-icon-modern {
+    width: 44px;
+    height: 44px;
+  }
+  
+  .stat-value-modern {
+    font-size: 24px;
+  }
+  
+  .stat-label-modern {
+    font-size: 11px;
   }
   
   .list-header-modern,
   .list-row-modern {
-    grid-template-columns: 70px 1fr 120px 120px 160px;
+    grid-template-columns: 70px 1fr 110px 110px 150px;
+    gap: 12px;
+    padding: 16px 20px;
   }
 }
 
 @media (max-width: 900px) {
   .ranking-page {
-    padding: 24px 16px;
+    padding: 20px 12px;
+  }
+  
+  .ranking-page-container {
+    gap: 20px;
+  }
+
+  .stats-grid-modern {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  
+  .stat-card-modern {
+    padding: 14px;
+  }
+  
+  .stat-icon-modern {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .stat-value-modern {
+    font-size: 20px;
   }
 
   .hero-title {
-    font-size: 36px;
+    font-size: 32px;
   }
 
   .hero-subtitle {
-    font-size: 16px;
+    font-size: 14px;
+  }
+  
+  .your-rank-modern {
+    padding: 20px;
+  }
+  
+  .badge-inner {
+    padding: 16px 24px;
+  }
+  
+  .position-num {
+    font-size: 36px;
+  }
+  
+  .stat-num {
+    font-size: 20px;
   }
 
-  .podium-stage {
-    gap: 16px;
-  }
-
-  .player-avatar-ultra {
-    width: 70px;
-    height: 70px;
-    font-size: 28px;
-  }
-
-  .champion-avatar {
-    width: 85px;
-    height: 85px;
-    font-size: 34px;
-  }
-
-  .controls-modern {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .search-modern {
-    min-width: 100%;
-  }
-
-  .filters-modern,
-  .sorts-modern {
-    width: 100%;
-    justify-content: center;
-  }
-
-  .list-header-modern,
-  .list-row-modern {
-    grid-template-columns: 60px 1fr 100px;
-  }
-
-  .preds-cell,
-  .acc-cell {
-    display: none;
-  }
-}
-
-@media (max-width: 768px) {
   .podium-ultra {
-    padding: 20px 12px;
+    padding: 24px 16px;
+  }
+  
+  .podium-title-ultra {
+    font-size: 24px;
   }
 
   .podium-stage {
@@ -1407,77 +1426,465 @@
   }
 
   .player-avatar-ultra {
-    width: 60px;
-    height: 60px;
-    font-size: 24px;
+    width: 65px;
+    height: 65px;
+    font-size: 26px;
+    border-width: 3px;
   }
 
   .champion-avatar {
-    width: 75px;
-    height: 75px;
-    font-size: 30px;
-  }
-
-  .place-1 {
+    width: 80px;
     height: 80px;
+    font-size: 32px;
+    border-width: 4px;
+  }
+  
+  .player-name-ultra {
+    font-size: 14px;
+  }
+  
+  .champion-name {
+    font-size: 16px;
+  }
+  
+  .stat-value-ultra {
+    font-size: 15px;
+  }
+  
+  .champion-stat {
+    font-size: 16px;
+  }
+  
+  .place-1 {
+    height: 100px;
   }
 
   .place-2 {
-    height: 60px;
+    height: 75px;
   }
 
   .place-3 {
-    height: 40px;
+    height: 50px;
+  }
+
+  .controls-modern {
+    gap: 12px;
+  }
+
+  .search-modern {
+    padding: 12px 16px;
+  }
+  
+  .filter-modern,
+  .sort-modern {
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+
+  .list-header-modern,
+  .list-row-modern {
+    grid-template-columns: 60px 1fr 100px 100px 140px;
+    gap: 10px;
+    padding: 14px 16px;
+  }
+  
+  .header-cell {
+    font-size: 11px;
+  }
+  
+  .user-avatar-small {
+    width: 38px;
+    height: 38px;
+    font-size: 14px;
+  }
+  
+  .user-name-small {
+    font-size: 14px;
+  }
+  
+  .user-correct-small {
+    font-size: 12px;
+  }
+  
+  .points-num {
+    font-size: 15px;
+  }
+  
+  .preds-num {
+    font-size: 14px;
+  }
+  
+  .acc-percent {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 768px) {
+  .ranking-page {
+    padding: 16px 10px;
+  }
+  
+  .stats-grid-modern {
+    gap: 8px;
+  }
+  
+  .stat-card-modern {
+    padding: 12px;
+  }
+  
+  .stat-icon-modern {
+    width: 36px;
+    height: 36px;
+  }
+  
+  .stat-value-modern {
+    font-size: 18px;
+  }
+  
+  .stat-label-modern {
+    font-size: 10px;
+  }
+
+  .podium-ultra {
+    padding: 20px 12px;
+  }
+  
+  .podium-title-ultra {
+    font-size: 20px;
+  }
+
+  .podium-stage {
+    gap: 10px;
+  }
+
+  .player-avatar-ultra {
+    width: 55px;
+    height: 55px;
+    font-size: 22px;
+    border-width: 3px;
+  }
+
+  .champion-avatar {
+    width: 70px;
+    height: 70px;
+    font-size: 28px;
+    border-width: 3px;
+  }
+  
+  .champion-crown {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .place-medal {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .player-name-ultra {
+    font-size: 13px;
+    margin-bottom: 12px;
+  }
+  
+  .champion-name {
+    font-size: 15px;
+  }
+  
+  .stat-value-ultra {
+    font-size: 14px;
+  }
+  
+  .champion-stat {
+    font-size: 15px;
+  }
+
+  .place-1 {
+    height: 85px;
+  }
+
+  .place-2 {
+    height: 65px;
+  }
+
+  .place-3 {
+    height: 45px;
+  }
+  
+  .controls-modern {
+    gap: 10px;
+  }
+  
+  .search-modern {
+    padding: 10px 14px;
+    min-width: 100%;
+  }
+  
+  .filters-modern,
+  .sorts-modern {
+    width: 100%;
+    overflow-x: auto;
+    justify-content: flex-start;
+  }
+  
+  .filter-modern,
+  .sort-modern {
+    padding: 8px 14px;
+    font-size: 12px;
+  }
+
+  .list-header-modern,
+  .list-row-modern {
+    grid-template-columns: 55px 1fr 90px 80px 120px;
+    gap: 8px;
+    padding: 12px 14px;
+  }
+  
+  .header-cell {
+    font-size: 10px;
+  }
+  
+  .user-avatar-small {
+    width: 36px;
+    height: 36px;
+    font-size: 13px;
+  }
+  
+  .user-name-small {
+    font-size: 13px;
+  }
+  
+  .user-correct-small {
+    font-size: 11px;
+  }
+  
+  .points-display {
+    padding: 6px 12px;
+  }
+  
+  .points-num {
+    font-size: 14px;
+  }
+  
+  .preds-num {
+    font-size: 13px;
+  }
+  
+  .acc-bar-modern {
+    height: 6px;
+  }
+  
+  .acc-percent {
+    font-size: 12px;
+    min-width: 45px;
   }
 }
 
 @media (max-width: 480px) {
   .ranking-page {
-    padding: 16px 8px;
+    padding: 12px 8px;
+  }
+  
+  .stats-grid-modern {
+    gap: 8px;
+  }
+  
+  .stat-card-modern {
+    padding: 10px;
+  }
+  
+  .stat-card-inner {
+    gap: 10px;
+  }
+  
+  .stat-icon-modern {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .stat-value-modern {
+    font-size: 16px;
+  }
+  
+  .stat-label-modern {
+    font-size: 9px;
   }
 
   .hero-title {
-    font-size: 24px;
+    font-size: 28px;
   }
-
-  .stat-card-modern {
+  
+  .your-rank-modern {
     padding: 16px;
   }
-
-  .stat-icon-modern {
-    width: 40px;
-    height: 40px;
+  
+  .badge-inner {
+    padding: 14px 20px;
+  }
+  
+  .position-num {
+    font-size: 32px;
   }
 
-  .stat-value-modern {
-    font-size: 22px;
+  .podium-ultra {
+    padding: 16px 10px;
   }
-
+  
+  .podium-header-ultra {
+    gap: 10px;
+    margin-bottom: 24px;
+  }
+  
+  .podium-icon-ultra {
+    width: 24px;
+    height: 24px;
+  }
+  
   .podium-title-ultra {
-    font-size: 20px;
+    font-size: 18px;
+  }
+  
+  .podium-sparkle {
+    width: 20px;
+    height: 20px;
+  }
+
+  .player-card {
+    padding: 20px 14px;
   }
 
   .player-avatar-ultra {
     width: 50px;
     height: 50px;
     font-size: 20px;
+    border-width: 2px;
   }
 
   .champion-avatar {
-    width: 65px;
-    height: 65px;
-    font-size: 26px;
+    width: 62px;
+    height: 62px;
+    font-size: 25px;
+    border-width: 3px;
+  }
+  
+  .champion-crown {
+    width: 54px;
+    height: 54px;
+  }
+  
+  .place-medal {
+    width: 45px;
+    height: 45px;
+  }
+  
+  .player-name-ultra {
+    font-size: 12px;
+    margin-bottom: 10px;
+  }
+  
+  .champion-name {
+    font-size: 14px;
+  }
+  
+  .player-stats-ultra {
+    gap: 10px;
+    padding-top: 12px;
+  }
+  
+  .stat-ultra {
+    gap: 4px;
+  }
+  
+  .stat-icon-color {
+    width: 12px;
+    height: 12px;
+  }
+  
+  .stat-value-ultra {
+    font-size: 13px;
+  }
+  
+  .champion-stat {
+    font-size: 14px;
   }
 
   .place-1 {
-    height: 70px;
+    height: 75px;
   }
 
   .place-2 {
-    height: 50px;
+    height: 55px;
   }
 
   .place-3 {
-    height: 35px;
+    height: 40px;
+  }
+
+  .list-header-modern,
+  .list-row-modern {
+    grid-template-columns: 50px 1fr 85px 75px 110px;
+    gap: 6px;
+    padding: 10px 12px;
+  }
+  
+  .header-cell {
+    font-size: 9px;
+  }
+  
+  .pos-number {
+    font-size: 14px;
+  }
+  
+  .pos-number.top-three {
+    font-size: 15px;
+  }
+  
+  .user-avatar-small {
+    width: 32px;
+    height: 32px;
+    font-size: 12px;
+    border-width: 2px;
+  }
+  
+  .user-display {
+    gap: 10px;
+  }
+  
+  .user-name-small {
+    font-size: 12px;
+  }
+  
+  .user-correct-small {
+    font-size: 10px;
+  }
+  
+  .you-tag {
+    padding: 2px 6px;
+    font-size: 9px;
+  }
+  
+  .points-display {
+    padding: 5px 10px;
+  }
+  
+  .points-icon-small {
+    width: 14px;
+    height: 14px;
+  }
+  
+  .points-num {
+    font-size: 13px;
+  }
+  
+  .preds-num {
+    font-size: 12px;
+  }
+  
+  .acc-bar-modern {
+    height: 5px;
+  }
+  
+  .acc-percent {
+    font-size: 11px;
+    min-width: 40px;
   }
 }
