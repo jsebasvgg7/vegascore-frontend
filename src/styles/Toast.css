@@ -6,13 +6,14 @@
   position: fixed;
   top: 100px;
   right: 24px;
-  z-index: 9999999 !important; /* CRÍTICO: Más alto que cualquier elemento */
+  z-index: 999999999 !important; /* CRÍTICO: Más alto que cualquier elemento */
   display: flex;
   flex-direction: column;
   gap: 12px;
   pointer-events: none !important;
   max-width: 420px;
-  isolation: isolate; /* NUEVO: Crea contexto de apilamiento propio */
+  isolation: isolate;
+  transform: translateZ(1000px); /* NUEVO: Fuerza capa superior en móviles */
 }
 
 .toast-notification {
@@ -35,7 +36,9 @@
   will-change: transform, opacity;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
-  z-index: 1; /* NUEVO: Asegura que esté sobre el contenedor */
+  z-index: 999999999 !important; /* NUEVO: Z-index más alto */
+  transform: translate3d(0, 0, 1000px); /* NUEVO: Fuerza capa superior */
+  -webkit-transform: translate3d(0, 0, 1000px); /* NUEVO: Safari */
 }
 
 .toast-notification.toast-exit {
@@ -45,22 +48,22 @@
 @keyframes toast-slide-in {
   from {
     opacity: 0;
-    transform: translateX(100%) scale(0.8);
+    transform: translateX(100%) scale(0.8) translateZ(1000px);
   }
   to {
     opacity: 1;
-    transform: translateX(0) scale(1);
+    transform: translateX(0) scale(1) translateZ(1000px);
   }
 }
 
 @keyframes toast-slide-out {
   from {
     opacity: 1;
-    transform: translateX(0) scale(1);
+    transform: translateX(0) scale(1) translateZ(1000px);
   }
   to {
     opacity: 0;
-    transform: translateX(100%) scale(0.8);
+    transform: translateX(100%) scale(0.8) translateZ(1000px);
   }
 }
 
@@ -165,12 +168,14 @@
     align-items: center;
     max-width: 600px;
     margin: 0 auto;
+    transform: translateZ(1000px);
   }
 
   .toast-notification {
     min-width: auto;
     max-width: 100%;
     width: 100%;
+    transform: translate3d(0, 0, 1000px);
   }
 }
 
@@ -179,12 +184,14 @@
 ============================================ */
 @media (max-width: 768px) {
   .toast-container {
-    top: 85px;
+    top: 20px !important; /* NUEVO: Posición más visible en móviles */
     right: 12px;
     left: 12px;
     gap: 10px;
-    z-index: 9999999 !important;
+    z-index: 999999999 !important;
     max-width: calc(100vw - 24px);
+    transform: translateZ(1000px);
+    -webkit-transform: translateZ(1000px);
   }
 
   .toast-notification {
@@ -194,11 +201,11 @@
     min-width: 0;
     width: 100%;
     box-shadow: 
-      0 8px 32px rgba(0, 0, 0, 0.3),
-      0 4px 16px rgba(96, 81, 155, 0.25),
-      0 0 0 1px rgba(0, 0, 0, 0.1);
-    transform: translate3d(0, 0, 0);
-    -webkit-transform: translate3d(0, 0, 0);
+      0 8px 32px rgba(0, 0, 0, 0.4), /* NUEVO: Sombra más visible */
+      0 4px 16px rgba(96, 81, 155, 0.35),
+      0 0 0 2px rgba(96, 81, 155, 0.2); /* NUEVO: Borde más visible */
+    transform: translate3d(0, 0, 1000px);
+    -webkit-transform: translate3d(0, 0, 1000px);
   }
 
   .toast-icon {
@@ -226,7 +233,7 @@
 ============================================ */
 @media (max-width: 480px) {
   .toast-container {
-    top: 70px;
+    top: 16px !important;
     right: 10px;
     left: 10px;
     gap: 8px;
@@ -236,6 +243,10 @@
     padding: 12px 10px;
     border-radius: 12px;
     gap: 8px;
+    box-shadow: 
+      0 8px 32px rgba(0, 0, 0, 0.5),
+      0 4px 16px rgba(96, 81, 155, 0.4),
+      0 0 0 2px rgba(96, 81, 155, 0.3);
   }
 
   .toast-icon {
@@ -296,13 +307,13 @@
 ============================================ */
 @supports (-webkit-touch-callout: none) {
   .toast-notification {
-    transform: translate3d(0, 0, 0);
-    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 1000px);
+    -webkit-transform: translate3d(0, 0, 1000px);
   }
   
   .toast-container {
-    -webkit-transform: translateZ(0);
-    transform: translateZ(0);
+    -webkit-transform: translateZ(1000px);
+    transform: translateZ(1000px);
   }
 }
 
@@ -313,9 +324,9 @@
   .toast-notification {
     background: #2a2a2a;
     box-shadow: 
-      0 10px 40px rgba(0, 0, 0, 0.5),
-      0 4px 12px rgba(96, 81, 155, 0.3),
-      0 0 0 1px rgba(255, 255, 255, 0.1);
+      0 10px 40px rgba(0, 0, 0, 0.6),
+      0 4px 12px rgba(96, 81, 155, 0.4),
+      0 0 0 2px rgba(255, 255, 255, 0.15);
   }
 
   .toast-message {
