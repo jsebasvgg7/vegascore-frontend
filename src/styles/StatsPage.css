@@ -1,511 +1,410 @@
-/* =========================================
-   STATS PAGE - Modern Light Design
-========================================== */
+/*
+   =====================================================================
+   STATS PAGE - Diseño Moderno y Responsivo (Modo Claro)
+   =====================================================================
+*/
 
-/* Variables para mantener el tema claro consistente */
+/* --- Variables de Diseño --- */
 :root {
-  --bg-primary: #ffffff;
-  --bg-secondary: #f9fafb;
-  --text-primary: #1f2937;
-  --text-secondary: #6b7280;
-  --border-color: #e5e7eb;
-  --shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.05), 0 5px 15px rgba(0, 0, 0, 0.03);
-  --shadow-medium: 0 4px 12px rgba(0, 0, 0, 0.08), 0 10px 20px rgba(0, 0, 0, 0.05);
-  --accent-green: #10b981;
-  --accent-blue: #3b82f6;
-  --accent-red: #ef4444;
-  --accent-yellow: #f59e0b;
+    --color-primary: #5B21B6;      /* Púrpura Profundo - Énfasis principal */
+    --color-primary-light: #7C3AED; /* Púrpura Claro - Hover/Fondo suave */
+    --color-background: #F9FAFB;   /* Fondo general muy claro */
+    --color-card-background: #FFFFFF; /* Fondo de tarjetas */
+    --color-text-primary: #1F2937; /* Texto principal oscuro */
+    --color-text-secondary: #4B5563; /* Texto secundario/etiquetas */
+    --color-success-exact: #10B981; /* Verde esmeralda para Exacto */
+    --color-success-result: #FBBF24; /* Amarillo para Resultado Correcto */
+    --color-error: #F87171;        /* Rojo suave para Fallo */
+    --shadow-soft: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+    --shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.04);
+    --border-radius-large: 16px;
+    --border-radius-card: 12px;
 }
 
+/* --- Estructura Principal y Fondo --- */
 .stats-page {
-  min-height: 100vh;
-  /* Fondo muy limpio y sutilmente texturizado */
-  background-color: #f7f9fc; 
-  padding: 24px 16px; /* Padding móvil */
-  position: relative;
-  font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+    background-color: var(--color-background);
+    padding: 24px 16px; /* Padding ajustado para móvil */
+    position: relative;
+    font-family: 'Inter', sans-serif;
+}
+
+.stats-page::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    /* Un ligero toque de color degradado en la parte superior */
+    height: 300px;
+    background: linear-gradient(135deg, var(--color-primary-light) 0%, var(--color-primary) 100%);
+    border-radius: 0 0 30px 30px;
+    z-index: 0;
+    opacity: 0.04; /* Muy sutil */
 }
 
 .stats-page-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  gap: 32px;
-  position: relative;
-}
-
-/* --------------------
-   Header y Selector de Tiempo
--------------------- */
-
-.stats-page-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end; /* Alineación al final para desktop */
-  flex-wrap: wrap;
-  gap: 16px;
-}
-
-.stats-page-title-group {
+    max-width: 1200px;
+    margin: 0 auto;
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 30px; /* Espaciado más generoso */
+    position: relative;
+    z-index: 10;
+}
+
+/* --- Encabezado y Selector de Tiempo --- */
+.stats-page-header {
+    display: flex;
+    flex-direction: column; /* Apilado en móvil */
+    gap: 10px;
 }
 
 .stats-page-title {
-  font-size: 36px;
-  font-weight: 800;
-  color: var(--text-primary);
-  line-height: 1.1;
-  letter-spacing: -0.5px;
+    font-size: 2rem; /* Más grande para impacto */
+    font-weight: 800;
+    color: var(--color-text-primary);
 }
 
 .stats-page-subtitle {
-  font-size: 15px;
-  font-weight: 500;
-  color: var(--text-secondary);
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+    margin-bottom: 15px;
 }
 
 .time-range-selector {
-  display: flex;
-  background: var(--bg-primary);
-  border: 1px solid var(--border-color);
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: var(--shadow-subtle);
+    display: flex;
+    background-color: var(--color-card-background);
+    padding: 4px;
+    border-radius: var(--border-radius-card);
+    box-shadow: var(--shadow-soft);
+    width: 100%;
+    max-width: 350px; /* Limitar ancho en desktop */
 }
 
 .time-range-button {
-  padding: 10px 18px;
-  border: none;
-  background: none;
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--text-secondary);
-  cursor: pointer;
-  transition: all 0.2s;
+    flex-grow: 1;
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: none;
+    background-color: transparent;
+    color: var(--color-text-secondary);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.9rem;
 }
 
 .time-range-button:hover:not(.active) {
-  background-color: #f1f5f9;
-  color: var(--text-primary);
+    background-color: #F3F4F6;
 }
 
 .time-range-button.active {
-  background-color: var(--accent-blue);
-  color: var(--bg-primary);
-  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+    background-color: var(--color-primary);
+    color: var(--color-card-background);
+    box-shadow: var(--shadow-soft);
 }
 
-/* --------------------
-   Secciones y Títulos
--------------------- */
-
+/* --- Sección General de Estadísticas --- */
 .stats-section {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  background: var(--bg-primary);
-  border: 1px solid var(--border-color);
-  border-radius: 20px;
-  padding: 24px;
-  box-shadow: var(--shadow-subtle);
+    background-color: var(--color-card-background);
+    padding: 20px;
+    border-radius: var(--border-radius-large);
+    box-shadow: var(--shadow-soft);
+    transition: box-shadow 0.3s ease;
 }
 
-.section-title {
-  font-size: 20px;
-  font-weight: 700;
-  color: var(--text-primary);
-  margin-bottom: 8px;
-  border-bottom: 2px solid var(--border-color);
-  padding-bottom: 12px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
+.stats-section:hover {
+    box-shadow: var(--shadow-hover);
 }
 
-/* --------------------
-   Grid de Visión General (Overview)
--------------------- */
+.stats-section-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--color-text-primary);
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #E5E7EB;
+}
 
+/* --- Sección Principal de Resumen (Overview) --- */
 .stats-overview-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
+    display: grid;
+    grid-template-columns: 1fr; /* Una columna en móvil */
+    gap: 15px;
 }
 
 .overview-card {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  padding: 24px;
-  background: var(--bg-secondary);
-  border-radius: 16px;
-  border: 1px solid var(--border-color);
-  transition: all 0.3s;
-  cursor: default;
+    background-color: var(--color-card-background);
+    padding: 20px;
+    border-radius: var(--border-radius-card);
+    border: 1px solid #E5E7EB;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    transition: transform 0.2s ease;
 }
 
 .overview-card:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-medium);
+    transform: translateY(-2px);
 }
+
+.card-icon-container {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--color-card-background);
+    flex-shrink: 0;
+}
+
+/* Estilos de Icono Específicos */
+.overview-card:nth-child(1) .card-icon-container { background-color: #3B82F6; } /* Azul - Total */
+.overview-card:nth-child(2) .card-icon-container { background-color: #F59E0B; } /* Amarillo - Pendiente */
+.overview-card:nth-child(3) .card-icon-container { background-color: var(--color-success-exact); } /* Verde - Acierto */
+.overview-card:nth-child(4) .card-icon-container { background-color: var(--color-primary); } /* Púrpura - Tasa */
+
 
 .card-icon {
-  width: 56px;
-  height: 56px;
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(59, 130, 246, 0.1);
-  color: var(--accent-blue);
-  margin-bottom: 10px;
+    width: 24px;
+    height: 24px;
 }
 
-.card-icon.green {
-  background: rgba(16, 185, 129, 0.1);
-  color: var(--accent-green);
-}
-
-.card-icon.red {
-  background: rgba(239, 68, 68, 0.1);
-  color: var(--accent-red);
+.card-content {
+    display: flex;
+    flex-direction: column;
 }
 
 .card-value {
-  font-size: 36px;
-  font-weight: 800;
-  color: var(--text-primary);
-  line-height: 1;
+    font-size: 2.2rem;
+    font-weight: 800;
+    line-height: 1;
+    color: var(--color-text-primary);
 }
 
 .card-label {
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--text-secondary);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+    font-weight: 500;
+    margin-top: 4px;
 }
 
-/* --------------------
-   Resultados de Predicción (Barra de progreso)
--------------------- */
 
-.results-list {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
+/* --- Resultados de Predicción (Barras de Progreso) --- */
 .result-item {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  padding: 12px 0;
-  border-bottom: 1px dashed var(--border-color);
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    gap: 15px;
 }
 
-.result-item:last-child {
-  border-bottom: none;
+.result-item-label {
+    width: 150px;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
 }
 
-.result-label-group {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  width: 150px; /* Ancho fijo para labels en desktop */
-  flex-shrink: 0;
-}
-
-.result-label {
-  font-weight: 600;
-  font-size: 15px;
-  color: var(--text-primary);
+.result-item-value {
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--color-text-primary);
+    width: 60px;
+    text-align: right;
+    flex-shrink: 0;
 }
 
 .result-bar-container {
-  flex-grow: 1;
-  height: 12px;
-  background: #f3f4f6;
-  border-radius: 6px;
-  overflow: hidden;
+    flex-grow: 1;
+    height: 10px;
+    background-color: #E5E7EB;
+    border-radius: 5px;
+    overflow: hidden;
 }
 
 .result-bar {
-  height: 100%;
-  border-radius: 6px;
-  transition: width 0.8s ease-out;
+    height: 100%;
+    transition: width 0.8s ease-out;
 }
 
-.result-percentage {
-  width: 60px; /* Ancho fijo para el porcentaje */
-  font-weight: 700;
-  font-size: 16px;
-  text-align: right;
-  flex-shrink: 0;
+/* Colores de las Barras */
+.result-item.exact .result-bar {
+    background-color: var(--color-success-exact);
+}
+.result-item.correctResult .result-bar {
+    background-color: var(--color-success-result);
+}
+.result-item.wrong .result-bar {
+    background-color: var(--color-error);
 }
 
-.result-percentage.exact { color: var(--accent-green); }
-.result-percentage.correct { color: var(--accent-blue); }
-.result-percentage.wrong { color: var(--accent-red); }
-
-/* Colores de las barras */
-.result-bar.exact { background: var(--accent-green); }
-.result-bar.correct { background: var(--accent-blue); }
-.result-bar.wrong { background: var(--accent-red); }
-
-
-/* --------------------
-   Racha (Streak)
--------------------- */
-
-.streak-card {
-  padding: 24px;
-  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-  color: var(--bg-primary);
-  border-radius: 18px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  gap: 12px;
-  box-shadow: 0 8px 24px rgba(16, 185, 129, 0.4);
-}
-
-.streak-icon {
-  font-size: 48px;
-  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
-}
-
-.streak-value {
-  font-size: 48px;
-  font-weight: 900;
-  line-height: 1;
-  letter-spacing: -1px;
-}
-
-.streak-label {
-  font-size: 16px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-/* --------------------
-   Grids Adicionales (Días/Ligas)
--------------------- */
-
-.additional-stats-grid {
-  display: grid;
-  grid-template-columns: 1.5fr 1fr; /* Racha a la izquierda, Ligas/Días a la derecha */
-  gap: 24px;
-}
-
-.league-stats-grid,
+/* --- Estadísticas por Día (Micro-Grid) --- */
 .day-stats-grid {
-  display: grid;
-  /* 4 columnas en desktop */
-  grid-template-columns: repeat(4, 1fr); 
-  gap: 16px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 columnas en móvil */
+    gap: 15px;
 }
 
-/* Las tarjetas pequeñas de Ligas y Días usan el mismo estilo */
-.stat-mini-card {
-  background: var(--bg-secondary);
-  padding: 14px;
-  border-radius: 12px;
-  border: 1px solid var(--border-color);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  gap: 6px;
-  transition: all 0.2s;
-  cursor: default;
+.day-stat-card {
+    background-color: var(--color-card-background);
+    padding: 15px;
+    border-radius: var(--border-radius-card);
+    border: 1px solid #E5E7EB;
+    text-align: center;
 }
 
-.stat-mini-card:hover {
-    background-color: #f1f5f9;
+.day-stat-value {
+    font-size: 1.8rem;
+    font-weight: 800;
+    line-height: 1.2;
+    color: var(--color-primary);
+    margin-top: 5px;
 }
 
-.stat-icon-mini {
-  color: var(--accent-blue);
-  filter: drop-shadow(0 1px 2px rgba(59, 130, 246, 0.2));
+.day-stat-label {
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+    margin-top: 5px;
 }
 
-.stat-label-mini {
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--text-secondary);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  width: 100%;
+/* --- Estadísticas Adicionales (Grid de Iconos) --- */
+.additional-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 columnas en móvil */
+    gap: 15px;
 }
 
-.stat-value-mini {
-  font-size: 20px;
-  font-weight: 800;
-  color: var(--text-primary);
+.additional-stat-card {
+    background-color: var(--color-card-background);
+    padding: 15px;
+    border-radius: var(--border-radius-card);
+    border: 1px solid #E5E7EB;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    transition: transform 0.2s ease;
 }
 
-.stat-value-mini.percent {
-  color: var(--accent-green);
+.additional-stat-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--color-primary-light);
 }
 
-/* Colores para Ligas (por defecto usa el azul) */
-.stat-mini-card.league .stat-icon-mini {
-    color: var(--accent-yellow);
+.additional-stat-icon {
+    color: var(--color-primary);
+    /* Fondo circular sutil para el icono */
+    background-color: #F3E8FF; 
+    padding: 8px;
+    border-radius: 50%;
+    display: flex;
 }
 
-/* Colores para Días (por defecto usa el azul) */
-.stat-mini-card.day .stat-icon-mini {
-    color: var(--accent-blue);
+.additional-stat-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--color-text-primary);
 }
 
-/* --------------------
-   RESPONSIVE DESIGN (Móvil Primero)
--------------------- */
+.additional-stat-label {
+    font-size: 0.8rem;
+    color: var(--color-text-secondary);
+    font-weight: 500;
+}
 
-@media (max-width: 1024px) {
-    /* Ajuste de grids para tablet/laptop pequeña */
-    .stats-overview-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 16px;
+/* --- Media Queries para PC/Tablet (Diseño Desktop) --- */
+@media (min-width: 640px) {
+    .stats-page {
+        padding: 30px 24px;
     }
     
-    .additional-stats-grid {
-        grid-template-columns: 1fr; /* Columna única */
+    .stats-page-header {
+        flex-direction: row; /* Volver a horizontal */
+        justify-content: space-between;
+        align-items: flex-end;
+    }
+
+    .header-text-group {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .stats-overview-grid {
+        grid-template-columns: repeat(2, 1fr); /* 2 columnas en tablet */
         gap: 20px;
     }
 
-    .league-stats-grid,
     .day-stats-grid {
+        grid-template-columns: repeat(4, 1fr); /* 4 columnas */
+    }
+
+    .additional-stats-grid {
         grid-template-columns: repeat(3, 1fr); /* 3 columnas */
     }
 
-    .streak-card {
-        order: -1; /* Mover la racha al inicio en móvil/tablet */
+    .time-range-selector {
+        width: auto;
     }
 }
 
-@media (max-width: 768px) {
-  .stats-page {
-    padding: 16px 12px;
-  }
-  
-  .stats-page-container {
-      gap: 24px;
-  }
+@media (min-width: 1024px) {
+    .stats-overview-grid {
+        grid-template-columns: repeat(4, 1fr); /* 4 columnas en desktop */
+    }
 
-  .stats-page-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 16px;
-  }
+    .additional-stats-grid {
+        grid-template-columns: repeat(4, 1fr); /* 4 columnas grandes */
+    }
 
-  .stats-page-title {
-    font-size: 28px;
-  }
+    .result-item-label {
+        width: 180px;
+    }
+}
 
-  .stats-page-subtitle {
-    font-size: 14px;
-  }
+/* Asegurar que el scroll del contenedor principal no sea visible si no se necesita */
+.stats-page-container {
+    overflow: hidden;
+}
 
-  .time-range-selector {
-    width: 100%;
-    justify-content: stretch;
-  }
+/* Estilo para los textos que muestran si la carga ha fallado o si no hay datos */
+.loading-message, .error-message, .no-data-message {
+    text-align: center;
+    padding: 40px 20px;
+    background-color: var(--color-card-background);
+    border-radius: var(--border-radius-large);
+    box-shadow: var(--shadow-soft);
+    font-size: 1.1rem;
+    color: var(--color-text-secondary);
+    margin-top: 30px;
+}
 
-  .time-range-button {
-    flex: 1;
-    padding: 8px 10px;
-  }
-  
-  .stats-section {
-    padding: 18px;
-    border-radius: 16px;
-  }
-  
-  .section-title {
-      font-size: 18px;
-      padding-bottom: 8px;
-  }
-
-  .stats-overview-grid {
-    grid-template-columns: 1fr; /* Columna única para móviles */
-    gap: 12px;
-  }
-
-  .overview-card {
-    padding: 16px;
-    flex-direction: row; /* Diseño horizontal para móviles */
+.loading-message {
+    color: var(--color-primary);
+    font-weight: 600;
+    display: flex;
+    justify-content: center;
     align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-  }
-  
-  .overview-card > * {
-      /* Reordenar elementos para móvil */
-      order: 1;
-  }
-  
-  .card-icon {
-      /* Mover el ícono al final en móvil */
-      order: 2; 
-      width: 40px;
-      height: 40px;
-      border-radius: 8px;
-      margin-bottom: 0;
-  }
-  
-  .card-icon svg {
-      width: 20px;
-      height: 20px;
-  }
+    gap: 10px;
+}
 
-  .card-value {
-    font-size: 32px;
-  }
-  
-  /* Resultado de Predicción (Móvil) */
-  .result-item {
-    flex-wrap: wrap;
-    gap: 8px 10px;
-  }
+.error-message {
+    color: var(--color-error);
+}
 
-  .result-label-group {
-    width: 100%; /* Ocupa todo el ancho */
-    justify-content: flex-start;
-  }
-  
-  .result-bar-container {
-    order: 4; /* Mover la barra abajo */
-    width: calc(100% - 70px); /* Ocupa casi todo el ancho */
-    margin-right: 10px;
-  }
-  
-  .result-percentage {
-    order: 5;
-    width: auto;
-  }
-  
-  .league-stats-grid,
-  .day-stats-grid {
-      grid-template-columns: repeat(2, 1fr); /* 2 columnas en móvil */
-  }
-  
-  .stat-mini-card {
-      padding: 12px;
-      border-radius: 10px;
-  }
+/* Animación de giro para el indicador de carga */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
 
-  .stat-value-mini {
-      font-size: 18px;
-  }
+.loading-message .lucide-icon {
+    animation: spin 1s linear infinite;
 }
