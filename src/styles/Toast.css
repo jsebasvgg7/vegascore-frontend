@@ -1,17 +1,18 @@
 /* ============================================
-   TOAST NOTIFICATIONS SYSTEM - MOBILE FIXED
+   TOAST NOTIFICATIONS SYSTEM - Z-INDEX FIXED
 ============================================ */
 
 .toast-container {
   position: fixed;
-  top: 100px; /* Más espacio del header sticky */
+  top: 100px;
   right: 24px;
-  z-index: 999999; /* Súper alto para estar sobre todo */
+  z-index: 9999999 !important; /* CRÍTICO: Más alto que cualquier elemento */
   display: flex;
   flex-direction: column;
   gap: 12px;
-  pointer-events: none;
+  pointer-events: none !important;
   max-width: 420px;
+  isolation: isolate; /* NUEVO: Crea contexto de apilamiento propio */
 }
 
 .toast-notification {
@@ -28,12 +29,13 @@
     0 10px 40px rgba(0, 0, 0, 0.25),
     0 4px 12px rgba(96, 81, 155, 0.2),
     0 0 0 1px rgba(0, 0, 0, 0.1);
-  pointer-events: all;
+  pointer-events: all !important;
   animation: toast-slide-in 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
   overflow: hidden;
   will-change: transform, opacity;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
+  z-index: 1; /* NUEVO: Asegura que esté sobre el contenedor */
 }
 
 .toast-notification.toast-exit {
@@ -177,11 +179,11 @@
 ============================================ */
 @media (max-width: 768px) {
   .toast-container {
-    top: 85px; /* Ajustado para tu header mobile */
+    top: 85px;
     right: 12px;
     left: 12px;
     gap: 10px;
-    z-index: 999999; /* Súper alto */
+    z-index: 9999999 !important;
     max-width: calc(100vw - 24px);
   }
 
@@ -195,7 +197,6 @@
       0 8px 32px rgba(0, 0, 0, 0.3),
       0 4px 16px rgba(96, 81, 155, 0.25),
       0 0 0 1px rgba(0, 0, 0, 0.1);
-    /* Asegurar visibilidad en móviles */
     transform: translate3d(0, 0, 0);
     -webkit-transform: translate3d(0, 0, 0);
   }
@@ -306,7 +307,7 @@
 }
 
 /* ============================================
-   DARK MODE SUPPORT (OPCIONAL)
+   DARK MODE SUPPORT
 ============================================ */
 @media (prefers-color-scheme: dark) {
   .toast-notification {
@@ -332,4 +333,3 @@
     color: #fff;
   }
 }
-
