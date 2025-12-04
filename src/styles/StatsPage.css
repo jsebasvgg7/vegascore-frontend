@@ -645,22 +645,24 @@
   }
 }
 
+/* Responsive Mobile - 768px */
 @media (max-width: 768px) {
   .stats-page {
-    padding: 20px 16px;
+    padding: 16px 12px;
   }
 
   .stats-page-header {
     flex-direction: column;
     align-items: flex-start;
+    gap: 12px;
   }
 
   .stats-page-title {
-    font-size: 24px;
+    font-size: 22px;
   }
 
   .stats-page-subtitle {
-    font-size: 13px;
+    font-size: 12px;
   }
 
   .time-range-selector {
@@ -668,91 +670,356 @@
     justify-content: space-between;
   }
 
+  .time-btn {
+    padding: 8px 16px;
+    font-size: 13px;
+  }
+
   .stats-overview-grid {
-    grid-template-columns: 1fr;
-    gap: 12px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
   }
 
   .overview-card {
-    padding: 16px;
+    padding: 12px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
   }
 
   .card-icon {
-    width: 48px;
-    height: 48px;
+    width: 40px;
+    height: 40px;
+  }
+
+  .card-label {
+    font-size: 11px;
   }
 
   .card-value {
-    font-size: 28px;
+    font-size: 24px;
+  }
+
+  .card-subtitle {
+    font-size: 10px;
   }
 
   .stats-section {
-    padding: 16px;
+    padding: 14px;
+  }
+
+  .section-header {
+    margin-bottom: 16px;
+  }
+
+  .section-header h2 {
+    font-size: 16px;
   }
 
   .result-item {
     flex-wrap: wrap;
+    padding: 12px;
+    gap: 10px;
+  }
+
+  .result-icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .result-label {
+    font-size: 12px;
+  }
+
+  .result-value {
+    font-size: 22px;
+  }
+
+  .result-points {
+    font-size: 11px;
   }
 
   .result-bar {
     width: 100%;
     order: 4;
-    margin-top: 12px;
+    margin-top: 8px;
   }
 
   .day-stats-grid {
     grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+  }
+
+  .day-stat-card {
+    padding: 10px 8px;
+  }
+
+  .day-name {
+    font-size: 11px;
+    margin-bottom: 6px;
+  }
+
+  .day-accuracy {
+    font-size: 18px;
+    margin-bottom: 2px;
+  }
+
+  .day-details {
+    font-size: 10px;
+    margin-bottom: 8px;
   }
 
   .league-stat-item {
     flex-wrap: wrap;
+    padding: 12px;
+    gap: 10px;
+  }
+
+  .league-rank {
+    width: 36px;
+    height: 36px;
+    font-size: 14px;
+  }
+
+  .league-name {
+    font-size: 14px;
+  }
+
+  .league-details {
+    font-size: 12px;
+  }
+
+  .accuracy-circle {
+    width: 50px;
+    height: 50px;
+  }
+
+  .accuracy-circle svg {
+    width: 50px;
+    height: 50px;
+  }
+
+  .accuracy-value {
+    font-size: 12px;
   }
 
   .league-accuracy {
     order: 4;
-    margin-top: 12px;
+    margin-top: 8px;
+  }
+
+  .league-points {
+    padding: 6px 12px;
+    font-size: 13px;
   }
 
   .additional-stats-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .additional-stat-card {
+    padding: 14px;
+  }
+
+  .additional-stat-icon {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 10px;
+  }
+
+  .additional-stat-value {
+    font-size: 22px;
+    margin-bottom: 6px;
+  }
+
+  .additional-stat-label {
+    font-size: 11px;
   }
 
   .distribution-item {
     flex-direction: column;
     align-items: stretch;
+    gap: 8px;
   }
 
   .distribution-label {
     min-width: auto;
+    font-size: 13px;
+  }
+
+  .distribution-bar {
+    height: 10px;
   }
 
   .distribution-value {
     text-align: left;
+    font-size: 14px;
   }
 }
 
+/* Responsive Small Mobile - 480px */
 @media (max-width: 480px) {
+  .container {
+    padding: 0 10px;
+    margin: 12px auto;
+  }
+
   .stats-page {
-    padding: 16px 12px;
+    padding: 12px 10px;
   }
 
   .stats-page-title {
     font-size: 20px;
   }
 
-  .day-stats-grid {
+  .stats-page-subtitle {
+    font-size: 11px;
+  }
+
+  .time-btn {
+    padding: 7px 12px;
+    font-size: 12px;
+  }
+
+  .stats-overview-grid {
     grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+
+  .overview-card {
+    padding: 10px;
+  }
+
+  .card-icon {
+    width: 36px;
+    height: 36px;
+  }
+
+  .card-label {
+    font-size: 10px;
   }
 
   .card-value {
-    font-size: 24px;
+    font-size: 20px;
+  }
+
+  .card-subtitle {
+    font-size: 9px;
+  }
+
+  .stats-section {
+    padding: 12px;
+  }
+
+  .section-header h2 {
+    font-size: 15px;
+  }
+
+  .result-icon {
+    width: 36px;
+    height: 36px;
   }
 
   .result-value {
-    font-size: 24px;
+    font-size: 20px;
+  }
+
+  .day-stats-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+  }
+
+  .day-stat-card {
+    padding: 8px 6px;
+  }
+
+  .day-accuracy {
+    font-size: 16px;
+  }
+
+  .league-rank {
+    width: 32px;
+    height: 32px;
+    font-size: 13px;
+  }
+
+  .league-name {
+    font-size: 13px;
+  }
+
+  .additional-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+
+  .additional-stat-card {
+    padding: 12px;
+  }
+
+  .additional-stat-icon {
+    width: 36px;
+    height: 36px;
+    margin-bottom: 8px;
   }
 
   .additional-stat-value {
-    font-size: 24px;
+    font-size: 20px;
   }
+
+  .additional-stat-label {
+    font-size: 10px;
+  }
+
+  .page-container,
+  .vega-score-page,
+  .vega-root,
+  .ranking-page,
+  .admin-page,
+  .profile-page,
+  .notifications-page,
+  .stats-page,
+  .profile-container,
+  .ranking-container,
+  .admin-container {
+    padding-bottom: 90px;
+    min-height: calc(100vh - 130px);
+  }
+
+  .matches-container,
+  .ranking-list-premium,
+  .admin-content,
+  .profile-bottom-section,
+  .history-card,
+  .notifications-list {
+    padding-bottom: 35px;
+  }
+
+  .floating-action-btn,
+  .save-predictions-btn,
+  .submit-button,
+  .save-button,
+  .action-button,
+  .form-actions,
+  .button-group,
+  .match-actions {
+    margin-bottom: 25px;
+  }
+
+  .match-card-premium:last-child,
+  .ranking-item-premium:last-child,
+  .history-item:last-child {
+    margin-bottom: 25px;
+  }
+}
+.accuracy-circle {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  background: transparent;
+}
+
+.accuracy-circle svg {
+  display: block;
+  background: transparent;
 }
