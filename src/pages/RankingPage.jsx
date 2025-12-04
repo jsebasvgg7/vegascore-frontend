@@ -114,20 +114,6 @@ export default function RankingPage({ currentUser, onBack }) {
       </div>
 
       <div className="ranking-page-container">
-        {/* Hero Header */}
-        <div className="ranking-hero">
-          <div className="hero-content">
-            <div className="hero-icon-wrapper">
-              <Trophy size={48} />
-              <div className="icon-glow"></div>
-            </div>
-            <div className="hero-text">
-              <h1 className="hero-title">Tabla de Clasificación</h1>
-              <p className="hero-subtitle">Compite con los mejores predictores</p>
-            </div>
-          </div>
-        </div>
-
         {/* Stats Cards Grid */}
         <div className="stats-grid-modern">
           <div className="stat-card-modern">
