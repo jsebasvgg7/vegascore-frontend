@@ -684,7 +684,6 @@
     flex-shrink: 0;
   }
 }
-
 /* League Stats - Mobile Fix */
 @media (max-width: 768px) {
   .league-stats-list {
@@ -696,30 +695,23 @@
     flex-direction: column;
     gap: 12px;
     padding: 14px;
-    align-items: stretch;
   }
 
-  .league-stat-item > * {
-    width: 100%;
-  }
-
-  /* Top row: rank + info */
-  .league-stat-item {
-    position: relative;
+  .league-stat-top {
+    display: flex;
+    align-items: center;
+    gap: 12px;
   }
 
   .league-rank {
-    position: absolute;
-    top: 14px;
-    left: 14px;
     width: 36px;
     height: 36px;
     font-size: 14px;
+    flex-shrink: 0;
   }
 
   .league-info {
-    padding-left: 52px;
-    margin-bottom: 4px;
+    flex: 1;
   }
 
   .league-name {
@@ -731,11 +723,15 @@
     font-size: 12px;
   }
 
-  /* Bottom row: accuracy + points side by side */
+  .league-stat-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
   .league-accuracy {
-    display: inline-flex;
-    justify-content: flex-start;
-    margin: 0;
+    flex-shrink: 0;
   }
 
   .accuracy-circle {
@@ -759,23 +755,59 @@
   }
 
   .league-points {
-    display: inline-flex;
     padding: 6px 14px;
     font-size: 13px;
-    margin-left: 12px;
-    margin-top: 8px;
   }
 
   .league-points svg {
     width: 14px;
     height: 14px;
   }
+}
 
-  /* Create a flex container for accuracy and points */
-  .league-stat-item::after {
-    content: '';
-    display: table;
-    clear: both;
+@media (max-width: 480px) {
+  .league-stat-item {
+    padding: 12px;
+  }
+
+  .league-rank {
+    width: 32px;
+    height: 32px;
+    font-size: 12px;
+  }
+
+  .league-name {
+    font-size: 13px;
+  }
+
+  .league-details {
+    font-size: 11px;
+  }
+
+  .accuracy-circle {
+    width: 45px;
+    height: 45px;
+  }
+
+  .accuracy-circle svg {
+    width: 45px;
+    height: 45px;
+  }
+
+  .accuracy-circle svg circle {
+    r: 17;
+    cx: 22.5;
+    cy: 22.5;
+    stroke-width: 4;
+  }
+
+  .accuracy-value {
+    font-size: 11px;
+  }
+
+  .league-points {
+    padding: 5px 10px;
+    font-size: 12px;
   }
 }
 

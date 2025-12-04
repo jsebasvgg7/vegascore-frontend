@@ -410,7 +410,7 @@ export default function StatsPage({ currentUser }) {
           </div>
         </div>
 
-        {/* League Performance */}
+          {/* League Performance */}
         {stats.leagueStats.length > 0 && (
           <div className="stats-section">
             <div className="section-header">
@@ -421,42 +421,47 @@ export default function StatsPage({ currentUser }) {
             <div className="league-stats-list">
               {stats.leagueStats.map((league, index) => (
                 <div key={index} className="league-stat-item">
-                  <div className="league-rank">#{index + 1}</div>
-                  <div className="league-info">
-                    <div className="league-name">{league.name}</div>
-                    <div className="league-details">
-                      {league.correct}/{league.total} correctas • {league.exact} exactas
+                  <div className="league-stat-top">
+                    <div className="league-rank">#{index + 1}</div>
+                    <div className="league-info">
+                      <div className="league-name">{league.name}</div>
+                      <div className="league-details">
+                        {league.correct}/{league.total} correctas • {league.exact} exactas
+                      </div>
                     </div>
                   </div>
-                  <div className="league-accuracy">
-                    <div className="accuracy-circle">
-                      <svg width="60" height="60">
-                        <circle
-                          cx="30"
-                          cy="30"
-                          r="25"
-                          fill="none"
-                          stroke="#F3F4F6"
-                          strokeWidth="6"
-                        />
-                        <circle
-                          cx="30"
-                          cy="30"
-                          r="25"
-                          fill="none"
-                          stroke="#7C3AED"
-                          strokeWidth="6"
-                          strokeDasharray={`${(league.accuracy / 100) * 157} 157`}
-                          strokeLinecap="round"
-                          transform="rotate(-90 30 30)"
-                        />
-                      </svg>
-                      <div className="accuracy-value">{league.accuracy}%</div>
+                  
+                  <div className="league-stat-bottom">
+                    <div className="league-accuracy">
+                      <div className="accuracy-circle">
+                        <svg viewBox="0 0 60 60" preserveAspectRatio="xMidYMid meet">
+                          <circle
+                            cx="30"
+                            cy="30"
+                            r="25"
+                            fill="none"
+                            stroke="#F3F4F6"
+                            strokeWidth="6"
+                          />
+                          <circle
+                            cx="30"
+                            cy="30"
+                            r="25"
+                            fill="none"
+                            stroke="#7C3AED"
+                            strokeWidth="6"
+                            strokeDasharray={`${(league.accuracy / 100) * 157} 157`}
+                            strokeLinecap="round"
+                            transform="rotate(-90 30 30)"
+                          />
+                        </svg>
+                        <div className="accuracy-value">{league.accuracy}%</div>
+                      </div>
                     </div>
-                  </div>
-                  <div className="league-points">
-                    <Zap size={16} />
-                    <span>{league.points} pts</span>
+                    <div className="league-points">
+                      <Zap size={16} />
+                      <span>{league.points} pts</span>
+                    </div>
                   </div>
                 </div>
               ))}
