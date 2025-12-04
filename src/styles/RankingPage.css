@@ -1334,36 +1334,6 @@
 /* Tablet y Escritorio Compacto (<= 1200px) */
 @media (max-width: 1200px) {
   .stats-grid-modern {
-    /* Mantenemos 4 columnas, pero con menos espacio */
-    grid-template-columns: repeat(4, 1fr);
-    gap: 16px; 
-  }
-  
-  .stat-card-modern {
-    padding: 20px;
-  }
-  
-  .stat-value-modern {
-    font-size: 28px;
-  }
-  
-  /* Se ajustan un poco las columnas de la tabla */
-  .list-header-modern,
-  .list-row-modern {
-    grid-template-columns: 70px 1fr 120px 120px 160px;
-    gap: 12px;
-    padding: 18px 20px;
-  }
-}
-
-/* Tablet Vertical o Pantallas Grandes Compactas (<= 900px) */
-@media (max-width: 900px) {
-  .ranking-page {
-    padding: 24px 16px;
-  }
-
-  /* Mantener el grid de 4 para pantallas relativamente amplias en tablet */
-  .stats-grid-modern {
     grid-template-columns: repeat(4, 1fr);
     gap: 12px;
   }
@@ -1373,178 +1343,178 @@
   }
   
   .stat-icon-modern {
-    width: 52px;
-    height: 52px;
+    width: 50px;
+    height: 50px;
   }
   
   .stat-value-modern {
-    font-size: 24px;
-  }
-
-  .your-rank-content {
-    /* Permite que el badge y las stats se apilen mejor si es necesario */
-    flex-direction: row;
-    align-items: center;
-    gap: 24px;
-  }
-  
-  .rank-stats-modern {
-    flex: 1; /* Asegura que ocupe el espacio restante */
-    justify-content: space-around;
-  }
-
-  .podium-ultra {
-    padding: 36px 24px;
-  }
-  
-  .podium-title-ultra {
-    font-size: 28px;
-  }
-
-  .controls-modern {
-    /* Permite que los controles se apilen si no caben */
-    flex-wrap: wrap;
-    gap: 12px;
-  }
-
-  .search-modern {
-    flex: 1 1 100%; /* El buscador siempre ocupa el 100% arriba */
-    min-width: 100%;
-  }
-  
-  .filters-modern,
-  .sorts-modern {
-    /* Distribuye filtros y ordenación a lo ancho */
-    flex: 1 1 auto; 
-    justify-content: center;
-  }
-
-  /* Se ajustan un poco más las columnas de la tabla */
-  .list-header-modern,
-  .list-row-modern {
-    grid-template-columns: 60px 1fr 100px 100px 140px;
-    gap: 10px;
-    padding: 14px 16px;
-  }
-}
-
-/* Teléfonos y Tablet Pequeña (<= 768px) */
-@media (max-width: 768px) {
-  .ranking-page {
-    padding: 20px 10px;
-  }
-  
-  .ranking-page-container {
-    gap: 24px;
-  }
-
-  .stats-grid-modern {
-    /* Cambia a 2 columnas para un mejor uso vertical */
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
-  }
-  
-  .stat-card-modern {
-    padding: 20px; /* Restaurar a un padding más grande */
-  }
-  
-  .stat-icon-modern {
-    width: 56px;
-    height: 56px;
-  }
-  
-  .stat-value-modern {
-    font-size: 32px; /* Restaurar tamaño de escritorio */
+    font-size: 26px;
   }
   
   .stat-label-modern {
-    font-size: 13px; /* Restaurar tamaño de escritorio */
+    font-size: 12px;
   }
 
+  .list-header-modern,
+  .list-row-modern {
+    grid-template-columns: 70px 1fr 110px 110px 150px;
+    gap: 10px;
+    padding: 16px 18px;
+  }
+}
+
+/* Tablet Vertical o Pantallas Grandes Compactas (<= 900px) */
+@media (max-width: 900px) {
+  .ranking-page {
+    padding: 20px 12px;
+  }
+
+  /* Stats: Forzar 4 columnas con reducción de tamaño */
+  .stats-grid-modern {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+  }
+  
+  .stat-card-modern {
+    padding: 14px;
+  }
+  
+  .stat-icon-modern {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+  }
+  
+  .stat-value-modern {
+    font-size: 20px;
+    margin-bottom: 4px;
+  }
+  
+  .stat-label-modern {
+    font-size: 10px;
+  }
+
+  /* Your Rank: Se mantiene horizontal, pero se ajusta el espaciado */
   .your-rank-content {
-    /* Forzar apilamiento del badge y las stats */
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-  }
-  
-  .rank-badge-modern {
-    flex-shrink: 0;
-  }
-  
-  .rank-stats-modern {
-    flex: none;
-    justify-content: center; /* Centrar estadísticas */
-    gap: 24px; /* Espacio de escritorio */
-  }
-
-  .podium-ultra {
-    padding: 32px 20px;
-  }
-  
-  .podium-title-ultra {
-    font-size: 26px;
-  }
-
-  /* PODIO: Se mantienen las 3 columnas, pero se reduce el tamaño */
-  .podium-stage {
     gap: 16px;
   }
   
-  .place-height {
-    /* Ajustar las alturas del podio */
-    height: 80px !important; 
+  .badge-inner {
+    padding: 16px 20px;
   }
   
-  .place-2 {
-    height: 100px !important;
+  .position-num {
+    font-size: 36px;
   }
   
-  .place-1 {
-    height: 120px !important; 
+  .rank-stats-modern {
+    flex-wrap: wrap;
+    gap: 16px;
+    justify-content: space-around;
+  }
+  
+  .stat-icon-circle {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .stat-num {
+    font-size: 18px;
+  }
+  
+  .stat-lab {
+    font-size: 11px;
+  }
+
+  /* PODIO: Se mantiene en 3 columnas forzando una reducción en las tarjetas */
+  .podium-ultra {
+    padding: 28px 16px;
+  }
+  
+  .podium-title-ultra {
+    font-size: 22px;
+  }
+
+  .podium-stage {
+    gap: 10px;
   }
 
   .player-card {
-    padding: 24px 16px;
+    padding: 18px 10px;
   }
   
   .player-avatar-ultra {
-    width: 70px;
-    height: 70px;
-    font-size: 28px;
+    width: 60px;
+    height: 60px;
+    font-size: 24px;
   }
 
   .champion-avatar {
-    width: 90px;
-    height: 90px;
-    font-size: 36px;
-  }
-
-  .controls-modern {
-    gap: 10px;
+    width: 80px;
+    height: 80px;
+    font-size: 32px;
   }
   
-  /* La tabla es el mayor reto, la re-diseñamos para ser más compacta, 
-     pero manteniendo todas las columnas visibles. */
+  .place-1 {
+    height: 100px;
+  }
+
+  .place-2 {
+    height: 75px;
+  }
+
+  .place-3 {
+    height: 50px;
+  }
+  
+  .player-name-ultra {
+    font-size: 14px;
+    margin-bottom: 12px;
+  }
+  
+  .stat-value-ultra {
+    font-size: 14px;
+  }
+  
+  .champion-stat {
+    font-size: 16px;
+  }
+
+  /* Controles */
+  .search-modern {
+    min-width: 200px;
+    flex-grow: 1;
+  }
+
+  .filters-modern,
+  .sorts-modern {
+    flex-shrink: 0;
+  }
+
+  /* Tabla: Se mantiene la estructura forzando más reducción */
   .list-header-modern,
   .list-row-modern {
-    grid-template-columns: 55px 1fr 90px 85px 120px; /* Ajuste fino */
+    grid-template-columns: 55px 1fr 90px 85px 120px;
     gap: 6px;
     padding: 12px 14px;
   }
   
   .user-avatar-small {
-    width: 40px;
-    height: 40px;
+    width: 38px;
+    height: 38px;
   }
   
   .points-display {
-    padding: 8px 12px;
+    padding: 6px 10px;
+  }
+  
+  .acc-percent {
+    min-width: 45px;
   }
 }
 
-/* Teléfonos Pequeños (<= 480px) */
-@media (max-width: 480px) {
+/* Teléfonos Pequeños (<= 768px - El punto de quiebre más crítico) */
+@media (max-width: 768px) {
   .ranking-page {
     padding: 16px 8px;
   }
@@ -1553,85 +1523,143 @@
     gap: 16px;
   }
 
+  /* Hero */
   .hero-title {
-    font-size: 40px;
+    font-size: 36px;
   }
-  
   .hero-subtitle {
-    font-size: 16px;
+    font-size: 14px;
   }
 
+  /* Stats: 2 columnas, máxima compactación */
   .stats-grid-modern {
-    /* Forzar 1 columna para maximizar el espacio vertical */
-    grid-template-columns: 1fr;
-    gap: 12px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6px;
   }
   
-  .stat-card-inner {
-    justify-content: center; /* Centrar contenido de la tarjeta */
+  .stat-card-modern {
+    padding: 12px;
   }
-
-  .your-rank-modern {
-    padding: 16px;
+  
+  .stat-icon-modern {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .stat-value-modern {
+    font-size: 18px;
+  }
+  
+  .stat-label-modern {
+    font-size: 9px;
+  }
+  
+  /* Your Rank: Forzar horizontalidad en una línea si es posible */
+  .your-rank-content {
+    flex-wrap: nowrap;
+    overflow-x: auto; /* Permitir scroll si no cabe */
+    padding-bottom: 5px; 
+  }
+  
+  .badge-inner {
+    padding: 12px 16px;
+  }
+  
+  .position-num {
+    font-size: 32px;
   }
   
   .rank-stats-modern {
-    /* Forzar apilamiento de las estadísticas de rango */
-    flex-direction: column;
-    align-items: center;
-    gap: 16px;
+    flex-wrap: nowrap;
+    gap: 12px;
+    flex-shrink: 0;
+  }
+  
+  .stat-num {
+    font-size: 16px;
+  }
+  
+  .stat-lab {
+    font-size: 10px;
   }
   
   .stat-divider-modern {
-    display: none; /* Ocultar el divisor vertical */
+    height: 30px;
   }
 
+  /* PODIO: Se mantiene en 3 columnas, pero se hace muy compacto y con scroll horizontal */
   .podium-ultra {
     padding: 20px 10px;
+    overflow-x: auto; /* Habilitar scroll horizontal */
   }
-  
+
   .podium-header-ultra {
-    margin-bottom: 24px;
+    min-width: 350px; /* Asegura que el encabezado no se colapse */
+    margin-bottom: 20px;
   }
   
   .podium-title-ultra {
     font-size: 20px;
   }
 
-  /* PODIO: Permite que los jugadores se apilen en una sola columna para ahorrar espacio. 
-     Esto es un gran cambio respecto a PC, pero necesario para la usabilidad. */
   .podium-stage {
-    grid-template-columns: 1fr;
-    gap: 20px;
+    grid-template-columns: repeat(3, 150px); /* Forzar ancho fijo para cada tarjeta */
+    gap: 8px;
+    min-width: 450px; /* Ancho mínimo para habilitar scroll */
+    justify-content: start;
+    padding-bottom: 8px; /* Espacio para el scrollbar */
   }
 
-  .first-place,
-  .second-place,
-  .third-place {
-    order: 0; /* Desactiva la ordenación del podio para el modo apilado */
-    animation-delay: 0s;
-  }
-  
-  .place-height {
-    display: none; /* Ocultar las "alturas" del podio, ya que están apilados */
-  }
-  
   .player-card {
-    padding: 20px 16px;
+    padding: 16px 8px;
   }
   
   .player-avatar-wrap {
-    margin: 0 auto 16px;
+    margin: 0 auto 10px;
+  }
+  
+  .player-avatar-ultra {
+    width: 50px;
+    height: 50px;
+    font-size: 20px;
+  }
+
+  .champion-avatar {
+    width: 65px;
+    height: 65px;
+    font-size: 26px;
+  }
+  
+  .place-1 {
+    height: 80px;
+  }
+
+  .place-2 {
+    height: 60px;
+  }
+
+  .place-3 {
+    height: 40px;
   }
   
   .player-stats-ultra {
-    justify-content: space-around;
+    gap: 8px;
+    padding-top: 10px;
   }
   
+  .stat-value-ultra {
+    font-size: 12px;
+  }
+  
+  .champion-stat {
+    font-size: 14px;
+  }
+
+  /* Controles: Se apilan para dar espacio horizontal a la tabla */
   .controls-modern {
     flex-direction: column;
     align-items: stretch;
-    gap: 10px;
+    gap: 8px;
   }
   
   .filters-modern,
@@ -1640,59 +1668,39 @@
     justify-content: space-around;
   }
 
-  /* TABLA: Se simplifica forzando que la fila sea más compacta o haciendo que la lista sea de desplazamiento horizontal */
-  .list-header-modern,
-  .list-row-modern {
-    /* Se mantiene el grid original, pero se envuelve en un contenedor con scroll horizontal */
-    grid-template-columns: 50px 1.5fr 80px 70px 100px;
-    gap: 4px;
-    padding: 10px 12px;
-    min-width: 500px; /* Establece un ancho mínimo forzado */
-  }
-  
+  /* Tabla de Clasificación: Máxima compactación y scroll horizontal */
   .ranking-list-modern {
-    overflow-x: auto; /* Permite el scroll horizontal en la lista */
+    overflow-x: auto; /* Habilitar scroll horizontal */
     -webkit-overflow-scrolling: touch;
   }
   
-  /* Asegurarse de que el encabezado también tenga scroll */
-  .list-header-modern {
-    min-width: 500px;
+  .list-header-modern,
+  .list-row-modern {
+    grid-template-columns: 40px 1.5fr 70px 60px 100px; /* Reducción de columnas */
+    gap: 4px;
+    padding: 10px 8px;
+    min-width: 450px; /* Ancho mínimo para que la tabla sea legible */
   }
   
-  .list-body-modern {
-    overflow-x: hidden; /* Mantenemos el scroll vertical en el body */
-  }
-  
-  /* Ajustes de tipografía para mantener la tabla en una sola línea */
   .header-cell {
     font-size: 9px;
-  }
-  
-  .pos-number {
-    font-size: 14px;
   }
   
   .user-avatar-small {
     width: 32px;
     height: 32px;
-    font-size: 13px;
-  }
-  
-  .user-correct-small {
-    font-size: 10px;
   }
   
   .points-num {
-    font-size: 13px;
-  }
-  
-  .preds-num {
     font-size: 12px;
   }
   
-  .acc-percent {
+  .preds-num {
     font-size: 11px;
-    min-width: 38px;
+  }
+  
+  .acc-percent {
+    font-size: 10px;
+    min-width: 35px;
   }
 }
