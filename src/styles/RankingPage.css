@@ -1383,11 +1383,55 @@ transform: translate(-50%, -50%) rotate(360deg);
     display: none;
   }
 }
-
-
 /* AJUSTES PARA MANTENER PODIO HORIZONTAL EN MÓVILES */
 
 @media (max-width: 768px) {
+  /* ===========================
+   ⚡ OPTIMIZACIÓN MÓVIL REAL
+   =========================== */
+@media (max-width: 768px) {
+
+  /* Quitar orbs de fondo (muy pesadas) */
+  .bg-orbs,
+  .orb {
+    display: none !important;
+  }
+
+  /* Desactivar animaciones pesadas */
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  /* Quitar blur (super costoso en móviles) */
+  .stat-card-modern,
+  .your-rank-modern,
+  .ranking-list-modern,
+  .search-modern,
+  .filters-modern,
+  .sorts-modern,
+  .player-card {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: #ffffff !important;
+    border: 1px solid #e5e7eb !important;
+  }
+
+  /* Quitar brillos extra */
+  .stat-card-glow,
+  .card-shine,
+  .avatar-sparkle,
+  .crown-star {
+    display: none !important;
+  }
+
+  /* Quitar rings animados */
+  .avatar-rings,
+  .ring {
+    display: none !important;
+  }
+}
+
   .podium-ultra {
     padding: 20px 12px;
     overflow-x: auto;
@@ -1883,4 +1927,12 @@ transform: translate(-50%, -50%) rotate(360deg);
   .ranking-page {
     background: linear-gradient(135deg, #F8FAFC 0%, #E2E8F0 50%, #CBD5E1 100%);
   }
+}
+/* Fondo general blanco */
+.ranking-page {
+  background: #ffffff !important;
+}
+
+.ranking-page-loading {
+  background: #ffffff !important;
 }
