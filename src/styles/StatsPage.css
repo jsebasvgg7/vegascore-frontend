@@ -400,6 +400,12 @@
   position: relative;
   width: 60px;
   height: 60px;
+  background: transparent;
+}
+
+.accuracy-circle svg {
+  display: block;
+  background: transparent;
 }
 
 .accuracy-value {
