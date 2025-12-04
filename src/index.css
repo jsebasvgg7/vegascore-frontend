@@ -58,7 +58,6 @@ body {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: linear-gradient(135deg, #60519b 0%, #8b7fc7 100%);
 }
 
 .vega-root,
