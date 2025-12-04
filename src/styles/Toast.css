@@ -4,13 +4,14 @@
 
 .toast-container {
   position: fixed;
-  top: 90px; /* Debajo del header sticky */
+  top: 100px; /* Más espacio del header sticky */
   right: 24px;
-  z-index: 10000; /* Mayor que el header (100) y bottom-nav */
+  z-index: 999999; /* Súper alto para estar sobre todo */
   display: flex;
   flex-direction: column;
   gap: 12px;
   pointer-events: none;
+  max-width: 420px;
 }
 
 .toast-notification {
@@ -176,11 +177,12 @@
 ============================================ */
 @media (max-width: 768px) {
   .toast-container {
-    top: 75px; /* Ajustado para tu header mobile */
+    top: 85px; /* Ajustado para tu header mobile */
     right: 12px;
     left: 12px;
     gap: 10px;
-    z-index: 10000; /* Sobre todo incluyendo bottom-nav */
+    z-index: 999999; /* Súper alto */
+    max-width: calc(100vw - 24px);
   }
 
   .toast-notification {
@@ -188,10 +190,14 @@
     border-radius: 14px;
     gap: 10px;
     min-width: 0;
+    width: 100%;
     box-shadow: 
       0 8px 32px rgba(0, 0, 0, 0.3),
       0 4px 16px rgba(96, 81, 155, 0.25),
       0 0 0 1px rgba(0, 0, 0, 0.1);
+    /* Asegurar visibilidad en móviles */
+    transform: translate3d(0, 0, 0);
+    -webkit-transform: translate3d(0, 0, 0);
   }
 
   .toast-icon {
@@ -325,4 +331,20 @@
     background: #4a4a4a;
     color: #fff;
   }
+}
+
+/* ============================================
+   DEBUGGING - Remover después de confirmar
+============================================ */
+.toast-notification {
+  /* Forzar visibilidad máxima */
+  visibility: visible !important;
+  opacity: 1;
+  display: flex !important;
+}
+
+.toast-container {
+  /* Asegurar que siempre sea visible */
+  visibility: visible !important;
+  display: flex !important;
 }
