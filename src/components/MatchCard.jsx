@@ -3,7 +3,8 @@ import React, { useState, useEffect } from "react";
 import { 
   Zap, 
   Clock, 
-  CheckCircle2
+  CheckCircle2,
+  Calendar
 } from "lucide-react";
 import "../styles/MatchCard.css"; 
 
@@ -83,13 +84,54 @@ export default function MatchCard({ match, userPred, onPredict }) {
     return <span className="team-logo-emoji">{fallbackEmoji || '⚽'}</span>;
   };
 
+  // Función para formatear la fecha
+  const formatMatchDate = (dateString) => {
+    // Si ya viene formateado como texto (ej: "Hoy", "Mañana")
+    if (dateString && typeof dateString === 'string' && !dateString.match(/^\d{4}-\d{2}-\d{2}$/)) {
+      return dateString;
+    }
+
+    // Si es una fecha en formato YYYY-MM-DD
+    try {
+      const matchDate = new Date(dateString);
+      const today = new Date();
+      const tomorrow = new Date(today);
+      tomorrow.setDate(tomorrow.getDate() + 1);
+
+      // Normalizar las fechas para comparar solo día/mes/año
+      const normalizeDate = (date) => {
+        return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+      };
+
+      const normalizedMatch = normalizeDate(matchDate);
+      const normalizedToday = normalizeDate(today);
+      const normalizedTomorrow = normalizeDate(tomorrow);
+
+      if (normalizedMatch.getTime() === normalizedToday.getTime()) {
+        return 'Hoy';
+      } else if (normalizedMatch.getTime() === normalizedTomorrow.getTime()) {
+        return 'Mañana';
+      } else {
+        // Formato: "15 Dic"
+        return matchDate.toLocaleDateString('es-ES', { 
+          day: 'numeric', 
+          month: 'short' 
+        });
+      }
+    } catch (e) {
+      return dateString;
+    }
+  };
+
   return (
     <div className="match-card-light">
       
       <div className="match-header-light">
-        {match.date.toLowerCase().includes("hoy") ? (
-          <div className="status-dot"></div>
-        ) : null}
+        {/* Fecha del partido */}
+        <div className="match-date-badge">
+          <Calendar size={12} />
+          <span>{formatMatchDate(match.date)}</span>
+        </div>
         
         <div className="match-league-info-light">
           <Zap size={14} className="league-icon" />
