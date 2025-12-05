@@ -1,5 +1,5 @@
 /* ===================================
-   MATCH CARD - Light & Minimal Design (Based on predicciones.jpeg)
+   MATCH CARD - Light & Minimal Design
 =================================== */
 
 .match-card-light {
@@ -22,11 +22,11 @@
 }
 
 /* ===================================
-   HEADER - Información de Liga y Fecha
+   HEADER
 =================================== */
 
 .match-header-light {
-  padding: 12px 16px 0; /* Padding superior para el "Hoy" o Fecha */
+  padding: 12px 16px 0;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -38,7 +38,7 @@
 .match-header-light .status-dot {
   width: 8px;
   height: 8px;
-  background: #10b981; /* Verde para "Hoy" */
+  background: #10b981;
   border-radius: 50%;
   margin-right: 2px;
 }
@@ -63,17 +63,6 @@
   color: #d1d5db;
 }
 
-.match-league-info-light .edit-icon {
-  color: #9ca3af;
-  margin-left: auto;
-  cursor: pointer;
-  transition: color 0.2s;
-}
-.match-league-info-light .edit-icon:hover {
-  color: #4b5563;
-}
-
-
 /* ===================================
    CONTENEDOR DE EQUIPOS Y PREDICCIÓN
 =================================== */
@@ -81,7 +70,7 @@
 .match-content-light {
   padding: 20px 16px;
   display: grid;
-  grid-template-columns: 1fr 110px 1fr; /* Equipo Local | Controles | Equipo Visitante */
+  grid-template-columns: 1fr 110px 1fr;
   align-items: center;
   gap: 10px;
 }
@@ -97,9 +86,25 @@
 }
 
 .team-logo-light {
-  font-size: 40px; /* Tamaño del logo */
-  height: 40px;
-  width: 40px;
+  height: 48px;
+  width: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+/* Logos como imágenes reales */
+.team-logo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+/* Logos como emojis (fallback) */
+.team-logo-emoji {
+  font-size: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -117,7 +122,7 @@
 }
 
 /* ===================================
-   CONTROLES DE PREDICCIÓN (BOTONES +/-)
+   CONTROLES DE PREDICCIÓN
 =================================== */
 
 .prediction-controls {
@@ -170,61 +175,43 @@
   justify-content: center;
 }
 
-.action-buttons-row {
-  display: flex;
-  gap: 4px;
+/* INPUT EN CELDA DE MARCADOR */
+
+.score-input-in-cell {
   width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  border: none;
+  background: transparent;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 800;
+  color: inherit;
 }
 
-.action-button-light {
-  flex: 1;
-  height: 36px;
-  background: #f3f4f6;
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
-  color: #4b5563;
-  font-size: 16px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.2s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  line-height: 1;
+.score-input-in-cell:focus {
+  outline: none;
+  background: rgba(255, 255, 255, 0.5);
 }
 
-.action-button-light:hover {
-  background: #e5e7eb;
-  color: #1f2937;
-}
-
-.action-button-light:active {
-  transform: translateY(1px);
-}
-
-.action-button-light:disabled {
-  background: #f9fafb;
-  border-color: #f3f4f6;
+.score-input-in-cell::placeholder {
   color: #9ca3af;
-  cursor: not-allowed;
+  opacity: 0.8;
 }
 
-/* Estilos de Botones de Puntuación (Ajuste al estilo del boceto) */
-.score-button-set {
-  display: flex;
-  gap: 4px;
-  margin-bottom: 4px; /* Espacio antes del marcador */
+.score-input-in-cell::-webkit-outer-spin-button,
+.score-input-in-cell::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
-/* Sobreescribe el estilo del boceto para botones de +/- */
-.score-button-set .action-button-light {
-  height: 32px;
-  font-size: 18px;
-  font-weight: 900;
+.score-input-in-cell[type=number] {
+  -moz-appearance: textfield;
 }
 
 /* ===================================
-   FOOTER (Solo para estado de predicción)
+   FOOTER
 =================================== */
 
 .match-footer-light {
@@ -270,7 +257,10 @@
   box-shadow: none;
 }
 
-/* Responsive (Asegurar que se ve bien en móvil) */
+/* ===================================
+   RESPONSIVE
+=================================== */
+
 @media (max-width: 480px) {
   .match-card-light {
     border-radius: 16px;
@@ -285,47 +275,13 @@
     font-size: 18px;
   }
   .team-logo-light {
+    height: 42px;
+    width: 42px;
+  }
+  .team-logo-emoji {
     font-size: 36px;
   }
   .team-name-light {
     font-size: 13px;
   }
-}
-/* ===================================
-   INPUT DENTRO DE LA CELDA DE MARCADOR
-=================================== */
-
-/* Hace que el input ocupe toda la celda de marcador */
-.score-input-in-cell {
-  width: 100%;
-  height: 100%;
-  padding: 0;
-  margin: 0;
-  border: none;
-  background: transparent;
-  text-align: center;
-  font-size: 20px; /* Igual al tamaño de fuente de .score-cell-light */
-  font-weight: 800; /* Igual al peso de fuente de .score-cell-light */
-  color: inherit; /* Hereda el color del texto, que cambia con la clase .has-prediction */
-}
-
-.score-input-in-cell:focus {
-  outline: none; /* Eliminar el borde de enfoque predeterminado */
-  background: rgba(255, 255, 255, 0.5); /* Sutil fondo al enfocar para visibilidad */
-}
-
-.score-input-in-cell::placeholder {
-  color: #9ca3af;
-  opacity: 0.8;
-}
-
-/* Ocultar las flechas del input type="number" en navegadores */
-.score-input-in-cell::-webkit-outer-spin-button,
-.score-input-in-cell::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-.score-input-in-cell[type=number] {
-  -moz-appearance: textfield;
 }

@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { X, Plus, Calendar, Clock, Shield, Zap, Home, Plane } from "lucide-react";
+import { getLogoUrlByTeamName } from "../utils/logoHelper.js";
+import { supabase } from "../utils/supabaseClient";
 import "../styles/AdminModal.css";
 
 export default function AdminModal({ onAdd, onClose }) {
@@ -17,7 +19,35 @@ export default function AdminModal({ onAdd, onClose }) {
   });
 
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setForm({ ...form, [name]: value });
+    
+    // Auto-generar las URLs de logos cuando se ingresen los nombres de equipos
+    if (name === 'home_team' && value && form.league) {
+      const logoUrl = getLogoUrlByTeamName(supabase, value, form.league);
+      if (logoUrl) {
+        setForm(prev => ({ ...prev, home_team_logo_url: logoUrl }));
+      }
+    }
+    
+    if (name === 'away_team' && value && form.league) {
+      const logoUrl = getLogoUrlByTeamName(supabase, value, form.league);
+      if (logoUrl) {
+        setForm(prev => ({ ...prev, away_team_logo_url: logoUrl }));
+      }
+    }
+    
+    // Si cambia la liga, recalcular ambos logos
+    if (name === 'league' && value) {
+      if (form.home_team) {
+        const homeLogo = getLogoUrlByTeamName(supabase, form.home_team, value);
+        if (homeLogo) setForm(prev => ({ ...prev, home_team_logo_url: homeLogo }));
+      }
+      if (form.away_team) {
+        const awayLogo = getLogoUrlByTeamName(supabase, form.away_team, value);
+        if (awayLogo) setForm(prev => ({ ...prev, away_team_logo_url: awayLogo }));
+      }
+    }
   };
 
   const submit = () => {
@@ -29,13 +59,19 @@ export default function AdminModal({ onAdd, onClose }) {
     // Combinar fecha y hora del deadline en formato ISO
     const deadlineISO = `${form.deadLine}T${form.deadLine_time}:00`;
 
+    // Generar URLs de logos automáticamente
+    const homeLogoUrl = getLogoUrlByTeamName(supabase, form.home_team, form.league);
+    const awayLogoUrl = getLogoUrlByTeamName(supabase, form.away_team, form.league);
+
     onAdd({
       id: form.id,
       league: form.league,
       home_team: form.home_team,
       away_team: form.away_team,
-      home_team_logo: form.home_team_logo,
-      away_team_logo: form.away_team_logo,
+      home_team_logo: form.home_team_logo, // Mantener emoji como fallback
+      away_team_logo: form.away_team_logo, // Mantener emoji como fallback
+      home_team_logo_url: homeLogoUrl,     // Nueva URL del logo real
+      away_team_logo_url: awayLogoUrl,     // Nueva URL del logo real
       date: form.date,
       time: form.time,
       deadline: deadlineISO,
@@ -93,10 +129,11 @@ export default function AdminModal({ onAdd, onClose }) {
             <input 
               className="form-input-premium" 
               name="league" 
-              placeholder="Ej: Premier League, La Liga, UEFA Champions League" 
+              placeholder="Ej: Premier League, La Liga, Champions League" 
               value={form.league}
               onChange={handleChange}
             />
+            <span className="form-hint">Los logos se asignarán automáticamente según la liga</span>
           </div>
 
           {/* Equipos en grid */}
@@ -110,7 +147,7 @@ export default function AdminModal({ onAdd, onClose }) {
               <input 
                 className="form-input-premium" 
                 name="home_team" 
-                placeholder="Manchester United" 
+                placeholder="Man United" 
                 value={form.home_team}
                 onChange={handleChange}
               />
@@ -132,42 +169,27 @@ export default function AdminModal({ onAdd, onClose }) {
             </div>
           </div>
 
-          {/* Logos */}
-          <div className="logos-grid-premium">
-            <div className="form-group-premium">
-              <label className="form-label-premium">
-                <span>Logo Local</span>
-              </label>
-              <div className="logo-input-wrapper">
-                <input 
-                  className="form-input-premium logo-input" 
-                  name="home_team_logo" 
-                  placeholder="🏠" 
-                  value={form.home_team_logo}
-                  onChange={handleChange}
-                  maxLength={2}
-                />
-                <span className="logo-preview">{form.home_team_logo}</span>
+          {/* Vista previa de logos */}
+          {form.home_team && form.away_team && form.league && (
+            <div className="logo-preview-section">
+              <div className="logo-preview-item">
+                <span className="logo-preview-label">Logo Local:</span>
+                {form.home_team_logo_url ? (
+                  <img src={form.home_team_logo_url} alt="Home" className="logo-preview-img" />
+                ) : (
+                  <span className="logo-preview-emoji">{form.home_team_logo}</span>
+                )}
+              </div>
+              <div className="logo-preview-item">
+                <span className="logo-preview-label">Logo Visitante:</span>
+                {form.away_team_logo_url ? (
+                  <img src={form.away_team_logo_url} alt="Away" className="logo-preview-img" />
+                ) : (
+                  <span className="logo-preview-emoji">{form.away_team_logo}</span>
+                )}
               </div>
             </div>
-
-            <div className="form-group-premium">
-              <label className="form-label-premium">
-                <span>Logo Visitante</span>
-              </label>
-              <div className="logo-input-wrapper">
-                <input 
-                  className="form-input-premium logo-input" 
-                  name="away_team_logo" 
-                  placeholder="✈️" 
-                  value={form.away_team_logo}
-                  onChange={handleChange}
-                  maxLength={2}
-                />
-                <span className="logo-preview">{form.away_team_logo}</span>
-              </div>
-            </div>
-          </div>
+          )}
 
           {/* Fecha y hora del partido */}
           <div className="datetime-grid-premium">
