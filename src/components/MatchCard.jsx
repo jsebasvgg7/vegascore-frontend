@@ -93,7 +93,10 @@ export default function MatchCard({ match, userPred, onPredict }) {
 
     // Si es una fecha en formato YYYY-MM-DD
     try {
-      const matchDate = new Date(dateString);
+      // Parsear la fecha en hora local (evita problemas de zona horaria)
+      const [year, month, day] = dateString.split('-').map(Number);
+      const matchDate = new Date(year, month - 1, day); // month - 1 porque los meses en JS van de 0-11
+      
       const today = new Date();
       const tomorrow = new Date(today);
       tomorrow.setDate(tomorrow.getDate() + 1);
