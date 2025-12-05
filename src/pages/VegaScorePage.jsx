@@ -216,9 +216,15 @@ export default function VegaScorePage() {
       </>
     );
   }
-
+  const pendingMatches = matches
+    .filter((m) => m.status === "pending")
+    .sort((a, b) => {
+      // Convertir fecha y hora a objetos Date comparables
+      const dateA = new Date(`${a.date}T${a.time}`);
+      const dateB = new Date(`${b.date}T${b.time}`);
+      return dateA - dateB; // Orden ascendente (más cercanos primero)
+    });
   const sortedUsers = [...users].sort((a, b) => b.points - a.points);
-  const pendingMatches = matches.filter((m) => m.status === "pending");
   const activeLeagues = leagues.filter((l) => l.status === "active");
   const activeAwards = awards.filter((a) => a.status === "active");
   const isLoading = matchesLoading || leaguesLoading || awardsLoading;
