@@ -2,7 +2,7 @@ import React from "react";
 import { Trophy, LogOut, User2, Award, Shield, Bell, Home, BarChart3, Moon, Sun } from "lucide-react";
 import { supabase } from "../utils/supabaseClient";
 import { useNavigate, useLocation } from "react-router-dom";
-import { useTheme } from "../contexts/ThemeContext";
+import { useTheme } from "../context/ThemeContext";
 import "../styles/Header.css";
 
 export default function Header({ currentUser, users = [], onProfileClick }) {
