@@ -1722,6 +1722,139 @@ button {
    MATCH/LEAGUE/AWARD CARDS - DETALLES ADICIONALES
 ========================================== */
 
+/* Card principal */
+[data-theme="dark"] .match-card-light {
+  background: var(--card);
+  border-color: var(--border);
+  box-shadow: 
+    0 1px 3px rgba(0, 0, 0, 0.3),
+    0 6px 16px -6px rgba(0, 0, 0, 0.4);
+}
+
+[data-theme="dark"] .match-card-light:hover {
+  border-color: rgba(139, 127, 199, 0.3);
+  box-shadow: 
+    0 4px 12px rgba(0, 0, 0, 0.4),
+    0 10px 20px -5px rgba(139, 127, 199, 0.2);
+}
+
+/* Header */
+[data-theme="dark"] .match-header-light {
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .match-league-info-light {
+  color: var(--text-secondary);
+}
+
+[data-theme="dark"] .match-league-info-light .league-icon {
+  color: var(--muted);
+}
+
+[data-theme="dark"] .league-name {
+  color: var(--text-secondary);
+}
+
+/* Date badge - mantener azul pero adaptado */
+[data-theme="dark"] .match-date-badge {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.2) 0%, rgba(37, 99, 235, 0.15) 100%);
+  border-color: rgba(59, 130, 246, 0.3);
+  color: #60A5FA;
+  box-shadow: 0 1px 3px rgba(59, 130, 246, 0.2);
+}
+
+/* Team names */
+[data-theme="dark"] .team-name-light {
+  color: var(--text-primary);
+}
+
+/* Team logos - ajustar contraste */
+[data-theme="dark"] .team-logo-img {
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4)) brightness(1.1);
+}
+
+[data-theme="dark"] .team-logo-emoji {
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4)) brightness(1.1);
+}
+
+/* Score cells */
+[data-theme="dark"] .score-cell-light {
+  background: rgba(58, 64, 82, 0.6);
+  border-color: rgba(255, 255, 255, 0.12);
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .score-cell-light.has-prediction {
+  background: rgba(16, 185, 129, 0.2);
+  border-color: rgba(16, 185, 129, 0.4);
+  color: #34D399;
+}
+
+[data-theme="dark"] .prediction-check-light {
+  background: var(--card);
+  color: #10B981;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+/* Score input */
+[data-theme="dark"] .score-input-in-cell {
+  color: inherit;
+  background: transparent;
+}
+
+[data-theme="dark"] .score-input-in-cell:focus {
+  background: rgba(139, 127, 199, 0.1);
+}
+
+[data-theme="dark"] .score-input-in-cell::placeholder {
+  color: var(--muted);
+  opacity: 0.7;
+}
+
+/* Match time center */
+[data-theme="dark"] .match-time-center {
+  background: rgba(42, 47, 63, 0.6);
+  border-color: var(--border);
+  color: var(--text-secondary);
+}
+
+[data-theme="dark"] .match-time-center svg {
+  color: var(--muted);
+}
+
+/* Footer */
+[data-theme="dark"] .match-footer-light {
+  border-top-color: var(--border);
+}
+
+[data-theme="dark"] .prediction-status-light {
+  color: var(--text-secondary);
+}
+
+/* Predict button */
+[data-theme="dark"] .predict-button-match {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+[data-theme="dark"] .predict-button-match:hover {
+  box-shadow: 0 6px 16px rgba(16, 185, 129, 0.4);
+}
+
+[data-theme="dark"] .predict-button-match:disabled {
+  opacity: 0.5;
+}
+
+/* Status colors específicos */
+[data-theme="dark"] .prediction-status-light svg[style*="color: #059669"],
+[data-theme="dark"] .prediction-status-light svg[style*="color:#059669"] {
+  color: #10B981 !important;
+}
+
+[data-theme="dark"] .prediction-status-light[style*="color: #ef4444"],
+[data-theme="dark"] .prediction-status-light[style*="color:#ef4444"] {
+  color: #EF4444 !important;
+}
 [data-theme="dark"] .match-date-badge {
   background: rgba(59, 130, 246, 0.15);
   border-color: rgba(59, 130, 246, 0.3);
