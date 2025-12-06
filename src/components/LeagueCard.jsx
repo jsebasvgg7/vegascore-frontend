@@ -71,20 +71,6 @@ export default function LeagueCard({ league, userPrediction, onPredict }) {
             <span className="league-season-light">{league.season}</span>
           </div>
         </div>
-        
-        {deadline && !isFinished && (
-          <div className="league-deadline-badge">
-            <Calendar size={12} />
-            <span>Hasta {deadline}</span>
-          </div>
-        )}
-
-        {isFinished && (
-          <div className="league-status-badge finished">
-            <CheckCircle2 size={12} />
-            <span>Finalizada</span>
-          </div>
-        )}
       </div>
 
       {/* Formulario de predicciones */}
