@@ -524,92 +524,6 @@ const handleDeleteTitle = async (titleId) => {
           {/* Content Area */}
           <div className="admin-content-area">
             {activeSection === 'matches' && (
-              <div className="admin-items-grid">
-                {getFilteredItems().map(match => (
-                  <div key={match.id} className="admin-item-card match">
-                    <div className="item-header">
-                      <div className="item-info">
-                        <div className="item-league">{match.league}</div>
-                        <div className="item-teams">
-                          {match.home_team_logo} {match.home_team} vs {match.away_team} {match.away_team_logo}
-                        </div>
-                        <div className="item-meta">
-                          <Calendar size={14} />
-                          <span>{match.date}</span>
-                          <Clock size={14} />
-                          <span>{match.time}</span>
-                        </div>
-                      </div>
-                      <div className={`item-status ${match.status}`}>
-                        {match.status === 'pending' && (
-                          <button 
-                            className="action-btn finish"
-                            onClick={() => {
-                              setItemToFinish(match);
-                              setShowFinishMatchModal(true);
-                            }}
-                          >
-                            <CheckCircle size={16} />
-                            <span>Finalizar</span>
-                          </button>
-                        )}
-                        {match.status === 'finished' ? 'Finalizado' : 'Pendiente'}
-                      </div>
-                    </div>
-                    <div className="item-actions">
-                      <button 
-                        className="action-btn delete"
-                        onClick={() => handleDeleteMatch(match.id)}
-                      >
-                        <Trash2 size={16} />
-                      </button>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-
-            {activeSection === 'leagues' && (
-              <div className="admin-items-grid">
-                {getFilteredItems().map(league => (
-                  <div key={league.id} className="admin-item-card league">
-                    <div className="item-header">
-                      <div className="item-info">
-                        <div className="item-title">
-                          {league.logo} {league.name}
-                        </div>
-                        <div className="item-subtitle">{league.season}</div>
-                      </div>
-                      <div className={`item-status ${league.status}`}>
-                        {league.status === 'active' ? 'Activa' : 'Finalizada'}
-                      </div>
-                    </div>
-                    <div className="item-actions">
-                      {league.status === 'active' && (
-                        <button 
-                          className="action-btn finish"
-                          onClick={() => {
-                            setItemToFinish(league);
-                            setShowFinishLeagueModal(true);
-                          }}
-                        >
-                          <CheckCircle size={16} />
-                          <span>Finalizar</span>
-                        </button>
-                      )}
-                      <button 
-                        className="action-btn delete"
-                        onClick={() => handleDeleteLeague(league.id)}
-                      >
-                        <Trash2 size={16} />
-                      </button>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-
-            {activeSection === 'matches' && (
             <div className="admin-items-grid">
               {getFilteredItems().map(match => (
                 <div key={match.id} className="admin-item-card match">
@@ -654,6 +568,86 @@ const handleDeleteTitle = async (titleId) => {
               ))}
             </div>
           )}
+
+            {activeSection === 'leagues' && (
+              <div className="admin-items-grid">
+                {getFilteredItems().map(league => (
+                  <div key={league.id} className="admin-item-card league">
+                    <div className="item-header">
+                      <div className="item-info">
+                        <div className="item-title">
+                          {league.logo} {league.name}
+                        </div>
+                        <div className="item-subtitle">{league.season}</div>
+                      </div>
+                      <div className={`item-status ${league.status}`}>
+                        {league.status === 'active' ? 'Activa' : 'Finalizada'}
+                      </div>
+                    </div>
+                    <div className="item-actions">
+                      {league.status === 'active' && (
+                        <button 
+                          className="action-btn finish"
+                          onClick={() => {
+                            setItemToFinish(league);
+                            setShowFinishLeagueModal(true);
+                          }}
+                        >
+                          <CheckCircle size={16} />
+                          <span>Finalizar</span>
+                        </button>
+                      )}
+                      <button 
+                        className="action-btn delete"
+                        onClick={() => handleDeleteLeague(league.id)}
+                      >
+                        <Trash2 size={16} />
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {activeSection === 'awards' && (
+              <div className="admin-items-grid">
+                {getFilteredItems().map(award => (
+                  <div key={award.id} className="admin-item-card award">
+                    <div className="item-header">
+                      <div className="item-info">
+                        <div className="item-title">
+                          {award.logo} {award.name}
+                        </div>
+                        <div className="item-subtitle">{award.season}</div>
+                      </div>
+                      <div className={`item-status ${award.status}`}>
+                        {award.status === 'active' ? 'Activo' : 'Finalizado'}
+                      </div>
+                    </div>
+                    <div className="item-actions">
+                      {award.status === 'active' && (
+                        <button 
+                          className="action-btn finish"
+                          onClick={() => {
+                            setItemToFinish(award);
+                            setShowFinishAwardModal(true);
+                          }}
+                        >
+                          <CheckCircle size={16} />
+                          <span>Finalizar</span>
+                        </button>
+                      )}
+                      <button 
+                        className="action-btn delete"
+                        onClick={() => handleDeleteAward(award.id)}
+                      >
+                        <Trash2 size={16} />
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
 
             {activeSection === 'achievements' && (
               <div className="admin-items-grid">
