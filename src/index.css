@@ -1749,7 +1749,22 @@ button {
 /* ==========================================
    MATCH/LEAGUE/AWARD CARDS - DETALLES ADICIONALES
 ========================================== */
+/* Card principal */
+[data-theme="dark"] .match-card-light,
+[data-theme="dark"] .league-card-light,
+[data-theme="dark"] .award-card-light {
+  background: var(--card);
+  border-color: var(--border);
+  box-shadow: 
+    0 1px 3px rgba(0, 0, 0, 0.3),
+    0 6px 16px -6px rgba(0, 0, 0, 0.4);
+}
 
+/* Formularios - mismo color que el card */
+[data-theme="dark"] .league-predictions-container,
+[data-theme="dark"] .award-prediction-form {
+  background: var(--card) !important;
+}
 /* Card principal */
 [data-theme="dark"] .match-card-light {
   background: var(--card);
