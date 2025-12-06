@@ -364,15 +364,15 @@ background: #ffffff !important;
   color: white;
 }
 
-.points-circle {
+.stat-icon-circle.points-circle {
   background: linear-gradient(135deg, #F59E0B, #D97706);
 }
 
-.accuracy-circle {
+.stat-icon-circle.accuracy-circle {
   background: linear-gradient(135deg, #10B981, #059669);
 }
 
-.predictions-circle {
+.stat-icon-circle.predictions-circle {
   background: linear-gradient(135deg, #EF4444, #DC2626);
 }
 
