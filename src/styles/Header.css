@@ -14,33 +14,6 @@
   position: relative;
   overflow: hidden;
 }
-/* Bottom Navigation Buttons - SIEMPRE con texto claro */
-.bottom-nav-btn {
-  color: #bfc0d1 !important;
-}
-
-.bottom-nav-btn.active {
-  color: #ffffff !important;
-  background: rgba(96, 81, 155, 0.2) !important;
-}
-
-.bottom-nav-btn.active span {
-  color: #8b7fc7 !important;
-}
-
-/* Forzar en modo claro también */
-[data-theme="light"] .bottom-nav-btn {
-  color: #bfc0d1 !important;
-}
-
-[data-theme="light"] .bottom-nav-btn.active {
-  color: #ffffff !important;
-  background: rgba(96, 81, 155, 0.2) !important;
-}
-
-[data-theme="light"] .bottom-nav-btn.active span {
-  color: #8b7fc7 !important;
-}
 
 .app-header::before {
   content: '';

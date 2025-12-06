@@ -305,16 +305,61 @@ button {
     -webkit-overflow-scrolling: touch;
   }
 
-  .bottom-nav {
-    pointer-events: auto;
-    background: var(--card);
-    border-top: 1px solid var(--border);
-  }
 
   .bottom-nav ~ * {
     position: relative;
     z-index: 1;
   }
+}
+/* ==========================================
+   MOBILE HEADER Y BOTTOM NAV - NO CAMBIAN
+========================================== */
+
+/* Mobile header - NO cambia (se mantiene igual en ambos modos) */
+@media (max-width: 768px) {
+  .app-header {
+    background: linear-gradient(135deg, #1e202c 0%, #31323e 100%) !important;
+    border-bottom-color: rgba(96, 81, 155, 0.2) !important;
+  }
+  
+  /* Bottom Nav - SIEMPRE OSCURO */
+  .bottom-nav {
+    background: linear-gradient(135deg, #1e202c 0%, #31323e 100%) !important;
+    border-top: 1px solid rgba(96, 81, 155, 0.2) !important;
+  }
+  
+  /* Botones del bottom nav - SIEMPRE texto claro */
+  .bottom-nav-btn {
+    color: #bfc0d1 !important;
+  }
+  
+  .bottom-nav-btn.active {
+    color: #ffffff !important;
+    background: rgba(96, 81, 155, 0.2) !important;
+  }
+  
+  .bottom-nav-btn.active span {
+    color: #8b7fc7 !important;
+  }
+}
+
+/* Forzar para MODO CLARO también */
+[data-theme="light"] .bottom-nav {
+  background: linear-gradient(135deg, #1e202c 0%, #31323e 100%) !important;
+  border-top-color: rgba(96, 81, 155, 0.2) !important;
+}
+
+[data-theme="light"] .bottom-nav-btn {
+  color: #bfc0d1 !important;
+}
+
+[data-theme="light"] .bottom-nav-btn.active {
+  color: #ffffff !important;
+  background: rgba(96, 81, 155, 0.2) !important;
+}
+
+[data-theme="light"] .bottom-nav-btn.active span {
+  color: #8b7fc7 !important;
 }
 
 /* ================================
