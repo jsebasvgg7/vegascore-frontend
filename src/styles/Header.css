@@ -13,6 +13,7 @@
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
   position: relative;
   overflow: hidden;
+  z-index: 100;
 }
 
 .app-header::before {
@@ -557,7 +558,7 @@
 ================================ */
 
 .bottom-nav {
-  display: none; /* Oculto por defecto en desktop */
+  display: none;
   position: fixed;
   bottom: 0;
   left: 0;
