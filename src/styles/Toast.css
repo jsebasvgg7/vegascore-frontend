@@ -6,7 +6,7 @@
   position: fixed;
   top: 100px;
   right: 24px;
-  z-index: 99999 !important; /* Suficientemente alto pero razonable */
+  z-index: 99999 !important;
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -91,7 +91,7 @@
   margin: 0;
   font-size: 14px;
   font-weight: 600;
-  color: #111;
+  color: #1F2937 !important; /* Forzar color oscuro en modo claro */
   line-height: 1.4;
   word-wrap: break-word;
 }
@@ -154,6 +154,32 @@
 }
 
 /* ============================================
+   DARK MODE - Toast siempre con fondo oscuro
+============================================ */
+[data-theme="dark"] .toast-notification {
+  background: #2a2a2a !important;
+  box-shadow: 
+    0 10px 40px rgba(0, 0, 0, 0.6),
+    0 4px 12px rgba(96, 81, 155, 0.4),
+    0 0 0 2px rgba(255, 255, 255, 0.15);
+}
+
+[data-theme="dark"] .toast-message {
+  color: #f5f5f5 !important;
+}
+
+[data-theme="dark"] .toast-close {
+  background: #3a3a3a;
+  color: #ccc;
+}
+
+[data-theme="dark"] .toast-close:hover,
+[data-theme="dark"] .toast-close:active {
+  background: #4a4a4a;
+  color: #fff;
+}
+
+/* ============================================
    RESPONSIVE - TABLETS
 ============================================ */
 @media (max-width: 1024px) {
@@ -178,8 +204,7 @@
 ============================================ */
 @media (max-width: 768px) {
   .toast-container {
-    /* POSICIÓN AJUSTADA: Debajo del header móvil */
-    top: 90px !important; /* Header ~70px + 20px margen */
+    top: 90px !important;
     right: 12px;
     left: 12px;
     gap: 10px;
@@ -224,7 +249,7 @@
 ============================================ */
 @media (max-width: 480px) {
   .toast-container {
-    top: 80px !important; /* Header más pequeño en móviles pequeños */
+    top: 80px !important;
     right: 10px;
     left: 10px;
     gap: 8px;
@@ -261,7 +286,7 @@
 ============================================ */
 @media (max-height: 600px) and (orientation: landscape) {
   .toast-container {
-    top: 80px !important; /* Ajustado para landscape */
+    top: 80px !important;
     gap: 6px;
     right: 10px;
     left: auto;
@@ -305,33 +330,5 @@
   .toast-container {
     -webkit-transform: translateZ(0);
     transform: translateZ(0);
-  }
-}
-
-/* ============================================
-   DARK MODE SUPPORT
-============================================ */
-@media (prefers-color-scheme: dark) {
-  .toast-notification {
-    background: #2a2a2a;
-    box-shadow: 
-      0 10px 40px rgba(0, 0, 0, 0.6),
-      0 4px 12px rgba(96, 81, 155, 0.4),
-      0 0 0 2px rgba(255, 255, 255, 0.15);
-  }
-
-  .toast-message {
-    color: #f5f5f5;
-  }
-
-  .toast-close {
-    background: #3a3a3a;
-    color: #ccc;
-  }
-
-  .toast-close:hover,
-  .toast-close:active {
-    background: #4a4a4a;
-    color: #fff;
   }
 }
