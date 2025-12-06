@@ -553,7 +553,7 @@ const handleDeleteTitle = async (titleId) => {
                             <span>Finalizar</span>
                           </button>
                         )}
-                        {match.status === 'finished' ? 'Finalizado' : 'Pendiente'}
+                        {match.status === 'finished' ? 'Finalizado' : ''}
                       </div>
                     </div>
                     <div className="item-actions">
