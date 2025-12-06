@@ -1,12 +1,14 @@
 import React from "react";
-import { Trophy, LogOut, User2, Award, Shield, Bell, Home, BarChart3 } from "lucide-react";
+import { Trophy, LogOut, User2, Award, Shield, Bell, Home, BarChart3, Moon, Sun } from "lucide-react";
 import { supabase } from "../utils/supabaseClient";
 import { useNavigate, useLocation } from "react-router-dom";
+import { useTheme } from "../contexts/ThemeContext";
 import "../styles/Header.css";
 
 export default function Header({ currentUser, users = [], onProfileClick }) {
   const navigate = useNavigate();
   const location = useLocation();
+  const { theme, toggleTheme } = useTheme();
   const position = currentUser ? users.findIndex((u) => u.id === currentUser.id) + 1 : 0;
 
   const handleLogout = async () => {
@@ -67,6 +69,16 @@ export default function Header({ currentUser, users = [], onProfileClick }) {
         </div>
 
         <div className="header-right">
+          {/* Botón de Tema - Siempre visible */}
+          <button 
+            className="icon-btn theme-btn" 
+            onClick={toggleTheme}
+            aria-label={theme === 'light' ? 'Activar modo oscuro' : 'Activar modo claro'}
+            title={theme === 'light' ? 'Modo Oscuro' : 'Modo Claro'}
+          >
+            {theme === 'light' ? <Moon size={18} /> : <Sun size={18} />}
+          </button>
+
           <button 
             className="icon-btn notifications-btn desktop-only" 
             onClick={handleNotificationsClick} 

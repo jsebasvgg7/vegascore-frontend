@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { supabase } from "./utils/supabaseClient";
+import { ThemeProvider } from "./contexts/ThemeContext";
 
 import Header from "./components/Header";
 import LoginPage from "./pages/LoginPage";
@@ -131,61 +132,63 @@ export default function App() {
   }
 
   return (
-    <BrowserRouter>
-      {/* Header aparece en todas las rutas protegidas */}
-      {session && currentUser && (
-        <Header
-          currentUser={currentUser}
-          users={users}
-          onProfileClick={() => setShowProfile(!showProfile)}
-        />
-      )}
+    <ThemeProvider>
+      <BrowserRouter>
+        {/* Header aparece en todas las rutas protegidas */}
+        {session && currentUser && (
+          <Header
+            currentUser={currentUser}
+            users={users}
+            onProfileClick={() => setShowProfile(!showProfile)}
+          />
+        )}
 
-      <Routes>
-        {/* Rutas públicas */}
-        <Route
-          path="/"
-          element={session ? <Navigate to="/app" replace /> : <LoginPage />}
-        />
-        <Route
-          path="/register"
-          element={session ? <Navigate to="/app" replace /> : <RegisterPage />}
-        />
-        <Route
-          path="/forgot-password"
-          element={session ? <Navigate to="/app" replace /> : <ForgotPasswordPage />}
-        />
-        <Route
-          path="/reset-password"
-          element={<ResetPasswordPage />}
-        />
+        <Routes>
+          {/* Rutas públicas */}
+          <Route
+            path="/"
+            element={session ? <Navigate to="/app" replace /> : <LoginPage />}
+          />
+          <Route
+            path="/register"
+            element={session ? <Navigate to="/app" replace /> : <RegisterPage />}
+          />
+          <Route
+            path="/forgot-password"
+            element={session ? <Navigate to="/app" replace /> : <ForgotPasswordPage />}
+          />
+          <Route
+            path="/reset-password"
+            element={<ResetPasswordPage />}
+          />
 
-        {/* Rutas protegidas */}
-        <Route
-          path="/app"
-          element={session ? <VegaScorePage /> : <Navigate to="/" replace />}
-        />
-        <Route
-          path="/notifications"
-          element={session ? <NotificationsPage currentUser={currentUser} /> : <Navigate to="/" replace />}
-        />
-        <Route
-          path="/ranking"
-          element={session ? <RankingPage currentUser={currentUser} users={users} /> : <Navigate to="/" replace />}
-        />
-        <Route
-          path="/admin"
-          element={session ? <AdminPage currentUser={currentUser} users={users} /> : <Navigate to="/" replace />}
-        />
-        <Route
-          path="/profile"
-          element={session ? <ProfilePage currentUser={currentUser} onBack={() => window.history.back()} /> : <Navigate to="/" replace />}
-        />
-        <Route 
-          path="/stats"
-          element={session ? <StatsPage currentUser={currentUser} /> : <Navigate to="/" replace />}
-        />
-      </Routes>
-    </BrowserRouter>
+          {/* Rutas protegidas */}
+          <Route
+            path="/app"
+            element={session ? <VegaScorePage /> : <Navigate to="/" replace />}
+          />
+          <Route
+            path="/notifications"
+            element={session ? <NotificationsPage currentUser={currentUser} /> : <Navigate to="/" replace />}
+          />
+          <Route
+            path="/ranking"
+            element={session ? <RankingPage currentUser={currentUser} users={users} /> : <Navigate to="/" replace />}
+          />
+          <Route
+            path="/admin"
+            element={session ? <AdminPage currentUser={currentUser} users={users} /> : <Navigate to="/" replace />}
+          />
+          <Route
+            path="/profile"
+            element={session ? <ProfilePage currentUser={currentUser} onBack={() => window.history.back()} /> : <Navigate to="/" replace />}
+          />
+          <Route 
+            path="/stats"
+            element={session ? <StatsPage currentUser={currentUser} /> : <Navigate to="/" replace />}
+          />
+        </Routes>
+      </BrowserRouter>
+    </ThemeProvider>
   );
 }

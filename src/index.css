@@ -3,22 +3,50 @@
 @tailwind utilities;
 
 /* -------------------------------
-   GLOBAL THEME - Purple Palette
+   GLOBAL THEME - Light & Dark
 ---------------------------------*/
-:root{
+:root, [data-theme="light"] {
+  /* Light Mode Colors */
   --bg: #f5f6fa;
   --card: #ffffff;
+  --text-primary: #111111;
+  --text-secondary: #777777;
   --muted: #777777;
   --accent: #60519b;
   --accent-light: #8b7fc7;
+  --accent-hover: #4d4180;
   --dark-bg: #1e202c;
   --dark-secondary: #31323e;
   --light-text: #bfc0d1;
   --glass: rgba(96, 81, 155, 0.12);
   --border: rgba(0,0,0,0.06);
-  --radius-2xl: 20px;
+  --input-bg: #ffffff;
+  --input-border: rgba(0,0,0,0.1);
   --shadow: 0 8px 30px rgba(96, 81, 155, 0.15);
   --small-shadow: 0 4px 14px rgba(96, 81, 155, 0.1);
+  --radius-2xl: 20px;
+}
+
+[data-theme="dark"] {
+  /* Dark Mode Colors */
+  --bg: #0f1015;
+  --card: #1a1c24;
+  --text-primary: #e8e9f3;
+  --text-secondary: #9ca3af;
+  --muted: #6b7280;
+  --accent: #7c6bb8;
+  --accent-light: #9988cc;
+  --accent-hover: #6558a0;
+  --dark-bg: #0a0b0f;
+  --dark-secondary: #14151d;
+  --light-text: #bfc0d1;
+  --glass: rgba(124, 107, 184, 0.15);
+  --border: rgba(255,255,255,0.08);
+  --input-bg: #1a1c24;
+  --input-border: rgba(255,255,255,0.1);
+  --shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+  --small-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+  --radius-2xl: 20px;
 }
 
 /* ================================
@@ -37,18 +65,28 @@ html, body, #root {
 }
 
 html {
-  /* Prevenir zoom en inputs en iOS */
   -webkit-text-size-adjust: 100%;
 }
 
 body {
-  background: linear-gradient(135deg, #f5f6fa 0%, #e8e9f3 100%);
+  background: var(--bg);
   font-family: Inter, "Segoe UI", Roboto, Arial, sans-serif;
-  color: #111;
+  color: var(--text-primary);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   min-height: 100vh;
   min-height: -webkit-fill-available;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Gradiente suave para light mode */
+[data-theme="light"] body {
+  background: linear-gradient(135deg, #f5f6fa 0%, #e8e9f3 100%);
+}
+
+/* Gradiente oscuro para dark mode */
+[data-theme="dark"] body {
+  background: linear-gradient(135deg, #0f1015 0%, #1a1c24 100%);
 }
 
 /* ================================
@@ -91,6 +129,7 @@ body {
   border-radius: var(--radius-2xl);
   box-shadow: var(--small-shadow);
   border: 1px solid var(--border);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 /* Main grid */
@@ -105,6 +144,59 @@ body {
   display: flex;
   flex-direction: column;
   gap: 18px;
+}
+
+/* ================================
+   INPUTS Y FORMS (Dark mode)
+================================ */
+input, textarea, select {
+  background: var(--input-bg);
+  border-color: var(--input-border);
+  color: var(--text-primary);
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--text-secondary);
+  opacity: 0.7;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--accent);
+  outline: none;
+}
+
+/* ================================
+   BUTTONS (Dark mode)
+================================ */
+button {
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.icon-btn {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+}
+
+.icon-btn:hover {
+  background: var(--glass);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* Theme toggle button special styling */
+.theme-btn {
+  position: relative;
+}
+
+.theme-btn:hover {
+  background: var(--glass);
+  transform: rotate(20deg);
+  transition: transform 0.3s ease;
 }
 
 /* ================================
@@ -132,7 +224,6 @@ body {
     margin: 16px auto;
   }
 
-  /* Contenedores principales */
   .page-container,
   .vega-score-page,
   .vega-root,
@@ -148,7 +239,6 @@ body {
     min-height: calc(100vh - 140px);
   }
 
-  /* Contenedores scrolleables */
   .matches-container,
   .ranking-list-premium,
   .admin-content,
@@ -158,7 +248,6 @@ body {
     padding-bottom: 40px;
   }
 
-  /* Botones de acción */
   .floating-action-btn,
   .save-predictions-btn,
   .submit-button,
@@ -170,28 +259,24 @@ body {
     margin-bottom: 30px;
   }
 
-  /* Último elemento en listas */
   .match-card-premium:last-child,
   .ranking-item-premium:last-child,
   .history-item:last-child {
     margin-bottom: 30px;
   }
 
-  /* Modales y overlays */
   .modal-content,
   .overlay-content {
     max-height: calc(100vh - 150px);
     overflow-y: auto;
   }
 
-  /* Contenido scrolleable */
   .scrollable-content {
     max-height: calc(100vh - 140px);
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
   }
 
-  /* Scroll suave */
   html {
     scroll-behavior: smooth;
   }
@@ -200,9 +285,10 @@ body {
     -webkit-overflow-scrolling: touch;
   }
 
-  /* Bottom Nav */
   .bottom-nav {
     pointer-events: auto;
+    background: var(--card);
+    border-top: 1px solid var(--border);
   }
 
   .bottom-nav ~ * {
@@ -272,20 +358,22 @@ body {
 
 .toast-notification {
   pointer-events: all !important;
+  background: var(--card);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
 }
 
 /* ================================
    PREVENIR PROBLEMAS DE LOADING
 ================================ */
 @media (max-width: 768px) {
-  /* Asegurar que el loader no cause problemas */
   .page-loader {
     position: fixed;
     inset: 0;
     z-index: 9999;
+    background: var(--bg);
   }
 
-  /* Prevenir scroll mientras carga */
   body.loading {
     overflow: hidden;
     height: 100vh;
@@ -297,7 +385,6 @@ body {
    IOS SAFARI FIXES
 ================================ */
 @supports (-webkit-touch-callout: none) {
-  /* iOS-specific fixes */
   body {
     min-height: -webkit-fill-available;
   }
@@ -310,4 +397,32 @@ body {
   .stats-page {
     min-height: -webkit-fill-available;
   }
+}
+
+/* ================================
+   SCROLLBAR STYLING (Dark Mode)
+================================ */
+/* Para navegadores Webkit (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--muted);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
+}
+
+/* Para Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--muted) var(--bg);
 }
