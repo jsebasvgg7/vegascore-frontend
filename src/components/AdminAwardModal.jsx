@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { X, Plus, Trophy, Calendar, Award, Star } from 'lucide-react';
+import { getLogoUrlByAwardName } from '../utils/logoHelper.js';
+import { supabase } from '../utils/supabaseClient';
 import '../styles/AdminModal.css';
 
 export default function AdminAwardModal({ onAdd, onClose }) {
@@ -23,7 +25,16 @@ export default function AdminAwardModal({ onAdd, onClose }) {
   ];
 
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setForm({ ...form, [name]: value });
+    
+    // Auto-generar URL del logo cuando se ingresa el nombre del premio
+    if (name === 'name' && value) {
+      const logoUrl = getLogoUrlByAwardName(supabase, value);
+      if (logoUrl) {
+        setForm(prev => ({ ...prev, logo_url: logoUrl }));
+      }
+    }
   };
 
   const submit = () => {
@@ -35,11 +46,15 @@ export default function AdminAwardModal({ onAdd, onClose }) {
     // Combinar fecha y hora en formato ISO
     const deadlineISO = `${form.deadline}T${form.deadline_time}:00`;
 
+    // Generar URL del logo automáticamente
+    const logoUrl = getLogoUrlByAwardName(supabase, form.name);
+
     onAdd({
       id: form.id,
       name: form.name,
       season: form.season,
-      logo: form.logo,
+      logo: form.logo,       // Emoji como fallback
+      logo_url: logoUrl,     // URL del logo real
       category: form.category,
       status: 'active',
       deadline: deadlineISO
@@ -100,6 +115,7 @@ export default function AdminAwardModal({ onAdd, onClose }) {
               value={form.name}
               onChange={handleChange}
             />
+            <span className="form-hint">El logo se asignará automáticamente según el nombre</span>
           </div>
 
           {/* Temporada y Categoría */}
@@ -137,10 +153,24 @@ export default function AdminAwardModal({ onAdd, onClose }) {
             </div>
           </div>
 
-          {/* Logo */}
+          {/* Vista previa del logo */}
+          {form.name && (
+            <div className="logo-preview-section">
+              <div className="logo-preview-item">
+                <span className="logo-preview-label">Vista previa del logo:</span>
+                {form.logo_url ? (
+                  <img src={form.logo_url} alt="Award logo" className="logo-preview-img" />
+                ) : (
+                  <span className="logo-preview-emoji">{form.logo}</span>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* Logo emoji (fallback) */}
           <div className="form-group-premium">
             <label className="form-label-premium">
-              <span>Logo / Emoji</span>
+              <span>Emoji de Respaldo</span>
             </label>
             <div className="logo-input-wrapper">
               <input 
@@ -153,7 +183,7 @@ export default function AdminAwardModal({ onAdd, onClose }) {
               />
               <span className="logo-preview">{form.logo}</span>
             </div>
-            <span className="form-hint">Usa emojis: 🏆⚽🥇🥈🥉⭐👑</span>
+            <span className="form-hint">Emoji que se mostrará si no hay logo disponible: 🏆⚽🥇🥈🥉⭐👑</span>
           </div>
 
           {/* Fecha límite */}

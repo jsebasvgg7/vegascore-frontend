@@ -1,433 +1,515 @@
-/* ===========================================
-   AWARD CARD - Futuristic Design
-=========================================== */
+/* ===================================
+   AWARD CARD - Light & Minimal Design
+=================================== */
 
-.award-card-premium {
-  background: linear-gradient(145deg, #ffffff 0%, #fffbf5 100%);
-  border-radius: 20px;
-  border: 1px solid rgba(245, 158, 11, 0.1);
-  box-shadow: 
-    0 8px 32px rgba(245, 158, 11, 0.08),
-    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+.award-card-light {
+  background: #ffffff;
+  border-radius: 18px;
+  border: 1px solid #e5e7eb;
   overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 
+    0 1px 3px rgba(0, 0, 0, 0.08),
+    0 6px 16px -6px rgba(0, 0, 0, 0.08);
   position: relative;
-  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-.award-card-premium::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, transparent 0% #f59e0b 25%,#fbbf24 50%,#f59e0b 75%,transparent 100%);
-  opacity: 0;
-  transition: opacity 0.3s;
+.award-card-light:hover {
+  transform: translateY(-3px);
+  box-shadow: 
+    0 4px 12px rgba(0, 0, 0, 0.1),
+    0 10px 20px -5px rgba(0, 0, 0, 0.1);
+  border-color: #d1d5db;
 }
-.award-card-premium:hover::before {
-opacity: 1;
+
+/* ===================================
+   HEADER
+=================================== */
+
+.award-header-light {
+  padding: 16px 20px 6px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 60px;
 }
-.award-card-premium:hover {
-transform: translateY(-8px) scale(1.01);
-box-shadow:
-0 20px 48px rgba(245, 158, 11, 0.15),
-inset 0 1px 0 rgba(255, 255, 255, 0.9);
-}
-.award-header-premium {
-background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
-padding: 18px 22px;
-display: flex;
-justify-content: space-between;
-align-items: center;
-position: relative;
-overflow: hidden;
-}
-.award-header-premium::after {
-content: '';
-position: absolute;
-top: 0;
-right: 0;
-width: 250px;
-height: 250px;
-background: radial-gradient(circle, rgba(251, 191, 36, 0.15) 0%, transparent 70%);
-border-radius: 50%;
-transform: translate(40%, -40%);
-}
+
 .award-logo-section {
-display: flex;
-align-items: center;
-gap: 14px;
-min-width: 0;
-position: relative;
-z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 0;
 }
-.award-logo-big {
-font-size: 56px;
-flex-shrink: 0;
-filter: drop-shadow(0 4px 16px rgba(251, 191, 36, 0.4));
-transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+
+.award-logo-container {
+  width: 68px;
+  height: 68px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
 }
-.award-card-premium:hover .award-logo-big {
-transform: scale(1.15) rotate(-8deg);
-filter: drop-shadow(0 6px 20px rgba(251, 191, 36, 0.5));
+
+/* Logo como imagen real */
+.award-logo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
+
+/* Logo como emoji (fallback) */
+.award-logo-emoji-display {
+  font-size: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.award-card-light:hover .award-logo-img,
+.award-card-light:hover .award-logo-emoji-display {
+  transform: scale(1.1) rotate(5deg);
+}
+
 .award-info-header {
-display: flex;
-flex-direction: column;
-gap: 4px;
-min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  flex: 1;
 }
-.award-name-premium {
-margin: 0;
-font-size: 20px;
-font-weight: 800;
-color: white;
-background: linear-gradient(135deg, #fbbf24 0%, #fcd34d 100%);
--webkit-background-clip: text;
--webkit-text-fill-color: transparent;
-background-clip: text;
-letter-spacing: -0.5px;
-white-space: nowrap;
-overflow: hidden;
-text-overflow: ellipsis;
+
+.award-name-light {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: #1f2937;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
-.award-season {
-font-size: 12px;
-color: #a5b4fc;
-font-weight: 700;
-letter-spacing: 0.5px;
+
+.award-season-light {
+  font-size: 12px;
+  color: #6b7280;
+  font-weight: 500;
 }
-.award-deadline {
-display: flex;
-align-items: center;
-gap: 6px;
-background: rgba(251, 191, 36, 0.2);
-backdrop-filter: blur(10px);
-color: #fcd34d;
-padding: 6px 12px;
-border-radius: 12px;
-font-size: 11px;
-font-weight: 700;
-border: 1px solid rgba(251, 191, 36, 0.3);
-white-space: nowrap;
-position: relative;
-z-index: 1;
-}
-.award-status.finished {
-display: flex;
-align-items: center;
-gap: 6px;
-background: rgba(74, 222, 128, 0.2);
-backdrop-filter: blur(10px);
-color: #86efac;
-padding: 6px 12px;
-border-radius: 12px;
-font-size: 11px;
-font-weight: 700;
-border: 1px solid rgba(74, 222, 128, 0.3);
-position: relative;
-z-index: 1;
-}
+
+/* ===================================
+   FORMULARIO DE PREDICCIÓN
+=================================== */
+
 .award-prediction-form {
-padding: 24px;
-display: flex;
-flex-direction: column;
-gap: 16px;
-background: linear-gradient(180deg,
-rgba(245, 158, 11, 0.02) 0%,
-transparent 100%
-);
+  padding: 20px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  background: linear-gradient(180deg, #fafafa 0%, #ffffff 100%);
 }
+
 .prediction-field-award {
-display: flex;
-flex-direction: column;
-gap: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
+
 .prediction-label-award {
-display: flex;
-align-items: center;
-gap: 7px;
-font-size: 11px;
-font-weight: 800;
-color: #f59e0b;
-text-transform: uppercase;
-letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
+
+.prediction-label-award svg {
+  color: #9ca3af;
+  flex-shrink: 0;
+}
+
 .prediction-input-award {
-width: 100%;
-padding: 15px 18px;
-border-radius: 14px;
-border: 2px solid #fef3c7;
-background: linear-gradient(135deg, #fffbeb 0%, #ffffff 100%);
-font-size: 15px;
-font-weight: 700;
-color: #1e1b4b;
-transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-box-shadow: 0 2px 8px rgba(245, 158, 11, 0.05);
+  width: 100%;
+  padding: 11px 14px;
+  border-radius: 12px;
+  border: 2px solid #e5e7eb;
+  background: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  color: #1f2937;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
+
 .prediction-input-award::placeholder {
-color: #fde68a;
+  color: #9ca3af;
+  font-weight: 500;
 }
+
 .prediction-input-award:focus {
-outline: none;
-border-color: #f59e0b;
-background: #ffffff;
-box-shadow:
-0 0 0 4px rgba(245, 158, 11, 0.1),
-0 8px 20px rgba(245, 158, 11, 0.12);
-transform: translateY(-2px);
+  outline: none;
+  border-color: #f59e0b;
+  background: #ffffff;
+  box-shadow: 
+    0 0 0 3px rgba(245, 158, 11, 0.1),
+    0 2px 8px rgba(245, 158, 11, 0.15);
+  transform: translateY(-1px);
 }
+
+.prediction-input-award.has-prediction {
+  background: #fef3c7;
+  border-color: #fde68a;
+}
+
 .prediction-input-award:disabled {
-opacity: 0.6;
-cursor: not-allowed;
-background: #f1f5f9;
+  opacity: 0.6;
+  cursor: not-allowed;
+  background: #f9fafb;
 }
+
+/* ===================================
+   RESULTADOS ACTUALES
+=================================== */
+
 .actual-result-award {
-display: flex;
-align-items: center;
-gap: 7px;
-padding: 10px 14px;
-background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
-border-radius: 12px;
-font-size: 13px;
-color: #166534;
-font-weight: 700;
-border: 1px solid rgba(34, 197, 94, 0.2);
-box-shadow: 0 2px 8px rgba(34, 197, 94, 0.08);
-animation: slideInUp 0.4s ease;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 8px 12px;
+  background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+  border-radius: 10px;
+  font-size: 12px;
+  color: #166534;
+  font-weight: 600;
+  border: 1px solid rgba(34, 197, 94, 0.2);
+  box-shadow: 0 1px 3px rgba(34, 197, 94, 0.1);
 }
+
+.actual-result-award svg {
+  color: #059669;
+  flex-shrink: 0;
+}
+
 .correct-badge-award {
-color: #15803d;
-font-weight: 900;
+  color: #15803d;
+  font-weight: 800;
 }
+
+/* ===================================
+   CATEGORÍA
+=================================== */
+
 .award-category-badge {
-display: flex;
-align-items: center;
-gap: 6px;
-padding: 7px 13px;
-background: rgba(245, 158, 11, 0.1);
-border: 1px solid rgba(245, 158, 11, 0.2);
-border-radius: 12px;
-font-size: 11px;
-font-weight: 700;
-color: #ea580c;
-align-self: flex-start;
-box-shadow: 0 2px 8px rgba(245, 158, 11, 0.08);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 12px;
+  background: rgba(245, 158, 11, 0.1);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+  border-radius: 10px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #ea580c;
+  align-self: flex-start;
+  box-shadow: 0 1px 3px rgba(245, 158, 11, 0.1);
 }
-.prediction-saved-badge-award {
-display: flex;
-align-items: center;
-justify-content: center;
-gap: 10px;
-padding: 13px 20px;
-margin: 0 24px 24px;
-background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
-color: #166534;
-border-radius: 14px;
-font-weight: 800;
-font-size: 14px;
-border: 1px solid rgba(34, 197, 94, 0.2);
-box-shadow: 0 4px 16px rgba(34, 197, 94, 0.12);
-animation: slideInUp 0.4s ease;
+
+.award-category-badge svg {
+  flex-shrink: 0;
 }
-.points-earned-award {
-background: #15803d;
-color: white;
-padding: 4px 10px;
-border-radius: 10px;
-font-size: 12px;
-font-weight: 900;
-box-shadow: 0 2px 8px rgba(21, 128, 61, 0.3);
+
+/* ===================================
+   FOOTER
+=================================== */
+
+.award-footer-light {
+  padding: 12px 16px;
+  border-top: 1px dashed #e5e7eb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-.final-points-banner-award {
-display: flex;
-align-items: center;
-justify-content: center;
-gap: 10px;
-padding: 16px 24px;
-margin: 0 24px 24px;
-background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
-color: #78350f;
-border-radius: 14px;
-font-weight: 800;
-font-size: 15px;
-box-shadow:
-0 8px 24px rgba(245, 158, 11, 0.3),
-inset 0 1px 0 rgba(255, 255, 255, 0.3);
+
+.prediction-status-light {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #6b7280;
 }
-.predict-award-btn {
-margin: 0 24px 24px;
-padding: 16px 28px;
-border: none;
-border-radius: 16px;
-background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
-color: #78350f;
-font-weight: 800;
-font-size: 15px;
-cursor: pointer;
-display: flex;
-align-items: center;
-justify-content: center;
-gap: 10px;
-position: relative;
-overflow: hidden;
-transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-box-shadow:
-0 8px 24px rgba(245, 158, 11, 0.3),
-inset 0 1px 0 rgba(255, 255, 255, 0.3);
-letter-spacing: 0.5px;
+
+.points-badge {
+  background: #15803d;
+  color: white;
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 800;
+  margin-left: 4px;
 }
-.predict-award-btn::before {
-content: '';
-position: absolute;
-inset: 0;
-background: linear-gradient(135deg, transparent 0%, rgba(255, 255, 255, 0.3) 50%, transparent 100%);
-transform: translateX(-100%) skewX(-15deg);
-transition: transform 0.6s;
+
+.final-points-display {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 10px 16px;
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  border-radius: 10px;
+  color: #92400e;
+  font-size: 13px;
+  font-weight: 700;
+  border: 1px solid #fbbf24;
+  box-shadow: 0 2px 8px rgba(251, 191, 36, 0.15);
 }
-.predict-award-btn:hover::before {
-transform: translateX(100%) skewX(-15deg);
+
+.final-points-display svg {
+  color: #d97706;
 }
-.predict-award-btn:hover {
-transform: translateY(-4px) scale(1.02);
-box-shadow:
-0 16px 40px rgba(245, 158, 11, 0.4),
-inset 0 1px 0 rgba(255, 255, 255, 0.4);
+
+.predict-button-light {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  color: white;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.25);
+  letter-spacing: 0.3px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
-.predict-award-btn:active {
-transform: translateY(-1px) scale(0.98);
+
+.predict-button-light:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(245, 158, 11, 0.35);
 }
-.btn-glow-award {
-display: none;
+
+.predict-button-light:active {
+  transform: translateY(0);
 }
-/* ===============================
-RESPONSIVE
-=============================== */
+
+.predict-button-light:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* ===================================
+   BADGES DE ESTADO
+=================================== */
+
+.award-deadline-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 12px;
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  border: 1px solid #fbbf24;
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #92400e;
+  white-space: nowrap;
+  box-shadow: 0 1px 3px rgba(251, 191, 36, 0.2);
+}
+
+.award-deadline-badge svg {
+  flex-shrink: 0;
+}
+
+.award-status-badge.finished {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 12px;
+  background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+  border: 1px solid #86efac;
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #166534;
+  box-shadow: 0 1px 3px rgba(34, 197, 94, 0.2);
+}
+
+.award-status-badge.finished svg {
+  flex-shrink: 0;
+}
+
+/* ===================================
+   RESPONSIVE
+=================================== */
+
 @media (max-width: 768px) {
-.award-card-premium {
-border-radius: 18px;
+  .award-card-light {
+    border-radius: 16px;
+  }
+
+  .award-header-light {
+    padding: 14px 18px 0;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .award-logo-container {
+    width: 54px;
+    height: 54px;
+  }
+
+  .award-logo-emoji-display {
+    font-size: 36px;
+  }
+
+  .award-name-light {
+    font-size: 15px;
+  }
+
+  .award-season-light {
+    font-size: 11px;
+  }
+
+  .award-deadline-badge,
+  .award-status-badge.finished {
+    font-size: 10px;
+    padding: 4px 10px;
+  }
+
+  .award-prediction-form {
+    padding: 16px 12px;
+    gap: 12px;
+  }
+
+  .prediction-label-award {
+    font-size: 10px;
+  }
+
+  .prediction-input-award {
+    padding: 10px 12px;
+    font-size: 13px;
+  }
+
+  .actual-result-award {
+    padding: 7px 10px;
+    font-size: 11px;
+  }
+
+  .award-category-badge {
+    font-size: 10px;
+    padding: 5px 10px;
+  }
+
+  .award-footer-light {
+    padding: 10px 12px;
+  }
+
+  .prediction-status-light {
+    font-size: 11px;
+  }
+
+  .points-badge {
+    padding: 2px 6px;
+    font-size: 10px;
+  }
+
+  .final-points-display {
+    padding: 9px 14px;
+    font-size: 12px;
+  }
+
+  .predict-button-light {
+    padding: 9px 18px;
+    font-size: 12px;
+  }
 }
-.award-header-premium {
-padding: 16px 18px;
-flex-direction: column;
-align-items: flex-start;
-gap: 12px;
-}
-.award-logo-big {
-font-size: 48px;
-}
-.award-name-premium {
-font-size: 18px;
-}
-.award-season {
-font-size: 11px;
-}
-.award-deadline,
-.award-status.finished {
-font-size: 10px;
-padding: 5px 10px;
-}
-.award-prediction-form {
-padding: 18px;
-}
-.prediction-label-award {
-font-size: 10px;
-}
-.prediction-input-award {
-padding: 13px 16px;
-font-size: 14px;
-}
-.actual-result-award {
-padding: 9px 12px;
-font-size: 12px;
-}
-.award-category-badge {
-font-size: 10px;
-padding: 6px 11px;
-}
-.prediction-saved-badge-award {
-margin: 0 18px 18px;
-padding: 12px 18px;
-font-size: 13px;
-}
-.final-points-banner-award {
-margin: 0 18px 18px;
-padding: 14px 20px;
-font-size: 14px;
-}
-.predict-award-btn {
-margin: 0 18px 18px;
-padding: 14px 24px;
-font-size: 14px;
-}
-}
+
 @media (max-width: 480px) {
-.award-card-premium {
-border-radius: 16px;
-}
-.award-header-premium {
-padding: 14px 16px;
-}
-.award-logo-big {
-font-size: 42px;
-}
-.award-name-premium {
-font-size: 17px;
-}
-.award-season {
-font-size: 10px;
-}
-.award-prediction-form {
-padding: 16px;
-}
-.prediction-label-award {
-font-size: 10px;
-gap: 6px;
-}
-.prediction-input-award {
-padding: 12px 14px;
-font-size: 13px;
-border-radius: 12px;
-}
-.actual-result-award {
-padding: 8px 11px;
-font-size: 11px;
-}
-.award-category-badge {
-font-size: 9px;
-padding: 5px 10px;
-}
-.prediction-saved-badge-award {
-margin: 0 16px 16px;
-padding: 11px 16px;
-font-size: 12px;
-border-radius: 12px;
-}
-.points-earned-award {
-padding: 3px 8px;
-font-size: 11px;
-}
-.final-points-banner-award {
-margin: 0 16px 16px;
-padding: 13px 18px;
-font-size: 13px;
-border-radius: 12px;
-}
-.predict-award-btn {
-margin: 0 16px 16px;
-padding: 13px 20px;
-font-size: 13px;
-border-radius: 14px;
-}
-}
-@keyframes slideInUp {
-from {
-opacity: 0;
-transform: translateY(10px);
-}
-to {
-opacity: 1;
-transform: translateY(0);
-}
+  .award-card-light {
+    border-radius: 14px;
+  }
+
+  .award-header-light {
+    padding: 12px 16px 0;
+  }
+
+  .award-logo-container {
+    width: 44px;
+    height: 44px;
+  }
+
+  .award-logo-emoji-display {
+    font-size: 32px;
+  }
+
+  .award-name-light {
+    font-size: 14px;
+  }
+
+  .award-season-light {
+    font-size: 10px;
+  }
+
+  .award-prediction-form {
+    padding: 14px 10px;
+    gap: 10px;
+  }
+
+  .prediction-label-award {
+    font-size: 9px;
+    gap: 4px;
+  }
+
+  .prediction-input-award {
+    padding: 9px 11px;
+    font-size: 12px;
+    border-radius: 10px;
+  }
+
+  .actual-result-award {
+    padding: 6px 9px;
+    font-size: 10px;
+    border-radius: 8px;
+  }
+
+  .award-category-badge {
+    font-size: 9px;
+    padding: 4px 9px;
+  }
+
+  .award-footer-light {
+    padding: 9px 10px;
+  }
+
+  .prediction-status-light {
+    font-size: 10px;
+  }
+
+  .final-points-display {
+    padding: 8px 12px;
+    font-size: 11px;
+    border-radius: 8px;
+  }
+
+  .predict-button-light {
+    padding: 8px 16px;
+    font-size: 11px;
+    border-radius: 8px;
+  }
 }

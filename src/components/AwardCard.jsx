@@ -14,6 +14,26 @@ export default function AwardCard({ award, userPrediction, onPredict }) {
     onPredict(award.id, predictedWinner.trim());
   };
 
+  // Función para renderizar el logo (URL de imagen o emoji de fallback)
+  const renderAwardLogo = (logoUrl, fallbackEmoji) => {
+    if (logoUrl && logoUrl.startsWith('http')) {
+      return (
+        <img 
+          src={logoUrl} 
+          alt="Award logo" 
+          className="award-logo-img"
+          onError={(e) => {
+            // Si la imagen falla, mostrar el emoji
+            e.target.style.display = 'none';
+            e.target.nextElementSibling.style.display = 'flex';
+          }}
+        />
+      );
+    }
+    // Si no hay URL, usar emoji
+    return <span className="award-logo-emoji-display">{fallbackEmoji || '🏆'}</span>;
+  };
+
   const hasPrediction = userPrediction !== undefined;
   const isFinished = award.status === 'finished';
   const deadline = award.deadline ? new Date(award.deadline).toLocaleDateString('es-ES', {
@@ -25,7 +45,7 @@ export default function AwardCard({ award, userPrediction, onPredict }) {
 
   return (
     <div 
-      className="award-card-premium"
+      className="award-card-light"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       style={{
@@ -34,49 +54,40 @@ export default function AwardCard({ award, userPrediction, onPredict }) {
       }}
     >
       {/* Header */}
-      <div className="award-header-premium">
+      <div className="award-header-light">
         <div className="award-logo-section">
-          <div className="award-logo-big">{award.logo}</div>
+          <div className="award-logo-container">
+            {renderAwardLogo(award.logo_url, award.logo)}
+            <span className="award-logo-emoji-display" style={{ display: 'none' }}>
+              {award.logo}
+            </span>
+          </div>
           <div className="award-info-header">
-            <h3 className="award-name-premium">{award.name}</h3>
-            <span className="award-season">{award.season}</span>
+            <h3 className="award-name-light">{award.name}</h3>
+            <span className="award-season-light">{award.season}</span>
           </div>
         </div>
-        
-        {deadline && !isFinished && (
-          <div className="award-deadline">
-            <Calendar size={14} />
-            <span>Hasta {deadline}</span>
-          </div>
-        )}
-
-        {isFinished && (
-          <div className="award-status finished">
-            <CheckCircle2 size={14} />
-            <span>Finalizado</span>
-          </div>
-        )}
       </div>
 
       {/* Formulario de predicción */}
       <div className="award-prediction-form">
         <div className="prediction-field-award">
           <label className="prediction-label-award">
-            <Award size={16} />
-            <span>Tu Predicción - Ganador del {award.name}</span>
+            <Award size={14} />
+            <span>Tu Predicción del Ganador</span>
           </label>
           <input
             type="text"
-            className="prediction-input-award"
+            className={`prediction-input-award ${hasPrediction ? 'has-prediction' : ''}`}
             value={predictedWinner}
             onChange={(e) => setPredictedWinner(e.target.value)}
-            placeholder="...Ingresa el nombre del ganador"
+            placeholder="Ingresa el nombre del ganador..."
             disabled={isFinished}
           />
           
           {isFinished && award.winner && (
             <div className="actual-result-award">
-              <CheckCircle2 size={14} />
+              <CheckCircle2 size={12} />
               <span>
                 <strong>Ganador: {award.winner}</strong>
                 {predictedWinner.toLowerCase() === award.winner.toLowerCase() && 
@@ -96,33 +107,51 @@ export default function AwardCard({ award, userPrediction, onPredict }) {
       </div>
 
       {/* Footer */}
-      {hasPrediction && !isFinished && (
-        <div className="prediction-saved-badge-award">
-          <CheckCircle2 size={16} />
-          <span>Predicción guardada</span>
-          {userPrediction.points_earned > 0 && (
-            <span className="points-earned-award">+{userPrediction.points_earned} pts</span>
-          )}
+      <div className="award-footer-light">
+        {isFinished && userPrediction ? (
+          <div className="final-points-display">
+            <Trophy size={16} />
+            <span>
+              {userPrediction.points_earned > 0 
+                ? `¡Ganaste ${userPrediction.points_earned} puntos!` 
+                : 'No acertaste esta vez'}
+            </span>
+          </div>
+        ) : !isFinished && hasPrediction && (
+          predictedWinner === userPrediction?.predicted_winner ? (
+            <span className="prediction-status-light">
+              <CheckCircle2 size={14} style={{color: '#059669'}}/>
+              Predicción guardada
+              {userPrediction.points_earned > 0 && (
+                <span className="points-badge">+{userPrediction.points_earned} pts</span>
+              )}
+            </span>
+          ) : null
+        )}
+
+        {!isFinished && (
+          (!hasPrediction || predictedWinner !== userPrediction?.predicted_winner) && (
+            <button className="predict-button-light" onClick={handleSubmit}>
+              <Trophy size={16} />
+              <span>{hasPrediction ? 'Actualizar' : 'Guardar'}</span>
+            </button>
+          )
+        )}
+      </div>
+
+      {/* Deadline badge */}
+      {deadline && !isFinished && (
+        <div className="award-deadline-badge">
+          <Calendar size={12} />
+          <span>Hasta {deadline}</span>
         </div>
       )}
 
-      {isFinished && userPrediction && (
-        <div className="final-points-banner-award">
-          <Trophy size={18} />
-          <span>
-            {userPrediction.points_earned > 0 
-              ? `¡Ganaste ${userPrediction.points_earned} puntos!` 
-              : 'No acertaste esta vez'}
-          </span>
+      {isFinished && (
+        <div className="award-status-badge finished">
+          <CheckCircle2 size={12} />
+          <span>Finalizado</span>
         </div>
-      )}
-
-      {!isFinished && (
-        <button className="predict-award-btn" onClick={handleSubmit}>
-          <Trophy size={18} />
-          <span>{hasPrediction ? 'Actualizar Predicción' : 'Guardar Predicción'}</span>
-          <div className="btn-glow-award"></div>
-        </button>
       )}
     </div>
   );

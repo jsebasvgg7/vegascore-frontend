@@ -1,9 +1,10 @@
 // ============================================
-// LOGO HELPER - Equipos y Ligas
+// LOGO HELPER - Equipos, Ligas y Premios
 // ============================================
 
 const TEAM_LOGOS_BUCKET = 'team-logos';
 const LEAGUE_LOGOS_BUCKET = 'league-logos';
+const AWARD_LOGOS_BUCKET = 'award-logos';
 
 // ============================================
 // MAPEO DE EQUIPOS
@@ -169,6 +170,18 @@ export const leagueLogoMap = {
 };
 
 // ============================================
+// MAPEO DE LOGOS DE PREMIOS (para AwardCard)
+// ============================================
+export const awardLogoMap = {
+  'Ballon D Or': 'balondeor',
+  'Bota De Or': 'botadeoro',
+  'The Best': 'thebest',
+  'Yashin': 'yashin',
+  'Golden Boy': 'goldenboy',
+  'Club Of The Year': 'club',
+};
+
+// ============================================
 // FUNCIONES PARA LOGOS DE EQUIPOS
 // ============================================
 
@@ -243,4 +256,41 @@ export function getLogoUrlByLeagueName(supabase, leagueName) {
   }
   
   return getLeagueLogoUrl(supabase, leagueSlug);
+}
+
+// ============================================
+// FUNCIONES PARA LOGOS DE PREMIOS
+// ============================================
+
+/**
+ * Obtiene la URL pública del logo de un premio
+ * @param {Object} supabase - Cliente de Supabase
+ * @param {string} awardSlug - Slug del premio
+ * @returns {string} URL pública del logo
+ */
+export function getAwardLogoUrl(supabase, awardSlug) {
+  const path = `${awardSlug}.png`;
+  
+  const { data } = supabase.storage
+    .from(AWARD_LOGOS_BUCKET)
+    .getPublicUrl(path);
+  
+  return data.publicUrl;
+}
+
+/**
+ * Genera URL del logo de premio basado en nombre
+ * @param {Object} supabase - Cliente de Supabase
+ * @param {string} awardName - Nombre del premio
+ * @returns {string|null} URL del logo o null si no se encuentra
+ */
+export function getLogoUrlByAwardName(supabase, awardName) {
+  const awardSlug = awardLogoMap[awardName];
+  
+  if (!awardSlug) {
+    console.warn(`⚠️ Logo de premio no encontrado: "${awardName}"`);
+    return null;
+  }
+  
+  return getAwardLogoUrl(supabase, awardSlug);
 }
