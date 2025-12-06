@@ -197,7 +197,7 @@ export default function RankingPage({ currentUser, onBack }) {
                 <div className="stat-value-modern">{globalStats.totalPredictions}</div>
                 <div className="stat-label-modern">Predics</div>
               </div>
-            </div>
+            </div> 
             <div className="stat-card-glow predictions-glow"></div>
           </div>
 

@@ -802,7 +802,6 @@ button {
   color: var(--text-primary);
 }
 
-[data-theme="dark"] .search-modern,
 [data-theme="dark"] .filters-modern,
 [data-theme="dark"] .sorts-modern {
   background: rgba(26, 28, 36, 0.6);
