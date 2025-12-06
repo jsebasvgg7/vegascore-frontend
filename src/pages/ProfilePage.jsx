@@ -573,19 +573,12 @@ const handleDeleteTitle = async (titleId) => {
                 {/* Sección del Avatar */}
                 <div className="avatar-section-new">
                   {isEditing ? (
-                    <div className="avatar-container-new">
-                      <AvatarUpload
-                        currentUrl={userData.avatar_url}
-                        userId={currentUser.id}
-                        onUploadComplete={handleAvatarUpload}
-                        userLevel={userData.level}
-                      />
-                      {/* Nivel Badge dentro del container cuando edita */}
-                      <div className="level-badge-floating">
-                        <Crown size={14} fill="currentColor" />
-                        <span>Lvl {userData.level}</span>
-                      </div>
-                    </div>
+                    <AvatarUpload
+                      currentUrl={userData.avatar_url}
+                      userId={currentUser.id}
+                      onUploadComplete={handleAvatarUpload}
+                      userLevel={userData.level}
+                    />
                   ) : (
                     <div className="avatar-container-new">
                       <div className="avatar-display-new">
@@ -601,7 +594,7 @@ const handleDeleteTitle = async (titleId) => {
                           </div>
                         )}
                       </div>
-                      {/* Nivel Badge flotante en la esquina */}
+                      {/* Badge de nivel flotante en la esquina */}
                       <div className="level-badge-floating">
                         <Crown size={14} fill="currentColor" />
                         <span>Lvl {userData.level}</span>
