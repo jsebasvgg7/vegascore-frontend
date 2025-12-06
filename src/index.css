@@ -1823,7 +1823,7 @@ button {
 }
 
 [data-theme="dark"] .prediction-status-light {
-  color: var(--text-secondary);
+  color: var(--border);
 }
 
 /* Predict button */
