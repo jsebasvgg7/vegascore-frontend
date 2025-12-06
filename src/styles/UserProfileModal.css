@@ -171,28 +171,29 @@
 .user-modal-close:active {
   transform: rotate(90deg) scale(0.95);
 }
+
 /* Mobile: Ajustar márgenes y altura */
 @media (max-width: 768px) {
   .user-modal-container {
-    margin-top: 90px; /* Aumentado de 80px a 90px */
+    margin-top: 110px; /* Un poco más de espacio */
     margin-bottom: 80px;
     margin-left: 12px;
     margin-right: 12px;
-    max-height: calc(100vh - 170px); /* Ajustado: 90px arriba + 80px abajo */
+    max-height: calc(100vh - 190px); /* 110px arriba + 80px abajo */
     border-radius: 20px;
   }
 }
 
 @media (max-width: 480px) {
   .user-modal-container {
-    margin-top: 80px; /* Aumentado de 70px a 80px */
+    margin-top: 100px; /* Un poco más de espacio */
     margin-bottom: 75px;
     margin-left: 10px;
     margin-right: 10px;
-    max-height: calc(100vh - 155px); /* Ajustado: 80px arriba + 75px abajo */
+    max-height: calc(100vh - 175px); /* 100px arriba + 75px abajo */
     border-radius: 16px;
   }
-}  
+} 
 .user-modal-close svg {
     width: 18px;
     height: 18px;
