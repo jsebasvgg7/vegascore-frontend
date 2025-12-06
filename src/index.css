@@ -1765,21 +1765,6 @@ button {
 [data-theme="dark"] .award-prediction-form {
   background: var(--card) !important;
 }
-/* Card principal */
-[data-theme="dark"] .match-card-light {
-  background: var(--card);
-  border-color: var(--border);
-  box-shadow: 
-    0 1px 3px rgba(0, 0, 0, 0.3),
-    0 6px 16px -6px rgba(0, 0, 0, 0.4);
-}
-
-[data-theme="dark"] .match-card-light:hover {
-  border-color: rgba(139, 127, 199, 0.3);
-  box-shadow: 
-    0 4px 12px rgba(0, 0, 0, 0.4),
-    0 10px 20px -5px rgba(139, 127, 199, 0.2);
-}
 
 /* Header */
 [data-theme="dark"] .match-header-light {
