@@ -57,6 +57,7 @@
   top: 0;
   background: var(--bg-card);
   z-index: 10;
+  backdrop-filter: blur(10px); /* Para que se vea bien al hacer scroll */
 }
 
 .user-modal-title-section {
@@ -85,12 +86,17 @@
   color: #EF4444;
   cursor: pointer;
   transition: all 0.3s ease;
+  flex-shrink: 0; /* Evitar que se comprima */
 }
 
 .user-modal-close:hover {
   background: #EF4444;
   color: white;
   transform: rotate(90deg);
+}
+
+.user-modal-close:active {
+  transform: rotate(90deg) scale(0.95);
 }
 
 /* ==================== BODY ==================== */
@@ -933,7 +939,19 @@
   }
 
   .user-modal-header {
-    padding: 18px;
+    padding: 16px 18px; /* Padding más balanceado */
+    position: sticky; /* Asegurar que sea sticky en móvil */
+    top: 0;
+    z-index: 10;
+  }
+
+  .user-modal-title-section h2 {
+    font-size: 18px;
+  }
+
+  .user-modal-close {
+    width: 36px; /* Mantener tamaño tocable */
+    height: 36px;
   }
 
   .user-modal-body {
@@ -960,20 +978,41 @@
 
 @media (max-width: 480px) {
   .user-modal-overlay {
+    padding: 10px;
     padding-top: calc(60px + 10px); /* Header más pequeño en móviles pequeños */
     padding-bottom: calc(65px + 10px); /* Bottom nav más pequeño */
   }
 
   .user-modal-container {
     max-height: calc(100vh - 60px - 65px - 20px);
+    border-radius: 16px;
   }
 
   .user-modal-header {
-    padding: 16px;
+    padding: 14px 16px;
+  }
+
+  .user-modal-title-section {
+    gap: 10px;
   }
 
   .user-modal-title-section h2 {
-    font-size: 18px;
+    font-size: 16px;
+  }
+
+  .user-modal-title-section svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .user-modal-close {
+    width: 34px;
+    height: 34px;
+  }
+
+  .user-modal-close svg {
+    width: 18px;
+    height: 18px;
   }
 
   .user-modal-body {
