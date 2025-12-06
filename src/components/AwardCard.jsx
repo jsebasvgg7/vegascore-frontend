@@ -139,7 +139,7 @@ export default function AwardCard({ award, userPrediction, onPredict }) {
         )}
       </div>
 
-      {/* Deadline badge */}
+      {/* Deadline badge 
       {deadline && !isFinished && (
         <div className="award-deadline-badge">
           <Calendar size={12} />
@@ -152,7 +152,7 @@ export default function AwardCard({ award, userPrediction, onPredict }) {
           <CheckCircle2 size={12} />
           <span>Finalizado</span>
         </div>
-      )}
+      )}*/}
     </div>
   );
 }
