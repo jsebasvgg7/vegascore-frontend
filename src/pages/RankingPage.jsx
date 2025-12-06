@@ -6,6 +6,7 @@ import {
   ChevronUp, ChevronDown, Minus, Filter, Search, Sparkles
 } from 'lucide-react';
 import { supabase } from '../utils/supabaseClient';
+import UserProfileModal from '../components/UserProfileModal';
 import '../styles/RankingPage.css';
 
 export default function RankingPage({ currentUser, onBack }) {
@@ -14,6 +15,7 @@ export default function RankingPage({ currentUser, onBack }) {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterType, setFilterType] = useState('all');
   const [sortBy, setSortBy] = useState('points');
+  const [selectedUserId, setSelectedUserId] = useState(null);
 
   useEffect(() => {
     loadUsers();
@@ -114,7 +116,7 @@ export default function RankingPage({ currentUser, onBack }) {
       </div>
 
       <div className="ranking-page-container">
-                {/* Tu Posición - Modernizado */}
+        {/* Tu Posición - Modernizado */}
         {currentUserData && (
           <div className="your-rank-modern">
             <div className="your-rank-content">
@@ -228,7 +230,7 @@ export default function RankingPage({ currentUser, onBack }) {
           </div>
         </div>
 
-      {/* PODIO TOP 3 - Ultra Mejorado */}
+        {/* PODIO TOP 3 - Ultra Mejorado */}
         {users.length >= 3 && (
           <div className="podium-ultra">
             <div className="podium-header-ultra">
@@ -253,7 +255,11 @@ export default function RankingPage({ currentUser, onBack }) {
                       <div className="ring ring-1"></div>
                       <div className="ring ring-2"></div>
                     </div>
-                    <div className="player-avatar-ultra">
+                    <div 
+                      className="player-avatar-ultra"
+                      onClick={() => setSelectedUserId(users[1].id)}
+                      style={{ cursor: 'pointer' }}
+                    >
                       {users[1].avatar_url ? (
                         <img src={users[1].avatar_url} alt={users[1].name} />
                       ) : (
@@ -302,7 +308,11 @@ export default function RankingPage({ currentUser, onBack }) {
                       <div className="ring ring-2"></div>
                       <div className="ring ring-3"></div>
                     </div>
-                    <div className="player-avatar-ultra champion-avatar">
+                    <div 
+                      className="player-avatar-ultra champion-avatar"
+                      onClick={() => setSelectedUserId(users[0].id)}
+                      style={{ cursor: 'pointer' }}
+                    >
                       {users[0].avatar_url ? (
                         <img src={users[0].avatar_url} alt={users[0].name} />
                       ) : (
@@ -350,7 +360,11 @@ export default function RankingPage({ currentUser, onBack }) {
                       <div className="ring ring-1"></div>
                       <div className="ring ring-2"></div>
                     </div>
-                    <div className="player-avatar-ultra">
+                    <div 
+                      className="player-avatar-ultra"
+                      onClick={() => setSelectedUserId(users[2].id)}
+                      style={{ cursor: 'pointer' }}
+                    >
                       {users[2].avatar_url ? (
                         <img src={users[2].avatar_url} alt={users[2].name} />
                       ) : (
@@ -474,7 +488,11 @@ export default function RankingPage({ currentUser, onBack }) {
 
                   <div className="row-cell user-cell">
                     <div className="user-display">
-                      <div className="user-avatar-small">
+                      <div 
+                        className="user-avatar-small"
+                        onClick={() => setSelectedUserId(user.id)}
+                        style={{ cursor: 'pointer' }}
+                      >
                         {user.avatar_url ? (
                           <img src={user.avatar_url} alt={user.name} />
                         ) : (
@@ -531,6 +549,14 @@ export default function RankingPage({ currentUser, onBack }) {
           </div>
         )}
       </div>
+
+      {/* Modal de Perfil de Usuario */}
+      {selectedUserId && (
+        <UserProfileModal
+          userId={selectedUserId}
+          onClose={() => setSelectedUserId(null)}
+        />
+      )}
     </div>
   );
 }

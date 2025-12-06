@@ -1,0 +1,886 @@
+/* src/styles/UserProfileModal.css */
+
+/* ==================== MODAL OVERLAY ==================== */
+.user-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  padding: 20px;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.user-modal-container {
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: 24px;
+  width: 100%;
+  max-width: 800px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* ==================== HEADER ==================== */
+.user-modal-header {
+  padding: 24px;
+  border-bottom: 1px solid var(--border-light);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  background: var(--bg-card);
+  z-index: 10;
+}
+
+.user-modal-title-section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--primary);
+}
+
+.user-modal-title-section h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.user-modal-close {
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #EF4444;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.user-modal-close:hover {
+  background: #EF4444;
+  color: white;
+  transform: rotate(90deg);
+}
+
+/* ==================== BODY ==================== */
+.user-modal-body {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* ==================== AVATAR SECTION ==================== */
+.user-modal-avatar-section {
+  background: var(--bg-tertiary);
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid var(--border-light);
+}
+
+.user-modal-banner {
+  height: 100px;
+  background: var(--primary-gradient);
+  position: relative;
+  overflow: hidden;
+}
+
+.banner-pattern {
+  position: absolute;
+  inset: 0;
+  background-image: 
+    repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255, 255, 255, 0.1) 10px, rgba(255, 255, 255, 0.1) 20px);
+  animation: bannerSlide 20s linear infinite;
+}
+
+@keyframes bannerSlide {
+  to {
+    transform: translateX(28px);
+  }
+}
+
+.user-modal-avatar-wrapper {
+  margin-top: -50px;
+  display: flex;
+  justify-content: center;
+  position: relative;
+  z-index: 5;
+}
+
+.user-modal-avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 4px solid var(--bg-card);
+  overflow: hidden;
+  background: var(--primary-gradient);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 40px;
+  font-weight: 700;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  position: relative;
+}
+
+.user-modal-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.user-modal-level-badge {
+  position: absolute;
+  bottom: 0;
+  right: calc(50% - 60px);
+  background: var(--primary-gradient);
+  border: 3px solid var(--bg-card);
+  border-radius: 20px;
+  padding: 4px 12px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 700;
+  color: white;
+  box-shadow: 0 4px 12px rgba(96, 81, 155, 0.4);
+}
+
+.user-modal-info {
+  text-align: center;
+  padding: 16px 24px;
+}
+
+.user-modal-name {
+  margin: 0 0 8px 0;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.user-modal-email {
+  margin: 0 0 12px 0;
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.user-modal-bio {
+  margin: 12px 0 0 0;
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.user-modal-badges-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+  padding: 0 24px 24px;
+}
+
+.user-modal-badge {
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: 12px;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.3s ease;
+}
+
+.user-modal-badge:hover {
+  background: var(--bg-secondary);
+  border-color: rgba(139, 92, 246, 0.3);
+  transform: translateY(-2px);
+}
+
+.user-modal-badge .badge-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.user-modal-badge.team .badge-icon {
+  background: rgba(251, 191, 36, 0.15);
+  color: #D97706;
+}
+
+.user-modal-badge.player .badge-icon {
+  background: rgba(239, 68, 68, 0.15);
+  color: #DC2626;
+}
+
+.user-modal-badge.nation .badge-icon {
+  background: rgba(59, 130, 246, 0.15);
+  color: #2563EB;
+}
+
+.user-modal-badge.joined .badge-icon {
+  background: rgba(139, 92, 246, 0.15);
+  color: var(--primary);
+}
+
+.user-modal-badge .badge-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  flex: 1;
+}
+
+.user-modal-badge .badge-label {
+  font-size: 10px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.user-modal-badge .badge-value {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ==================== STATS GRID ==================== */
+.user-modal-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.user-modal-stat-item {
+  background: var(--bg-tertiary);
+  border-radius: 16px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  border: 1px solid var(--border-light);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.user-modal-stat-item::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--primary-gradient);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.user-modal-stat-item:hover::before {
+  opacity: 0.03;
+}
+
+.user-modal-stat-item:hover {
+  border-color: var(--primary);
+  transform: translateY(-2px);
+}
+
+.user-modal-stat-item .stat-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.user-modal-stat-item.primary .stat-icon {
+  background: rgba(139, 92, 246, 0.15);
+  color: var(--primary);
+}
+
+.user-modal-stat-item.success .stat-icon {
+  background: rgba(16, 185, 129, 0.15);
+  color: #10B981;
+}
+
+.user-modal-stat-item.warning .stat-icon {
+  background: rgba(245, 158, 11, 0.15);
+  color: #F59E0B;
+}
+
+.user-modal-stat-item.accent .stat-icon {
+  background: rgba(251, 191, 36, 0.15);
+  color: #D97706;
+}
+
+.user-modal-stat-item .stat-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  position: relative;
+  z-index: 1;
+  flex: 1;
+}
+
+.user-modal-stat-item .stat-label {
+  font-size: 12px;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+}
+
+.user-modal-stat-item .stat-value {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1;
+}
+
+/* ==================== LEVEL CARD ==================== */
+.user-modal-level-card {
+  background: var(--bg-tertiary);
+  border-radius: 16px;
+  padding: 20px;
+  border: 1px solid var(--border-light);
+}
+
+.user-modal-level-card .level-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.user-modal-level-card .level-title-section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--primary);
+}
+
+.user-modal-level-card h4 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.user-modal-level-card p {
+  margin: 4px 0 0 0;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.user-modal-level-card .level-points {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.user-modal-level-card .current-points {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.user-modal-level-card .next-level-points {
+  font-size: 11px;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.user-modal-level-card .progress-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.user-modal-level-card .progress-bar {
+  height: 10px;
+  background: var(--bg-card);
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid var(--border-light);
+  position: relative;
+}
+
+.user-modal-level-card .progress-fill {
+  height: 100%;
+  background: var(--primary-gradient);
+  border-radius: 6px;
+  transition: width 0.6s ease;
+  position: relative;
+}
+
+.user-modal-level-card .progress-glow {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0%, 100% {
+    transform: translateX(-100%);
+  }
+  50% {
+    transform: translateX(100%);
+  }
+}
+
+.user-modal-level-card .progress-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+/* ==================== STREAKS ==================== */
+.user-modal-streaks {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.streak-item {
+  background: var(--bg-tertiary);
+  border-radius: 16px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border: 1px solid var(--border-light);
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.streak-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.streak-item.current {
+  border-left: 4px solid #F59E0B;
+}
+
+.streak-item.best {
+  border-left: 4px solid #D97706;
+}
+
+.streak-item .streak-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.streak-item.current .streak-icon {
+  background: rgba(245, 158, 11, 0.15);
+  color: #F59E0B;
+}
+
+.streak-item.best .streak-icon {
+  background: rgba(251, 191, 36, 0.15);
+  color: #D97706;
+}
+
+.streak-item .streak-info {
+  flex: 1;
+}
+
+.streak-item .streak-label {
+  font-size: 11px;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+}
+
+.streak-item .streak-value {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1;
+  margin-top: 4px;
+}
+
+.streak-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: rgba(245, 158, 11, 0.15);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  border-radius: 12px;
+  padding: 4px 8px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  color: #F59E0B;
+}
+
+/* ==================== ACTIVE TITLE ==================== */
+.user-modal-active-title {
+  background: var(--bg-tertiary);
+  border-radius: 16px;
+  padding: 20px;
+  border: 1px solid var(--border-light);
+}
+
+.user-modal-active-title .title-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+  color: #D97706;
+}
+
+.user-modal-active-title h4 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-primary);
+  flex: 1;
+}
+
+.title-active-badge {
+  background: rgba(139, 92, 246, 0.15);
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  border-radius: 12px;
+  padding: 4px 10px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.current-title-display {
+  background: var(--bg-card);
+  border: 2px solid;
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  transition: all 0.3s ease;
+}
+
+.current-title-display:hover {
+  background: var(--bg-secondary);
+  transform: translateY(-2px);
+}
+
+.title-icon-large {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  background: var(--bg-tertiary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border: 1px solid var(--border-light);
+}
+
+.title-details {
+  flex: 1;
+}
+
+.title-details h5 {
+  margin: 0 0 6px 0;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.title-details p {
+  margin: 0;
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+/* ==================== ACHIEVEMENTS ==================== */
+.user-modal-achievements {
+  background: var(--bg-tertiary);
+  border-radius: 16px;
+  padding: 20px;
+  border: 1px solid var(--border-light);
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+  color: var(--primary);
+}
+
+.section-header h4 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-primary);
+  flex: 1;
+}
+
+.count-badge {
+  background: rgba(139, 92, 246, 0.15);
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  border-radius: 12px;
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.empty-achievements {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--text-muted);
+}
+
+.empty-achievements svg {
+  opacity: 0.3;
+  margin-bottom: 12px;
+}
+
+.empty-achievements p {
+  margin: 0;
+  font-size: 14px;
+}
+
+.achievements-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 12px;
+}
+
+.achievement-card {
+  background: var(--bg-card);
+  border-radius: 12px;
+  padding: 14px;
+  border: 1px solid;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.achievement-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.achievement-emoji {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  background: var(--bg-tertiary);
+  border-radius: 10px;
+  border: 1px solid var(--border-light);
+}
+
+.achievement-card .achievement-info h5 {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.3;
+}
+
+.achievement-card .achievement-info p {
+  margin: 4px 0 0 0;
+  font-size: 11px;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+.achievement-category {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: 4px;
+  padding-top: 8px;
+  border-top: 1px solid var(--border-light);
+}
+
+/* ==================== LOADING & ERROR ==================== */
+.user-modal-loading,
+.user-modal-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 60px 20px;
+  color: var(--text-secondary);
+}
+
+.spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ==================== RESPONSIVE ==================== */
+@media (max-width: 768px) {
+  .user-modal-overlay {
+    padding: 12px;
+  }
+
+  .user-modal-container {
+    max-height: 95vh;
+    border-radius: 20px;
+  }
+
+  .user-modal-header {
+    padding: 18px;
+  }
+
+  .user-modal-body {
+    padding: 18px;
+    gap: 18px;
+  }
+
+  .user-modal-stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .user-modal-streaks {
+    grid-template-columns: 1fr;
+  }
+
+  .achievements-grid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  }
+
+  .user-modal-badges-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .user-modal-header {
+    padding: 16px;
+  }
+
+  .user-modal-title-section h2 {
+    font-size: 18px;
+  }
+
+  .user-modal-body {
+    padding: 16px;
+    gap: 16px;
+  }
+
+  .user-modal-banner {
+    height: 80px;
+  }
+
+  .user-modal-avatar {
+    width: 80px;
+    height: 80px;
+    font-size: 32px;
+  }
+
+  .user-modal-level-badge {
+    right: calc(50% - 50px);
+    padding: 3px 10px;
+    font-size: 11px;
+  }
+
+  .user-modal-name {
+    font-size: 20px;
+  }
+
+  .achievements-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ==================== SCROLLBAR ==================== */
+.user-modal-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.user-modal-container::-webkit-scrollbar-track {
+  background: var(--bg-tertiary);
+  border-radius: 4px;
+}
+
+.user-modal-container::-webkit-scrollbar-thumb {
+  background: rgba(139, 92, 246, 0.3);
+  border-radius: 4px;
+}
+
+.user-modal-container::-webkit-scrollbar-thumb:hover {
+  background: rgba(139, 92, 246, 0.5);
+}
+
+/* ==================== CLICKEABLE AVATARS ==================== */
+.user-avatar-small[style*="cursor: pointer"]:hover,
+.player-avatar-ultra[style*="cursor: pointer"]:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.3);
+}
+
+.user-avatar-small[style*="cursor: pointer"],
+.player-avatar-ultra[style*="cursor: pointer"] {
+  transition: all 0.3s ease;
+}

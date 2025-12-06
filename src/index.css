@@ -1660,6 +1660,106 @@ button {
 [data-theme="dark"] .additional-stat-label {
   color: var(--text-secondary);
 }
+/* ==========================================
+   USER PROFILE MODAL - DARK MODE
+========================================== */
+[data-theme="dark"] .user-modal-overlay {
+  background: rgba(0, 0, 0, 0.85);
+}
+
+[data-theme="dark"] .user-modal-container {
+  background: var(--card);
+  border-color: var(--border);
+}
+
+[data-theme="dark"] .user-modal-header {
+  background: var(--card);
+  border-bottom-color: var(--border);
+}
+
+[data-theme="dark"] .user-modal-close {
+  background: rgba(239, 68, 68, 0.15);
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
+[data-theme="dark"] .user-modal-close:hover {
+  background: #EF4444;
+}
+
+[data-theme="dark"] .user-modal-avatar-section {
+  background: var(--card);
+  border-color: var(--border);
+}
+
+[data-theme="dark"] .user-modal-badges-grid .user-modal-badge {
+  background: rgba(26, 28, 36, 0.6);
+  border-color: var(--border);
+}
+
+[data-theme="dark"] .user-modal-badges-grid .user-modal-badge:hover {
+  background: rgba(26, 28, 36, 0.8);
+}
+
+[data-theme="dark"] .user-modal-stat-item {
+  background: rgba(26, 28, 36, 0.6);
+  border-color: var(--border);
+}
+
+[data-theme="dark"] .user-modal-level-card {
+  background: rgba(26, 28, 36, 0.6);
+  border-color: var(--border);
+}
+
+[data-theme="dark"] .user-modal-level-card .progress-bar {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+[data-theme="dark"] .streak-item {
+  background: rgba(26, 28, 36, 0.6);
+  border-color: var(--border);
+}
+
+[data-theme="dark"] .user-modal-active-title {
+  background: rgba(26, 28, 36, 0.6);
+  border-color: var(--border);
+}
+
+[data-theme="dark"] .current-title-display {
+  background: rgba(26, 28, 36, 0.4);
+}
+
+[data-theme="dark"] .user-modal-achievements {
+  background: rgba(26, 28, 36, 0.6);
+  border-color: var(--border);
+}
+
+[data-theme="dark"] .achievement-card {
+  background: var(--card);
+}
+
+[data-theme="dark"] .achievement-emoji {
+  background: rgba(26, 28, 36, 0.6);
+}
+
+[data-theme="dark"] .user-modal-name,
+[data-theme="dark"] .user-modal-stat-item .stat-value,
+[data-theme="dark"] .user-modal-level-card h4,
+[data-theme="dark"] .streak-item .streak-value,
+[data-theme="dark"] .title-details h5,
+[data-theme="dark"] .achievement-card .achievement-info h5 {
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .user-modal-email,
+[data-theme="dark"] .user-modal-bio,
+[data-theme="dark"] .user-modal-badge .badge-label,
+[data-theme="dark"] .user-modal-stat-item .stat-label,
+[data-theme="dark"] .user-modal-level-card p,
+[data-theme="dark"] .streak-item .streak-label,
+[data-theme="dark"] .title-details p,
+[data-theme="dark"] .achievement-card .achievement-info p {
+  color: var(--text-secondary);
+}
 
 
 /* ==========================================
