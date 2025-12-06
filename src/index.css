@@ -1018,7 +1018,7 @@ button {
 }
 
 [data-theme="dark"] .matches-header-premium {
-  background: var(--small-shadow);
+  background: var(--shadow);
 }
 
 [data-theme="dark"] .matches-empty-text {
