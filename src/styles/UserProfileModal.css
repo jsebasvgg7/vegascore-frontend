@@ -175,22 +175,22 @@
 /* Mobile: Ajustar márgenes y altura */
 @media (max-width: 768px) {
   .user-modal-container {
-    margin-top: 130px; /* Un poco más de espacio */
+    margin-top: 160px; /* Un poco más de espacio */
     margin-bottom: 80px;
     margin-left: 12px;
     margin-right: 12px;
-    max-height: calc(100vh - 210px); /* 110px arriba + 80px abajo */
+    max-height: calc(100vh - 240px); /* 110px arriba + 80px abajo */
     border-radius: 20px;
   }
 }
 
 @media (max-width: 480px) {
   .user-modal-container {
-    margin-top: 110px; /* Un poco más de espacio */
+    margin-top: 140px; /* Un poco más de espacio */
     margin-bottom: 75px;
     margin-left: 10px;
     margin-right: 10px;
-    max-height: calc(100vh - 195px); /* 100px arriba + 75px abajo */
+    max-height: calc(100vh - 225px); /* 100px arriba + 75px abajo */
     border-radius: 16px;
   }
 } 
