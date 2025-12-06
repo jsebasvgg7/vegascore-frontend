@@ -955,6 +955,625 @@ button {
   }
 }
 
+/* ==========================================
+   RANKING PAGE - DETALLES ADICIONALES
+========================================== */
+
+/* Texto general */
+[data-theme="dark"] .hero-subtitle,
+[data-theme="dark"] .stat-label-modern,
+[data-theme="dark"] .stat-lab {
+  color: var(--text-secondary);
+}
+
+/* Stats cards */
+[data-theme="dark"] .stat-card-inner {
+  color: var(--text-primary);
+}
+
+/* Badges y labels */
+[data-theme="dark"] .badge-total,
+[data-theme="dark"] .you-tag {
+  color: var(--text-primary);
+}
+
+/* User info */
+[data-theme="dark"] .user-correct-small,
+[data-theme="dark"] .rank-stats-text {
+  color: var(--text-secondary);
+}
+
+/* Progress bars */
+[data-theme="dark"] .acc-bar-modern {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* Pos numbers */
+[data-theme="dark"] .pos-number {
+  color: var(--text-secondary);
+}
+
+[data-theme="dark"] .pos-number.top-three {
+  color: #F59E0B;
+}
+
+/* Points display */
+[data-theme="dark"] .points-num {
+  color: #F59E0B;
+}
+
+[data-theme="dark"] .preds-num {
+  color: var(--text-primary);
+}
+
+/* Accuracy */
+[data-theme="dark"] .acc-percent {
+  color: #10B981;
+}
+
+/* Place heights (podio) */
+[data-theme="dark"] .place-height {
+  background: rgba(26, 28, 36, 0.6);
+  border-color: var(--border);
+}
+
+/* Loading */
+[data-theme="dark"] .loading-text {
+  color: var(--text-secondary);
+}
+
+[data-theme="dark"] .no-results-text {
+  color: var(--text-secondary);
+}
+
+/* ==========================================
+   PROFILE PAGE - DETALLES ADICIONALES
+========================================== */
+
+/* Level progress */
+[data-theme="dark"] .progress-bar {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: var(--border);
+}
+
+[data-theme="dark"] .progress-label {
+  color: var(--text-secondary);
+}
+
+[data-theme="dark"] .next-level-points {
+  color: var(--text-secondary);
+}
+
+/* Achievements */
+[data-theme="dark"] .achievement-label {
+  color: var(--text-secondary);
+}
+
+[data-theme="dark"] .achievement-value,
+[data-theme="dark"] .achievement-category {
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .achievement-desc {
+  color: var(--text-secondary);
+}
+
+[data-theme="dark"] .achievement-emoji {
+  background: rgba(26, 28, 36, 0.6);
+  border-color: var(--border);
+}
+
+/* Titles */
+[data-theme="dark"] .title-card {
+  background: rgba(26, 28, 36, 0.4);
+  border-color: var(--border);
+}
+
+[data-theme="dark"] .title-card:hover {
+  background: rgba(26, 28, 36, 0.6);
+}
+
+[data-theme="dark"] .title-icon-small {
+  background: rgba(26, 28, 36, 0.6);
+  border-color: var(--border);
+}
+
+[data-theme="dark"] .title-card-desc {
+  color: var(--text-secondary);
+}
+
+[data-theme="dark"] .current-title-display {
+  background: rgba(26, 28, 36, 0.6);
+  border-color: var(--accent);
+}
+
+[data-theme="dark"] .title-main-info {
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .title-icon-large {
+  background: rgba(26, 28, 36, 0.6);
+  border-color: var(--border);
+}
+
+/* History */
+[data-theme="dark"] .match-time {
+  color: var(--text-secondary);
+}
+
+[data-theme="dark"] .vs {
+  background: rgba(26, 28, 36, 0.6);
+  color: var(--text-secondary);
+}
+
+[data-theme="dark"] .score-label {
+  color: var(--text-secondary);
+}
+
+[data-theme="dark"] .status-label {
+  color: var(--text-primary);
+}
+
+/* Form elements */
+[data-theme="dark"] .form-label {
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .badge-label {
+  color: var(--text-secondary);
+}
+
+/* ==========================================
+   ADMIN PAGE - DETALLES ADICIONALES
+========================================== */
+
+[data-theme="dark"] .admin-page-title {
+  background: linear-gradient(135deg, #7c6bb8, #9988cc);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+[data-theme="dark"] .stat-detail {
+  color: var(--text-secondary);
+}
+
+[data-theme="dark"] .admin-nav-tab span {
+  color: inherit;
+}
+
+[data-theme="dark"] .search-bar input::placeholder {
+  color: var(--text-secondary);
+}
+
+[data-theme="dark"] .item-meta {
+  color: var(--text-secondary);
+}
+
+[data-theme="dark"] .item-subtitle {
+  color: var(--text-secondary);
+}
+
+[data-theme="dark"] .item-status.pending,
+[data-theme="dark"] .item-status.active {
+  background: rgba(245, 158, 11, 0.15);
+  color: #F59E0B;
+}
+
+[data-theme="dark"] .item-status.finished {
+  background: rgba(16, 185, 129, 0.15);
+  color: #10B981;
+}
+
+[data-theme="dark"] .category-badge {
+  background: rgba(124, 107, 184, 0.15);
+  color: var(--accent-light);
+}
+
+[data-theme="dark"] .admin-empty-state {
+  color: var(--text-secondary);
+}
+
+[data-theme="dark"] .admin-empty-state p {
+  color: var(--text-secondary);
+}
+
+/* ==========================================
+   STATS PAGE - DETALLES ADICIONALES
+========================================== */
+
+[data-theme="dark"] .card-subtitle {
+  color: var(--text-secondary);
+}
+
+[data-theme="dark"] .result-bar {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+[data-theme="dark"] .league-details {
+  color: var(--text-secondary);
+}
+
+[data-theme="dark"] .day-name {
+  color: var(--text-secondary);
+}
+
+[data-theme="dark"] .day-details {
+  color: var(--text-secondary);
+}
+
+[data-theme="dark"] .day-bar {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+[data-theme="dark"] .distribution-label {
+  color: var(--text-secondary);
+}
+
+[data-theme="dark"] .distribution-bar {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+[data-theme="dark"] .additional-stat-label {
+  color: var(--text-secondary);
+}
+
+/* ==========================================
+   NOTIFICATIONS PAGE - DETALLES ADICIONALES
+========================================== */
+
+[data-theme="dark"] .notifications-header h1,
+[data-theme="dark"] .page-title {
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .page-subtitle {
+  color: var(--text-secondary);
+}
+
+[data-theme="dark"] .notif-description {
+  color: var(--text-secondary);
+}
+
+[data-theme="dark"] .detail-item {
+  color: var(--text-secondary);
+}
+
+[data-theme="dark"] .notif-badge {
+  background: rgba(124, 107, 184, 0.15);
+  color: var(--accent-light);
+}
+
+[data-theme="dark"] .banner-description {
+  color: var(--text-secondary);
+}
+
+/* ==========================================
+   MATCH/LEAGUE/AWARD CARDS - DETALLES ADICIONALES
+========================================== */
+
+[data-theme="dark"] .match-date-badge {
+  background: rgba(59, 130, 246, 0.15);
+  border-color: rgba(59, 130, 246, 0.3);
+  color: #60A5FA;
+}
+
+[data-theme="dark"] .league-season-light,
+[data-theme="dark"] .award-season-light {
+  color: var(--text-secondary);
+}
+
+[data-theme="dark"] .prediction-label-light,
+[data-theme="dark"] .prediction-label-award {
+  color: var(--text-secondary);
+}
+
+[data-theme="dark"] .prediction-input-light::placeholder,
+[data-theme="dark"] .prediction-input-award::placeholder,
+[data-theme="dark"] .score-input-in-cell::placeholder {
+  color: var(--text-secondary);
+  opacity: 0.6;
+}
+
+[data-theme="dark"] .prediction-status-light {
+  color: var(--text-secondary);
+}
+
+[data-theme="dark"] .award-category-badge {
+  background: rgba(245, 158, 11, 0.15);
+  border-color: rgba(245, 158, 11, 0.3);
+  color: #FBBF24;
+}
+
+/* ==========================================
+   MODALES - DETALLES ADICIONALES
+========================================== */
+
+[data-theme="dark"] .modal-title-premium,
+[data-theme="dark"] .modal-title {
+  color: white;
+}
+
+[data-theme="dark"] .modal-subtitle-premium {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+[data-theme="dark"] .form-label-premium {
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .form-hint {
+  color: var(--text-secondary);
+}
+
+[data-theme="dark"] .modal-footer-premium {
+  background: rgba(10, 11, 15, 0.6);
+  border-top-color: var(--border);
+}
+
+[data-theme="dark"] .logo-preview-section {
+  background: rgba(26, 28, 36, 0.6);
+  border-color: var(--border);
+}
+
+[data-theme="dark"] .logo-preview-label {
+  color: var(--text-secondary);
+}
+
+/* ==========================================
+   NAVIGATION TABS - DETALLES ADICIONALES
+========================================== */
+
+[data-theme="dark"] .navigation-tabs::before,
+[data-theme="dark"] .navigation-tabs-two::before {
+  background: rgba(124, 107, 184, 0.1);
+}
+
+[data-theme="dark"] .nav-tab::before,
+[data-theme="dark"] .nav-tab-two::before {
+  background: rgba(124, 107, 184, 0.1);
+}
+
+/* ==========================================
+   VEGA SCORE PAGE - DETALLES ADICIONALES
+========================================== */
+
+[data-theme="dark"] .matches-section-premium::before {
+  background: linear-gradient(90deg, #7c6bb8, #9988cc, #7c6bb8);
+}
+
+[data-theme="dark"] .matches-title-premium {
+  color: white;
+}
+
+[data-theme="dark"] .matches-subtitle-premium {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+[data-theme="dark"] .matches-badge {
+  background: rgba(124, 107, 184, 0.25);
+  color: var(--accent-light);
+  border-color: rgba(124, 107, 184, 0.4);
+}
+
+[data-theme="dark"] .matches-empty-icon {
+  opacity: 0.2;
+}
+
+/* ==========================================
+   AVATARS Y BADGES
+========================================== */
+
+[data-theme="dark"] .user-avatar-small,
+[data-theme="dark"] .rank-avatar-small,
+[data-theme="dark"] .podium-avatar,
+[data-theme="dark"] .player-avatar-ultra,
+[data-theme="dark"] .avatar-placeholder {
+  background: linear-gradient(135deg, #7c6bb8, #9988cc);
+}
+
+[data-theme="dark"] .level-badge-floating {
+  background: linear-gradient(135deg, #7c6bb8, #9988cc);
+  border-color: var(--card);
+}
+
+/* ==========================================
+   BOTONES - DETALLES ADICIONALES
+========================================== */
+
+[data-theme="dark"] .modal-btn-premium.secondary,
+[data-theme="dark"] .cancel-button-secondary {
+  background: rgba(26, 28, 36, 0.6);
+  border-color: var(--border);
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .modal-btn-premium.secondary:hover,
+[data-theme="dark"] .cancel-button-secondary:hover {
+  background: rgba(26, 28, 36, 0.8);
+}
+
+[data-theme="dark"] .view-all-button {
+  background: rgba(26, 28, 36, 0.6);
+  border-color: var(--border);
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .view-all-button:hover {
+  background: rgba(26, 28, 36, 0.8);
+  color: var(--accent-light);
+}
+
+[data-theme="dark"] .time-btn {
+  color: var(--text-secondary);
+}
+
+[data-theme="dark"] .time-btn:hover {
+  background: rgba(124, 107, 184, 0.1);
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .clear-search-btn {
+  background: linear-gradient(135deg, #7c6bb8, #9988cc);
+}
+
+/* ==========================================
+   RANKINGS - SIDEBAR Y PODIO
+========================================== */
+
+[data-theme="dark"] .ranking-premium {
+  background: var(--card);
+  border-color: var(--border);
+}
+
+[data-theme="dark"] .ranking-header-premium {
+  background: linear-gradient(135deg, #0a0b0f 0%, #14151d 100%);
+}
+
+[data-theme="dark"] .ranking-title-premium h3 {
+  color: white;
+}
+
+[data-theme="dark"] .ranking-subtitle {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+[data-theme="dark"] .podium-card {
+  background: rgba(26, 28, 36, 0.6);
+}
+
+[data-theme="dark"] .podium-first {
+  background: rgba(124, 107, 184, 0.15);
+  border-color: var(--accent);
+}
+
+[data-theme="dark"] .podium-second {
+  background: rgba(192, 192, 192, 0.1);
+  border-color: rgba(192, 192, 192, 0.3);
+}
+
+[data-theme="dark"] .podium-third {
+  background: rgba(245, 158, 11, 0.1);
+  border-color: rgba(245, 158, 11, 0.3);
+}
+
+[data-theme="dark"] .podium-name {
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .podium-points {
+  color: var(--text-secondary);
+}
+
+[data-theme="dark"] .podium-position {
+  color: var(--text-secondary);
+}
+
+[data-theme="dark"] .ranking-item-premium {
+  background: rgba(26, 28, 36, 0.4);
+  border-color: var(--border);
+}
+
+[data-theme="dark"] .ranking-item-premium.hovered {
+  background: rgba(26, 28, 36, 0.6);
+  border-color: var(--accent);
+}
+
+[data-theme="dark"] .rank-number {
+  color: var(--text-secondary);
+}
+
+[data-theme="dark"] .rank-name-text {
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .points-number {
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .points-label {
+  color: var(--text-secondary);
+}
+
+[data-theme="dark"] .rank-progress {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+[data-theme="dark"] .ranking-footer {
+  background: rgba(10, 11, 15, 0.6);
+  border-top-color: var(--border);
+}
+
+[data-theme="dark"] .ranking-stat {
+  color: var(--text-secondary);
+}
+
+[data-theme="dark"] .ranking-divider {
+  border-bottom-color: var(--border);
+}
+
+[data-theme="dark"] .ranking-divider span {
+  color: var(--text-secondary);
+}
+
+/* ==========================================
+   FIXES ESPECÍFICOS PARA ELEMENTOS BLANCOS
+========================================== */
+
+/* Cualquier h1, h2, h3, h4, h5, h6 que no tenga color específico */
+[data-theme="dark"] h1:not([style*="color"]),
+[data-theme="dark"] h2:not([style*="color"]),
+[data-theme="dark"] h3:not([style*="color"]),
+[data-theme="dark"] h4:not([style*="color"]),
+[data-theme="dark"] h5:not([style*="color"]),
+[data-theme="dark"] h6:not([style*="color"]) {
+  color: var(--text-primary);
+}
+
+/* Párrafos y spans */
+[data-theme="dark"] p:not([class*="gradient"]):not([style*="color"]) {
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] span:not([class*="gradient"]):not([style*="color"]) {
+  color: inherit;
+}
+
+/* Divs de texto */
+[data-theme="dark"] .text-primary,
+[data-theme="dark"] [class*="-text"]:not([class*="gradient"]) {
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .text-secondary,
+[data-theme="dark"] [class*="-subtext"],
+[data-theme="dark"] [class*="-subtitle"] {
+  color: var(--text-secondary);
+}
+
+/* Labels generales */
+[data-theme="dark"] label:not([style*="color"]) {
+  color: var(--text-primary);
+}
+
+/* Iconos lucide-react */
+[data-theme="dark"] svg:not([class*="gradient"]):not([style*="color"]) {
+  color: inherit;
+}
+
+/* ==========================================
+   LOADING STATES
+========================================== */
+
+[data-theme="dark"] .spinner-large,
+[data-theme="dark"] .spinner-premium {
+  border-color: rgba(124, 107, 184, 0.2);
+  border-top-color: var(--accent-light);
+}
+
+[data-theme="dark"] .spinner {
+  color: var(--accent-light);
+}
+
 /* Transiciones suaves */
 [data-theme="dark"] * {
   transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
