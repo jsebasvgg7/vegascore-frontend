@@ -1021,11 +1021,6 @@ button {
   background: var(--bg);
 }
 
-[data-theme="dark"] .matches-empty-text {
-  color: var(--border);
-}
-
-
 /* ==========================================
    RANKING PAGE - MODO OSCURO RELAJADO
 ========================================== */
