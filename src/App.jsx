@@ -14,6 +14,7 @@ import AdminPage from "./pages/AdminPage";
 import ProfilePage from "./pages/ProfilePage";
 import NotificationsPage from "./pages/NotificationsPage";
 import StatsPage from "./pages/StatsPage";
+import WorldCupPage from "./pages/WorldCupPage"; // ← NUEVO
 import { PageLoader } from "./components/LoadingStates";
 
 export default function App() {
@@ -25,7 +26,6 @@ export default function App() {
   const [showProfile, setShowProfile] = useState(false);
 
   useEffect(() => {
-    // Agregar clase al body durante carga
     if (loading && initialLoad) {
       document.body.classList.add('loading');
     } else {
@@ -40,7 +40,6 @@ export default function App() {
   useEffect(() => {
     let mounted = true;
 
-    // Obtener sesión inicial
     supabase.auth.getSession().then(({ data }) => {
       if (!mounted) return;
 
@@ -54,7 +53,6 @@ export default function App() {
       }
     });
 
-    // Escuchar cambios de sesión
     const { data: listener } = supabase.auth.onAuthStateChange(
       (_event, session) => {
         if (!mounted) return;
@@ -77,7 +75,6 @@ export default function App() {
 
   const loadUserData = async (authId) => {
     try {
-      // Cargar usuario actual
       const { data: profile, error: profileError } = await supabase
         .from("users")
         .select("*")
@@ -87,7 +84,6 @@ export default function App() {
       if (profileError) throw profileError;
 
       if (!profile) {
-        // Crear perfil si no existe
         const { data: authUser } = await supabase.auth.getUser();
         const { data: newProfile, error: createError } = await supabase
           .from("users")
@@ -108,7 +104,6 @@ export default function App() {
         setCurrentUser(profile);
       }
 
-      // Cargar todos los usuarios
       const { data: userList } = await supabase
         .from("users")
         .select("*")
@@ -118,7 +113,6 @@ export default function App() {
     } catch (err) {
       console.error("Error loading user data:", err);
     } finally {
-      // Pequeño delay para evitar flash en móviles
       setTimeout(() => {
         setLoading(false);
         setInitialLoad(false);
@@ -126,7 +120,6 @@ export default function App() {
     }
   };
 
-  // Solo mostrar PageLoader en la carga inicial
   if (loading && initialLoad) {
     return <PageLoader />;
   }
@@ -134,7 +127,6 @@ export default function App() {
   return (
     <ThemeProvider>
       <BrowserRouter>
-        {/* Header aparece en todas las rutas protegidas */}
         {session && currentUser && (
           <Header
             currentUser={currentUser}
@@ -186,6 +178,11 @@ export default function App() {
           <Route 
             path="/stats"
             element={session ? <StatsPage currentUser={currentUser} /> : <Navigate to="/" replace />}
+          />
+          {/* ← NUEVA RUTA MUNDIAL */}
+          <Route
+            path="/worldcup"
+            element={session ? <WorldCupPage currentUser={currentUser} /> : <Navigate to="/" replace />}
           />
         </Routes>
       </BrowserRouter>

@@ -38,7 +38,11 @@ export default function Header({ currentUser, users = [], onProfileClick }) {
 
   const handleStatsClick = () => {
     navigate("/stats");
-  }
+  };
+
+  const handleWorldCupClick = () => {
+    navigate("/worldcup");
+  };
 
   const isActive = (path) => location.pathname === path;
 
@@ -64,12 +68,12 @@ export default function Header({ currentUser, users = [], onProfileClick }) {
               {location.pathname === '/profile' && 'Perfil'}
               {location.pathname === '/notifications' && 'Notificaciones'}
               {location.pathname === '/stats' && 'Estadísticas'}
+              {location.pathname === '/worldcup' && 'Mundial 2026'}
             </div>
           </div>
         </div>
 
         <div className="header-right">
-          {/* Botón de Tema - Siempre visible */}
           <button 
             className="icon-btn theme-btn" 
             onClick={toggleTheme}
@@ -87,6 +91,7 @@ export default function Header({ currentUser, users = [], onProfileClick }) {
           >
             <Bell size={18} />
           </button>
+          
           <button 
             className="icon-btn stats-btn desktop-only" 
             onClick={handleStatsClick}
@@ -125,7 +130,6 @@ export default function Header({ currentUser, users = [], onProfileClick }) {
             <User2 size={18} />
           </button>
 
-          {/* Botón de LOGOUT - Siempre visible */}
           <button 
             className="icon-btn logout-btn" 
             onClick={handleLogout} 
@@ -149,6 +153,15 @@ export default function Header({ currentUser, users = [], onProfileClick }) {
         </button>
 
         <button 
+          className={`bottom-nav-btn ${isActive('/worldcup') ? 'active' : ''}`}
+          onClick={handleWorldCupClick}
+          aria-label="Mundial"
+        >
+          <Trophy size={24} />
+          <span>Mundial</span>
+        </button>
+
+        <button 
           className={`bottom-nav-btn ${isActive('/ranking') ? 'active' : ''}`}
           onClick={handleRankingClick}
           aria-label="Ranking"
@@ -163,15 +176,16 @@ export default function Header({ currentUser, users = [], onProfileClick }) {
           aria-label="Notificaciones"
         >
           <Bell size={24} />
-          <span>Notificaciones</span>
+          <span>Noticias</span>
         </button>
+        
         <button 
           className={`bottom-nav-btn ${isActive('/stats') ? 'active' : ''}`}
           onClick={handleStatsClick}
           aria-label="Estadísticas"
         >
           <BarChart3 size={24} />
-          <span>Estadísticas</span>
+          <span>Stats</span>
         </button>
 
         {currentUser?.is_admin && (

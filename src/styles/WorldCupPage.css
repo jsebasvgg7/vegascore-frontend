@@ -1,0 +1,525 @@
+/* ==========================================
+   WORLD CUP PAGE - Mundial 2026
+========================================== */
+
+.worldcup-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #F8FAFC 0%, #EEF2F6 100%);
+  padding: 24px 16px 100px;
+}
+
+.worldcup-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Header */
+.worldcup-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  background: linear-gradient(135deg, #1e202c 0%, #31323e 100%);
+  padding: 24px 28px;
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+}
+
+.worldcup-header-content {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.worldcup-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #F59E0B, #D97706);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  box-shadow: 0 8px 24px rgba(245, 158, 11, 0.4);
+}
+
+.worldcup-title {
+  margin: 0;
+  font-size: 26px;
+  font-weight: 800;
+  color: white;
+  letter-spacing: -0.5px;
+}
+
+.worldcup-subtitle {
+  margin: 4px 0 0 0;
+  font-size: 14px;
+  color: #bfc0d1;
+  font-weight: 500;
+}
+
+.save-predictions-btn {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #10B981, #059669);
+  color: white;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 4px 16px rgba(16, 185, 129, 0.3);
+}
+
+.save-predictions-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+}
+
+.save-predictions-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Navigation Tabs */
+.worldcup-nav-tabs {
+  display: flex;
+  gap: 12px;
+  background: white;
+  padding: 8px;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+.worldcup-nav-tab {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 20px;
+  border: none;
+  border-radius: 12px;
+  background: transparent;
+  color: #64748B;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.worldcup-nav-tab:hover {
+  background: #F1F5F9;
+  color: #334155;
+}
+
+.worldcup-nav-tab.active {
+  background: linear-gradient(135deg, #F59E0B, #D97706);
+  color: white;
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+}
+
+/* Groups Section */
+.groups-section {
+  padding: 20px;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+}
+
+.groups-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.group-card {
+  background: white;
+  border: 2px solid #E5E7EB;
+  border-radius: 16px;
+  overflow: hidden;
+  transition: all 0.3s;
+}
+
+.group-card:hover {
+  border-color: #F59E0B;
+  box-shadow: 0 6px 20px rgba(245, 158, 11, 0.15);
+  transform: translateY(-2px);
+}
+
+.group-header {
+  background: linear-gradient(135deg, #F59E0B, #D97706);
+  padding: 14px;
+  text-align: center;
+}
+
+.group-header h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 800;
+  color: white;
+  letter-spacing: 0.5px;
+}
+
+.group-teams {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: #F9FAFB;
+}
+
+.group-team-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  background: white;
+  border-radius: 10px;
+  border: 1px solid #E5E7EB;
+}
+
+.team-flag {
+  width: 28px;
+  height: 20px;
+  object-fit: cover;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.team-flag-emoji {
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 20px;
+}
+
+.team-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: #1F2937;
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.group-predictions {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-top: 1px dashed #E5E7EB;
+}
+
+.prediction-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.prediction-field label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #6B7280;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.prediction-field select {
+  padding: 10px 12px;
+  border: 2px solid #E5E7EB;
+  border-radius: 10px;
+  background: white;
+  font-size: 13px;
+  font-weight: 600;
+  color: #1F2937;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.prediction-field select:focus {
+  outline: none;
+  border-color: #F59E0B;
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
+}
+
+/* Knockout Section */
+.knockout-section {
+  padding: 40px;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  text-align: center;
+}
+
+.bracket-info {
+  padding: 32px;
+  background: #F9FAFB;
+  border-radius: 16px;
+  border: 2px dashed #E5E7EB;
+}
+
+.bracket-info p {
+  margin: 0;
+  font-size: 15px;
+  color: #64748B;
+  font-weight: 500;
+}
+
+/* Awards Section */
+.awards-section {
+  padding: 20px;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+}
+
+.awards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.award-card {
+  padding: 24px;
+  background: linear-gradient(135deg, #FAFBFC 0%, #F9FAFB 100%);
+  border: 2px solid #E5E7EB;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: all 0.3s;
+}
+
+.award-card:hover {
+  border-color: #F59E0B;
+  box-shadow: 0 6px 20px rgba(245, 158, 11, 0.15);
+  transform: translateY(-2px);
+}
+
+.award-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #F59E0B, #D97706);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+}
+
+.award-card label {
+  font-size: 13px;
+  font-weight: 700;
+  color: #374151;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.award-card input {
+  padding: 12px 14px;
+  border: 2px solid #E5E7EB;
+  border-radius: 10px;
+  background: white;
+  font-size: 14px;
+  font-weight: 600;
+  color: #1F2937;
+  transition: all 0.2s;
+}
+
+.award-card input:focus {
+  outline: none;
+  border-color: #F59E0B;
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
+}
+
+.award-card input::placeholder {
+  color: #9CA3AF;
+  font-weight: 500;
+}
+
+/* Loading State */
+.worldcup-page-loading {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  color: #64748B;
+}
+
+.worldcup-page-loading p {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* Responsive - Tablet */
+@media (max-width: 1024px) {
+  .groups-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .awards-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Responsive - Mobile */
+@media (max-width: 768px) {
+  .worldcup-page {
+    padding: 16px 12px 100px;
+  }
+
+  .worldcup-header {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 20px;
+  }
+
+  .worldcup-header-content {
+    gap: 12px;
+  }
+
+  .worldcup-icon {
+    width: 52px;
+    height: 52px;
+  }
+
+  .worldcup-title {
+    font-size: 20px;
+  }
+
+  .worldcup-subtitle {
+    font-size: 12px;
+  }
+
+  .save-predictions-btn {
+    width: 100%;
+    padding: 12px 20px;
+  }
+
+  .worldcup-nav-tabs {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .worldcup-nav-tab {
+    width: 100%;
+    padding: 12px 16px;
+  }
+
+  .groups-section,
+  .knockout-section,
+  .awards-section {
+    padding: 16px;
+  }
+
+  .groups-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .awards-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .group-team-item {
+    padding: 10px;
+  }
+
+  .team-name {
+    font-size: 12px;
+  }
+
+  .prediction-field select {
+    font-size: 12px;
+  }
+
+  .award-card {
+    padding: 20px;
+  }
+
+  .award-icon {
+    width: 44px;
+    height: 44px;
+  }
+
+  .award-card input {
+    font-size: 13px;
+    padding: 11px 13px;
+  }
+}
+
+/* Dark Mode Support */
+[data-theme="dark"] .worldcup-page {
+  background: linear-gradient(135deg, #1a1d2e 0%, #252936 100%);
+}
+
+[data-theme="dark"] .groups-section,
+[data-theme="dark"] .knockout-section,
+[data-theme="dark"] .awards-section {
+  background: var(--card);
+  border-color: var(--border);
+}
+
+[data-theme="dark"] .group-card {
+  background: var(--card);
+  border-color: var(--border);
+}
+
+[data-theme="dark"] .group-teams {
+  background: rgba(26, 28, 36, 0.4);
+}
+
+[data-theme="dark"] .group-team-item {
+  background: var(--card);
+  border-color: var(--border);
+}
+
+[data-theme="dark"] .team-name {
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .prediction-field label {
+  color: var(--text-secondary);
+}
+
+[data-theme="dark"] .prediction-field select {
+  background: var(--input-bg);
+  border-color: var(--input-border);
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .award-card {
+  background: rgba(26, 28, 36, 0.4);
+  border-color: var(--border);
+}
+
+[data-theme="dark"] .award-card label {
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .award-card input {
+  background: var(--input-bg);
+  border-color: var(--input-border);
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .bracket-info {
+  background: rgba(26, 28, 36, 0.4);
+  border-color: var(--border);
+}
+
+[data-theme="dark"] .bracket-info p {
+  color: var(--text-secondary);
+}
