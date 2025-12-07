@@ -61,52 +61,49 @@
   font-weight: 500;
 }
 
-/* Botón de Guardar - Ahora flotante al final */
+/* Botón de Guardar - AL FINAL DEL CONTENIDO */
 .save-predictions-btn {
-  position: fixed;
-  bottom: 90px; /* Por encima del bottom nav */
-  left: 50%;
-  transform: translateX(-50%);
-  padding: 14px 32px;
+  width: 100%;
+  max-width: 600px;
+  margin: 32px auto 0;
+  padding: 16px 32px;
   border: none;
   border-radius: 16px;
   background: linear-gradient(135deg, #10B981, #059669);
   color: white;
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 700;
   cursor: pointer;
   transition: all 0.3s;
   box-shadow: 
     0 8px 24px rgba(16, 185, 129, 0.4),
     0 0 0 4px rgba(16, 185, 129, 0.1);
-  z-index: 900;
-  min-width: 240px;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 10px;
 }
 
 .save-predictions-btn::before {
   content: '💾';
-  font-size: 18px;
+  font-size: 20px;
 }
 
 .save-predictions-btn:hover {
-  transform: translateX(-50%) translateY(-4px);
+  transform: translateY(-4px);
   box-shadow: 
     0 12px 32px rgba(16, 185, 129, 0.5),
     0 0 0 4px rgba(16, 185, 129, 0.15);
 }
 
 .save-predictions-btn:active {
-  transform: translateX(-50%) translateY(-2px);
+  transform: translateY(-2px);
 }
 
 .save-predictions-btn:disabled {
   opacity: 0.6;
   cursor: not-allowed;
-  transform: translateX(-50%);
+  transform: none;
 }
 
 /* Navigation Tabs - Horizontal en móvil con iconos */
@@ -437,28 +434,11 @@
     font-size: 12px;
   }
 
-  /* Botón de Guardar en móvil */
+  /* Botón de Guardar en móvil - AL FINAL */
   .save-predictions-btn {
-    bottom: 80px; /* Ajustado para móvil */
-    left: 12px;
-    right: 12px;
-    transform: none;
-    width: calc(100% - 24px);
-    min-width: auto;
+    margin: 24px auto 0;
     padding: 14px 24px;
     font-size: 14px;
-  }
-
-  .save-predictions-btn:hover {
-    transform: translateY(-4px);
-  }
-
-  .save-predictions-btn:active {
-    transform: translateY(-2px);
-  }
-
-  .save-predictions-btn:disabled {
-    transform: none;
   }
 
   /* Tabs horizontales con solo iconos en móvil */

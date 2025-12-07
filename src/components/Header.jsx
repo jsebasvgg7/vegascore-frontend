@@ -83,22 +83,23 @@ export default function Header({ currentUser, users = [], onProfileClick }) {
             {theme === 'light' ? <Moon size={18} /> : <Sun size={18} />}
           </button>
 
-          <button
-          className="icon-btn worldcup-btn desktop-only"
-            onClick={handleWorldCupClick}
-            aria-label="Ver sección del Mundial"
-            title="Mundial 2026"
-          >
-            <Trophy size={18} />
-          </button>
-
+          {/* Notificaciones - SIEMPRE VISIBLE en header */}
           <button 
-            className="icon-btn notifications-btn desktop-only" 
+            className="icon-btn notifications-btn" 
             onClick={handleNotificationsClick} 
             aria-label="Ver notificaciones"
             title="Notificaciones"
           >
             <Bell size={18} />
+          </button>
+
+          <button
+            className="icon-btn worldcup-btn desktop-only"
+            onClick={handleWorldCupClick}
+            aria-label="Ver sección del Mundial"
+            title="Mundial 2026"
+          >
+            <Trophy size={18} />
           </button>
           
           <button 
@@ -150,7 +151,7 @@ export default function Header({ currentUser, users = [], onProfileClick }) {
         </div>
       </header>
 
-      {/* Bottom Navigation Bar - Solo visible en móvil */}
+      {/* Bottom Navigation Bar - Sin notificaciones */}
       <nav className="bottom-nav">
         <button 
           className={`bottom-nav-btn ${isActive('/app') ? 'active' : ''}`}
@@ -162,15 +163,6 @@ export default function Header({ currentUser, users = [], onProfileClick }) {
         </button>
 
         <button 
-          className={`bottom-nav-btn ${isActive('/worldcup') ? 'active' : ''}`}
-          onClick={handleWorldCupClick}
-          aria-label="Mundial"
-        >
-          <Trophy size={24} />
-          <span>Mundial</span>
-        </button>
-
-        <button 
           className={`bottom-nav-btn ${isActive('/ranking') ? 'active' : ''}`}
           onClick={handleRankingClick}
           aria-label="Ranking"
@@ -178,14 +170,14 @@ export default function Header({ currentUser, users = [], onProfileClick }) {
           <Award size={24} />
           <span>Ranking</span>
         </button>
-
+        
         <button 
-          className={`bottom-nav-btn ${isActive('/notifications') ? 'active' : ''}`}
-          onClick={handleNotificationsClick}
-          aria-label="Notificaciones"
+          className={`bottom-nav-btn ${isActive('/worldcup') ? 'active' : ''}`}
+          onClick={handleWorldCupClick}
+          aria-label="Mundial"
         >
-          <Bell size={24} />
-          <span>Noticias</span>
+          <Trophy size={24} />
+          <span>Mundial</span>
         </button>
         
         <button 

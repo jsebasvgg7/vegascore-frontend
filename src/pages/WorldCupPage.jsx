@@ -316,6 +316,15 @@ export default function WorldCupPage({ currentUser }) {
                   </div>
                 ))}
               </div>
+
+              {/* BOTÓN AL FINAL DE LOS GRUPOS */}
+              <button 
+                className="save-predictions-btn"
+                onClick={savePredictions}
+                disabled={saving}
+              >
+                {saving ? 'Guardando...' : 'Guardar Predicciones'}
+              </button>
             </div>
           )}
 
@@ -326,6 +335,15 @@ export default function WorldCupPage({ currentUser }) {
                   <p>Las eliminatorias se habilitarán una vez finalice la fase de grupos</p>
                 </div>
               </div>
+
+              {/* BOTÓN AL FINAL DE KNOCKOUT */}
+              <button 
+                className="save-predictions-btn"
+                onClick={savePredictions}
+                disabled={saving}
+              >
+                {saving ? 'Guardando...' : 'Guardar Predicciones'}
+              </button>
             </div>
           )}
 
@@ -410,18 +428,18 @@ export default function WorldCupPage({ currentUser }) {
                   />
                 </div>
               </div>
+
+              {/* BOTÓN AL FINAL DE AWARDS */}
+              <button 
+                className="save-predictions-btn"
+                onClick={savePredictions}
+                disabled={saving}
+              >
+                {saving ? 'Guardando...' : 'Guardar Predicciones'}
+              </button>
             </div>
           )}
         </div>
-
-        {/* BOTÓN DE GUARDAR - FLOTANTE AL FINAL */}
-        <button 
-          className="save-predictions-btn"
-          onClick={savePredictions}
-          disabled={saving}
-        >
-          {saving ? 'Guardando...' : 'Guardar Predicciones'}
-        </button>
       </div>
       
       <ToastContainer toasts={toast.toasts} removeToast={toast.removeToast} />
