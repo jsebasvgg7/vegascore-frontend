@@ -420,29 +420,31 @@ export default function WorldCupPage({ currentUser }) {
             </div>
           </div>
 
-          {/* Navigation Tabs - Estilo Sección */}
+          {/* Navigation Tabs - Estilo VegaScore */}
           <div className="worldcup-tabs-section">
-            <button 
-              className={`worldcup-tab-item ${activeTab === 'groups' ? 'active' : ''}`}
-              onClick={() => setActiveTab('groups')}
-            >
-              <Users size={18} />
-              <span>Fase de Grupos</span>
-            </button>
-            <button 
-              className={`worldcup-tab-item ${activeTab === 'knockout' ? 'active' : ''}`}
-              onClick={() => setActiveTab('knockout')}
-            >
-              <Target size={18} />
-              <span>Eliminatorias</span>
-            </button>
-            <button 
-              className={`worldcup-tab-item ${activeTab === 'awards' ? 'active' : ''}`}
-              onClick={() => setActiveTab('awards')}
-            >
-              <Award size={18} />
-              <span>Premios</span>
-            </button>
+            <div className="worldcup-tabs-header">
+              <button 
+                className={`worldcup-tab-item ${activeTab === 'groups' ? 'active' : ''}`}
+                onClick={() => setActiveTab('groups')}
+              >
+                <Users size={20} />
+                <span>Fase de Grupos</span>
+              </button>
+              <button 
+                className={`worldcup-tab-item ${activeTab === 'knockout' ? 'active' : ''}`}
+                onClick={() => setActiveTab('knockout')}
+              >
+                <Target size={20} />
+                <span>Eliminatorias</span>
+              </button>
+              <button 
+                className={`worldcup-tab-item ${activeTab === 'awards' ? 'active' : ''}`}
+                onClick={() => setActiveTab('awards')}
+              >
+                <Award size={20} />
+                <span>Premios</span>
+              </button>
+            </div>
           </div>
 
           {/* Content */}

@@ -63,20 +63,18 @@
 }
 
 /* ==========================================
-   NAVIGATION TABS - Estilo Sección Premium
+   NAVIGATION TABS - Estilo VegaScore
 ========================================== */
 .worldcup-tabs-section {
-  display: flex;
-  gap: 12px;
   background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
-  border-radius: 16px;
-  padding: 8px;
+  border-radius: 24px;
+  overflow: hidden;
   border: 1px solid rgba(96, 81, 155, 0.1);
   box-shadow: 
-    0 2px 8px rgba(96, 81, 155, 0.08),
+    0 4px 20px rgba(96, 81, 155, 0.12),
     0 0 0 1px rgba(255, 255, 255, 0.5) inset;
   position: relative;
-  overflow: hidden;
+  margin-bottom: 20px;
 }
 
 .worldcup-tabs-section::before {
@@ -85,7 +83,7 @@
   top: 0;
   left: 0;
   right: 0;
-  height: 2px;
+  height: 4px;
   background: linear-gradient(90deg, #60519b, #8b7fc7, #60519b);
   background-size: 200% 100%;
   animation: tabs-shimmer 3s ease-in-out infinite;
@@ -96,75 +94,103 @@
   50% { background-position: 100% 50%; }
 }
 
+.worldcup-tabs-header {
+  background: linear-gradient(135deg, #1e202c 0%, #31323e 100%);
+  padding: 20px 24px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
 .worldcup-tab-item {
-  flex: 1;
   display: flex;
   align-items: center;
-  justify-content: center;
   gap: 8px;
-  padding: 12px 20px;
+  padding: 10px 20px;
   background: transparent;
-  border: 1px solid transparent;
+  border: none;
   border-radius: 12px;
-  color: #64748B;
+  color: #94A3B8;
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.3s ease;
   white-space: nowrap;
-  position: relative;
-  z-index: 1;
 }
 
 .worldcup-tab-item:hover:not(.active) {
-  background: rgba(96, 81, 155, 0.05);
-  color: #475569;
-  border-color: rgba(96, 81, 155, 0.1);
-  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.05);
+  color: white;
 }
 
 .worldcup-tab-item.active {
-  background: linear-gradient(135deg, #60519b 0%, #8b7fc7 100%);
+  background: linear-gradient(135deg, #7C3AED, #5B21B6);
   color: white;
-  border-color: rgba(96, 81, 155, 0.2);
+  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.4);
+}
+
+.worldcup-tab-item:not(.active) {
+  color: #475569;
+}
+
+.worldcup-tab-item:not(.active):hover {
+  color: #0F172A;
+}
+
+/* ==========================================
+   DARK MODE - TABS
+========================================== */
+[data-theme="dark"] .worldcup-tabs-section {
+  background: linear-gradient(135deg, rgba(30, 32, 44, 0.6) 0%, rgba(49, 50, 62, 0.4) 100%);
+  border-color: rgba(255, 255, 255, 0.1);
   box-shadow: 
-    0 4px 12px rgba(96, 81, 155, 0.3),
-    0 2px 4px rgba(96, 81, 155, 0.2) inset;
-  transform: translateY(-2px);
+    0 4px 20px rgba(0, 0, 0, 0.3),
+    0 0 0 1px rgba(255, 255, 255, 0.05) inset;
 }
 
-.worldcup-tab-item.active::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: 12px;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), transparent);
-  pointer-events: none;
+[data-theme="dark"] .worldcup-tabs-section::before {
+  background: linear-gradient(90deg, #8b7fc7, #60519b, #8b7fc7);
 }
 
-.worldcup-tab-item svg {
-  transition: transform 0.3s ease;
+[data-theme="dark"] .worldcup-tabs-header {
+  background: linear-gradient(135deg, #1a1c24 0%, #22232e 100%);
 }
 
-.worldcup-tab-item.active svg {
-  transform: scale(1.1);
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+[data-theme="dark"] .worldcup-tab-item {
+  color: #94A3B8;
+}
+
+[data-theme="dark"] .worldcup-tab-item:hover:not(.active) {
+  background: rgba(255, 255, 255, 0.05);
+  color: white;
+}
+
+[data-theme="dark"] .worldcup-tab-item.active {
+  background: linear-gradient(135deg, #7C3AED, #5B21B6);
+  color: white;
+  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.4);
+}
+
+[data-theme="dark"] .worldcup-tab-item:not(.active) {
+  color: #475569;
+}
+
+[data-theme="dark"] .worldcup-tab-item:not(.active):hover {
+  color: #CBD5E1;
 }
 
 /* ==========================================
    RESPONSIVE - TABS
 ========================================== */
-
-/* Tablets y pantallas medianas */
 @media (max-width: 768px) {
-  .worldcup-tabs-section {
+  .worldcup-tabs-header {
+    padding: 16px 18px;
+    flex-wrap: wrap;
     gap: 8px;
-    padding: 6px;
-    border-radius: 14px;
   }
 
   .worldcup-tab-item {
-    padding: 10px 14px;
+    padding: 8px 14px;
     font-size: 13px;
     gap: 6px;
   }
@@ -175,81 +201,31 @@
   }
 }
 
-/* Móviles */
 @media (max-width: 480px) {
   .worldcup-tabs-section {
-    gap: 6px;
-    padding: 6px;
-    border-radius: 12px;
+    border-radius: 20px;
+    margin-bottom: 16px;
+  }
+
+  .worldcup-tabs-header {
+    padding: 14px 16px;
     flex-direction: column;
+    gap: 8px;
   }
 
   .worldcup-tab-item {
     width: 100%;
-    padding: 12px 16px;
-    font-size: 14px;
-    justify-content: flex-start;
+    padding: 10px 16px;
+    font-size: 13px;
     border-radius: 10px;
+    justify-content: flex-start;
   }
 
   .worldcup-tab-item svg {
     width: 18px;
     height: 18px;
   }
-
-  .worldcup-tab-item.active {
-    transform: translateY(0);
-  }
-
-  .worldcup-tab-item:hover:not(.active) {
-    transform: translateY(0);
-  }
 }
-
-/* Pantallas muy pequeñas - Solo iconos */
-@media (max-width: 360px) {
-  .worldcup-tabs-section {
-    flex-direction: row;
-  }
-
-  .worldcup-tab-item {
-    padding: 10px;
-    flex: 1;
-    justify-content: center;
-  }
-
-  .worldcup-tab-item span {
-    display: none;
-  }
-
-  .worldcup-tab-item svg {
-    width: 20px;
-    height: 20px;
-  }
-}
-
-/* Landscape en móviles */
-@media (max-width: 768px) and (orientation: landscape) {
-  .worldcup-tabs-section {
-    flex-direction: row;
-  }
-
-  .worldcup-tab-item {
-    padding: 10px 12px;
-  }
-}
-
-/* Touch optimizations */
-@media (hover: none) and (pointer: coarse) {
-  .worldcup-tab-item {
-    min-height: 48px;
-  }
-
-  .worldcup-tab-item:active {
-    transform: scale(0.98);
-  }
-}
-
 /* ==========================================
    GROUP CARDS - Minimalista
 ========================================== */
