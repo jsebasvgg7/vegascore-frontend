@@ -147,7 +147,7 @@
     margin: 16px auto;
   }
 
-  /* REDUCIR padding-bottom significativamente */
+  /* Asegurar que cada página tenga altura mínima completa */
   .page-container,
   .vega-score-page,
   .vega-root,
@@ -159,8 +159,8 @@
   .profile-container,
   .ranking-container,
   .admin-container {
-    padding-bottom: 20px !important; /* Reducido de 100px a 20px */
-    min-height: auto !important;
+    min-height: calc(100vh - 80px);
+    padding-bottom: 20px !important;
   }
 
   .matches-container,
@@ -169,7 +169,7 @@
   .profile-bottom-section,
   .history-card,
   .notifications-list {
-    padding-bottom: 20px !important; /* Reducido de 40px a 20px */
+    padding-bottom: 20px !important;
   }
 
   .floating-action-btn,
@@ -180,13 +180,13 @@
   .form-actions,
   .button-group,
   .match-actions {
-    margin-bottom: 15px; /* Reducido de 30px a 15px */
+    margin-bottom: 15px;
   }
 
   .match-card-premium:last-child,
   .ranking-item-premium:last-child,
   .history-item:last-child {
-    margin-bottom: 15px; /* Reducido de 30px a 15px */
+    margin-bottom: 15px;
   }
 
   .modal-content,
