@@ -26,11 +26,55 @@ const GROUPS_DATA = {
 };
 
 // Helper para obtener banderas
-const getTeamFlag = (team) => {
-  const slug = TEAM_LOGO_MAP[team];
-  return supabase.storage
-    .from('world-cup-logos')
-    .getPublicUrl(`${slug}.png`).data.publicUrl;
+const TEAM_LOGO_MAP = {
+  'Mexico': 'mexico',
+  'South Africa': 'sudafrica',
+  'Korea Republic': 'coreadelsur',
+  'Canada': 'canada',
+  'Qatar': 'qatar',
+  'Switzerland': 'suiza',
+  'Brazil': 'brasil',
+  'Morocco': 'marruecos',
+  'Haiti': 'haiti',
+  'Scotland': 'escocia',
+  'USA': 'usa',
+  'Paraguay': 'paraguay',
+  'Australia': 'australia',
+  'Germany': 'alemania',
+  'Curacao': 'curacao',
+  'Ivory Coast': 'costamarfil',
+  'Ecuador': 'ecuador',
+  'Netherlands': 'paisesbajos',
+  'Japan': 'japon',
+  'Tunisia': 'tunez',
+  'Belgium': 'belgica',
+  'Egypt': 'egipto',
+  'Iran': 'iran',
+  'New Zealand': 'nuevazelanda',
+  'Spain': 'espana',
+  'Cabo Verde': 'caboverde',
+  'Saudi Arabia': 'arabiasaudita',
+  'Uruguay': 'uruguay',
+  'France': 'francia',
+  'Senegal': 'senegal',
+  'Norway': 'noruega',
+  'Argentina': 'argentina',
+  'Algeria': 'argelia',
+  'Austria': 'austria',
+  'Jordan': 'jordan',
+  'Portugal': 'portugal',
+  'Uzbekistan': 'uzbekistan',
+  'Colombia': 'colombia',
+  'England': 'inglaterra',
+  'Croatia': 'croacia',
+  'Ghana': 'ghana',
+  'Panama': 'panama',
+  'Denmark*': 'dinamarca',
+  'Turkey*': 'turquia',
+  'Italy*': 'italia',
+  'Poland*': 'polonia',
+  'Bolivia*': 'bolivia',
+  'Congo*': 'congo'
 };
 
 // ============================================
