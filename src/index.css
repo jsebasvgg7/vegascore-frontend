@@ -56,90 +56,14 @@
 }
 
 /* ================================
-   FOOTER RESPONSIVE - ACTUALIZADO  
-================================ */
-
-@media (max-width: 768px) {
-  .app-footer {
-    padding: 10px 12px;
-    position: fixed;
-    bottom: 70px; /* Justo encima del bottom nav */
-    left: 0;
-    right: 0;
-    z-index: 90;
-    margin: 0;
-  }
-  
-  .footer-text {
-    font-size: 11px;
-  }
-  
-  /* Restaurar padding para que el contenido no quede oculto */
-  .page-container,
-  .vega-score-page,
-  .vega-root,
-  .ranking-page,
-  .admin-page,
-  .profile-page,
-  .notifications-page,
-  .stats-page,
-  .profile-container,
-  .ranking-container,
-  .admin-container {
-    padding-bottom: 100px !important;
-    min-height: calc(100vh - 140px);
-  }
-  
-  .matches-container,
-  .ranking-list-premium,
-  .admin-content,
-  .profile-bottom-section,
-  .history-card,
-  .notifications-list {
-    padding-bottom: 40px;
-  }
-}
-
-@media (max-width: 480px) {
-  .app-footer {
-    padding: 8px 10px;
-    bottom: 65px; /* Ajustado para móviles pequeños */
-  }
-  
-  .footer-text {
-    font-size: 10px;
-  }
-  
-  .page-container,
-  .vega-score-page,
-  .vega-root,
-  .ranking-page,
-  .admin-page,
-  .profile-page,
-  .notifications-page,
-  .stats-page,
-  .profile-container,
-  .ranking-container,
-  .admin-container {
-    padding-bottom: 90px !important;
-  }
-  
-  .matches-container,
-  .ranking-list-premium,
-  .admin-content,
-  .profile-bottom-section,
-  .history-card,
-  .notifications-list {
-    padding-bottom: 35px;
-  }
-}
-
-/* ================================
    RESPONSIVE MOBILE - AJUSTADO
 ================================ */
 @media (max-width: 768px) {
   body {
     padding-bottom: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
   }
 
   .container {
@@ -147,7 +71,7 @@
     margin: 16px auto;
   }
 
-  /* Asegurar que cada página tenga altura mínima completa */
+  /* Hacer que las páginas ocupen todo el espacio disponible */
   .page-container,
   .vega-score-page,
   .vega-root,
@@ -156,11 +80,22 @@
   .profile-page,
   .notifications-page,
   .stats-page,
+  .worldcup-page {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    padding-bottom: 80px;
+  }
+
   .profile-container,
   .ranking-container,
-  .admin-container {
-    min-height: calc(100vh - 80px);
-    padding-bottom: 20px !important;
+  .admin-container,
+  .stats-page-container,
+  .notifications-container,
+  .worldcup-container,
+  .ranking-page-container {
+    flex: 1;
+    padding-bottom: 20px;
   }
 
   .matches-container,
@@ -169,7 +104,7 @@
   .profile-bottom-section,
   .history-card,
   .notifications-list {
-    padding-bottom: 20px !important;
+    padding-bottom: 20px;
   }
 
   .floating-action-btn,
@@ -214,6 +149,7 @@
     z-index: 1;
   }
 }
+
 /* ================================
    RESPONSIVE SMALL MOBILE - AJUSTADO
 ================================ */
@@ -231,11 +167,18 @@
   .profile-page,
   .notifications-page,
   .stats-page,
+  .worldcup-page {
+    padding-bottom: 70px;
+  }
+
   .profile-container,
   .ranking-container,
-  .admin-container {
-    padding-bottom: 15px !important; /* Reducido de 90px a 15px */
-    min-height: auto !important;
+  .admin-container,
+  .stats-page-container,
+  .notifications-container,
+  .worldcup-container,
+  .ranking-page-container {
+    padding-bottom: 15px;
   }
 
   .matches-container,
@@ -244,7 +187,7 @@
   .profile-bottom-section,
   .history-card,
   .notifications-list {
-    padding-bottom: 15px !important; /* Reducido de 35px a 15px */
+    padding-bottom: 15px;
   }
 
   .floating-action-btn,
@@ -255,13 +198,13 @@
   .form-actions,
   .button-group,
   .match-actions {
-    margin-bottom: 12px; /* Reducido de 25px a 12px */
+    margin-bottom: 12px;
   }
 
   .match-card-premium:last-child,
   .ranking-item-premium:last-child,
   .history-item:last-child {
-    margin-bottom: 12px; /* Reducido de 25px a 12px */
+    margin-bottom: 12px;
   }
 }
 
