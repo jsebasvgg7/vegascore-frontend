@@ -23,7 +23,7 @@ import { useLeagues } from "../hooks/useLeagues";
 import { useAwards } from "../hooks/useAwards";
 
 // Styles
-import "../styles/pagesStyles/VegaScorePage.css";
+import "../styles/pagesStyles/DashboardPage.css";
 
 export default function VegaScorePage() {
   // ========== STATE MANAGEMENT ==========
