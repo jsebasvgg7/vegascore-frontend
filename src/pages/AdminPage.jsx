@@ -9,13 +9,14 @@ import { supabase } from '../utils/supabaseClient';
 import AdminModal from '../components/AdminModal';
 import AdminLeagueModal from '../components/AdminLeagueModal';
 import AdminAwardModal from '../components/AdminAwardModal';
-import FinishMatchModal from '../components/FinishMatchModal';
-import AdminAchievementsModal from '../components/AdminAchievementsModal';
+import FinishMatchModal from '../components/adminComponents/FinishMatchModal';
+import AdminAchievementsModal from '../components/adminComponents/AdminAchievementsModal';
+import Footer from '../components/Footer';
 import AdminTitlesModal from '../components/AdminTitlesModal';
-import FinishLeagueModal from '../components/FinishLeagueModal';
-import FinishAwardModal from '../components/FinishAwardModal';
+import FinishLeagueModal from '../components/adminComponents/FinishLeagueModal';
+import FinishAwardModal from '../components/adminComponents/FinishAwardModal';
 import { ToastContainer, useToast } from '../components/Toast';
-import '../styles/AdminPage.css';
+import '../styles/pagesStyles/AdminPage.css';
 
 export default function AdminPage({ currentUser, onBack }) {
   const [activeSection, setActiveSection] = useState('matches');
@@ -811,7 +812,7 @@ const handleDeleteTitle = async (titleId) => {
           }}
         />
       )}
-
+      <Footer />
       <ToastContainer toasts={toast.toasts} removeToast={toast.removeToast} />
     </>
   );

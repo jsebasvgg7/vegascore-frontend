@@ -6,8 +6,9 @@ import {
   ChevronUp, ChevronDown, Minus, Filter, Search, Sparkles
 } from 'lucide-react';
 import { supabase } from '../utils/supabaseClient';
+import Footer from '../components/Footer';
 import UserProfileModal from '../components/UserProfileModal';
-import '../styles/RankingPage.css';
+import '../styles/pagesStyles/RankingPage.css';
 
 export default function RankingPage({ currentUser, onBack }) {
   const [users, setUsers] = useState([]);
@@ -549,7 +550,7 @@ export default function RankingPage({ currentUser, onBack }) {
           </div>
         )}
       </div>
-
+      <Footer />
       {/* Modal de Perfil de Usuario */}
       {selectedUserId && (
         <UserProfileModal

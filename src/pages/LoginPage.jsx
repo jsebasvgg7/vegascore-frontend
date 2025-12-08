@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { supabase } from "../utils/supabaseClient";
-import "../styles/Auth.css";
+import "../styles/pagesStyles/Auth.css";
 
 export default function LoginPage() {
   const [loading, setLoading] = useState(false);

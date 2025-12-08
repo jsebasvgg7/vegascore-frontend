@@ -6,7 +6,8 @@ import {
   Zap, Users, ChevronRight, TrendingDown, Minus, Star
 } from 'lucide-react';
 import { supabase } from '../utils/supabaseClient';
-import '../styles/StatsPage.css';
+import Footers from '../components/Footer';
+import '../styles/pagesStyles/StatsPage.css';
 
 export default function StatsPage({ currentUser }) {
   const [stats, setStats] = useState(null);
@@ -593,6 +594,7 @@ export default function StatsPage({ currentUser }) {
           </div>
         </div>
       </div>
+      <Footers />
     </div>
   );
 }

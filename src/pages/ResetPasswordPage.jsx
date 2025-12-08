@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../utils/supabaseClient";
-import "../styles/Auth.css";
+import "../styles/pagesStyles/Auth.css";
 
 export default function ResetPasswordPage() {
   const [loading, setLoading] = useState(false);

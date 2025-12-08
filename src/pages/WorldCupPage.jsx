@@ -3,7 +3,8 @@ import React, { useState, useEffect } from 'react';
 import { Trophy, Award, TrendingUp, TrendingDown, Star, Users, Target, Zap } from 'lucide-react';
 import { supabase } from '../utils/supabaseClient';
 import { useToast, ToastContainer } from '../components/Toast';
-import '../styles/WorldCupPage.css';
+import Footer from '../components/Footer';
+import '../styles/pagesStyles/WorldCupPage.css';
 
 // Datos de los grupos del Mundial 2026
 const WORLD_CUP_GROUPS = {
@@ -447,7 +448,7 @@ export default function WorldCupPage({ currentUser }) {
           )}
         </div>
       </div>
-      
+      <Footer />  
       <ToastContainer toasts={toast.toasts} removeToast={toast.removeToast} />
     </>
   );

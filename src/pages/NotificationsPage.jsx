@@ -6,7 +6,8 @@ import {
   TrendingUp, Zap, Award, Share2
 } from 'lucide-react';
 import { supabase } from '../utils/supabaseClient';
-import '../styles/NotificationsPage.css';
+import Footers from '../components/Footer';
+import '../styles/pagesStyles/NotificationsPage.css';
 
 export default function NotificationsPage({ currentUser }) {
   const [notifications, setNotifications] = useState([]);
@@ -228,6 +229,7 @@ export default function NotificationsPage({ currentUser }) {
           )}
         </div>
       </div>
+      <Footers />
     </div>
   );
 }

@@ -3,9 +3,9 @@ import React, { useState } from "react";
 import { Trophy, TrendingUp, Target, Percent } from "lucide-react";
 
 // Components
-import MatchCard from "../components/MatchCard";
-import LeagueCard from "../components/LeagueCard";
-import AwardCard from "../components/AwardCard";
+import MatchCard from "../components/cardComponets/MatchCard";
+import LeagueCard from "../components/cardComponets/LeagueCard";
+import AwardCard from "../components/cardComponets/AwardCard";
 import NavigationTabs from "../components/NavigationTabs";
 import ProfilePage from "./ProfilePage";
 import RankingPage from "./RankingPage";
@@ -23,7 +23,7 @@ import { useLeagues } from "../hooks/useLeagues";
 import { useAwards } from "../hooks/useAwards";
 
 // Styles
-import "../styles/VegaScorePage.css";
+import "../styles/pagesStyles/VegaScorePage.css";
 
 export default function VegaScorePage() {
   // ========== STATE MANAGEMENT ==========

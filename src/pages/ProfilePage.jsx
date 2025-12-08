@@ -14,10 +14,11 @@ import {
 import { supabase } from '../utils/supabaseClient';
 import AvatarUpload from '../components/AvatarUpload';
 import AchievementsSection from '../components/AchievementsSection';
-import AdminAchievementsModal from '../components/AdminAchievementsModal';
+import AdminAchievementsModal from '../components/adminComponents/AdminAchievementsModal';
 import AdminTitlesModal from '../components/AdminTitlesModal';
 import { ToastContainer, useToast } from '../components/Toast';
-import '../styles/ProfilePage.css';
+import Footer from '../components/Footer';
+import '../styles/pagesStyles/ProfilePage.css';
 
 export default function ProfilePage({ currentUser, onBack }) {
   const [isEditing, setIsEditing] = useState(false);
@@ -1347,6 +1348,7 @@ const handleDeleteTitle = async (titleId) => {
         </div>
       </div>
     </div>
+    <Footer />
     <ToastContainer toasts={toast.toasts} removeToast={toast.removeToast} />
     {/* Modales de Administración */}
       {showAdminAchievementsModal && (
