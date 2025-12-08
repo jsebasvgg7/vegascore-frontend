@@ -26,18 +26,65 @@ const GROUPS_DATA = {
 };
 
 // Helper para obtener banderas
+const TEAM_LOGO_MAP = {
+  'Mexico': 'mexico',
+  'South Africa': 'sudafrica',
+  'Korea Republic': 'coreadelsur',
+  'Denmark*': 'dinamarca',
+  'Canada': 'canada',
+  'Italy*': 'italia',
+  'Qatar': 'qatar',
+  'Switzerland': 'suiza',
+  'Brazil': 'brasil',
+  'Morocco': 'marruecos',
+  'Haiti': 'haiti',
+  'Scotland': 'escocia',
+  'USA': 'usa',
+  'Paraguay': 'paraguay',
+  'Australia': 'australia',
+  'Turkey*': 'turquia',
+  'Germany': 'alemania',
+  'Curacao': 'curacao',
+  'Ivory Coast': 'costamarfil',
+  'Ecuador': 'ecuador',
+  'Netherlands': 'paisesbajos',
+  'Japan': 'japon',
+  'Poland*': 'polonia',
+  'Tunisia': 'tunez',
+  'Belgium': 'belgica',
+  'Egypt': 'egipto',
+  'Iran': 'iran',
+  'New Zealand': 'nuevazelanda',
+  'Spain': 'espana',
+  'Cabo Verde': 'caboverde',
+  'Saudi Arabia': 'arabiasaudita',
+  'Uruguay': 'uruguay',
+  'France': 'francia',
+  'Senegal': 'senegal',
+  'Bolivia*': 'bolivia',
+  'Norway': 'noruega',
+  'Argentina': 'argentina',
+  'Algeria': 'argelia',
+  'Austria': 'austria',
+  'Jordan': 'jordan',
+  'Portugal': 'portugal',
+  'Congo*': 'congo',
+  'Uzbekistan': 'uzbekistan',
+  'Colombia': 'colombia',
+  'England': 'inglaterra',
+  'Croatia': 'croacia',
+  'Ghana': 'ghana',
+  'Panama': 'panama'
+};
+
+// Helper para obtener banderas desde Supabase Storage
 const getTeamFlag = (team) => {
-  const cleanName = team
-    .toLowerCase()
-    .replace(/\s+/g, '-')
-    .replace('*', '')
-    .replace('republic', '')
-    .replace('cabo-verde', 'cape-verde')
-    .replace('korea-', 'kr')
-    .replace('ivory-coast', 'ci')
-    .trim();
+  const slug = TEAM_LOGO_MAP[team];
+  if (!slug) return null;
   
-  return `https://flagcdn.com/w40/${cleanName}.png`;
+  return supabase.storage
+    .from('world-cup-logos')
+    .getPublicUrl(`${slug}.png`).data.publicUrl;
 };
 
 // ============================================
