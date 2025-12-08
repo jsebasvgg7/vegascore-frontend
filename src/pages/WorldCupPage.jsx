@@ -5,6 +5,7 @@ import { supabase } from '../utils/supabaseClient';
 import { useToast, ToastContainer } from '../components/Toast';
 import { useWorldCup } from '../hooks/useWorldCup';
 import Footer from '../components/Footer';
+import WorldCupNavigationTabs from '../components/WorldCupNavigationTabs'; // NUEVO IMPORT
 import '../styles/pagesStyles/WorldCupPage.css';
 
 // ============================================
@@ -420,32 +421,8 @@ export default function WorldCupPage({ currentUser }) {
             </div>
           </div>
 
-          {/* Navigation Tabs - Estilo VegaScore */}
-          <div className="worldcup-tabs-section">
-            <div className="worldcup-tabs-header">
-              <button 
-                className={`worldcup-tab-item ${activeTab === 'groups' ? 'active' : ''}`}
-                onClick={() => setActiveTab('groups')}
-              >
-                <Users size={20} />
-                <span>Fase de Grupos</span>
-              </button>
-              <button 
-                className={`worldcup-tab-item ${activeTab === 'knockout' ? 'active' : ''}`}
-                onClick={() => setActiveTab('knockout')}
-              >
-                <Target size={20} />
-                <span>Eliminatorias</span>
-              </button>
-              <button 
-                className={`worldcup-tab-item ${activeTab === 'awards' ? 'active' : ''}`}
-                onClick={() => setActiveTab('awards')}
-              >
-                <Award size={20} />
-                <span>Premios</span>
-              </button>
-            </div>
-          </div>
+          {/* Navigation Tabs - REEMPLAZADO CON EL NUEVO COMPONENTE */}
+          <WorldCupNavigationTabs activeTab={activeTab} onTabChange={setActiveTab} />
 
           {/* Content */}
           {activeTab === 'groups' && (

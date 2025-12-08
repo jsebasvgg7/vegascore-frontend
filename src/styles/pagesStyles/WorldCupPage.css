@@ -63,193 +63,6 @@
 }
 
 /* ==========================================
-   NAVIGATION TABS - Estilo VegaScore Exacto
-========================================== */
-.worldcup-tabs-section {
-  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
-  border-radius: 24px;
-  overflow: hidden;
-  border: 1px solid rgba(96, 81, 155, 0.1);
-  box-shadow: 
-    0 4px 20px rgba(96, 81, 155, 0.12),
-    0 0 0 1px rgba(255, 255, 255, 0.5) inset;
-  position: relative;
-}
-
-.worldcup-tabs-section::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, #60519b, #8b7fc7, #60519b);
-  background-size: 200% 100%;
-  animation: tabs-shimmer 3s ease-in-out infinite;
-}
-
-@keyframes tabs-shimmer {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-}
-
-.worldcup-tabs-header {
-  background: linear-gradient(135deg, #1e202c 0%, #31323e 100%);
-  padding: 20px 24px;
-  display: flex;
-  gap: 16px;
-  align-items: center;
-}
-
-.worldcup-tab-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 12px 24px;
-  background: transparent;
-  border: none;
-  border-radius: 12px;
-  color: #6B7280;
-  font-size: 15px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  white-space: nowrap;
-  position: relative;
-}
-
-.worldcup-tab-item:hover:not(.active) {
-  background: rgba(255, 255, 255, 0.05);
-  color: #9CA3AF;
-}
-
-.worldcup-tab-item.active {
-  background: linear-gradient(135deg, #7C3AED, #5B21B6);
-  color: white;
-  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.4);
-}
-
-/* Línea inferior activa en desktop */
-.worldcup-tab-item.active::after {
-  content: '';
-  position: absolute;
-  bottom: -20px;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: linear-gradient(90deg, #7C3AED, #5B21B6);
-  border-radius: 3px 3px 0 0;
-}
-
-/* ==========================================
-   DARK MODE - TABS
-========================================== */
-[data-theme="dark"] .worldcup-tabs-section {
-  background: linear-gradient(135deg, rgba(30, 32, 44, 0.8) 0%, rgba(49, 50, 62, 0.6) 100%);
-  border-color: rgba(255, 255, 255, 0.1);
-  box-shadow: 
-    0 4px 20px rgba(0, 0, 0, 0.4),
-    0 0 0 1px rgba(255, 255, 255, 0.05) inset;
-}
-
-[data-theme="dark"] .worldcup-tabs-section::before {
-  background: linear-gradient(90deg, #8b7fc7, #7C3AED, #8b7fc7);
-}
-
-[data-theme="dark"] .worldcup-tabs-header {
-  background: linear-gradient(135deg, #1a1c24 0%, #22232e 100%);
-}
-
-[data-theme="dark"] .worldcup-tab-item {
-  color: #6B7280;
-}
-
-[data-theme="dark"] .worldcup-tab-item:hover:not(.active) {
-  background: rgba(255, 255, 255, 0.05);
-  color: #9CA3AF;
-}
-
-[data-theme="dark"] .worldcup-tab-item.active {
-  background: linear-gradient(135deg, #7C3AED, #5B21B6);
-  color: white;
-}
-
-[data-theme="dark"] .worldcup-tab-item.active::after {
-  background: linear-gradient(90deg, #7C3AED, #5B21B6);
-}
-
-/* ==========================================
-   RESPONSIVE - TABS
-========================================== */
-
-/* Tablets */
-@media (max-width: 1024px) {
-  .worldcup-tabs-header {
-    padding: 18px 20px;
-    gap: 12px;
-  }
-
-  .worldcup-tab-item {
-    padding: 10px 20px;
-    font-size: 14px;
-  }
-}
-
-/* Mobile */
-@media (max-width: 768px) {
-  .worldcup-tabs-section {
-    border-radius: 20px;
-  }
-
-  .worldcup-tabs-header {
-    padding: 16px;
-    flex-direction: column;
-    gap: 8px;
-    align-items: stretch;
-  }
-
-  .worldcup-tab-item {
-    width: 100%;
-    padding: 14px 20px;
-    font-size: 15px;
-    border-radius: 12px;
-    justify-content: flex-start;
-  }
-
-  /* Quitar línea inferior en mobile */
-  .worldcup-tab-item.active::after {
-    display: none;
-  }
-
-  .worldcup-tab-item svg {
-    width: 20px;
-    height: 20px;
-  }
-}
-
-/* Mobile pequeño */
-@media (max-width: 480px) {
-  .worldcup-tabs-section {
-    border-radius: 16px;
-  }
-
-  .worldcup-tabs-header {
-    padding: 12px;
-    gap: 6px;
-  }
-
-  .worldcup-tab-item {
-    padding: 12px 16px;
-    font-size: 14px;
-    border-radius: 10px;
-  }
-
-  .worldcup-tab-item svg {
-    width: 18px;
-    height: 18px;
-  }
-}
-/* ==========================================
    GROUP CARDS - Minimalista
 ========================================== */
 .groups-section {
@@ -855,13 +668,6 @@
   }
 }
 
-/* Ocultar texto largo en tabs móviles */
-@media (max-width: 768px) {
-  .worldcup-nav-tab-text {
-    display: none;
-  }
-}
-
 /* ==========================================
    RESPONSIVE - EXTRA SMALL (< 480px)
 ========================================== */
@@ -1239,7 +1045,7 @@
     font-weight: 700;
   }
 
-/* Awards - Mejorado para móviles */
+  /* Awards - Mejorado para móviles */
   .awards-section {
     padding: 16px;
     border-radius: 14px;
@@ -1315,291 +1121,189 @@
     font-size: 12px;
     line-height: 1.4;
   }
-}
 
+  
 /* ==========================================
-   RESPONSIVE - SMALL (480px - 640px)
+RESPONSIVE - SMALL (480px - 640px)
 ========================================== */
 @media (min-width: 481px) and (max-width: 640px) {
-  .worldcup-page {
-    padding: 14px 10px 100px;
-  }
-
-  .worldcup-header {
-    padding: 18px;
-  }
-
-  .worldcup-icon {
-    width: 52px;
-    height: 52px;
-  }
-
-  .worldcup-title {
-    font-size: 20px;
-  }
-
-  .worldcup-subtitle {
-    font-size: 12px;
-  }
-
-  .worldcup-nav-tab {
-    padding: 12px 14px;
-  }
-
-  .group-table {
-    font-size: 10px;
-    min-width: 450px;
-  }
-
-  .match-prediction {
-    grid-template-columns: 1fr 72px 1fr;
-  }
-
-  .match-team {
-    font-size: 10px;
-  }
-
-  .best-thirds-table {
-    min-width: 450px;
-  }
+.worldcup-page {
+padding: 14px 10px 100px;
 }
-
+.worldcup-header {
+padding: 18px;
+}
+.worldcup-icon {
+width: 52px;
+height: 52px;
+}
+.worldcup-title {
+font-size: 20px;
+}
+.worldcup-subtitle {
+font-size: 12px;
+}
+.group-table {
+font-size: 10px;
+min-width: 450px;
+}
+.match-prediction {
+grid-template-columns: 1fr 72px 1fr;
+}
+.match-team {
+font-size: 10px;
+}
+.best-thirds-table {
+min-width: 450px;
+}
+}
 /* ==========================================
-   RESPONSIVE - MOBILE (640px - 768px)
+RESPONSIVE - MOBILE (640px - 768px)
 ========================================== */
 @media (min-width: 641px) and (max-width: 768px) {
-  .worldcup-page {
-    padding: 16px 12px 100px;
-  }
-
-  .groups-grid {
-    grid-template-columns: 1fr;
-    gap: 14px;
-  }
-
-  .awards-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
+.worldcup-page {
+padding: 16px 12px 100px;
 }
-
+.groups-grid {
+grid-template-columns: 1fr;
+gap: 14px;
+}
+.awards-grid {
+grid-template-columns: repeat(2, 1fr);
+}
+}
 /* ==========================================
-   RESPONSIVE - LARGE (769px - 1024px)
+RESPONSIVE - LARGE (769px - 1024px)
 ========================================== */
 @media (min-width: 769px) and (max-width: 1024px) {
-  .worldcup-page {
-    padding: 20px 16px 100px;
-  }
-
-  .groups-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 18px;
-  }
-
-  .awards-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .worldcup-nav-tab-text {
-    display: inline;
-  }
+.worldcup-page {
+padding: 20px 16px 100px;
 }
-
+.groups-grid {
+grid-template-columns: repeat(2, 1fr);
+gap: 18px;
+}
+.awards-grid {
+grid-template-columns: repeat(2, 1fr);
+}
+}
 /* ==========================================
-   RESPONSIVE - EXTRA LARGE (> 1400px)
+RESPONSIVE - EXTRA LARGE (> 1400px)
 ========================================== */
 @media (min-width: 1401px) {
-  .worldcup-container {
-    max-width: 1600px;
-  }
-
-  .groups-grid {
-    grid-template-columns: repeat(4, 1fr);
-  }
-
-  .awards-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
+.worldcup-container {
+max-width: 1600px;
 }
-
+.groups-grid {
+grid-template-columns: repeat(4, 1fr);
+}
+.awards-grid {
+grid-template-columns: repeat(3, 1fr);
+}
+}
 /* ==========================================
-   LANDSCAPE ORIENTATION - MOBILE
+LANDSCAPE ORIENTATION - MOBILE
 ========================================== */
 @media (max-width: 768px) and (orientation: landscape) {
-  .worldcup-page {
-    padding: 12px 16px 80px;
-  }
-
-  .worldcup-header {
-    padding: 16px 20px;
-  }
-
-  .groups-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .group-table {
-    font-size: 10px;
-  }
-
-  .match-prediction {
-    grid-template-columns: 1fr 75px 1fr;
-  }
+.worldcup-page {
+padding: 12px 16px 80px;
 }
-
+.worldcup-header {
+padding: 16px 20px;
+}
+.groups-grid {
+grid-template-columns: repeat(2, 1fr);
+}
+.group-table {
+font-size: 10px;
+}
+.match-prediction {
+grid-template-columns: 1fr 75px 1fr;
+}
+}
 /* ==========================================
-   TOUCH OPTIMIZATIONS
-========================================== */
+TOUCH OPTIMIZATIONS
+========================================== /
 @media (hover: none) and (pointer: coarse) {
-  /* Aumentar área táctil en móviles */
-  .worldcup-nav-tab {
-    min-height: 48px;
-  }
-
-  .group-header {
-    min-height: 52px;
-  }
-
-  .match-scores input {
-    min-height: 36px;
-    min-width: 32px;
-  }
-
-  .award-card input {
-    min-height: 44px;
-  }
-
-  .save-predictions-btn {
-    min-height: 52px;
-  }
-
-  /* Mejorar feedback táctil */
-  .worldcup-nav-tab:active {
-    transform: scale(0.98);
-  }
-
-  .group-header:active {
-    opacity: 0.9;
-  }
-
-  .save-predictions-btn:active:not(:disabled) {
-    transform: translateY(-1px) scale(0.99);
-  }
+/ Aumentar área táctil en móviles */
+.group-header {
+min-height: 52px;
 }
-
+.match-scores input {
+min-height: 36px;
+min-width: 32px;
+}
+.award-card input {
+min-height: 44px;
+}
+.save-predictions-btn {
+min-height: 52px;
+}
+/* Mejorar feedback táctil */
+.group-header:active {
+opacity: 0.9;
+}
+.save-predictions-btn:active:not(:disabled) {
+transform: translateY(-1px) scale(0.99);
+}
+}
 /* ==========================================
-   PRINT STYLES
+PRINT STYLES
 ========================================== */
 @media print {
-  .worldcup-nav-tabs,
-  .save-predictions-btn,
-  .group-header svg {
-    display: none;
-  }
-
-  .worldcup-page {
-    background: white;
-    padding: 0;
-  }
-
-  .group-card {
-    page-break-inside: avoid;
-    border: 1px solid #000;
-  }
-
-  .group-predictions {
-    display: none;
-  }
+.save-predictions-btn,
+.group-header svg {
+display: none;
 }
-
+.worldcup-page {
+background: white;
+padding: 0;
+}
+.group-card {
+page-break-inside: avoid;
+border: 1px solid #000;
+}
+.group-predictions {
+display: none;
+}
+}
 /* ==========================================
-   DARK MODE SPECIFIC
+DARK MODE SPECIFIC
 ========================================== */
 [data-theme="dark"] .worldcup-page {
-  background: linear-gradient(135deg, var(--bg) 0%, var(--dark-bg) 100%);
+background: linear-gradient(135deg, var(--bg) 0%, var(--dark-bg) 100%);
 }
-
 [data-theme="dark"] .worldcup-icon {
-  box-shadow: 0 4px 16px rgba(245, 158, 11, 0.3);
+box-shadow: 0 4px 16px rgba(245, 158, 11, 0.3);
 }
-
 [data-theme="dark"] .group-table tbody tr:hover {
-  background: rgba(96, 81, 155, 0.08);
+background: rgba(96, 81, 155, 0.08);
 }
-
 [data-theme="dark"] .group-table tbody tr.qualified {
-  background: rgba(16, 185, 129, 0.12);
+background: rgba(16, 185, 129, 0.12);
 }
-
 [data-theme="dark"] .group-table tbody tr.third-place {
-  background: rgba(245, 158, 11, 0.12);
+background: rgba(245, 158, 11, 0.12);
 }
-
 [data-theme="dark"] .match-prediction:hover {
-  box-shadow: 0 2px 8px rgba(96, 81, 155, 0.15);
+box-shadow: 0 2px 8px rgba(96, 81, 155, 0.15);
 }
-
 [data-theme="dark"] .match-scores input:not(:placeholder-shown) {
-  border-color: #10B981;
-  background: rgba(16, 185, 129, 0.1);
+border-color: #10B981;
+background: rgba(16, 185, 129, 0.1);
 }
-
 [data-theme="dark"] .best-thirds-table tbody tr.qualified-third {
-  background: rgba(16, 185, 129, 0.12);
+background: rgba(16, 185, 129, 0.12);
 }
-
 [data-theme="dark"] .award-card:hover {
-  box-shadow: 0 4px 12px rgba(96, 81, 155, 0.2);
+box-shadow: 0 4px 12px rgba(96, 81, 155, 0.2);
 }
-
 [data-theme="dark"] .save-predictions-btn {
-  box-shadow: 0 4px 12px rgba(96, 81, 155, 0.3);
+box-shadow: 0 4px 12px rgba(96, 81, 155, 0.3);
 }
-
 [data-theme="dark"] .save-predictions-btn:hover:not(:disabled) {
-  box-shadow: 0 6px 16px rgba(96, 81, 155, 0.4);
+box-shadow: 0 6px 16px rgba(96, 81, 155, 0.4);
 }
-
 [data-theme="dark"] .bracket-info {
-  background: rgba(26, 28, 36, 0.6);
-}
-/* ==========================================
-   DARK MODE - TABS
-========================================== */
-[data-theme="dark"] .worldcup-tabs-section {
-  background: linear-gradient(135deg, rgba(30, 32, 44, 0.6) 0%, rgba(49, 50, 62, 0.4) 100%);
-  border-color: rgba(255, 255, 255, 0.1);
-  box-shadow: 
-    0 2px 8px rgba(0, 0, 0, 0.3),
-    0 0 0 1px rgba(255, 255, 255, 0.05) inset;
-}
-
-[data-theme="dark"] .worldcup-tabs-section::before {
-  background: linear-gradient(90deg, #8b7fc7, #60519b, #8b7fc7);
-}
-
-[data-theme="dark"] .worldcup-tab-item {
-  color: #94A3B8;
-}
-
-[data-theme="dark"] .worldcup-tab-item:hover:not(.active) {
-  background: rgba(139, 127, 199, 0.1);
-  color: #CBD5E1;
-  border-color: rgba(139, 127, 199, 0.2);
-}
-
-[data-theme="dark"] .worldcup-tab-item.active {
-  background: linear-gradient(135deg, #7C3AED 0%, #5B21B6 100%);
-  color: white;
-  border-color: rgba(124, 58, 237, 0.3);
-  box-shadow: 
-    0 4px 16px rgba(124, 58, 237, 0.4),
-    0 2px 4px rgba(124, 58, 237, 0.3) inset;
-}
-
-[data-theme="dark"] .worldcup-tab-item.active::after {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), transparent);
-}
-
-[data-theme="dark"] .worldcup-tab-item.active svg {
-  filter: drop-shadow(0 2px 6px rgba(124, 58, 237, 0.5));
+background: rgba(26, 28, 36, 0.6);
 }
