@@ -5,7 +5,8 @@ import { supabase } from '../utils/supabaseClient';
 import { useToast, ToastContainer } from '../components/Toast';
 import { useWorldCup } from '../hooks/useWorldCup';
 import Footer from '../components/Footer';
-import WorldCupNavigationTabs from '../components/WorldCupNavigationTabs'; // NUEVO IMPORT
+import WorldCupNavigationTabs from '../components/WorldCupNavigationTabs';
+import KnockoutSection from '../components/KnockoutSection'; // NUEVO IMPORT
 import '../styles/pagesStyles/WorldCupPage.css';
 
 // ============================================
@@ -321,6 +322,13 @@ export default function WorldCupPage({ currentUser }) {
     }));
   };
 
+  const handleKnockoutUpdate = (knockoutData) => {
+    setPredictions(prev => ({
+      ...prev,
+      knockout: knockoutData
+    }));
+  };
+
   const handleAwardUpdate = (award, value) => {
     setPredictions(prev => ({
       ...prev,
@@ -421,7 +429,7 @@ export default function WorldCupPage({ currentUser }) {
             </div>
           </div>
 
-          {/* Navigation Tabs - REEMPLAZADO CON EL NUEVO COMPONENTE */}
+          {/* Navigation Tabs */}
           <WorldCupNavigationTabs activeTab={activeTab} onTabChange={setActiveTab} />
 
           {/* Content */}
@@ -493,14 +501,16 @@ export default function WorldCupPage({ currentUser }) {
             </div>
           )}
 
+          {/* ========== ELIMINATORIAS - NUEVO ========== */}
           {activeTab === 'knockout' && (
-            <div className="knockout-section">
-              <div className="bracket-info">
-                <Trophy size={48} />
-                <p>Las eliminatorias se habilitarán una vez finalice la fase de grupos</p>
-              </div>
+            <div className="knockout-container">
+              <KnockoutSection 
+                groupPredictions={predictions.groups}
+                knockoutPredictions={predictions.knockout}
+                onUpdatePrediction={handleKnockoutUpdate}
+              />
               <button className="save-predictions-btn" onClick={handleSave} disabled={saving}>
-                {saving ? 'Guardando...' : 'Guardar'}
+                {saving ? 'Guardando...' : 'Guardar Eliminatorias'}
               </button>
             </div>
           )}

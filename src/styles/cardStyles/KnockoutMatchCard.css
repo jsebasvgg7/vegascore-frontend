@@ -1,0 +1,416 @@
+/* ==========================================
+   KNOCKOUT MATCH CARD - Estilos Base
+========================================== */
+
+.knockout-match-card {
+  padding: 16px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.knockout-match-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+  box-shadow: var(--small-shadow);
+}
+
+/* ==========================================
+   HEADER
+========================================== */
+.knockout-match-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+.knockout-match-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.knockout-match-id {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  background: var(--glass);
+  padding: 2px 8px;
+  border-radius: 6px;
+}
+
+/* ==========================================
+   TEAM OPTION
+========================================== */
+.knockout-team-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  background: var(--input-bg);
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-bottom: 8px;
+  position: relative;
+}
+
+.knockout-team-option:last-of-type {
+  margin-bottom: 0;
+}
+
+.knockout-team-option:hover:not(.disabled) {
+  border-color: var(--accent);
+  background: var(--glass);
+  transform: translateX(2px);
+}
+
+.knockout-team-option:active:not(.disabled) {
+  transform: translateX(0) scale(0.98);
+}
+
+/* Estado Seleccionado */
+.knockout-team-option.selected {
+  background: rgba(16, 185, 129, 0.1);
+  border-color: #10B981;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+}
+
+.knockout-team-option.selected:hover {
+  background: rgba(16, 185, 129, 0.15);
+}
+
+/* Estado Deshabilitado */
+.knockout-team-option.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ==========================================
+   FLAG CONTAINER
+========================================== */
+.knockout-team-flag-container {
+  width: 28px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.knockout-team-flag {
+  width: 28px;
+  height: 20px;
+  object-fit: cover;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  display: block;
+}
+
+.knockout-team-placeholder {
+  font-size: 24px;
+  line-height: 1;
+  display: none;
+}
+
+/* ==========================================
+   TEAM NAME
+========================================== */
+.knockout-team-name {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.3;
+}
+
+.knockout-team-option.disabled .knockout-team-name {
+  color: var(--text-secondary);
+}
+
+/* ==========================================
+   CHECK ICON
+========================================== */
+.knockout-check-icon {
+  color: #10B981;
+  flex-shrink: 0;
+  animation: checkIn 0.3s ease-out;
+}
+
+@keyframes checkIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.5) rotate(-45deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+/* ==========================================
+   VS SEPARATOR
+========================================== */
+.knockout-vs {
+  text-align: center;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-secondary);
+  padding: 6px 0;
+  letter-spacing: 1px;
+}
+
+/* ==========================================
+   FOOTER (opcional)
+========================================== */
+.knockout-match-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+  font-size: 12px;
+  font-weight: 600;
+  color: #10B981;
+}
+
+/* ==========================================
+   DARK MODE
+========================================== */
+[data-theme="dark"] .knockout-match-card {
+  background: rgba(53, 59, 77, 0.6);
+  backdrop-filter: blur(10px);
+}
+
+[data-theme="dark"] .knockout-match-card:hover {
+  background: rgba(53, 59, 77, 0.8);
+}
+
+[data-theme="dark"] .knockout-team-option {
+  background: rgba(58, 64, 82, 0.6);
+}
+
+[data-theme="dark"] .knockout-team-option:hover:not(.disabled) {
+  background: rgba(58, 64, 82, 0.8);
+}
+
+[data-theme="dark"] .knockout-team-option.selected {
+  background: rgba(16, 185, 129, 0.15);
+  border-color: #10B981;
+}
+
+[data-theme="dark"] .knockout-team-flag {
+  filter: brightness(1.1);
+}
+
+/* ==========================================
+   RESPONSIVE - MOBILE
+========================================== */
+@media (max-width: 768px) {
+  .knockout-match-card {
+    padding: 14px;
+  }
+
+  .knockout-match-header {
+    margin-bottom: 10px;
+    padding-bottom: 6px;
+  }
+
+  .knockout-match-label {
+    font-size: 11px;
+  }
+
+  .knockout-match-id {
+    font-size: 10px;
+    padding: 2px 6px;
+  }
+
+  .knockout-team-option {
+    padding: 10px;
+    gap: 8px;
+    margin-bottom: 6px;
+  }
+
+  .knockout-team-flag-container {
+    width: 24px;
+    height: 16px;
+  }
+
+  .knockout-team-flag {
+    width: 24px;
+    height: 16px;
+  }
+
+  .knockout-team-placeholder {
+    font-size: 20px;
+  }
+
+  .knockout-team-name {
+    font-size: 13px;
+  }
+
+  .knockout-check-icon {
+    width: 16px;
+    height: 16px;
+  }
+
+  .knockout-vs {
+    font-size: 10px;
+    padding: 4px 0;
+  }
+
+  .knockout-match-footer {
+    margin-top: 10px;
+    padding-top: 10px;
+    font-size: 11px;
+  }
+
+  .knockout-match-footer svg {
+    width: 12px;
+    height: 12px;
+  }
+}
+
+/* ==========================================
+   RESPONSIVE - SMALL MOBILE
+========================================== */
+@media (max-width: 480px) {
+  .knockout-match-card {
+    padding: 12px;
+  }
+
+  .knockout-team-option {
+    padding: 8px;
+    gap: 6px;
+  }
+
+  .knockout-team-flag-container {
+    width: 22px;
+    height: 14px;
+  }
+
+  .knockout-team-flag {
+    width: 22px;
+    height: 14px;
+  }
+
+  .knockout-team-placeholder {
+    font-size: 18px;
+  }
+
+  .knockout-team-name {
+    font-size: 12px;
+  }
+
+  .knockout-check-icon {
+    width: 14px;
+    height: 14px;
+  }
+
+  .knockout-match-footer {
+    font-size: 10px;
+  }
+}
+
+/* ==========================================
+   ACCESSIBILITY
+========================================== */
+.knockout-team-option:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.knockout-team-option.selected:focus {
+  outline-color: #10B981;
+}
+
+/* ==========================================
+   ANIMATIONS - CARD ENTRANCE
+========================================== */
+@keyframes cardFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.knockout-match-card {
+  animation: cardFadeIn 0.4s ease-out backwards;
+}
+
+/* Stagger animation for multiple cards */
+.knockout-match-card:nth-child(1) { animation-delay: 0.05s; }
+.knockout-match-card:nth-child(2) { animation-delay: 0.1s; }
+.knockout-match-card:nth-child(3) { animation-delay: 0.15s; }
+.knockout-match-card:nth-child(4) { animation-delay: 0.2s; }
+.knockout-match-card:nth-child(5) { animation-delay: 0.25s; }
+.knockout-match-card:nth-child(6) { animation-delay: 0.3s; }
+.knockout-match-card:nth-child(7) { animation-delay: 0.35s; }
+.knockout-match-card:nth-child(8) { animation-delay: 0.4s; }
+
+/* ==========================================
+   PRINT STYLES
+========================================== */
+@media print {
+  .knockout-match-card {
+    page-break-inside: avoid;
+    box-shadow: none;
+    border: 1px solid #000;
+  }
+
+  .knockout-match-card:hover {
+    transform: none;
+  }
+
+  .knockout-team-option:hover {
+    transform: none;
+  }
+
+  .knockout-check-icon {
+    color: #000;
+  }
+}
+
+/* ==========================================
+   LOADING STATE (opcional)
+========================================== */
+.knockout-match-card.loading {
+  opacity: 0.6;
+  pointer-events: none;
+  position: relative;
+}
+
+.knockout-match-card.loading::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--card);
+  opacity: 0.5;
+  border-radius: 12px;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}

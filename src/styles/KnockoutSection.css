@@ -1,0 +1,507 @@
+/* ==========================================
+   KNOCKOUT SECTION - Estilos Principales
+========================================== */
+
+.knockout-section {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  padding-bottom: 40px;
+}
+
+/* ==========================================
+   EMPTY STATE
+========================================== */
+.knockout-empty-state {
+  padding: 80px 20px;
+  text-align: center;
+  background: var(--card);
+  border-radius: 16px;
+  border: 2px dashed var(--border);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.knockout-empty-state svg {
+  color: var(--muted);
+}
+
+.knockout-empty-state h3 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.knockout-empty-state p {
+  margin: 0;
+  font-size: 14px;
+  color: var(--text-secondary);
+  max-width: 400px;
+}
+
+/* ==========================================
+   KNOCKOUT STAGE
+========================================== */
+.knockout-stage {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: var(--small-shadow);
+}
+
+.knockout-stage-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid var(--border);
+  margin-bottom: 24px;
+}
+
+.knockout-stage-header > div {
+  flex: 1;
+}
+
+.knockout-stage-header h2 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.knockout-stage-header p {
+  margin: 4px 0 0 0;
+  font-size: 13px;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.knockout-badge {
+  padding: 6px 14px;
+  background: var(--glass);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--accent);
+  white-space: nowrap;
+}
+
+/* ==========================================
+   BRACKET CONTAINER - OCTAVOS
+========================================== */
+.knockout-bracket-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+}
+
+.knockout-side {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.knockout-side-title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-primary);
+  padding: 12px 16px;
+  background: var(--glass);
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  text-align: center;
+}
+
+.knockout-quarter-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.knockout-quarter-title {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 8px 12px;
+  background: var(--bg);
+  border-radius: 8px;
+}
+
+.knockout-matches-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* ==========================================
+   QUARTERS GRID
+========================================== */
+.knockout-quarters-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+/* ==========================================
+   SEMIS GRID
+========================================== */
+.knockout-semis-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ==========================================
+   FINAL GRID
+========================================== */
+.knockout-final-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.knockout-final-card {
+  padding: 24px;
+  background: var(--bg);
+  border: 2px solid var(--border);
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.knockout-final-card.third-place {
+  border-color: #CD7F32;
+}
+
+.knockout-final-card.champion {
+  border-color: var(--accent);
+  box-shadow: 0 8px 24px rgba(96, 81, 155, 0.15);
+}
+
+.knockout-final-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--border);
+}
+
+.knockout-final-header h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.knockout-final-description {
+  margin: 0;
+  font-size: 13px;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.knockout-final-teams {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  background: var(--card);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.knockout-vs-large {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-secondary);
+  padding: 6px 12px;
+  background: var(--glass);
+  border-radius: 8px;
+}
+
+/* ==========================================
+   DARK MODE
+========================================== */
+[data-theme="dark"] .knockout-stage {
+  background: rgba(53, 59, 77, 0.6);
+  backdrop-filter: blur(20px);
+}
+
+[data-theme="dark"] .knockout-empty-state {
+  background: rgba(53, 59, 77, 0.4);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .knockout-final-card {
+  background: rgba(42, 47, 63, 0.6);
+}
+
+[data-theme="dark"] .knockout-final-card.champion {
+  border-color: var(--accent);
+  box-shadow: 0 8px 24px rgba(139, 127, 199, 0.2);
+}
+
+[data-theme="dark"] .knockout-final-teams {
+  background: rgba(58, 64, 82, 0.6);
+}
+
+/* ==========================================
+   RESPONSIVE - TABLET
+========================================== */
+@media (max-width: 1024px) {
+  .knockout-bracket-container {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .knockout-quarters-grid {
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  }
+
+  .knockout-semis-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+
+  .knockout-final-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}
+
+/* ==========================================
+   RESPONSIVE - MOBILE
+========================================== */
+@media (max-width: 768px) {
+  .knockout-section {
+    gap: 24px;
+  }
+
+  .knockout-stage {
+    padding: 16px;
+    border-radius: 12px;
+  }
+
+  .knockout-stage-header {
+    flex-wrap: wrap;
+    gap: 12px;
+    padding-bottom: 16px;
+    margin-bottom: 20px;
+  }
+
+  .knockout-stage-header svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .knockout-stage-header h2 {
+    font-size: 18px;
+  }
+
+  .knockout-stage-header p {
+    font-size: 12px;
+  }
+
+  .knockout-badge {
+    padding: 4px 12px;
+    font-size: 11px;
+  }
+
+  .knockout-side-title {
+    font-size: 14px;
+    padding: 10px 14px;
+  }
+
+  .knockout-quarter-title {
+    font-size: 11px;
+    padding: 6px 10px;
+  }
+
+  .knockout-matches-grid {
+    gap: 10px;
+  }
+
+  .knockout-quarters-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .knockout-semis-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .knockout-final-grid {
+    gap: 16px;
+  }
+
+  .knockout-final-card {
+    padding: 16px;
+    gap: 12px;
+  }
+
+  .knockout-final-header {
+    padding-bottom: 10px;
+  }
+
+  .knockout-final-header svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .knockout-final-header h3 {
+    font-size: 16px;
+  }
+
+  .knockout-final-description {
+    font-size: 12px;
+  }
+
+  .knockout-final-teams {
+    padding: 12px;
+    font-size: 12px;
+    flex-direction: column;
+    gap: 8px;
+    text-align: center;
+  }
+
+  .knockout-vs-large {
+    font-size: 11px;
+    padding: 4px 10px;
+  }
+
+  .knockout-empty-state {
+    padding: 60px 16px;
+  }
+
+  .knockout-empty-state svg {
+    width: 40px;
+    height: 40px;
+  }
+
+  .knockout-empty-state h3 {
+    font-size: 18px;
+  }
+
+  .knockout-empty-state p {
+    font-size: 13px;
+  }
+}
+
+/* ==========================================
+   RESPONSIVE - SMALL MOBILE
+========================================== */
+@media (max-width: 480px) {
+  .knockout-stage {
+    padding: 12px;
+  }
+
+  .knockout-stage-header {
+    gap: 10px;
+    padding-bottom: 12px;
+    margin-bottom: 16px;
+  }
+
+  .knockout-stage-header h2 {
+    font-size: 16px;
+  }
+
+  .knockout-stage-header p {
+    font-size: 11px;
+  }
+
+  .knockout-side {
+    gap: 16px;
+  }
+
+  .knockout-quarter-section {
+    gap: 10px;
+  }
+
+  .knockout-final-card {
+    padding: 14px;
+  }
+
+  .knockout-final-header h3 {
+    font-size: 15px;
+  }
+
+  .knockout-empty-state {
+    padding: 40px 12px;
+  }
+}
+
+/* ==========================================
+   LANDSCAPE ORIENTATION
+========================================== */
+@media (max-width: 768px) and (orientation: landscape) {
+  .knockout-bracket-container {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .knockout-quarters-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .knockout-semis-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .knockout-final-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* ==========================================
+   ANIMATIONS
+========================================== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.knockout-stage {
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* ==========================================
+   PRINT STYLES
+========================================== */
+@media print {
+  .knockout-badge,
+  .knockout-stage-header p {
+    display: none;
+  }
+
+  .knockout-stage {
+    page-break-inside: avoid;
+    box-shadow: none;
+    border: 1px solid #000;
+  }
+
+  .knockout-bracket-container {
+    page-break-inside: avoid;
+  }
+}
