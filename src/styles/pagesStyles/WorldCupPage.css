@@ -253,115 +253,109 @@
   color: #1F2937;
 }
 
-/* Group Predictions (Partidos) */
-.group-predictions {
-  padding: 16px;
-  border-top: 2px dashed #E5E7EB;
-  animation: slideDown 0.3s ease;
-}
-
-@keyframes slideDown {
-  from {
-    opacity: 0;
-    max-height: 0;
+/* Match predictions - AJUSTADOS PARA DISEÑO COMPACTO */
+@media (max-width: 480px) {
+  .group-predictions {
+    padding: 8px;
+    border-top: 2px dashed #E5E7EB;
   }
-  to {
-    opacity: 1;
-    max-height: 1000px;
+
+  .group-predictions h4 {
+    font-size: 10px;
+    margin-bottom: 8px;
+    font-weight: 700;
   }
-}
 
-.group-predictions h4 {
-  margin: 0 0 12px 0;
-  font-size: 12px;
-  font-weight: 700;
-  color: #6B7280;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
+  .matches-grid {
+    gap: 6px;
+  }
 
-.matches-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
+  .match-prediction {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 8px;
+    border-radius: 8px;
+    background: white;
+    border: 1px solid #E5E7EB;
+  }
 
-.match-prediction {
-  display: grid;
-  grid-template-columns: 1fr 80px 1fr;
-  align-items: center;
-  gap: 8px;
-  padding: 10px;
-  background: white;
-  borderRadius: 10px;
-  border: 1px solid #E5E7EB;
-  transition: all 0.2s;
-}
+  /* Fila de equipos */
+  .match-teams-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+  }
 
-.match-prediction:hover {
-  border-color: #F59E0B;
-  box-shadow: 0 2px 8px rgba(245, 158, 11, 0.1);
-}
+  .match-team {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 10px;
+    font-weight: 600;
+    flex: 1;
+  }
 
-.match-team {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 11px;
-  font-weight: 600;
-  color: #1F2937;
-}
+  .match-team.home-team {
+    justify-content: flex-start;
+  }
 
-.match-team.home-team {
-  justify-content: flex-end;
-}
+  .match-team.away-team {
+    justify-content: flex-end;
+    flex-direction: row-reverse;
+  }
 
-.match-team.away-team {
-  justify-content: flex-start;
-}
+  .match-team img {
+    width: 18px;
+    height: 12px;
+    flex-shrink: 0;
+  }
 
-.match-team img {
-  width: 20px;
-  height: 14px;
-  object-fit: cover;
-  border-radius: 2px;
-}
+  .match-team span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 120px;
+  }
 
-.match-scores {
-  display: flex;
-  gap: 4px;
-  justify-content: center;
-  align-items: center;
-}
+  /* Fila de scores centrada */
+  .match-scores {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    padding-top: 4px;
+    border-top: 1px solid #F3F4F6;
+  }
 
-.match-scores input {
-  width: 32px;
-  height: 32px;
-  text-align: center;
-  font-size: 14px;
-  font-weight: 800;
-  border: 2px solid #E5E7EB;
-  border-radius: 6px;
-  background: white;
-  transition: all 0.2s;
-}
+  .match-scores input {
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+    font-weight: 800;
+    border-radius: 8px;
+    border: 2px solid #E5E7EB;
+    text-align: center;
+  }
 
-.match-scores input:focus {
-  outline: none;
-  border-color: #10B981;
-  background: #F0FDF4;
-  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
-}
+  .match-scores input:focus {
+    outline: none;
+    border-color: #10B981;
+    background: #F0FDF4;
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+  }
 
-.match-scores input:not(:placeholder-shown) {
-  background: #D1FAE5;
-  border-color: #A7F3D0;
-}
+  .match-scores input:not(:placeholder-shown) {
+    background: #D1FAE5;
+    border-color: #A7F3D0;
+  }
 
-.match-scores .separator {
-  font-size: 16px;
-  font-weight: 700;
-  color: #9CA3AF;
+  .match-scores .separator {
+    font-size: 18px;
+    font-weight: 800;
+    color: #9CA3AF;
+  }
 }
 
 /* Best Thirds Section */
