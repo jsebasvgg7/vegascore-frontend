@@ -271,78 +271,98 @@
   }
 }
 
-/* Match predictions - MÁS COMPACTOS */
-  .group-predictions {
-    padding: 12px;
-  }
+.group-predictions h4 {
+  margin: 0 0 12px 0;
+  font-size: 12px;
+  font-weight: 700;
+  color: #6B7280;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
 
-  .group-predictions h4 {
-    font-size: 11px;
-    margin-bottom: 10px;
-  }
+.matches-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
 
-  .matches-grid {
-    gap: 6px;
-  }
+.match-prediction {
+  display: grid;
+  grid-template-columns: 1fr 80px 1fr;
+  align-items: center;
+  gap: 8px;
+  padding: 10px;
+  background: white;
+  borderRadius: 10px;
+  border: 1px solid #E5E7EB;
+  transition: all 0.2s;
+}
 
-  .match-prediction {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 6px;
-    padding: 8px;
-    border-radius: 8px;
-  }
+.match-prediction:hover {
+  border-color: #F59E0B;
+  box-shadow: 0 2px 8px rgba(245, 158, 11, 0.1);
+}
 
-  .match-team {
-    font-size: 10px;
-    gap: 4px;
-    flex: 1;
-    min-width: 0;
-    overflow: hidden;
-  }
+.match-team {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #1F2937;
+}
 
-  .match-team.home-team {
-    max-width: calc(50% - 36px);
-  }
+.match-team.home-team {
+  justify-content: flex-end;
+}
 
-  .match-team.away-team {
-    max-width: calc(50% - 36px);
-  }
+.match-team.away-team {
+  justify-content: flex-start;
+}
 
-  .match-team span {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
+.match-team img {
+  width: 20px;
+  height: 14px;
+  object-fit: cover;
+  border-radius: 2px;
+}
 
-  .match-team img {
-    width: 18px;
-    height: 12px;
-    flex-shrink: 0;
-  }
+.match-scores {
+  display: flex;
+  gap: 4px;
+  justify-content: center;
+  align-items: center;
+}
 
-  .match-scores {
-    gap: 3px;
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-  }
+.match-scores input {
+  width: 32px;
+  height: 32px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 800;
+  border: 2px solid #E5E7EB;
+  border-radius: 6px;
+  background: white;
+  transition: all 0.2s;
+}
 
-  .match-scores input {
-    width: 30px;
-    height: 34px;
-    font-size: 13px;
-    border-radius: 6px;
-    border-width: 2px;
-    flex-shrink: 0;
-  }
+.match-scores input:focus {
+  outline: none;
+  border-color: #10B981;
+  background: #F0FDF4;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+}
 
-  .match-scores .separator {
-    font-size: 14px;
-    font-weight: 700;
-    flex-shrink: 0;
-  }
+.match-scores input:not(:placeholder-shown) {
+  background: #D1FAE5;
+  border-color: #A7F3D0;
+}
+
+.match-scores .separator {
+  font-size: 16px;
+  font-weight: 700;
+  color: #9CA3AF;
+}
 
 /* Best Thirds Section */
 .best-thirds-section {
