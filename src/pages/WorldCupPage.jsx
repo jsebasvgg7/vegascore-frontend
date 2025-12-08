@@ -210,25 +210,43 @@ const GroupCard = ({ group, teams, predictions, onUpdatePrediction, expanded, on
         <div className="scroll-hint">👆 Desliza para ver más →</div>
       </div>
 
-          {expanded && (
-      <div className="group-predictions">
-        <h4>📋 PARTIDOS DEL GRUPO</h4>
-        <div className="matches-grid">
-          {matches.map((match, idx) => {
-            const pred = matchPredictions[idx] || { homeScore: '', awayScore: '' };
-            return (
-              <div key={idx} className="match-prediction">
-                {/* Fila de equipos */}
-                <div className="match-teams-row">
+      {expanded && (
+        <div className="group-predictions">
+          <h4>📋 PARTIDOS DEL GRUPO</h4>
+          <div className="matches-grid">
+            {matches.map((match, idx) => {
+              const pred = matchPredictions[idx] || { homeScore: '', awayScore: '' };
+              return (
+                <div key={idx} className="match-prediction">
                   <div className="match-team home-team">
+                    <span>{match[0]}</span>
                     <img 
                       src={getTeamFlag(match[0])} 
                       alt={match[0]}
                       onError={(e) => e.target.style.display = 'none'}
                     />
-                    <span>{match[0]}</span>
                   </div>
                   
+                  <div className="match-scores">
+                    <input
+                      type="number"
+                      min="0"
+                      max="20"
+                      value={pred.homeScore}
+                      onChange={(e) => handleMatchPrediction(idx, e.target.value, pred.awayScore)}
+                      placeholder="0"
+                    />
+                    <span className="separator">-</span>
+                    <input
+                      type="number"
+                      min="0"
+                      max="20"
+                      value={pred.awayScore}
+                      onChange={(e) => handleMatchPrediction(idx, pred.homeScore, e.target.value)}
+                      placeholder="0"
+                    />
+                  </div>
+
                   <div className="match-team away-team">
                     <img 
                       src={getTeamFlag(match[1])} 
@@ -238,33 +256,11 @@ const GroupCard = ({ group, teams, predictions, onUpdatePrediction, expanded, on
                     <span>{match[1]}</span>
                   </div>
                 </div>
-
-                {/* Fila de scores */}
-                <div className="match-scores">
-                  <input
-                    type="number"
-                    min="0"
-                    max="20"
-                    value={pred.homeScore}
-                    onChange={(e) => handleMatchPrediction(idx, e.target.value, pred.awayScore)}
-                    placeholder="0"
-                  />
-                  <span className="separator">-</span>
-                  <input
-                    type="number"
-                    min="0"
-                    max="20"
-                    value={pred.awayScore}
-                    onChange={(e) => handleMatchPrediction(idx, pred.homeScore, e.target.value)}
-                    placeholder="0"
-                  />
-                </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
-      </div>
-    )}
+      )}
     </div>
   );
 };
