@@ -6,7 +6,7 @@ import {
   Calendar,
   Trophy
 } from "lucide-react";
-import "../styles/cardStyles/MatchCard.css"; 
+import "../../styles/cardStyles/MatchCard.css"; 
 
 export default function MatchCard({ match, userPred, onPredict }) {
   const initialHomeScore = userPred?.home_score ?? "";

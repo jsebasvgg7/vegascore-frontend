@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Trophy, Award, Calendar, CheckCircle2, Star } from 'lucide-react';
-import '../styles/cardStyles/AwardCard.css';
+import '../../styles/cardStyles/AwardCard.css';
 
 export default function AwardCard({ award, userPrediction, onPredict }) {
   const [predictedWinner, setPredictedWinner] = useState(userPrediction?.predicted_winner ?? '');
