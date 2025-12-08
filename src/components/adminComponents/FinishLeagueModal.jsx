@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { X, Trophy, Target, Award, CheckCircle } from 'lucide-react';
-import '../styles/AdminModal.css';
+import '../styles/adminStyles/AdminModal.css';
 
 export default function FinishLeagueModal({ league, onFinish, onClose }) {
   const [form, setForm] = useState({

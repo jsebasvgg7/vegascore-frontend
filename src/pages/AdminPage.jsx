@@ -6,7 +6,7 @@ import {
   Zap, TrendingUp, Package, Filter, Search, AlertCircle
 } from 'lucide-react';
 import { supabase } from '../utils/supabaseClient';
-import AdminModal from '../components/adminComponents/AdminModal';
+import AdminModal from '../components/AdminModal';
 import AdminLeagueModal from '../components/adminComponents/AdminLeagueModal';
 import AdminAwardModal from '../components/adminComponents/AdminAwardModal';
 import FinishMatchModal from '../components/adminComponents/FinishMatchModal';

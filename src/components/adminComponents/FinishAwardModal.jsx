@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { X, Trophy, CheckCircle } from 'lucide-react';
-import '../styles/AdminModal.css';
+import '../styles/adminStyles/AdminModal.css';
 
 export default function FinishAwardModal({ award, onFinish, onClose }) {
   const [winner, setWinner] = useState('');

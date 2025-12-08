@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { X, Trophy, Target, CheckCircle, AlertCircle } from 'lucide-react';
+import '../styles/adminStyles/AdminModal.css';
 
 export default function FinishMatchModal({ match, onFinish, onClose }) {
   const [homeScore, setHomeScore] = useState('');

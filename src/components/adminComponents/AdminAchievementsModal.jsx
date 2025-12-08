@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { X, Plus, Edit2, Trash2, Trophy, Target, Flame, Star } from 'lucide-react';
-import '../styles/AdminModal.css';
+import '../styles/adminStyles/AdminModal.css';
 
 export default function AdminAchievementsModal({ onClose, onSave, onDelete, existingAchievement = null }) {
   const [form, setForm] = useState(existingAchievement || {
