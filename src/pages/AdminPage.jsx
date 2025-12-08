@@ -6,13 +6,13 @@ import {
   Zap, TrendingUp, Package, Filter, Search, AlertCircle
 } from 'lucide-react';
 import { supabase } from '../utils/supabaseClient';
-import AdminModal from '../components/AdminModal';
-import AdminLeagueModal from '../components/AdminLeagueModal';
-import AdminAwardModal from '../components/AdminAwardModal';
+import AdminModal from '../components/adminComponents/AdminModal';
+import AdminLeagueModal from '../components/adminComponents/AdminLeagueModal';
+import AdminAwardModal from '../components/adminComponents/AdminAwardModal';
 import FinishMatchModal from '../components/adminComponents/FinishMatchModal';
 import AdminAchievementsModal from '../components/adminComponents/AdminAchievementsModal';
 import Footer from '../components/Footer';
-import AdminTitlesModal from '../components/AdminTitlesModal';
+import AdminTitlesModal from '../components/adminComponents/AdminTitlesModal';
 import FinishLeagueModal from '../components/adminComponents/FinishLeagueModal';
 import FinishAwardModal from '../components/adminComponents/FinishAwardModal';
 import { ToastContainer, useToast } from '../components/Toast';
