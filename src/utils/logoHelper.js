@@ -89,7 +89,7 @@ export const teamSlugMap = {
   'Koln': 'koln',
   'Paris SG': 'psg',
   'Marseille': 'olimpiquemarseille',
-  'Lyon': 'olimpiquelyon',
+  'Lyon': 'olimpiquelyon', 
   'Monaco': 'monaco',
   'Lille': 'lille',
   'Rennes': 'rennais',
