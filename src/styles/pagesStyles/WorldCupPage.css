@@ -16,7 +16,7 @@
   gap: 24px;
 }
 
-/* Header - Sin botón de guardar */
+/* Header */
 .worldcup-header {
   display: flex;
   justify-content: space-between;
@@ -61,47 +61,7 @@
   font-weight: 500;
 }
 
-/* Botón de Guardar - AL FINAL DEL CONTENIDO */
-.save-predictions-btn {
-  width: 100%;
-  max-width: 600px;
-  margin: 32px auto 0;
-  padding: 16px 32px;
-  border: none;
-  border-radius: 16px;
-  background: linear-gradient(135deg, #10B981, #059669);
-  color: white;
-  font-size: 16px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.3s;
-  box-shadow: 
-    0 8px 24px rgba(16, 185, 129, 0.4),
-    0 0 0 4px rgba(16, 185, 129, 0.1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-}
-
-.save-predictions-btn:hover {
-  transform: translateY(-4px);
-  box-shadow: 
-    0 12px 32px rgba(16, 185, 129, 0.5),
-    0 0 0 4px rgba(16, 185, 129, 0.15);
-}
-
-.save-predictions-btn:active {
-  transform: translateY(-2px);
-}
-
-.save-predictions-btn:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-  transform: none;
-}
-
-/* Navigation Tabs - Horizontal en móvil con iconos */
+/* Navigation Tabs */
 .worldcup-nav-tabs {
   display: flex;
   gap: 12px;
@@ -126,17 +86,10 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s;
-  position: relative;
 }
 
 .worldcup-nav-tab svg {
-  width: 20px;
-  height: 20px;
   flex-shrink: 0;
-}
-
-.worldcup-nav-tab-text {
-  display: inline;
 }
 
 .worldcup-nav-tab:hover {
@@ -152,18 +105,18 @@
 
 /* Groups Section */
 .groups-section {
-  padding: 20px;
-  background: white;
-  border-radius: 20px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
 }
 
 .groups-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 20px;
 }
 
+/* Group Card */
 .group-card {
   background: white;
   border: 2px solid #E5E7EB;
@@ -180,8 +133,12 @@
 
 .group-header {
   background: linear-gradient(135deg, #F59E0B, #D97706);
-  padding: 14px;
-  text-align: center;
+  padding: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
 }
 
 .group-header h3 {
@@ -192,89 +149,338 @@
   letter-spacing: 0.5px;
 }
 
+.group-header svg {
+  color: white;
+  transition: transform 0.3s;
+}
+
+/* Group Teams & Table */
 .group-teams {
   padding: 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
   background: #F9FAFB;
 }
 
-.group-team-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 8px 12px;
-  background: white;
-  border-radius: 10px;
-  border: 1px solid #E5E7EB;
+.group-table-container {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
-.team-flag {
-  width: 28px;
-  height: 20px;
-  object-fit: cover;
-  border-radius: 4px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+.group-table {
+  width: 100%;
+  font-size: 11px;
+  border-collapse: collapse;
+  min-width: 500px;
 }
 
-.team-flag-emoji {
-  font-size: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 28px;
-  height: 20px;
+.group-table thead tr {
+  border-bottom: 2px solid #E5E7EB;
+  color: #6B7280;
+  font-weight: 700;
+  text-transform: uppercase;
 }
 
-.team-name {
-  font-size: 13px;
+.group-table th {
+  padding: 8px 4px;
+  text-align: center;
+  letter-spacing: 0.3px;
+}
+
+.group-table th:first-child,
+.group-table th:nth-child(2) {
+  text-align: left;
+}
+
+.group-table tbody tr {
+  border-bottom: 1px solid #E5E7EB;
+  transition: background 0.2s;
+}
+
+.group-table tbody tr.qualified {
+  background: #D1FAE5;
+}
+
+.group-table tbody tr.third-place {
+  background: #FEF3C7;
+}
+
+.group-table td {
+  padding: 10px 4px;
+  text-align: center;
   font-weight: 600;
   color: #1F2937;
-  flex: 1;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
-.group-predictions {
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  border-top: 1px dashed #E5E7EB;
+.group-table .pos-col {
+  font-weight: 700;
+  text-align: left;
 }
 
-.prediction-field {
+.group-table .team-col {
+  text-align: left;
   display: flex;
-  flex-direction: column;
+  align-items: center;
   gap: 6px;
 }
 
-.prediction-field label {
-  font-size: 11px;
+.group-table .team-flag {
+  width: 18px;
+  height: 12px;
+  object-fit: cover;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.group-table .team-name {
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.group-table .gd-col {
+  font-weight: 700;
+}
+
+.group-table .gd-col.positive {
+  color: #10B981;
+}
+
+.group-table .gd-col.negative {
+  color: #EF4444;
+}
+
+.group-table .pts-col {
+  font-weight: 900;
+  font-size: 12px;
+  color: #1F2937;
+}
+
+/* Group Predictions (Partidos) */
+.group-predictions {
+  padding: 16px;
+  border-top: 2px dashed #E5E7EB;
+  animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    max-height: 0;
+  }
+  to {
+    opacity: 1;
+    max-height: 1000px;
+  }
+}
+
+.group-predictions h4 {
+  margin: 0 0 12px 0;
+  font-size: 12px;
   font-weight: 700;
   color: #6B7280;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
-.prediction-field select {
-  padding: 10px 12px;
-  border: 2px solid #E5E7EB;
-  border-radius: 10px;
+.matches-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.match-prediction {
+  display: grid;
+  grid-template-columns: 1fr 80px 1fr;
+  align-items: center;
+  gap: 8px;
+  padding: 10px;
   background: white;
-  font-size: 13px;
-  font-weight: 600;
-  color: #1F2937;
-  cursor: pointer;
+  borderRadius: 10px;
+  border: 1px solid #E5E7EB;
   transition: all 0.2s;
 }
 
-.prediction-field select:focus {
-  outline: none;
+.match-prediction:hover {
   border-color: #F59E0B;
-  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
+  box-shadow: 0 2px 8px rgba(245, 158, 11, 0.1);
+}
+
+.match-team {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #1F2937;
+}
+
+.match-team.home-team {
+  justify-content: flex-end;
+}
+
+.match-team.away-team {
+  justify-content: flex-start;
+}
+
+.match-team img {
+  width: 20px;
+  height: 14px;
+  object-fit: cover;
+  border-radius: 2px;
+}
+
+.match-scores {
+  display: flex;
+  gap: 4px;
+  justify-content: center;
+  align-items: center;
+}
+
+.match-scores input {
+  width: 32px;
+  height: 32px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 800;
+  border: 2px solid #E5E7EB;
+  border-radius: 6px;
+  background: white;
+  transition: all 0.2s;
+}
+
+.match-scores input:focus {
+  outline: none;
+  border-color: #10B981;
+  background: #F0FDF4;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+}
+
+.match-scores input:not(:placeholder-shown) {
+  background: #D1FAE5;
+  border-color: #A7F3D0;
+}
+
+.match-scores .separator {
+  font-size: 16px;
+  font-weight: 700;
+  color: #9CA3AF;
+}
+
+/* Best Thirds Section */
+.best-thirds-section {
+  background: white;
+  border: 2px solid #E5E7EB;
+  border-radius: 16px;
+  padding: 20px;
+  margin-top: 10px;
+}
+
+.best-thirds-section h3 {
+  margin: 0 0 16px 0;
+  font-size: 18px;
+  font-weight: 800;
+  color: #1F2937;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.best-thirds-section h3 svg {
+  color: #F59E0B;
+}
+
+.best-thirds-table-container {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.best-thirds-table {
+  width: 100%;
+  font-size: 11px;
+  border-collapse: collapse;
+  min-width: 500px;
+}
+
+.best-thirds-table thead tr {
+  border-bottom: 2px solid #E5E7EB;
+  color: #6B7280;
+  font-weight: 700;
+}
+
+.best-thirds-table th {
+  padding: 8px 4px;
+  text-align: left;
+}
+
+.best-thirds-table tbody tr {
+  border-bottom: 1px solid #E5E7EB;
+}
+
+.best-thirds-table tbody tr.qualified-third {
+  background: #D1FAE5;
+}
+
+.best-thirds-table tbody tr.eliminated {
+  background: #FEE2E2;
+  opacity: 0.6;
+}
+
+.best-thirds-table td {
+  padding: 10px 4px;
+  font-weight: 600;
+}
+
+.best-thirds-table .group-badge {
+  font-weight: 700;
+  color: #F59E0B;
+}
+
+.best-thirds-table .team-info {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.best-thirds-table .team-info img {
+  width: 18px;
+  height: 12px;
+  object-fit: cover;
+  border-radius: 2px;
+}
+
+.best-thirds-table .team-info span {
+  font-size: 10px;
+}
+
+/* Save Button */
+.save-predictions-btn {
+  width: 100%;
+  max-width: 600px;
+  margin: 32px auto 0;
+  padding: 16px 32px;
+  border: none;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #10B981, #059669);
+  color: white;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 8px 24px rgba(16, 185, 129, 0.4);
+  display: block;
+}
+
+.save-predictions-btn:hover:not(:disabled) {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(16, 185, 129, 0.5);
+}
+
+.save-predictions-btn:active:not(:disabled) {
+  transform: translateY(-2px);
+}
+
+.save-predictions-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
 }
 
 /* Knockout Section */
@@ -291,6 +497,14 @@
   background: #F9FAFB;
   border-radius: 16px;
   border: 2px dashed #E5E7EB;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.bracket-info svg {
+  color: #F59E0B;
 }
 
 .bracket-info p {
@@ -310,7 +524,7 @@
 
 .awards-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 20px;
 }
 
@@ -389,18 +603,22 @@
   font-weight: 600;
 }
 
-/* Responsive - Tablet */
+/* ==========================================
+   RESPONSIVE - TABLET
+========================================== */
 @media (max-width: 1024px) {
   .groups-grid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   }
 
   .awards-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   }
 }
 
-/* Responsive - Mobile */
+/* ==========================================
+   RESPONSIVE - MOBILE
+========================================== */
 @media (max-width: 768px) {
   .worldcup-page {
     padding: 16px 12px 100px;
@@ -429,33 +647,15 @@
     font-size: 12px;
   }
 
-  /* Botón de Guardar en móvil - AL FINAL */
-  .save-predictions-btn {
-    margin: 24px auto 0;
-    padding: 14px 24px;
-    font-size: 14px;
-  }
-
-  /* Tabs horizontales con solo iconos en móvil */
   .worldcup-nav-tabs {
     gap: 8px;
     padding: 6px;
-    overflow-x: auto;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-  }
-
-  .worldcup-nav-tabs::-webkit-scrollbar {
-    display: none;
   }
 
   .worldcup-nav-tab {
     padding: 12px 16px;
-    flex-shrink: 0;
-    min-width: auto;
   }
 
-  /* Ocultar texto, mostrar solo iconos en móvil */
   .worldcup-nav-tab-text {
     display: none;
   }
@@ -465,29 +665,29 @@
     height: 22px;
   }
 
-  /* Indicador visual de tab activa */
-  .worldcup-nav-tab.active::after {
-    content: '';
-    position: absolute;
-    bottom: -6px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 6px;
-    height: 6px;
-    background: #F59E0B;
-    border-radius: 50%;
-    box-shadow: 0 0 8px rgba(245, 158, 11, 0.6);
-  }
-
-  .groups-section,
-  .knockout-section,
-  .awards-section {
-    padding: 16px;
-  }
-
   .groups-grid {
     grid-template-columns: 1fr;
     gap: 16px;
+  }
+
+  .group-table {
+    font-size: 10px;
+  }
+
+  .match-prediction {
+    grid-template-columns: 1fr 70px 1fr;
+    gap: 6px;
+    padding: 8px;
+  }
+
+  .match-team {
+    font-size: 10px;
+  }
+
+  .match-scores input {
+    width: 30px;
+    height: 30px;
+    font-size: 13px;
   }
 
   .awards-grid {
@@ -495,69 +695,65 @@
     gap: 16px;
   }
 
-  .group-team-item {
-    padding: 10px;
+  .save-predictions-btn {
+    margin: 24px auto 0;
+    padding: 14px 24px;
+    font-size: 14px;
   }
 
-  .team-name {
-    font-size: 12px;
-  }
-
-  .prediction-field select {
-    font-size: 12px;
-  }
-
-  .award-card {
+  .knockout-section {
     padding: 20px;
   }
-
-  .award-icon {
-    width: 44px;
-    height: 44px;
-  }
-
-  .award-card input {
-    font-size: 13px;
-    padding: 11px 13px;
-  }
 }
 
-/* Responsive - Small Mobile */
-@media (max-width: 480px) {
-  .save-predictions-btn {
-    padding: 12px 20px;
-    font-size: 13px;
-  }
-
-  .save-predictions-btn::before {
-    font-size: 16px;
-  }
-
-  .worldcup-nav-tab {
-    padding: 10px 14px;
-  }
-
-  .worldcup-nav-tab svg {
-    width: 20px;
-    height: 20px;
-  }
-}
-
-/* Dark Mode Support */
+/* ==========================================
+   DARK MODE
+========================================== */
 [data-theme="dark"] .worldcup-page {
   background: linear-gradient(135deg, #1a1d2e 0%, #252936 100%);
 }
 
+[data-theme="dark"] .worldcup-nav-tabs,
 [data-theme="dark"] .groups-section,
 [data-theme="dark"] .knockout-section,
-[data-theme="dark"] .awards-section {
+[data-theme="dark"] .awards-section,
+[data-theme="dark"] .group-card,
+[data-theme="dark"] .best-thirds-section {
   background: var(--card);
   border-color: var(--border);
 }
 
-[data-theme="dark"] .worldcup-nav-tabs {
-  background: var(--card);
-  border: 1px solid var(--border);
+[data-theme="dark"] .group-teams,
+[data-theme="dark"] .match-prediction,
+[data-theme="dark"] .bracket-info,
+[data-theme="dark"] .award-card {
+  background: rgba(26, 28, 36, 0.4);
+  border-color: var(--border);
+}
+
+[data-theme="dark"] .group-table thead tr,
+[data-theme="dark"] .best-thirds-table thead tr {
+  border-color: var(--border);
+  color: var(--text-secondary);
+}
+
+[data-theme="dark"] .group-table tbody tr,
+[data-theme="dark"] .best-thirds-table tbody tr {
+  border-color: var(--border);
+}
+
+[data-theme="dark"] .group-table td,
+[data-theme="dark"] .best-thirds-table td,
+[data-theme="dark"] .match-team,
+[data-theme="dark"] .award-card label {
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .match-scores input,
+[data-theme="dark"] .award-card input {
+  background: var(--input-bg);
+  border-color: var(--input-border);
+  color: var(--text-primary);
 }
 
 [data-theme="dark"] .worldcup-nav-tab {
@@ -567,54 +763,6 @@
 [data-theme="dark"] .worldcup-nav-tab:hover {
   background: rgba(139, 127, 199, 0.1);
   color: var(--text-primary);
-}
-
-[data-theme="dark"] .group-card {
-  background: var(--card);
-  border-color: var(--border);
-}
-
-[data-theme="dark"] .group-teams {
-  background: rgba(26, 28, 36, 0.4);
-}
-
-[data-theme="dark"] .group-team-item {
-  background: var(--card);
-  border-color: var(--border);
-}
-
-[data-theme="dark"] .team-name {
-  color: var(--text-primary);
-}
-
-[data-theme="dark"] .prediction-field label {
-  color: var(--text-secondary);
-}
-
-[data-theme="dark"] .prediction-field select {
-  background: var(--input-bg);
-  border-color: var(--input-border);
-  color: var(--text-primary);
-}
-
-[data-theme="dark"] .award-card {
-  background: rgba(26, 28, 36, 0.4);
-  border-color: var(--border);
-}
-
-[data-theme="dark"] .award-card label {
-  color: var(--text-primary);
-}
-
-[data-theme="dark"] .award-card input {
-  background: var(--input-bg);
-  border-color: var(--input-border);
-  color: var(--text-primary);
-}
-
-[data-theme="dark"] .bracket-info {
-  background: rgba(26, 28, 36, 0.4);
-  border-color: var(--border);
 }
 
 [data-theme="dark"] .bracket-info p {
