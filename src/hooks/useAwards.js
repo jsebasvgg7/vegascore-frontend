@@ -93,23 +93,38 @@ export const useAwards = (currentUser) => {
         // Actualizar puntos del usuario
         const { data: userData } = await supabase
           .from("users")
-          .select("points, predictions, correct")
+          .select("points, predictions, correct, weekly_points, weekly_predictions, weekly_correct")
           .eq("id", prediction.user_id)
           .single();
 
         if (userData) {
+          // Estadísticas globales
           const newPoints = (userData.points || 0) + pointsEarned;
           const newPredictions = (userData.predictions || 0) + 1;
           const newCorrect = (userData.correct || 0) + (pointsEarned > 0 ? 1 : 0);
 
+          // Estadísticas semanales ⭐
+          const newWeeklyPoints = (userData.weekly_points || 0) + pointsEarned;
+          const newWeeklyPredictions = (userData.weekly_predictions || 0) + 1;
+          const newWeeklyCorrect = (userData.weekly_correct || 0) + (pointsEarned > 0 ? 1 : 0);
+
           await supabase
             .from("users")
             .update({
+              // Globales
               points: newPoints,
               predictions: newPredictions,
-              correct: newCorrect
+              correct: newCorrect,
+              // Semanales ⭐
+              weekly_points: newWeeklyPoints,
+              weekly_predictions: newWeeklyPredictions,
+              weekly_correct: newWeeklyCorrect
             })
             .eq("id", prediction.user_id);
+            
+          console.log(`✅ Usuario ${prediction.user_id}:`);
+          console.log(`   Global: ${newPoints} pts, ${newCorrect}/${newPredictions}`);
+          console.log(`   Semanal: ${newWeeklyPoints} pts, ${newWeeklyCorrect}/${newWeeklyPredictions}`);
         }
       }
 

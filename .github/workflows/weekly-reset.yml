@@ -1,0 +1,38 @@
+# .github/workflows/weekly-reset.yml
+name: Weekly Stats Reset
+
+on:
+  schedule:
+    # Ejecutar cada lunes a las 00:00 UTC
+    # Formato: minuto hora día-del-mes mes día-de-la-semana
+    - cron: '0 0 * * 1'
+  
+  # Permitir ejecución manual desde GitHub
+  workflow_dispatch:
+
+jobs:
+  reset-weekly-stats:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: |
+          npm install @supabase/supabase-js
+
+      - name: Reset weekly stats
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+        run: node scripts/reset-weekly.js
+
+      - name: Notify completion
+        run: |
+          echo "✅ Weekly stats reset completed at $(date)"

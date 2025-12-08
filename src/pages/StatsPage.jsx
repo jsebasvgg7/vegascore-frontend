@@ -259,10 +259,7 @@ export default function StatsPage({ currentUser }) {
         {/* Header */}
         <div className="stats-page-header">
           <div className="stats-header-content">
-            <BarChart3 size={32} className="header-icon" />
             <div>
-              <h1 className="stats-page-title">Estadísticas Detalladas</h1>
-              <p className="stats-page-subtitle">Análisis completo de tu rendimiento</p>
             </div>
           </div>
 

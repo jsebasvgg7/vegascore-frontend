@@ -3,7 +3,8 @@ import React, { useState, useEffect } from 'react';
 import { 
   ArrowLeft, Trophy, Medal, Crown, TrendingUp, Target, 
   Flame, Award, Star, Users, BarChart3, Zap, Shield,
-  ChevronUp, ChevronDown, Minus, Filter, Search, Sparkles
+  ChevronUp, ChevronDown, Minus, Filter, Search, Sparkles,
+  Calendar, Globe
 } from 'lucide-react';
 import { supabase } from '../utils/supabaseClient';
 import Footer from '../components/Footer';
@@ -14,7 +15,7 @@ export default function RankingPage({ currentUser, onBack }) {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
-  const [filterType, setFilterType] = useState('all');
+  const [rankingType, setRankingType] = useState('global'); // 'global' o 'weekly'
   const [sortBy, setSortBy] = useState('points');
   const [selectedUserId, setSelectedUserId] = useState(null);
 
@@ -39,26 +40,48 @@ export default function RankingPage({ currentUser, onBack }) {
     }
   };
 
-  // Calcular estadísticas globales
+  // Obtener datos según el tipo de ranking
+  const getRankingData = () => {
+    if (rankingType === 'weekly') {
+      return users.map(u => ({
+        ...u,
+        rankPoints: u.weekly_points || 0,
+        rankCorrect: u.weekly_correct || 0,
+        rankPredictions: u.weekly_predictions || 0
+      }));
+    } else {
+      return users.map(u => ({
+        ...u,
+        rankPoints: u.points || 0,
+        rankCorrect: u.correct || 0,
+        rankPredictions: u.predictions || 0
+      }));
+    }
+  };
+
+  const rankingUsers = getRankingData();
+
+  // Calcular estadísticas según el tipo de ranking
   const globalStats = {
-    totalUsers: users.length,
-    totalPredictions: users.reduce((sum, u) => sum + (u.predictions || 0), 0),
-    totalPoints: users.reduce((sum, u) => sum + (u.points || 0), 0),
-    avgAccuracy: users.length > 0 
-      ? Math.round(users.reduce((sum, u) => {
-          const acc = u.predictions > 0 ? (u.correct / u.predictions) * 100 : 0;
+    totalUsers: rankingUsers.length,
+    totalPredictions: rankingUsers.reduce((sum, u) => sum + (u.rankPredictions || 0), 0),
+    totalPoints: rankingUsers.reduce((sum, u) => sum + (u.rankPoints || 0), 0),
+    avgAccuracy: rankingUsers.length > 0 
+      ? Math.round(rankingUsers.reduce((sum, u) => {
+          const acc = u.rankPredictions > 0 ? (u.rankCorrect / u.rankPredictions) * 100 : 0;
           return sum + acc;
-        }, 0) / users.length)
+        }, 0) / rankingUsers.length)
       : 0
   };
 
   // Encontrar posición del usuario actual
-  const currentUserPosition = users.findIndex(u => u.id === currentUser?.id) + 1;
-  const currentUserData = users.find(u => u.id === currentUser?.id);
+  const sortedByPoints = [...rankingUsers].sort((a, b) => b.rankPoints - a.rankPoints);
+  const currentUserPosition = sortedByPoints.findIndex(u => u.id === currentUser?.id) + 1;
+  const currentUserData = rankingUsers.find(u => u.id === currentUser?.id);
 
   // Filtrar y ordenar usuarios
   const getFilteredUsers = () => {
-    let filtered = [...users];
+    let filtered = [...rankingUsers];
 
     if (searchTerm) {
       filtered = filtered.filter(u => 
@@ -66,20 +89,16 @@ export default function RankingPage({ currentUser, onBack }) {
       );
     }
 
-    if (filterType === 'top10') {
-      filtered = filtered.slice(0, 10);
-    }
-
     if (sortBy === 'accuracy') {
       filtered.sort((a, b) => {
-        const accA = a.predictions > 0 ? (a.correct / a.predictions) : 0;
-        const accB = b.predictions > 0 ? (b.correct / b.predictions) : 0;
+        const accA = a.rankPredictions > 0 ? (a.rankCorrect / a.rankPredictions) : 0;
+        const accB = b.rankPredictions > 0 ? (b.rankCorrect / b.rankPredictions) : 0;
         return accB - accA;
       });
     } else if (sortBy === 'predictions') {
-      filtered.sort((a, b) => b.predictions - a.predictions);
+      filtered.sort((a, b) => b.rankPredictions - a.rankPredictions);
     } else {
-      filtered.sort((a, b) => b.points - a.points);
+      filtered.sort((a, b) => b.rankPoints - a.rankPoints);
     }
 
     return filtered;
@@ -117,6 +136,26 @@ export default function RankingPage({ currentUser, onBack }) {
       </div>
 
       <div className="ranking-page-container">
+        {/* Selector de Tipo de Ranking */}
+        <div className="ranking-type-selector">
+          <button 
+            className={`ranking-type-btn ${rankingType === 'global' ? 'active' : ''}`}
+            onClick={() => setRankingType('global')}
+          >
+            <Globe size={20} />
+            <span>Top Global</span>
+            <div className="btn-shine"></div>
+          </button>
+          <button 
+            className={`ranking-type-btn ${rankingType === 'weekly' ? 'active' : ''}`}
+            onClick={() => setRankingType('weekly')}
+          >
+            <Calendar size={20} />
+            <span>Top Semanal</span>
+            <div className="btn-shine"></div>
+          </button>
+        </div>
+
         {/* Tu Posición - Modernizado */}
         {currentUserData && (
           <div className="your-rank-modern">
@@ -138,7 +177,7 @@ export default function RankingPage({ currentUser, onBack }) {
                     <Zap size={18} />
                   </div>
                   <div className="stat-text">
-                    <div className="stat-num">{currentUserData.points}</div>
+                    <div className="stat-num">{currentUserData.rankPoints}</div>
                     <div className="stat-lab">Puntos</div>
                   </div>
                 </div>
@@ -151,8 +190,8 @@ export default function RankingPage({ currentUser, onBack }) {
                   </div>
                   <div className="stat-text">
                     <div className="stat-num">
-                      {currentUserData.predictions > 0 
-                        ? Math.round((currentUserData.correct / currentUserData.predictions) * 100) 
+                      {currentUserData.rankPredictions > 0 
+                        ? Math.round((currentUserData.rankCorrect / currentUserData.rankPredictions) * 100) 
                         : 0}%
                     </div>
                     <div className="stat-lab">Precisión</div>
@@ -166,7 +205,7 @@ export default function RankingPage({ currentUser, onBack }) {
                     <Flame size={18} />
                   </div>
                   <div className="stat-text">
-                    <div className="stat-num">{currentUserData.predictions}</div>
+                    <div className="stat-num">{currentUserData.rankPredictions}</div>
                     <div className="stat-lab">Predicciones</div>
                   </div>
                 </div>
@@ -232,11 +271,13 @@ export default function RankingPage({ currentUser, onBack }) {
         </div>
 
         {/* PODIO TOP 3 - Ultra Mejorado */}
-        {users.length >= 3 && (
+        {filteredUsers.length >= 3 && (
           <div className="podium-ultra">
             <div className="podium-header-ultra">
               <Award className="podium-icon-ultra" size={32} />
-              <h2 className="podium-title-ultra">Hall of Champions</h2>
+              <h2 className="podium-title-ultra">
+                {rankingType === 'weekly' ? 'Campeones de la Semana' : 'Hall of Champions'}
+              </h2>
               <Sparkles className="podium-sparkle" size={24} />
             </div>
             
@@ -258,30 +299,30 @@ export default function RankingPage({ currentUser, onBack }) {
                     </div>
                     <div 
                       className="player-avatar-ultra"
-                      onClick={() => setSelectedUserId(users[1].id)}
+                      onClick={() => setSelectedUserId(filteredUsers[1].id)}
                       style={{ cursor: 'pointer' }}
                     >
-                      {users[1].avatar_url ? (
-                        <img src={users[1].avatar_url} alt={users[1].name} />
+                      {filteredUsers[1].avatar_url ? (
+                        <img src={filteredUsers[1].avatar_url} alt={filteredUsers[1].name} />
                       ) : (
-                        <span>{users[1].name.charAt(0).toUpperCase()}</span>
+                        <span>{filteredUsers[1].name.charAt(0).toUpperCase()}</span>
                       )}
                     </div>
                   </div>
                   
-                  <div className="player-name-ultra">{users[1].name}</div>
+                  <div className="player-name-ultra">{filteredUsers[1].name}</div>
                   
                   <div className="player-stats-ultra">
                     <div className="stat-ultra">
                       <Zap size={14} className="stat-icon-color points-color" />
-                      <span className="stat-value-ultra">{users[1].points}</span>
+                      <span className="stat-value-ultra">{filteredUsers[1].rankPoints}</span>
                     </div>
                     <div className="stat-separator"></div>
                     <div className="stat-ultra">
                       <Target size={14} className="stat-icon-color accuracy-color" />
                       <span className="stat-value-ultra">
-                        {users[1].predictions > 0 
-                          ? Math.round((users[1].correct / users[1].predictions) * 100) 
+                        {filteredUsers[1].rankPredictions > 0 
+                          ? Math.round((filteredUsers[1].rankCorrect / filteredUsers[1].rankPredictions) * 100) 
                           : 0}%
                       </span>
                     </div>
@@ -311,32 +352,32 @@ export default function RankingPage({ currentUser, onBack }) {
                     </div>
                     <div 
                       className="player-avatar-ultra champion-avatar"
-                      onClick={() => setSelectedUserId(users[0].id)}
+                      onClick={() => setSelectedUserId(filteredUsers[0].id)}
                       style={{ cursor: 'pointer' }}
                     >
-                      {users[0].avatar_url ? (
-                        <img src={users[0].avatar_url} alt={users[0].name} />
+                      {filteredUsers[0].avatar_url ? (
+                        <img src={filteredUsers[0].avatar_url} alt={filteredUsers[0].name} />
                       ) : (
-                        <span>{users[0].name.charAt(0).toUpperCase()}</span>
+                        <span>{filteredUsers[0].name.charAt(0).toUpperCase()}</span>
                       )}
                     </div>
                     <Sparkles className="avatar-sparkle sparkle-1" size={16} />
                     <Sparkles className="avatar-sparkle sparkle-2" size={12} />
                   </div>
                   
-                  <div className="player-name-ultra champion-name">{users[0].name}</div>
+                  <div className="player-name-ultra champion-name">{filteredUsers[0].name}</div>
                   
                   <div className="player-stats-ultra">
                     <div className="stat-ultra">
                       <Zap size={16} className="stat-icon-color points-color" />
-                      <span className="stat-value-ultra champion-stat">{users[0].points}</span>
+                      <span className="stat-value-ultra champion-stat">{filteredUsers[0].rankPoints}</span>
                     </div>
                     <div className="stat-separator"></div>
                     <div className="stat-ultra">
                       <Target size={16} className="stat-icon-color accuracy-color" />
                       <span className="stat-value-ultra champion-stat">
-                        {users[0].predictions > 0 
-                          ? Math.round((users[0].correct / users[0].predictions) * 100) 
+                        {filteredUsers[0].rankPredictions > 0 
+                          ? Math.round((filteredUsers[0].rankCorrect / filteredUsers[0].rankPredictions) * 100) 
                           : 0}%
                       </span>
                     </div>
@@ -363,30 +404,30 @@ export default function RankingPage({ currentUser, onBack }) {
                     </div>
                     <div 
                       className="player-avatar-ultra"
-                      onClick={() => setSelectedUserId(users[2].id)}
+                      onClick={() => setSelectedUserId(filteredUsers[2].id)}
                       style={{ cursor: 'pointer' }}
                     >
-                      {users[2].avatar_url ? (
-                        <img src={users[2].avatar_url} alt={users[2].name} />
+                      {filteredUsers[2].avatar_url ? (
+                        <img src={filteredUsers[2].avatar_url} alt={filteredUsers[2].name} />
                       ) : (
-                        <span>{users[2].name.charAt(0).toUpperCase()}</span>
+                        <span>{filteredUsers[2].name.charAt(0).toUpperCase()}</span>
                       )}
                     </div>
                   </div>
                   
-                  <div className="player-name-ultra">{users[2].name}</div>
+                  <div className="player-name-ultra">{filteredUsers[2].name}</div>
                   
                   <div className="player-stats-ultra">
                     <div className="stat-ultra">
                       <Zap size={14} className="stat-icon-color points-color" />
-                      <span className="stat-value-ultra">{users[2].points}</span>
+                      <span className="stat-value-ultra">{filteredUsers[2].rankPoints}</span>
                     </div>
                     <div className="stat-separator"></div>
                     <div className="stat-ultra">
                       <Target size={14} className="stat-icon-color accuracy-color" />
                       <span className="stat-value-ultra">
-                        {users[2].predictions > 0 
-                          ? Math.round((users[2].correct / users[2].predictions) * 100) 
+                        {filteredUsers[2].rankPredictions > 0 
+                          ? Math.round((filteredUsers[2].rankCorrect / filteredUsers[2].rankPredictions) * 100) 
                           : 0}%
                       </span>
                     </div>
@@ -410,23 +451,6 @@ export default function RankingPage({ currentUser, onBack }) {
               onChange={(e) => setSearchTerm(e.target.value)}
               className="search-input-modern"
             />
-          </div>
-
-          <div className="filters-modern">
-            <button 
-              className={`filter-modern ${filterType === 'all' ? 'active' : ''}`}
-              onClick={() => setFilterType('all')}
-            >
-              <Users size={16} />
-              <span>Todos</span>
-            </button>
-            <button 
-              className={`filter-modern ${filterType === 'top10' ? 'active' : ''}`}
-              onClick={() => setFilterType('top10')}
-            >
-              <Trophy size={16} />
-              <span>Top 10</span>
-            </button>
           </div>
 
           <div className="sorts-modern">
@@ -466,11 +490,11 @@ export default function RankingPage({ currentUser, onBack }) {
 
           <div className="list-body-modern">
             {filteredUsers.map((user, index) => {
-              const position = users.findIndex(u => u.id === user.id) + 1;
-              const accuracy = user.predictions > 0 
-                ? Math.round((user.correct / user.predictions) * 100) 
+              const accuracy = user.rankPredictions > 0 
+                ? Math.round((user.rankCorrect / user.rankPredictions) * 100) 
                 : 0;
               const isCurrentUser = user.id === currentUser?.id;
+              const position = index + 1;
 
               return (
                 <div 
@@ -505,7 +529,7 @@ export default function RankingPage({ currentUser, onBack }) {
                           {user.name}
                           {isCurrentUser && <span className="you-tag">Tú</span>}
                         </div>
-                        <div className="user-correct-small">{user.correct} aciertos</div>
+                        <div className="user-correct-small">{user.rankCorrect} aciertos</div>
                       </div>
                     </div>
                   </div>
@@ -513,12 +537,12 @@ export default function RankingPage({ currentUser, onBack }) {
                   <div className="row-cell points-cell">
                     <div className="points-display">
                       <Zap size={16} className="points-icon-small" />
-                      <span className="points-num">{user.points}</span>
+                      <span className="points-num">{user.rankPoints}</span>
                     </div>
                   </div>
 
                   <div className="row-cell preds-cell">
-                    <span className="preds-num">{user.predictions}</span>
+                    <span className="preds-num">{user.rankPredictions}</span>
                   </div>
 
                   <div className="row-cell acc-cell">

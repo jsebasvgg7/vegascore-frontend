@@ -11,7 +11,6 @@ export const useMatches = (currentUser) => {
 
     setLoading(true);
     try {
-      // IMPORTANTE: Agregar .select() para obtener los datos insertados/actualizados
       const { data: predictionData, error } = await supabase
         .from("predictions")
         .upsert({
@@ -22,7 +21,7 @@ export const useMatches = (currentUser) => {
         }, {
           onConflict: 'match_id,user_id'
         })
-        .select(); // ← FIX: Agregar .select() para obtener los datos
+        .select();
 
       if (error) throw error;
 
@@ -117,7 +116,7 @@ export const useMatches = (currentUser) => {
         // Obtener puntos actuales del usuario
         const { data: userData, error: userError } = await supabase
           .from("users")
-          .select("points, predictions, correct, best_streak, current_streak")
+          .select("points, predictions, correct, best_streak, current_streak, weekly_points, weekly_predictions, weekly_correct")
           .eq("id", prediction.user_id)
           .single();
 
@@ -126,10 +125,15 @@ export const useMatches = (currentUser) => {
           continue;
         }
 
-        // Calcular nuevas estadísticas
+        // Calcular nuevas estadísticas GLOBALES
         const newPoints = (userData.points || 0) + pointsEarned;
         const newPredictions = (userData.predictions || 0) + 1;
         const newCorrect = (userData.correct || 0) + (pointsEarned > 0 ? 1 : 0);
+        
+        // Calcular nuevas estadísticas SEMANALES ⭐
+        const newWeeklyPoints = (userData.weekly_points || 0) + pointsEarned;
+        const newWeeklyPredictions = (userData.weekly_predictions || 0) + 1;
+        const newWeeklyCorrect = (userData.weekly_correct || 0) + (pointsEarned > 0 ? 1 : 0);
         
         // Actualizar racha
         let newCurrentStreak = userData.current_streak || 0;
@@ -142,22 +146,29 @@ export const useMatches = (currentUser) => {
           newCurrentStreak = 0;
         }
 
-        // Actualizar usuario con TODAS las estadísticas
+        // Actualizar usuario con TODAS las estadísticas (globales + semanales) ⭐
         const { error: updateUserError } = await supabase
           .from("users")
           .update({
+            // Estadísticas globales
             points: newPoints,
             predictions: newPredictions,
             correct: newCorrect,
             current_streak: newCurrentStreak,
-            best_streak: newBestStreak
+            best_streak: newBestStreak,
+            // Estadísticas semanales ⭐
+            weekly_points: newWeeklyPoints,
+            weekly_predictions: newWeeklyPredictions,
+            weekly_correct: newWeeklyCorrect
           })
           .eq("id", prediction.user_id);
 
         if (updateUserError) {
           console.error(`❌ Error actualizando usuario ${prediction.user_id}:`, updateUserError);
         } else {
-          console.log(`✅ Usuario ${prediction.user_id} actualizado: ${newPoints} pts, ${newCorrect}/${newPredictions} correctas`);
+          console.log(`✅ Usuario ${prediction.user_id} actualizado:`);
+          console.log(`   Global: ${newPoints} pts, ${newCorrect}/${newPredictions} correctas`);
+          console.log(`   Semanal: ${newWeeklyPoints} pts, ${newWeeklyCorrect}/${newWeeklyPredictions} correctas`);
         }
       }
 

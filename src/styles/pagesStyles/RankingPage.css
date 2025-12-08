@@ -1899,5 +1899,102 @@ transition-duration: 0.01ms !important;
 background: linear-gradient(135deg, #F8FAFC 0%, #E2E8F0 50%, #CBD5E1 100%);
 }
 }
+}
+/* Agregar estos estilos a tu archivo RankingPage.css */
 
+.ranking-type-selector {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  justify-content: center;
+  padding: 0 1rem;
+}
+
+.ranking-type-btn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 2rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  overflow: hidden;
+  flex: 1;
+  max-width: 250px;
+  justify-content: center;
+}
+
+.ranking-type-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.8);
+  transform: translateY(-2px);
+}
+
+.ranking-type-btn.active {
+  background: linear-gradient(135deg, 
+    rgba(139, 92, 246, 0.2) 0%, 
+    rgba(59, 130, 246, 0.2) 100%);
+  border-color: rgba(139, 92, 246, 0.6);
+  color: #fff;
+  box-shadow: 
+    0 0 20px rgba(139, 92, 246, 0.3),
+    0 0 40px rgba(59, 130, 246, 0.2);
+}
+
+.ranking-type-btn.active:hover {
+  transform: translateY(-2px) scale(1.02);
+}
+
+.btn-shine {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.1) 50%,
+    transparent 70%
+  );
+  transform: translateX(-100%) translateY(-100%) rotate(45deg);
+  transition: transform 0.6s;
+}
+
+.ranking-type-btn:hover .btn-shine {
+  transform: translateX(100%) translateY(100%) rotate(45deg);
+}
+
+.ranking-type-btn.active .btn-shine {
+  animation: shine 3s infinite;
+}
+
+@keyframes shine {
+  0%, 100% {
+    transform: translateX(-100%) translateY(-100%) rotate(45deg);
+  }
+  50% {
+    transform: translateX(100%) translateY(100%) rotate(45deg);
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .ranking-type-selector {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .ranking-type-btn {
+    max-width: 100%;
+    padding: 0.875rem 1.5rem;
+    font-size: 0.95rem;
+  }
 }
