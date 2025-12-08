@@ -9,6 +9,7 @@ import AwardCard from "../components/AwardCard";
 import NavigationTabs from "../components/NavigationTabs";
 import ProfilePage from "./ProfilePage";
 import RankingPage from "./RankingPage";
+import Footer from "../components/Footer";
 import AdminPage from "./AdminPage";
 import NotificationsPage from "./NotificationsPage";
 import StatsPage from "./StatsPage";
@@ -364,6 +365,7 @@ export default function VegaScorePage() {
             )}
           </section>
         </main>
+        <Footer />
 
         {isLoading && <LoadingOverlay message="Procesando..." />}
         <ToastContainer toasts={toast.toasts} removeToast={toast.removeToast} />

@@ -55,7 +55,57 @@
   color: var(--text-primary);
 }
 
+/* ==========================================
+   FOOTER - Simple
+========================================== */
+.app-footer {
+  background: linear-gradient(135deg, #1e202c 0%, #31323e 100%);
+  border-top: 1px solid rgba(96, 81, 155, 0.2);
+  padding: 16px 0;
+  margin-top: auto;
+  width: 100%;
+}
 
+.footer-container {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 18px;
+  text-align: center;
+}
+
+.footer-text {
+  color: #bfc0d1;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+}
+
+/* Footer responsive */
+@media (max-width: 768px) {
+  .app-footer {
+    padding: 14px 0;
+    margin-bottom: 80px; /* Espacio para el bottom nav */
+  }
+  
+  .footer-container {
+    padding: 0 12px;
+  }
+  
+  .footer-text {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .app-footer {
+    padding: 12px 0;
+    margin-bottom: 75px;
+  }
+  
+  .footer-text {
+    font-size: 11px;
+  }
+}
 /* ==========================================
    HEADER - FIX MÓVIL NO DEBE CAMBIAR
 ========================================== */
