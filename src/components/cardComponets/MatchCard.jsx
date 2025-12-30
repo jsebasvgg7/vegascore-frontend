@@ -133,7 +133,7 @@ export default function MatchCard({ match, userPred, onPredict }) {
         {/* Liga */}
         <div className="match-league-info-light">
           <Trophy size={14} className="league-icon" />
-          <span className="league-name">{match.league}</span>
+          <span className=" league-name">{match.league}</span>
         </div>
         
         {/* Fecha del partido en la esquina */}
