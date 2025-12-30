@@ -55,7 +55,7 @@ export default function MatchCard({ match, userPred, onPredict }) {
 
   const now = new Date();
   const deadline = match.deadline ? new Date(match.deadline) : null;
-  const isPastDeadline = deadline && now > deadline;
+  const isPastDeadline = deadline && now >= deadline;
   const isDisabled = isPastDeadline || match.status !== "pending";
 
   const isPredictionChanged = (
