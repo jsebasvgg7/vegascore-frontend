@@ -105,6 +105,7 @@ export const teamSlugMap = {
   'Lorient': 'lorient',
   'Metz': 'metz',
   'Racing': 'racingstrasbourg',
+  'Paris FC': 'paris_fc',
   'Ajax': 'ajax',
   'Benfica': 'benfica',
   'Sporting': 'sporting',
