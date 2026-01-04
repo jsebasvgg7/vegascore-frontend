@@ -519,6 +519,18 @@ export default function ProfilePage({ currentUser, onBack }) {
       case 'overview':
         return (
           <div className="tab-content-wrapper">
+            {/* Ranking */}
+            <div className="ranking-card-modern">
+              <div className="ranking-card-header">
+                <Trophy size={20} />
+                <span>Ranking Global</span>
+              </div>
+              <div className="ranking-position-display">
+                <div className="position-large">#{userRanking.position || '--'}</div>
+                <div className="position-context">de {userRanking.totalUsers} jugadores</div>
+              </div>
+            </div>
+            
             {/* Stats Cards */}
             <div className="stats-cards-grid">
               <div className="stat-card-modern predictions">
@@ -592,17 +604,7 @@ export default function ProfilePage({ currentUser, onBack }) {
               </div>
             </div>
 
-            {/* Ranking */}
-            <div className="ranking-card-modern">
-              <div className="ranking-card-header">
-                <Trophy size={20} />
-                <span>Ranking Global</span>
-              </div>
-              <div className="ranking-position-display">
-                <div className="position-large">#{userRanking.position || '--'}</div>
-                <div className="position-context">de {userRanking.totalUsers} jugadores</div>
-              </div>
-            </div>
+            
           </div>
         );
 
