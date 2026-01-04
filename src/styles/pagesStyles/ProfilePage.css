@@ -679,6 +679,10 @@
    STATS CARDS - DISEÑO CON CAPAS
 ========================================== */
 
+/* ==========================================
+   STATS CARDS - DISEÑO CON CAPAS
+========================================== */
+
 .stats-cards-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -686,10 +690,10 @@
   margin-bottom: 1.5rem;
 }
 
-/* DESKTOP: Una sola columna vertical para overview */
+/* DESKTOP: Mantener horizontal (3 columnas en fila) */
 @media (min-width: 1024px) {
   .stats-cards-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(3, 1fr);
     gap: 1.25rem;
     margin-bottom: 0;
   }
@@ -710,17 +714,18 @@
   box-shadow: var(--profile-shadow);
 }
 
+
 /* DESKTOP: Cards horizontales con más padding */
 @media (min-width: 1024px) {
   .stat-card-modern {
-    flex-direction: row;
-    padding: 1.75rem 2rem;
+    flex-direction: column;
+    padding: 1.75rem;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: center;
   }
   
   .stat-card-content {
-    text-align: left;
+    text-align: center;
   }
 }
 
@@ -1600,7 +1605,7 @@
 @media (min-width: 1024px) {
   .history-list-modern {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 1.25rem;
   }
 }
