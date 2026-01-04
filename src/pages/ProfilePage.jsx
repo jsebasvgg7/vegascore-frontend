@@ -914,15 +914,6 @@ export default function ProfilePage({ currentUser, onBack }) {
   return (
     <div className="profile-page-modern">
       <div className="profile-container-modern">
-        {/* Header Minimalista */}
-        <div className="profile-header-minimal">
-          <button className="back-btn-modern" onClick={onBack}>
-            <ArrowLeft size={20} />
-          </button>
-          <h1 className="profile-header-title">{userData.name}</h1>
-          <div className="header-spacer"></div>
-        </div>
-
         {/* Avatar y Info Principal */}
         <div className="profile-hero">
           <div className="avatar-section">
