@@ -9,7 +9,8 @@ import {
   BookOpen, Layers, BadgeCheck, Gem, Trophy as TrophyIcon,
   Zap as ZapIcon, CheckCircle, Bookmark, TrendingDown,
   BarChart as BarChartIcon, Package, Award as AwardLucide,
-  Star as StarLucide, Target as TargetLucide, Home, Plus
+  Star as StarLucide, Target as TargetLucide, Home, Plus,
+  Menu, ChevronRight
 } from 'lucide-react';
 import { supabase } from '../utils/supabaseClient';
 import AvatarUpload from '../components/AvatarUpload';
@@ -24,7 +25,10 @@ export default function ProfilePage({ currentUser, onBack }) {
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(false);
   const [historyLoading, setHistoryLoading] = useState(true);
+  const [activeSection, setActiveSection] = useState('overview');
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const toast = useToast();
+  
   const [userData, setUserData] = useState({
     name: currentUser?.name || '',
     email: currentUser?.email || '',
@@ -37,6 +41,7 @@ export default function ProfilePage({ currentUser, onBack }) {
     level: currentUser?.level || 1,
     joined_date: currentUser?.created_at || new Date().toISOString()
   });
+  
   const [predictionHistory, setPredictionHistory] = useState([]);
   const [streakData, setStreakData] = useState({
     current_streak: 0,
@@ -44,7 +49,6 @@ export default function ProfilePage({ currentUser, onBack }) {
     last_prediction_date: null
   });
 
-  // Nuevos estados para logros, títulos y ranking
   const [userAchievements, setUserAchievements] = useState([]);
   const [userTitles, setUserTitles] = useState([]);
   const [availableAchievements, setAvailableAchievements] = useState([]);
@@ -64,6 +68,14 @@ export default function ProfilePage({ currentUser, onBack }) {
     pointsFromPrev: 0
   });
 
+  // Secciones del menú
+  const menuSections = [
+    { id: 'overview', label: 'Resumen', icon: Home },
+    { id: 'stats', label: 'Estadísticas', icon: BarChart3 },
+    { id: 'achievements', label: 'Logros y Títulos', icon: Trophy },
+    { id: 'history', label: 'Historial', icon: Activity },
+    { id: 'edit', label: 'Editar Perfil', icon: Edit2 }
+  ];
 
   useEffect(() => {
     loadUserData();
@@ -78,7 +90,6 @@ export default function ProfilePage({ currentUser, onBack }) {
       try {
         setAchievementsLoading(true);
         
-        // 1. Cargar logros disponibles
         const { data: achievementsData, error: achievementsError } = await supabase
           .from('available_achievements')
           .select('*')
@@ -87,7 +98,6 @@ export default function ProfilePage({ currentUser, onBack }) {
         if (achievementsError) throw achievementsError;
         setAvailableAchievements(achievementsData || []);
 
-        // 2. Cargar títulos disponibles
         const { data: titlesData, error: titlesError } = await supabase
           .from('available_titles')
           .select('*');
@@ -95,7 +105,6 @@ export default function ProfilePage({ currentUser, onBack }) {
         if (titlesError) throw titlesError;
         setAvailableTitles(titlesData || []);
 
-        // 3. Calcular logros obtenidos
         const calculatedAchievements = calculateAchievements(
           achievementsData || [],
           {
@@ -107,7 +116,6 @@ export default function ProfilePage({ currentUser, onBack }) {
         );
         setUserAchievements(calculatedAchievements);
 
-        // 4. Calcular títulos obtenidos
         const calculatedTitles = calculateTitles(
           titlesData || [],
           calculatedAchievements
@@ -129,7 +137,6 @@ export default function ProfilePage({ currentUser, onBack }) {
   useEffect(() => {
     const loadUserRanking = async () => {
       try {
-        // Obtener todos los usuarios ordenados por puntos
         const { data: allUsers, error } = await supabase
           .from('users')
           .select('id, points')
@@ -138,11 +145,9 @@ export default function ProfilePage({ currentUser, onBack }) {
         if (error) throw error;
         if (!allUsers || allUsers.length === 0) return;
 
-        // Encontrar posición del usuario actual
         const userIndex = allUsers.findIndex(user => user.id === currentUser?.id);
         const userPosition = userIndex !== -1 ? userIndex + 1 : 0;
 
-        // Calcular diferencias de puntos
         const leaderPoints = allUsers[0]?.points || 0;
         const userPoints = currentUser?.points || 0;
         const nextUser = userIndex > 0 ? allUsers[userIndex - 1] : null;
@@ -321,6 +326,7 @@ export default function ProfilePage({ currentUser, onBack }) {
 
       toast.success('¡Perfil actualizado con éxito!');
       setIsEditing(false);
+      setActiveSection('overview');
       
       setTimeout(() => {
         onBack();
@@ -336,8 +342,8 @@ export default function ProfilePage({ currentUser, onBack }) {
   const handleAvatarUpload = (newUrl) => {
     setUserData({ ...userData, avatar_url: newUrl });
     toast.success('¡Avatar actualizado con éxito!');
-
   };
+
   const handleViewAllHistory = () => {
     setShowAllHistory(prev => !prev);
   };
@@ -373,7 +379,6 @@ export default function ProfilePage({ currentUser, onBack }) {
     });
   };
 
-  // Funciones helper para logros y títulos
   const calculateAchievements = (availableAchievements, userStats) => {
     if (!availableAchievements || !userStats) return [];
 
@@ -400,6 +405,17 @@ export default function ProfilePage({ currentUser, onBack }) {
       const requiredAchievementId = title.requirement_achievement_id;
       return userAchievements.some(achievement => achievement.id === requiredAchievementId);
     });
+  };
+
+  const getActiveTitle = () => {
+    if (userTitles.length === 0) return null;
+    
+    const sortedTitles = [...userTitles].sort((a, b) => {
+      const order = ['leyenda', 'oráculo', 'visionario', 'pronosticador', 'novato'];
+      return order.indexOf(b.id) - order.indexOf(a.id);
+    });
+    
+    return sortedTitles[0];
   };
 
   const getIconEmoji = (iconText) => {
@@ -429,110 +445,94 @@ export default function ProfilePage({ currentUser, onBack }) {
     }
   };
 
-  const getActiveTitle = () => {
-    if (userTitles.length === 0) return null;
-    
-    const sortedTitles = [...userTitles].sort((a, b) => {
-      const order = ['leyenda', 'oráculo', 'visionario', 'pronosticador', 'novato'];
-      return order.indexOf(b.id) - order.indexOf(a.id);
-    });
-    
-    return sortedTitles[0];
+  const handleSaveAchievement = async (achievementData) => {
+    try {
+      const { error } = await supabase
+        .from('available_achievements')
+        .upsert(achievementData, { onConflict: 'id' });
+
+      if (error) throw error;
+
+      toast.success('¡Logro guardado exitosamente!');
+      
+      const { data } = await supabase
+        .from('available_achievements')
+        .select('*')
+        .order('requirement_value', { ascending: true });
+      setAvailableAchievements(data || []);
+    } catch (err) {
+      console.error('Error saving achievement:', err);
+      toast.error('Error al guardar el logro');
+    }
   };
-  // ========== FUNCIONES CRUD PARA ADMIN ==========
-const handleSaveAchievement = async (achievementData) => {
-  try {
-    const { error } = await supabase
-      .from('available_achievements')
-      .upsert(achievementData, { onConflict: 'id' });
 
-    if (error) throw error;
+  const handleDeleteAchievement = async (achievementId) => {
+    try {
+      const { error } = await supabase
+        .from('available_achievements')
+        .delete()
+        .eq('id', achievementId);
 
-    toast.success('¡Logro guardado exitosamente!');
-    
-    // Recargar logros
-    const { data } = await supabase
-      .from('available_achievements')
-      .select('*')
-      .order('requirement_value', { ascending: true });
-    setAvailableAchievements(data || []);
-  } catch (err) {
-    console.error('Error saving achievement:', err);
-    toast.error('Error al guardar el logro');
-  }
-};
+      if (error) throw error;
 
-const handleDeleteAchievement = async (achievementId) => {
-  try {
-    const { error } = await supabase
-      .from('available_achievements')
-      .delete()
-      .eq('id', achievementId);
+      toast.success('¡Logro eliminado correctamente!');
+      
+      const { data } = await supabase
+        .from('available_achievements')
+        .select('*')
+        .order('requirement_value', { ascending: true });
+      setAvailableAchievements(data || []);
+    } catch (err) {
+      console.error('Error deleting achievement:', err);
+      toast.error('Error al eliminar el logro');
+    }
+  };
 
-    if (error) throw error;
+  const handleSaveTitle = async (titleData) => {
+    try {
+      const { error } = await supabase
+        .from('available_titles')
+        .upsert(titleData, { onConflict: 'id' });
 
-    toast.success('¡Logro eliminado correctamente!');
-    
-    // Recargar logros
-    const { data } = await supabase
-      .from('available_achievements')
-      .select('*')
-      .order('requirement_value', { ascending: true });
-    setAvailableAchievements(data || []);
-  } catch (err) {
-    console.error('Error deleting achievement:', err);
-    toast.error('Error al eliminar el logro');
-  }
-};
+      if (error) throw error;
 
-const handleSaveTitle = async (titleData) => {
-  try {
-    const { error } = await supabase
-      .from('available_titles')
-      .upsert(titleData, { onConflict: 'id' });
+      toast.success('Título guardado correctamente');
+      
+      const { data } = await supabase
+        .from('available_titles')
+        .select('*');
+      setAvailableTitles(data || []);
+    } catch (err) {
+      console.error('Error saving title:', err);
+      toast.error('Error al guardar el título');
+    }
+  };
 
-    if (error) throw error;
+  const handleDeleteTitle = async (titleId) => {
+    try {
+      const { error } = await supabase
+        .from('available_titles')
+        .delete()
+        .eq('id', titleId);
 
-    toast.success('Título guardado correctamente');
-    
-    // Recargar títulos
-    const { data } = await supabase
-      .from('available_titles')
-      .select('*');
-    setAvailableTitles(data || []);
-  } catch (err) {
-    console.error('Error saving title:', err);
-    toast.error('Error al guardar el título');
-  }
-};
+      if (error) throw error;
 
-const handleDeleteTitle = async (titleId) => {
-  try {
-    const { error } = await supabase
-      .from('available_titles')
-      .delete()
-      .eq('id', titleId);
-
-    if (error) throw error;
-
-    toast.success('Título eliminado correctamente');
-    
-    // Recargar títulos
-    const { data } = await supabase
-      .from('available_titles')
-      .select('*');
-    setAvailableTitles(data || []);
-  } catch (err) {
-    console.error('Error deleting title:', err);
-    toast.error('Error al eliminar el título');
-  }
-};
+      toast.success('Título eliminado correctamente');
+      
+      const { data } = await supabase
+        .from('available_titles')
+        .select('*');
+      setAvailableTitles(data || []);
+    } catch (err) {
+      console.error('Error deleting title:', err);
+      toast.error('Error al eliminar el título');
+    }
+  };
 
   const accuracy = currentUser?.predictions > 0 
     ? Math.round((currentUser.correct / currentUser.predictions) * 100) 
     : 0;
 
-  // Calcular puntos necesarios para el siguiente nivel
   const currentLevelPoints = (userData.level - 1) * 20;
   const nextLevelPoints = userData.level * 20;
   const currentPoints = currentUser?.points || 0;
@@ -542,76 +542,47 @@ const handleDeleteTitle = async (titleId) => {
 
   const activeTitle = getActiveTitle();
 
-  return (
-    <div className="profile-page">
-      <div className="profile-container">
-        {/* SECCIÓN SUPERIOR: Información y Stats */}
-        <div className="profile-top-section">
-          {/* Card de Avatar y Info Básica - REDISEÑADO */}
+  // Renderizar contenido según sección activa
+  const renderContent = () => {
+    switch (activeSection) {
+      case 'overview':
+        return (
+          <>
+            {/* Avatar Card */}
             <div className="avatar-card premium-layout">
-              {/* Banner Decorativo de Fondo */}
               <div className="card-banner">
                 <div className="banner-pattern"></div>
               </div>
 
-              {/* Botón de Edición Flotante (Solo Icono) */}
-              <button 
-                className="edit-icon-btn"
-                onClick={() => isEditing ? handleSave() : setIsEditing(true)}
-                disabled={loading}
-                title={isEditing ? "Guardar" : "Editar Perfil"}
-              >
-                {loading ? (
-                  <Activity size={20} className="spinner" />
-                ) : isEditing ? (
-                  <Save size={20} />
-                ) : (
-                  <Edit2 size={20} />
-                )}
-              </button>
-
               <div className="card-content-wrapper">
-                {/* Sección del Avatar */}
                 <div className="avatar-section-new">
-                  {isEditing ? (
-                    <AvatarUpload
-                      currentUrl={userData.avatar_url}
-                      userId={currentUser.id}
-                      onUploadComplete={handleAvatarUpload}
-                      userLevel={userData.level}
-                    />
-                  ) : (
-                    <div className="avatar-container-new">
-                      <div className="avatar-display-new">
-                        {userData.avatar_url ? (
-                          <img 
-                            src={userData.avatar_url} 
-                            alt={userData.name}
-                            className="avatar-image"
-                          />
-                        ) : (
-                          <div className="avatar-placeholder">
-                            {userData.name.charAt(0).toUpperCase()}
-                          </div>
-                        )}
-                      </div>
-                      {/* Badge de nivel flotante en la esquina */}
-                      <div className="level-badge-floating">
-                        <Crown size={14} fill="currentColor" />
-                        <span>Lvl {userData.level}</span>
-                      </div>
+                  <div className="avatar-container-new">
+                    <div className="avatar-display-new">
+                      {userData.avatar_url ? (
+                        <img 
+                          src={userData.avatar_url} 
+                          alt={userData.name}
+                          className="avatar-image"
+                        />
+                      ) : (
+                        <div className="avatar-placeholder">
+                          {userData.name.charAt(0).toUpperCase()}
+                        </div>
+                      )}
                     </div>
-                  )}
+                    <div className="level-badge-floating">
+                      <Crown size={14} fill="currentColor" />
+                      <span>Lvl {userData.level}</span>
+                    </div>
+                  </div>
                 </div>
                 
-                {/* Sección de Info */}
                 <div className="user-info-new">
                   <div className="name-header">
                     <h2 className="user-name-new">{userData.name}</h2>
                     <span className="user-email-new">{userData.email}</span>
                   </div>
                   
-                  {/* Bio corta si existe */}
                   {userData.bio && (
                     <p className="user-bio-new">{userData.bio}</p>
                   )}
@@ -659,240 +630,201 @@ const handleDeleteTitle = async (titleId) => {
               </div>
             </div>
 
-          {/* Card de Estadísticas Principales */}
-          <div className="stats-card">
-            <div className="stats-header">
-              <BarChart3 size={24} />
-              <h3>Estadísticas Principales</h3>
-            </div>
-            
-            <div className="stats-grid">
-              <div className="stat-item primary">
-                <div className="stat-icon">
-                  <TrendingUp size={20} />
-                </div>
-                <div className="stat-info">
-                  <div className="stat-label">Puntos Totales</div>
-                  <div className="stat-value">{currentUser?.points || 0}</div>
-                </div>
-              </div>
-
-              <div className="stat-item success">
-                <div className="stat-icon">
-                  <Target size={20} />
-                </div>
-                <div className="stat-info">
-                  <div className="stat-label">Precisión</div>
-                  <div className="stat-value">{accuracy}%</div>
-                </div>
-              </div>
-
-              <div className="stat-item warning">
-                <div className="stat-icon">
-                  <Flame size={20} />
-                </div>
-                <div className="stat-info">
-                  <div className="stat-label">Racha Actual</div>
-                  <div className="stat-value">{streakData.current_streak}</div>
-                </div>
-              </div>
-
-              <div className="stat-item accent ranking">
-                <div className="stat-icon">
-                  <Trophy size={20} />
-                </div>
-                <div className="stat-info">
-                  <div className="stat-label">Ranking Global</div>
-                  <div className="stat-value">#{userRanking.position || '--'}</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="profile-bottom-section">
-          {/* Formulario de Edición */}
-          {isEditing && (
-            <div className="edit-form-card">
-              <div className="form-header">
-                <h3>Editar Información Personal</h3>
-                <button 
-                  className="cancel-edit-button"
-                  onClick={() => {
-                    setIsEditing(false);
-                    loadUserData();
-                  }}
-                >
-                  <X size={20} />
-                </button>
+            {/* Stats Card */}
+            <div className="stats-card">
+              <div className="stats-header">
+                <BarChart3 size={24} />
+                <h3>Estadísticas Principales</h3>
               </div>
               
-              <div className="form-grid">
-                <div className="form-group">
-                  <label className="form-label">
-                    <User size={16} />
-                    <span>Nombre Completo</span>
-                  </label>
-                  <input
-                    type="text"
-                    className="form-input"
-                    value={userData.name}
-                    onChange={(e) => setUserData({ ...userData, name: e.target.value })}
-                    placeholder="Tu nombre"
-                  />
+              <div className="stats-grid">
+                <div className="stat-item primary">
+                  <div className="stat-icon">
+                    <TrendingUp size={20} />
+                  </div>
+                  <div className="stat-info">
+                    <div className="stat-label">Puntos Totales</div>
+                    <div className="stat-value">{currentUser?.points || 0}</div>
+                  </div>
                 </div>
 
-                <div className="form-group">
-                  <label className="form-label">
-                    <Trophy size={16} />
-                    <span>Equipo Favorito</span>
-                  </label>
-                  <input
-                    type="text"
-                    className="form-input"
-                    value={userData.favorite_team}
-                    onChange={(e) => setUserData({ ...userData, favorite_team: e.target.value })}
-                    placeholder="Ej: Real Madrid"
-                  />
+                <div className="stat-item success">
+                  <div className="stat-icon">
+                    <Target size={20} />
+                  </div>
+                  <div className="stat-info">
+                    <div className="stat-label">Precisión</div>
+                    <div className="stat-value">{accuracy}%</div>
+                  </div>
                 </div>
 
-                <div className="form-group">
-                  <label className="form-label">
-                    <Heart size={16} />
-                    <span>Jugador Favorito</span>
-                  </label>
-                  <input
-                    type="text"
-                    className="form-input"
-                    value={userData.favorite_player}
-                    onChange={(e) => setUserData({ ...userData, favorite_player: e.target.value })}
-                    placeholder="Ej: Lionel Messi"
-                  />
+                <div className="stat-item warning">
+                  <div className="stat-icon">
+                    <Flame size={20} />
+                  </div>
+                  <div className="stat-info">
+                    <div className="stat-label">Racha Actual</div>
+                    <div className="stat-value">{streakData.current_streak}</div>
+                  </div>
                 </div>
 
-                <div className="form-group">
-                  <label className="form-label">
-                    <User size={16} />
-                    <span>Género</span>
-                  </label>
-                  <select
-                    className="form-input"
-                    value={userData.gender}
-                    onChange={(e) => setUserData({ ...userData, gender: e.target.value })}
+                <div className="stat-item accent ranking">
+                  <div className="stat-icon">
+                    <Trophy size={20} />
+                  </div>
+                  <div className="stat-info">
+                    <div className="stat-label">Ranking Global</div>
+                    <div className="stat-value">#{userRanking.position || '--'}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Level Card */}
+            <div className="level-card">
+              <div className="level-header">
+                <div className="level-title-section">
+                  <Zap size={24} className="level-icon" />
+                  <div>
+                    <h3 className="level-title">Nivel {userData.level}</h3>
+                    <p className="level-subtitle">Progreso hacia el siguiente nivel</p>
+                  </div>
+                </div>
+                <div className="level-points">
+                  <span className="current-points">{currentPoints} pts</span>
+                  <span className="next-level-points">Siguiente: {nextLevelPoints} pts</span>
+                </div>
+              </div>
+              
+              <div className="progress-container">
+                <div className="progress-bar">
+                  <div 
+                    className="progress-fill"
+                    style={{ width: `${levelProgress}%` }}
                   >
-                    <option value="">Seleccionar...</option>
-                    <option value="Masculino">Masculino</option>
-                    <option value="Femenino">Femenino</option>
-                    <option value="Otro">Otro</option>
-                    <option value="Prefiero no decir">Prefiero no decir</option>
-                  </select>
+                    <div className="progress-glow"></div>
+                  </div>
                 </div>
+                <div className="progress-label">
+                  <span>{pointsInLevel}/20 puntos</span>
+                  <span>{pointsToNextLevel} pts restantes</span>
+                </div>
+              </div>
+            </div>
 
-                <div className="form-group">
-                  <label className="form-label">
-                    <Flag size={16} />
-                    <span>Nacionalidad</span>
-                  </label>
-                  <input
-                    type="text"
-                    className="form-input"
-                    value={userData.nationality}
-                    onChange={(e) => setUserData({ ...userData, nationality: e.target.value })}
-                    placeholder="Ej: Colombia"
-                  />
-                </div>
-
-                <div className="form-group full-width">
-                  <label className="form-label">
-                    <Star size={16} />
-                    <span>Biografía</span>
-                  </label>
-                  <textarea
-                    className="form-textarea"
-                    value={userData.bio}
-                    onChange={(e) => setUserData({ ...userData, bio: e.target.value })}
-                    placeholder="Cuéntanos sobre ti..."
-                    rows={3}
-                  />
-                </div>
+            {/* Streaks Card */}
+            <div className="streaks-card">
+              <div className="streaks-header">
+                <Flame size={24} />
+                <h3>Tus Rachas</h3>
               </div>
               
-              <div className="form-actions">
-                <button 
-                  className="save-button"
-                  onClick={handleSave}
-                  disabled={loading}
-                >
-                  {loading ? (
-                    <>
-                      <Activity size={16} className="spinner" />
-                      <span>Guardando...</span>
-                    </>
-                  ) : (
-                    <>
-                      <Save size={16} />
-                      <span>Guardar Cambios</span>
-                    </>
+              <div className="streaks-content">
+                <div className="streak-item current-streak">
+                  <div className="streak-icon">
+                    <Flame size={32} />
+                  </div>
+                  <div className="streak-info">
+                    <div className="streak-label">Racha Actual</div>
+                    <div className="streak-value">{streakData.current_streak}</div>
+                    <div className="streak-subtext">predicciones consecutivas</div>
+                  </div>
+                  {streakData.current_streak > 0 && (
+                    <div className="streak-badge">
+                      <Sparkles size={14} />
+                      <span>Activa</span>
+                    </div>
                   )}
-                </button>
-                <button 
-                  className="cancel-button-secondary"
-                  onClick={() => {
-                    setIsEditing(false);
-                    loadUserData();
-                  }}
-                >
-                  <X size={16} />
-                  <span>Cancelar</span>
-                </button>
-              </div>
-            </div>
-          )}
+                </div>
 
-        {/* SECCIÓN MEDIA: Nivel, Logros y Rachas */}
-        <div className="profile-middle-section">
-          {/* Card de Progreso de Nivel */}
-          <div className="level-card">
-            <div className="level-header">
-              <div className="level-title-section">
-                <Zap size={24} className="level-icon" />
-                <div>
-                  <h3 className="level-title">Nivel {userData.level}</h3>
-                  <p className="level-subtitle">Progreso hacia el siguiente nivel</p>
+                <div className="streak-item best-streak">
+                  <div className="streak-icon">
+                    <Crown size={32} />
+                  </div>
+                  <div className="streak-info">
+                    <div className="streak-label">Récord Personal</div>
+                    <div className="streak-value">{streakData.best_streak}</div>
+                    <div className="streak-subtext">tu mejor marca</div>
+                  </div>
+                  {streakData.best_streak > 10 && (
+                    <div className="record-badge">
+                      <Shield size={14} />
+                      <span>Épico</span>
+                    </div>
+                  )}
                 </div>
               </div>
-              <div className="level-points">
-                <span className="current-points">{currentPoints} pts</span>
-                <span className="next-level-points">Siguiente: {nextLevelPoints} pts</span>
-              </div>
             </div>
-            
-            <div className="progress-container">
-              <div className="progress-bar">
-                <div 
-                  className="progress-fill"
-                  style={{ width: `${levelProgress}%` }}
-                >
-                  <div className="progress-glow"></div>
+          </>
+        );
+
+      case 'stats':
+        return (
+          <div className="stats-detail-section">
+            <div className="section-title-header">
+              <BarChart3 size={28} />
+              <h2>Estadísticas Detalladas</h2>
+            </div>
+
+            {/* Stats expandidas */}
+            <div className="stats-expanded-grid">
+              <div className="stat-card-large">
+                <div className="stat-card-icon primary">
+                  <TrendingUp size={32} />
+                </div>
+                <div className="stat-card-content">
+                  <h3>Puntos Totales</h3>
+                  <div className="stat-card-value">{currentUser?.points || 0}</div>
+                  <p>Ranking: #{userRanking.position} de {userRanking.totalUsers}</p>
                 </div>
               </div>
-              <div className="progress-label">
-                <span>{pointsInLevel}/20 puntos</span>
-                <span>{pointsToNextLevel} pts restantes</span>
+
+              <div className="stat-card-large">
+                <div className="stat-card-icon success">
+                  <Target size={32} />
+                </div>
+                <div className="stat-card-content">
+                  <h3>Precisión</h3>
+                  <div className="stat-card-value">{accuracy}%</div>
+                  <p>{currentUser?.correct || 0} correctas de {currentUser?.predictions || 0}</p>
+                </div>
+              </div>
+
+              <div className="stat-card-large">
+                <div className="stat-card-icon warning">
+                  <Flame size={32} />
+                </div>
+                <div className="stat-card-content">
+                  <h3>Racha Actual</h3>
+                  <div className="stat-card-value">{streakData.current_streak}</div>
+                  <p>Récord: {streakData.best_streak}</p>
+                </div>
+              </div>
+
+              <div className="stat-card-large">
+                <div className="stat-card-icon info">
+                  <Gamepad2 size={32} />
+                </div>
+                <div className="stat-card-content">
+                  <h3>Predicciones</h3>
+                  <div className="stat-card-value">{currentUser?.predictions || 0}</div>
+                  <p>Total realizadas</p>
+                </div>
               </div>
             </div>
 
-            {/* Mini Logros dentro de la misma card */}
+            {/* Mini Achievements */}
             <div className="mini-achievements-section">
               <div className="section-header">
                 <AwardIcon size={20} />
-                <h4>Logros Destacados</h4>
+                <h4>Logros Rápidos</h4>
               </div>
               
               <div className="mini-achievements-grid">
                 <div className="mini-achievement">
                   <div className="achievement-icon">
                     <TargetLucide size={18} />
-                  </div>
+                    </div>
                   <div className="achievement-info">
                     <div className="achievement-label">Aciertos</div>
                     <div className="achievement-value">
@@ -900,242 +832,196 @@ const handleDeleteTitle = async (titleId) => {
                     </div>
                   </div>
                 </div>
-
-                <div className="mini-achievement">
-                  <div className="achievement-icon">
-                    <ClockIcon size={18} />
-                  </div>
-                  <div className="achievement-info">
-                    <div className="achievement-label">Tiempo Activo</div>
-                    <div className="achievement-value">{formatDate(userData.joined_date)}</div>
-                  </div>
-                </div>
-
-                <div className="mini-achievement">
-                  <div className="achievement-icon">
-                    <Users size={18} />
-                  </div>
-                  <div className="achievement-info">
-                    <div className="achievement-label">Ranking</div>
-                    <div className="achievement-value">#{userRanking.position || '--'}</div>
-                  </div>
-                </div>
-
-                <div className="mini-achievement">
-                  <div className="achievement-icon">
-                    <Rocket size={18} />
-                  </div>
-                  <div className="achievement-info">
-                    <div className="achievement-label">Consistencia</div>
-                    <div className="achievement-value">{streakData.current_streak}d</div>
-                  </div>
-                </div>
+            <div className="mini-achievement">
+              <div className="achievement-icon">
+                <ClockIcon size={18} />
+              </div>
+              <div className="achievement-info">
+                <div className="achievement-label">Tiempo Activo</div>
+                <div className="achievement-value">{formatDate(userData.joined_date)}</div>
               </div>
             </div>
-          </div>
 
-          {/* Card de Rachas */}
-          <div className="streaks-card">
-            <div className="streaks-header">
-              <Flame size={24} />
-              <h3>Tus Rachas</h3>
-            </div>
-            
-            <div className="streaks-content">
-              <div className="streak-item current-streak">
-                <div className="streak-icon">
-                  <Flame size={32} />
-                </div>
-                <div className="streak-info">
-                  <div className="streak-label">Racha Actual</div>
-                  <div className="streak-value">{streakData.current_streak}</div>
-                  <div className="streak-subtext">predicciones consecutivas</div>
-                </div>
-                {streakData.current_streak > 0 && (
-                  <div className="streak-badge">
-                    <Sparkles size={14} />
-                    <span>Activa</span>
-                  </div>
-                )}
+            <div className="mini-achievement">
+              <div className="achievement-icon">
+                <Users size={18} />
               </div>
+              <div className="achievement-info">
+                <div className="achievement-label">Ranking</div>
+                <div className="achievement-value">#{userRanking.position || '--'}</div>
+              </div>
+            </div>
 
-              <div className="streak-item best-streak">
-                <div className="streak-icon">
-                  <Crown size={32} />
-                </div>
-                <div className="streak-info">
-                  <div className="streak-label">Récord Personal</div>
-                  <div className="streak-value">{streakData.best_streak}</div>
-                  <div className="streak-subtext">tu mejor marca</div>
-                </div>
-                {streakData.best_streak > 10 && (
-                  <div className="record-badge">
-                    <Shield size={14} />
-                    <span>Épico</span>
-                  </div>
-                )}
+            <div className="mini-achievement">
+              <div className="achievement-icon">
+                <Rocket size={18} />
+              </div>
+              <div className="achievement-info">
+                <div className="achievement-label">Consistencia</div>
+                <div className="achievement-value">{streakData.current_streak}d</div>
               </div>
             </div>
           </div>
         </div>
+      </div>
+    );
 
-        {/* ========== SECCIÓN DE TÍTULOS Y LOGROS ========== */}
-        <div className="titles-achievements-section">
-          {/* Título Activo */}
-          <div className="active-title-card">
-            <div className="active-title-header">
-              <Crown size={24} className="title-crown" />
-              <h3>Título Activo</h3>
-              {activeTitle && (
-                <div className="title-active-badge">
-                  <Sparkles size={14} />
-                  <span>Equipado</span>
-                </div>
-              )}
-            </div>
-            
-            {activeTitle ? (
-              <div className="current-title-display" style={{ borderColor: activeTitle.color }}>
-                <div className="title-main-info">
-                  <div className="title-icon-large" style={{ color: activeTitle.color }}>
-                    <Gem size={32} />
-                  </div>
-                  <div className="title-details">
-                    <h4 className="title-name" style={{ color: activeTitle.color }}>
-                      {activeTitle.name}
-                    </h4>
-                    <p className="title-description">{activeTitle.description}</p>
-                  </div>
-                </div>
-                <div className="title-stats">
-                  <div className="title-stat">
-                    <ScrollText size={16} />
-                    <span>{userTitles.length} títulos obtenidos</span>
-                  </div>
-                  <div className="title-stat">
-                    <BookOpen size={16} />
-                    <span>{userAchievements.length}/{availableAchievements.length} logros</span>
-                  </div>
-                </div>
-              </div>
-            ) : (
-              <div className="no-title-message">
-                <div className="no-title-icon">
-                  <Shield size={40} />
-                </div>
-                <div className="no-title-text">
-                  <h4>Aún no has obtenido títulos</h4>
-                  <p>Completa logros para desbloquear títulos especiales</p>
-                </div>
+  case 'achievements':
+    return (
+      <div className="achievements-detail-section">
+        <div className="section-title-header">
+          <Trophy size={28} />
+          <h2>Logros y Títulos</h2>
+        </div>
+
+        {/* Título Activo */}
+        <div className="active-title-card">
+          <div className="active-title-header">
+            <Crown size={24} className="title-crown" />
+            <h3>Título Activo</h3>
+            {activeTitle && (
+              <div className="title-active-badge">
+                <Sparkles size={14} />
+                <span>Equipado</span>
               </div>
             )}
           </div>
-
-          {/* Títulos Obtenidos */}
-          <div className="titles-container">
-            <div className="titles-header">
-              <div className="section-header">
-                <Layers size={20} />
-                <h3>Títulos {currentUser?.is_admin ? 'Disponibles' : 'Obtenidos'}</h3>
-                <span className="count-badge">
-                  {currentUser?.is_admin ? availableTitles.length : userTitles.length}
-                </span>
+          
+          {activeTitle ? (
+            <div className="current-title-display" style={{ borderColor: activeTitle.color }}>
+              <div className="title-main-info">
+                <div className="title-icon-large" style={{ color: activeTitle.color }}>
+                  <Gem size={32} />
+                </div>
+                <div className="title-details">
+                  <h4 className="title-name" style={{ color: activeTitle.color }}>
+                    {activeTitle.name}
+                  </h4>
+                  <p className="title-description">{activeTitle.description}</p>
+                </div>
               </div>
-              <div style={{ display: 'flex', gap: '10px' }}>
-                {currentUser?.is_admin && (
-                  <button 
-                    className="admin-action-btn"
-                    onClick={() => {
-                      setEditingTitle(null);
-                      setShowAdminTitlesModal(true);
+              <div className="title-stats">
+                <div className="title-stat">
+                  <ScrollText size={16} />
+                  <span>{userTitles.length} títulos obtenidos</span>
+                </div>
+                <div className="title-stat">
+                  <BookOpen size={16} />
+                  <span>{userAchievements.length}/{availableAchievements.length} logros</span>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className="no-title-message">
+              <div className="no-title-icon">
+                <Shield size={40} />
+              </div>
+              <div className="no-title-text">
+                <h4>Aún no has obtenido títulos</h4>
+                <p>Completa logros para desbloquear títulos especiales</p>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Títulos */}
+        <div className="titles-container">
+          <div className="titles-header">
+            <div className="section-header">
+              <Layers size={20} />
+              <h3>Títulos {currentUser?.is_admin ? 'Disponibles' : 'Obtenidos'}</h3>
+              <span className="count-badge">
+                {currentUser?.is_admin ? availableTitles.length : userTitles.length}
+              </span>
+            </div>
+            {currentUser?.is_admin && (
+              <button 
+                className="admin-action-btn"
+                onClick={() => {
+                  setEditingTitle(null);
+                  setShowAdminTitlesModal(true);
+                }}
+                title="Crear nuevo título"
+              >
+                <Plus size={16} />
+              </button>
+            )}
+          </div>
+          
+          {achievementsLoading ? (
+            <div className="loading-titles">
+              <Activity size={24} className="spinner" />
+              <span>Cargando títulos...</span>
+            </div>
+          ) : (currentUser?.is_admin ? availableTitles : userTitles).length === 0 ? (
+            <div className="empty-titles">
+              <div className="empty-icon">
+                <TrophyIcon size={32} />
+              </div>
+              <div className="empty-text">
+                <h4>{currentUser?.is_admin ? 'No hay títulos creados' : 'Sin títulos'}</h4>
+                <p>{currentUser?.is_admin ? 'Crea títulos para los usuarios' : 'Completa logros para desbloquear títulos'}</p>
+              </div>
+            </div>
+          ) : (
+            <div className="titles-grid">
+              {(currentUser?.is_admin ? availableTitles : userTitles).map((title) => {
+                const isUnlocked = userTitles.some(ut => ut.id === title.id);
+                return (
+                  <div 
+                    key={title.id} 
+                    className={`title-card ${title.id === activeTitle?.id ? 'active' : ''} ${!isUnlocked && currentUser?.is_admin ? 'admin-locked' : ''}`}
+                    style={{ 
+                      borderLeft: `4px solid ${title.color || '#8B5CF6'}`,
+                      background: title.id === activeTitle?.id 
+                        ? `linear-gradient(135deg, ${title.color}15, transparent)` 
+                        : 'var(--card-gradient)',
+                      opacity: !isUnlocked && currentUser?.is_admin ? 0.6 : 1
                     }}
-                    title="Crear nuevo título"
                   >
-                    <Plus size={16} />
-                  </button>
-                )}
-                <button className="view-all-button" 
-                  onClick={handleViewAllTitles}> 
-                      <ArrowLeft size={16} 
-                  className={showAllTitles ? '' : 'rotate-180'} /> 
-                </button>
-              </div>
-            </div>
-            
-            {achievementsLoading ? (
-              <div className="loading-titles">
-                <Activity size={24} className="spinner" />
-                <span>Cargando títulos...</span>
-              </div>
-            ) : (currentUser?.is_admin ? availableTitles : userTitles).length === 0 ? (
-              <div className="empty-titles">
-                <div className="empty-icon">
-                  <TrophyIcon size={32} />
-                </div>
-                <div className="empty-text">
-                  <h4>{currentUser?.is_admin ? 'No hay títulos creados' : 'Sin títulos'}</h4>
-                  <p>{currentUser?.is_admin ? 'Crea títulos para los usuarios' : 'Completa logros para desbloquear títulos'}</p>
-                </div>
-              </div>
-            ) : (
-              <div className="titles-grid">
-                {(currentUser?.is_admin ? availableTitles : userTitles).slice(0, 3).map((title) => {
-                  const isUnlocked = userTitles.some(ut => ut.id === title.id);
-                  return (
-                    <div 
-                      key={title.id} 
-                      className={`title-card ${title.id === activeTitle?.id ? 'active' : ''} ${!isUnlocked && currentUser?.is_admin ? 'admin-locked' : ''}`}
-                      style={{ 
-                        borderLeft: `4px solid ${title.color || '#8B5CF6'}`,
-                        background: title.id === activeTitle?.id 
-                          ? `linear-gradient(135deg, ${title.color}15, transparent)` 
-                          : 'var(--card-gradient)',
-                        opacity: !isUnlocked && currentUser?.is_admin ? 0.6 : 1
-                      }}
-                    >
-                      <div className="title-card-header">
-                        <div className="title-icon-small" style={{ color: title.color }}>
-                          <Crown size={18} />
-                        </div>
-                        <div className="title-card-info">
-                          <h4 className="title-card-name" style={{ color: title.color }}>
-                            {title.name}
-                          </h4>
-                          <p className="title-card-desc">{title.description}</p>
-                        </div>
+                    <div className="title-card-header">
+                      <div className="title-icon-small" style={{ color: title.color }}>
+                        <Crown size={18} />
                       </div>
-                      {title.id === activeTitle?.id && (
-                        <div className="title-active-indicator">
-                          <BadgeCheck size={14} />
-                          <span>Activo</span>
-                        </div>
-                      )}
-                      {currentUser?.is_admin && (
-                        <button 
-                          className="admin-edit-btn-small"
-                          onClick={() => {
-                            setEditingTitle(title);
-                            setShowAdminTitlesModal(true);
-                          }}
-                          title="Editar título"
-                        >
-                          <Edit2 size={14} />
-                        </button>
-                      )}
-                      {!isUnlocked && currentUser?.is_admin && (
-                        <div className="admin-locked-badge">
-                          <Shield size={12} />
-                          <span>Bloqueado</span>
-                        </div>
-                      )}
+                      <div className="title-card-info">
+                        <h4 className="title-card-name" style={{ color: title.color }}>
+                          {title.name}
+                        </h4>
+                        <p className="title-card-desc">{title.description}</p>
+                      </div>
                     </div>
-                  );
-                })}
-              </div>
-            )}
-          </div>
+                    {title.id === activeTitle?.id && (
+                      <div className="title-active-indicator">
+                        <BadgeCheck size={14} />
+                        <span>Activo</span>
+                      </div>
+                    )}
+                    {currentUser?.is_admin && (
+                      <button 
+                        className="admin-edit-btn-small"
+                        onClick={() => {
+                          setEditingTitle(title);
+                          setShowAdminTitlesModal(true);
+                        }}
+                        title="Editar título"
+                      >
+                        <Edit2 size={14} />
+                      </button>
+                    )}
+                    {!isUnlocked && currentUser?.is_admin && (
+                      <div className="admin-locked-badge">
+                        <Shield size={12} />
+                        <span>Bloqueado</span>
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </div>
 
-          {/* Logros Obtenidos */}
+        {/* Logros */}
         <div className="achievements-container">
           <div className="achievements-header">
             <div className="section-header">
@@ -1185,7 +1071,7 @@ const handleDeleteTitle = async (titleId) => {
             </div>
           ) : (
             <div className="achievements-grid">
-              {(currentUser?.is_admin ? availableAchievements : userAchievements).slice(0, 8).map((achievement, index) => {
+              {(currentUser?.is_admin ? availableAchievements : userAchievements).map((achievement, index) => {
                 const isUnlocked = userAchievements.some(ua => ua.id === achievement.id);
                 return (
                   <div 
@@ -1250,130 +1136,376 @@ const handleDeleteTitle = async (titleId) => {
             </div>
           )}
         </div>
+      </div>
+    );
 
-        {/* SECCIÓN INFERIOR: Formulario de Edición e Historial */}
-        <div className="profile-bottom-section">
-          {/* Historial de Predicciones */}
-          <div className="history-card">
-            <div className="history-header">
-              <div className="history-title-section">
-                <Activity size={24} />
-                <h3>Historial Reciente</h3>
-              </div>
-              <button className="view-all-button" onClick={handleViewAllHistory}> <span>{showAllHistory ? 'Ver Menos' : 'Ver Todo'}</span> <ArrowLeft size={16} className={showAllHistory ? '' : 'rotate-180'} /> </button>
+  case 'history':
+    return (
+      <div className="history-detail-section">
+        <div className="section-title-header">
+          <Activity size={28} />
+          <h2>Historial de Predicciones</h2>
+        </div>
+
+        <div className="history-card">
+          {historyLoading ? (
+            <div className="history-loading">
+              <Activity size={32} className="spinner" />
+              <p>Cargando historial...</p>
             </div>
+          ) : predictionHistory.length === 0 ? (
+            <div className="history-empty">
+              <Gamepad2 size={48} />
+              <p>Aún no has hecho predicciones</p>
+              <span>¡Comienza a predecir resultados para ver tu historial!</span>
+            </div>
+          ) : (
+            <div className="history-list">
+              {predictionHistory.map((pred) => {
+                const result = getPredictionResult(pred);
+                const match = pred.matches;
 
-            {historyLoading ? (
-              <div className="history-loading">
-                <Activity size={32} className="spinner" />
-                <p>Cargando historial...</p>
-              </div>
-            ) : predictionHistory.length === 0 ? (
-              <div className="history-empty">
-                <Gamepad2 size={48} />
-                <p>Aún no has hecho predicciones</p>
-                <span>¡Comienza a predecir resultados para ver tu historial!</span>
-              </div>
-            ) : (
-              <div className="history-list">
-                {(showAllHistory ? predictionHistory : predictionHistory.slice(0, 5)).map((pred) => {
-                  const result = getPredictionResult(pred);
-                  const match = pred.matches;
-
-                  return (
-                    <div key={pred.id} className={`history-item ${result.status}`}>
-                      <div className="match-info">
-                        <div className="league-badge">{match?.league}</div>
-                        <div className="teams">
-                          <div className="team home-team">
-                            <span className="team-name">{match?.home_team}</span>
-                            {match?.home_team_logo && (
-                              <span className="team-logo">{match?.home_team_logo}</span>
-                            )}
-                          </div>
-                          <div className="vs">vs</div>
-                          <div className="team away-team">
-                            {match?.away_team_logo && (
-                              <span className="team-logo">{match?.away_team_logo}</span>
-                            )}
-                            <span className="team-name">{match?.away_team}</span>
-                          </div>
-                        </div>
-                        <div className="match-time">
-                          <Clock size={14} />
-                          <span>{match?.date} • {match?.time}</span>
-                        </div>
-                      </div>
-
-                      <div className="prediction-result">
-                        <div className="scores">
-                          <div className="score-section">
-                            <div className="score-label">Tu predicción</div>
-                            <div className="score-value">
-                              {pred.home_score} - {pred.away_score}
-                            </div>
-                          </div>
-                          
-                          {match?.status === 'finished' && (
-                            <div className="score-section">
-                              <div className="score-label">Resultado</div>
-                              <div className="score-value">
-                                {match.result_home} - {match.result_away}
-                              </div>
-                            </div>
+                return (
+                  <div key={pred.id} className={`history-item ${result.status}`}>
+                    <div className="match-info">
+                      <div className="league-badge">{match?.league}</div>
+                      <div className="teams">
+                        <div className="team home-team">
+                          <span className="team-name">{match?.home_team}</span>
+                          {match?.home_team_logo && (
+                            <span className="team-logo">{match?.home_team_logo}</span>
                           )}
                         </div>
+                        <div className="vs">vs</div>
+                        <div className="team away-team">
+                          {match?.away_team_logo && (
+                            <span className="team-logo">{match?.away_team_logo}</span>
+                          )}
+                          <span className="team-name">{match?.away_team}</span>
+                        </div>
+                      </div>
+                      <div className="match-time">
+                        <Clock size={14} />
+                        <span>{match?.date} • {match?.time}</span>
+                      </div>
+                    </div>
 
-                        <div className={`result-status ${result.status}`}>
-                          <div className="status-icon">
-                            {result.status === 'exact' && <CheckCircle2 size={18} />}
-                            {result.status === 'correct' && <CheckCircle2 size={18} />}
-                            {result.status === 'wrong' && <XCircle size={18} />}
-                            {result.status === 'pending' && <Clock size={18} />}
+                    <div className="prediction-result">
+                      <div className="scores">
+                        <div className="score-section">
+                          <div className="score-label">Tu predicción</div>
+                          <div className="score-value">
+                            {pred.home_score} - {pred.away_score}
                           </div>
-                          <div className="status-info">
-                            <span className="status-label">{result.label}</span>
-                            {result.points > 0 && (
-                              <span className="status-points">+{result.points} pts</span>
-                            )}
+                        </div>
+                        
+                        {match?.status === 'finished' && (
+                          <div className="score-section">
+                            <div className="score-label">Resultado</div>
+                            <div className="score-value">
+                              {match.result_home} - {match.result_away}
+                            </div>
                           </div>
+                        )}
+                      </div>
+
+                      <div className={`result-status ${result.status}`}>
+                        <div className="status-icon">
+                          {result.status === 'exact' && <CheckCircle2 size={18} />}
+                          {result.status === 'correct' && <CheckCircle2 size={18} />}
+                          {result.status === 'wrong' && <XCircle size={18} />}
+                          {result.status === 'pending' && <Clock size={18} />}
+                        </div>
+                        <div className="status-info">
+                          <span className="status-label">{result.label}</span>
+                          {result.points > 0 && (
+                            <span className="status-points">+{result.points} pts</span>
+                          )}
                         </div>
                       </div>
                     </div>
-                  );
-                })}
-              </div>
-            )}
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </div>
+      </div>
+    );
+
+  case 'edit':
+    return (
+      <div className="edit-section">
+        <div className="section-title-header">
+          <Edit2 size={28} />
+          <h2>Editar Perfil</h2>
+        </div>
+
+        <div className="edit-form-card">
+          <div className="form-header">
+            <h3>Información Personal</h3>
+          </div>
+          
+          {/* Avatar Upload */}
+          <div className="avatar-edit-section">
+            <AvatarUpload
+              currentUrl={userData.avatar_url}
+              userId={currentUser.id}
+              onUploadComplete={handleAvatarUpload}
+              userLevel={userData.level}
+            />
+          </div>
+
+          <div className="form-grid">
+            <div className="form-group">
+              <label className="form-label">
+                <User size={16} />
+                <span>Nombre Completo</span>
+              </label>
+              <input
+                type="text"
+                className="form-input"
+                value={userData.name}
+                onChange={(e) => setUserData({ ...userData, name: e.target.value })}
+                placeholder="Tu nombre"
+              />
+            </div>
+
+            <div className="form-group">
+              <label className="form-label">
+                <Trophy size={16} />
+                <span>Equipo Favorito</span>
+              </label>
+              <input
+                type="text"
+                className="form-input"
+                value={userData.favorite_team}
+                onChange={(e) => setUserData({ ...userData, favorite_team: e.target.value })}
+                placeholder="Ej: Real Madrid"
+              />
+            </div>
+
+            <div className="form-group">
+              <label className="form-label">
+                <Heart size={16} />
+                <span>Jugador Favorito</span>
+              </label>
+              <input
+                type="text"
+                className="form-input"
+                value={userData.favorite_player}
+                onChange={(e) => setUserData({ ...userData, favorite_player: e.target.value })}
+                placeholder="Ej: Lionel Messi"
+              />
+            </div>
+
+            <div className="form-group">
+              <label className="form-label">
+                <User size={16} />
+                <span>Género</span>
+              </label>
+              <select
+                className="form-input"
+                value={userData.gender}
+                onChange={(e) => setUserData({ ...userData, gender: e.target.value })}
+              >
+                <option value="">Seleccionar...</option>
+                <option value="Masculino">Masculino</option>
+                <option value="Femenino">Femenino</option>
+                <option value="Otro">Otro</option>
+                <option value="Prefiero no decir">Prefiero no decir</option>
+              </select>
+            </div>
+
+            <div className="form-group">
+              <label className="form-label">
+                <Flag size={16} />
+                <span>Nacionalidad</span>
+              </label>
+              <input
+                type="text"
+                className="form-input"
+                value={userData.nationality}
+                onChange={(e) => setUserData({ ...userData, nationality: e.target.value })}
+                placeholder="Ej: Colombia"
+              />
+            </div>
+
+            <div className="form-group full-width">
+              <label className="form-label">
+                <Star size={16} />
+                <span>Biografía</span>
+              </label>
+              <textarea
+                className="form-textarea"
+                value={userData.bio}
+                onChange={(e) => setUserData({ ...userData, bio: e.target.value })}
+                placeholder="Cuéntanos sobre ti..."
+                rows={3}
+              />
+            </div>
+          </div>
+          
+          <div className="form-actions">
+            <button 
+              className="save-button"
+              onClick={handleSave}
+              disabled={loading}
+            >
+              {loading ? (
+                <>
+                  <Activity size={16} className="spinner" />
+                  <span>Guardando...</span>
+                </>
+              ) : (
+                <>
+                  <Save size={16} />
+                  <span>Guardar Cambios</span>
+                </>
+              )}
+            </button>
+            <button 
+              className="cancel-button-secondary"
+              onClick={() => {
+                loadUserData();
+                setActiveSection('overview');
+              }}
+            >
+              <X size={16} />
+              <span>Cancelar</span>
+            </button>
           </div>
         </div>
       </div>
-    </div>
-    <Footer />
-    <ToastContainer toasts={toast.toasts} removeToast={toast.removeToast} />
-    {/* Modales de Administración */}
-      {showAdminAchievementsModal && (
-        <AdminAchievementsModal
-          onClose={() => {
-            setShowAdminAchievementsModal(false);
-            setEditingAchievement(null);
-          }}
-          onSave={handleSaveAchievement}
-          onDelete={handleDeleteAchievement}
-          existingAchievement={editingAchievement}
-        />
-      )}
+    );
 
-      {showAdminTitlesModal && (
-        <AdminTitlesModal
-          onClose={() => {
-            setShowAdminTitlesModal(false);
-            setEditingTitle(null);
-          }}
-          onSave={handleSaveTitle}
-          onDelete={handleDeleteTitle}
-          existingTitle={editingTitle}
-        />
-      )}
-    </div>
-</div>
+  default:
+    return null;
+}
+};
+return (
+<div className="profile-page">
+{/* Overlay del Drawer */}
+{isDrawerOpen && (
+<div
+className="drawer-overlay"
+onClick={() => setIsDrawerOpen(false)}
+/>
 )}
+  {/* Drawer Lateral */}
+  <div className={`profile-drawer ${isDrawerOpen ? 'open' : ''}`}>
+    <div className="drawer-header">
+      <div className="drawer-title">
+        <User size={24} />
+        <h3>Mi Perfil</h3>
+      </div>
+      <button 
+        className="drawer-close-btn"
+        onClick={() => setIsDrawerOpen(false)}
+      >
+        <X size={20} />
+      </button>
+    </div>
+
+    <div className="drawer-menu">
+      {menuSections.map((section) => {
+        const IconComponent = section.icon;
+        return (
+          <button
+            key={section.id}
+            className={`drawer-menu-item ${activeSection === section.id ? 'active' : ''}`}
+            onClick={() => {
+              setActiveSection(section.id);
+              setIsDrawerOpen(false);
+            }}
+          >
+            <div className="menu-item-content">
+              <IconComponent size={20} />
+              <span>{section.label}</span>
+            </div>
+            <ChevronRight size={16} />
+          </button>
+        );
+      })}
+
+      <div className="drawer-divider"></div>
+
+      <button
+        className="drawer-menu-item logout"
+        onClick={onBack}
+      >
+        <div className="menu-item-content">
+          <ArrowLeft size={20} />
+          <span>Volver al Inicio</span>
+        </div>
+      </button>
+    </div>
+
+    <div className="drawer-footer">
+      <div className="drawer-user-info">
+        <div className="drawer-avatar">
+          {userData.avatar_url ? (
+            <img src={userData.avatar_url} alt={userData.name} />
+          ) : (
+            <span>{userData.name.charAt(0).toUpperCase()}</span>
+          )}
+        </div>
+        <div className="drawer-user-details">
+          <p className="drawer-user-name">{userData.name}</p>
+          <p className="drawer-user-level">Nivel {userData.level}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {/* Contenedor Principal */}
+  <div className="profile-container">
+    {/* Header con botón de menú */}
+    <div className="profile-header">
+      <button 
+        className="menu-toggle-btn"
+        onClick={() => setIsDrawerOpen(true)}
+      >
+        <Menu size={24} />
+      </button>
+      <h1 className="profile-page-title">
+        {menuSections.find(s => s.id === activeSection)?.label || 'Mi Perfil'}
+      </h1>
+    </div>
+
+    {/* Contenido dinámico */}
+    <div className="profile-content">
+      {renderContent()}
+    </div>
+  </div>
+
+  <Footer />
+  <ToastContainer toasts={toast.toasts} removeToast={toast.removeToast} />
+
+  {/* Modales de Administración */}
+  {showAdminAchievementsModal && (
+    <AdminAchievementsModal
+      onClose={() => {
+        setShowAdminAchievementsModal(false);
+        setEditingAchievement(null);
+      }}
+      onSave={handleSaveAchievement}
+      onDelete={handleDeleteAchievement}
+      existingAchievement={editingAchievement}
+    />
+  )}
+
+  {showAdminTitlesModal && (
+    <AdminTitlesModal
+      onClose={() => {
+        setShowAdminTitlesModal(false);
+        setEditingTitle(null);
+      }}
+      onSave={handleSaveTitle}
+      onDelete={handleDeleteTitle}
+      existingTitle={editingTitle}
+    />
+  )}
+</div>
+);
+}
