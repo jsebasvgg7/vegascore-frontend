@@ -3434,3 +3434,218 @@ button {
     grid-template-columns: repeat(2, 1fr);
   }
 }
+/* ==========================================
+   EMPTY STATES - CENTRADO EN TODAS LAS CARDS
+========================================== */
+
+/* Match Card Empty State */
+.matches-empty-state,
+.no-matches-container,
+.empty-matches-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 60px 20px;
+  min-height: 300px;
+}
+
+.matches-empty-icon,
+.empty-icon {
+  font-size: 64px;
+  margin-bottom: 20px;
+  opacity: 0.3;
+}
+
+.matches-empty-text,
+.empty-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+.matches-empty-subtext,
+.empty-subtitle {
+  font-size: 14px;
+  color: var(--text-secondary);
+  max-width: 400px;
+  line-height: 1.5;
+}
+
+/* League Card Empty State */
+.leagues-empty-state,
+.no-leagues-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 60px 20px;
+  min-height: 300px;
+}
+
+.leagues-empty-icon {
+  font-size: 64px;
+  margin-bottom: 20px;
+  opacity: 0.3;
+}
+
+.leagues-empty-text {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+.leagues-empty-subtext {
+  font-size: 14px;
+  color: var(--text-secondary);
+  max-width: 400px;
+  line-height: 1.5;
+}
+
+/* Award Card Empty State */
+.awards-empty-state,
+.no-awards-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 60px 20px;
+  min-height: 300px;
+}
+
+.awards-empty-icon {
+  font-size: 64px;
+  margin-bottom: 20px;
+  opacity: 0.3;
+}
+
+.awards-empty-text {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+.awards-empty-subtext {
+  font-size: 14px;
+  color: var(--text-secondary);
+  max-width: 400px;
+  line-height: 1.5;
+}
+
+/* Contenedor General de Secciones Vacías */
+.empty-state-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 60px 20px;
+  min-height: 300px;
+  width: 100%;
+}
+
+/* Dark Mode */
+[data-theme="dark"] .matches-empty-text,
+[data-theme="dark"] .leagues-empty-text,
+[data-theme="dark"] .awards-empty-text,
+[data-theme="dark"] .empty-title {
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .matches-empty-subtext,
+[data-theme="dark"] .leagues-empty-subtext,
+[data-theme="dark"] .awards-empty-subtext,
+[data-theme="dark"] .empty-subtitle {
+  color: var(--text-secondary);
+}
+
+[data-theme="dark"] .matches-empty-icon,
+[data-theme="dark"] .leagues-empty-icon,
+[data-theme="dark"] .awards-empty-icon,
+[data-theme="dark"] .empty-icon {
+  opacity: 0.2;
+}
+
+/* ==========================================
+   RESPONSIVE - EMPTY STATES
+========================================== */
+
+@media (max-width: 768px) {
+  .matches-empty-state,
+  .leagues-empty-state,
+  .awards-empty-state,
+  .no-matches-container,
+  .no-leagues-container,
+  .no-awards-container,
+  .empty-state-container {
+    padding: 50px 20px;
+    min-height: 250px;
+  }
+
+  .matches-empty-icon,
+  .leagues-empty-icon,
+  .awards-empty-icon,
+  .empty-icon {
+    font-size: 56px;
+    margin-bottom: 16px;
+  }
+
+  .matches-empty-text,
+  .leagues-empty-text,
+  .awards-empty-text,
+  .empty-title {
+    font-size: 18px;
+    margin-bottom: 6px;
+  }
+
+  .matches-empty-subtext,
+  .leagues-empty-subtext,
+  .awards-empty-subtext,
+  .empty-subtitle {
+    font-size: 13px;
+    max-width: 320px;
+  }
+}
+
+@media (max-width: 480px) {
+  .matches-empty-state,
+  .leagues-empty-state,
+  .awards-empty-state,
+  .no-matches-container,
+  .no-leagues-container,
+  .no-awards-container,
+  .empty-state-container {
+    padding: 40px 16px;
+    min-height: 200px;
+  }
+
+  .matches-empty-icon,
+  .leagues-empty-icon,
+  .awards-empty-icon,
+  .empty-icon {
+    font-size: 48px;
+    margin-bottom: 14px;
+  }
+
+  .matches-empty-text,
+  .leagues-empty-text,
+  .awards-empty-text,
+  .empty-title {
+    font-size: 16px;
+    margin-bottom: 5px;
+  }
+
+  .matches-empty-subtext,
+  .leagues-empty-subtext,
+  .awards-empty-subtext,
+  .empty-subtitle {
+    font-size: 12px;
+    max-width: 280px;
+  }
+}
