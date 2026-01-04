@@ -4,17 +4,11 @@ import {
   Star, Award, Edit2, Save, X, ArrowLeft, Activity, Percent,
   CheckCircle2, XCircle, Clock, Medal, Globe, Heart, Zap,
   Crown, Shield, Rocket, Sparkles, BarChart3,
-  Gamepad2, Award as AwardIcon, Target as TargetIcon,
-  Clock as ClockIcon, Users, MapPin, Flag, ScrollText, 
-  BookOpen, Layers, BadgeCheck, Gem, Trophy as TrophyIcon,
-  Zap as ZapIcon, CheckCircle, Bookmark, TrendingDown,
-  BarChart as BarChartIcon, Package, Award as AwardLucide,
-  Star as StarLucide, Target as TargetLucide, Home, Plus,
-  Menu, ChevronRight, Grid3x3, List
+  Gamepad2, Users, MapPin, Flag, Layers, BadgeCheck, Gem,
+  CheckCircle, TrendingDown, ChevronRight, Grid3x3, List
 } from 'lucide-react';
 import { supabase } from '../utils/supabaseClient';
 import AvatarUpload from '../components/AvatarUpload';
-import AchievementsSection from '../components/AchievementsSection';
 import AdminAchievementsModal from '../components/adminComponents/AdminAchievementsModal';
 import AdminTitlesModal from '../components/adminComponents/AdminTitlesModal';
 import { ToastContainer, useToast } from '../components/Toast';
@@ -65,7 +59,6 @@ export default function ProfilePage({ currentUser, onBack }) {
     pointsFromPrev: 0
   });
 
-  // Tabs estilo Instagram
   const profileTabs = [
     { id: 'overview', label: 'Resumen', icon: Grid3x3 },
     { id: 'achievements', label: 'Logros', icon: Trophy },
@@ -407,17 +400,9 @@ export default function ProfilePage({ currentUser, onBack }) {
 
   const getIconEmoji = (iconText) => {
     const emojiMap = {
-      '🎯': '🎯',
-      '🌟': '🌟',
-      '⭐': '⭐',
-      '✨': '✨',
-      '💫': '💫',
-      '🎪': '🎪',
-      '🎭': '🎭',
-      '🎨': '🎨',
-      '🔥': '🔥',
-      '🌋': '🌋',
-      '☄️': '☄️'
+      '🎯': '🎯', '🌟': '🌟', '⭐': '⭐', '✨': '✨',
+      '💫': '💫', '🎪': '🎪', '🎭': '🎭', '🎨': '🎨',
+      '🔥': '🔥', '🌋': '🌋', '☄️': '☄️'
     };
     return emojiMap[iconText] || '';
   };
@@ -529,73 +514,93 @@ export default function ProfilePage({ currentUser, onBack }) {
 
   const activeTitle = getActiveTitle();
 
-  // Renderizar contenido según tab activa
   const renderTabContent = () => {
     switch (activeTab) {
       case 'overview':
         return (
-          <div className="tab-content">
-            {/* Stats Grid */}
-            <div className="stats-grid-compact">
-              <div className="stat-box">
-                <div className="stat-value">{currentUser?.predictions || 0}</div>
-                <div className="stat-label">Predicciones</div>
+          <div className="tab-content-wrapper">
+            {/* Stats Cards */}
+            <div className="stats-cards-grid">
+              <div className="stat-card-modern predictions">
+                <div className="stat-card-icon">
+                  <Target size={20} />
+                </div>
+                <div className="stat-card-content">
+                  <div className="stat-card-value">{currentUser?.predictions || 0}</div>
+                  <div className="stat-card-label">Predicciones</div>
+                </div>
               </div>
-              <div className="stat-box">
-                <div className="stat-value">{currentUser?.points || 0}</div>
-                <div className="stat-label">Puntos</div>
+
+              <div className="stat-card-modern points">
+                <div className="stat-card-icon">
+                  <Zap size={20} />
+                </div>
+                <div className="stat-card-content">
+                  <div className="stat-card-value">{currentUser?.points || 0}</div>
+                  <div className="stat-card-label">Puntos</div>
+                </div>
               </div>
-              <div className="stat-box">
-                <div className="stat-value">{accuracy}%</div>
-                <div className="stat-label">Precisión</div>
+
+              <div className="stat-card-modern accuracy">
+                <div className="stat-card-icon">
+                  <BarChart3 size={20} />
+                </div>
+                <div className="stat-card-content">
+                  <div className="stat-card-value">{accuracy}%</div>
+                  <div className="stat-card-label">Precisión</div>
+                </div>
               </div>
             </div>
 
-            {/* Level Progress */}
-            <div className="level-card-compact">
-              <div className="level-info-row">
+            {/* Level Card */}
+            <div className="level-card-modern">
+              <div className="level-card-header">
                 <div className="level-icon-wrapper">
                   <Zap size={20} />
                 </div>
-                <div className="level-text">
-                  <h3>Nivel {userData.level}</h3>
-                  <p>{pointsInLevel}/20 puntos • {pointsToNextLevel} para siguiente nivel</p>
+                <div className="level-info">
+                  <div className="level-number">Nivel {userData.level}</div>
+                  <div className="level-subtitle">{pointsInLevel} de 20 puntos</div>
                 </div>
+                <div className="points-to-next">{pointsToNextLevel} pts</div>
               </div>
-              <div className="progress-bar">
-                <div className="progress-fill" style={{ width: `${levelProgress}%` }}>
-                  <div className="progress-glow"></div>
-                </div>
+              <div className="level-progress-bar">
+                <div className="level-progress-fill" style={{ width: `${levelProgress}%` }}></div>
               </div>
             </div>
 
             {/* Streaks */}
-            <div className="streaks-compact">
-              <div className="streak-box current">
-                <Flame size={32} />
-                <div className="streak-info">
+            <div className="streaks-grid">
+              <div className="streak-card current">
+                <div className="streak-icon">
+                  <Flame size={24} />
+                </div>
+                <div className="streak-content">
                   <div className="streak-value">{streakData.current_streak}</div>
                   <div className="streak-label">Racha Actual</div>
                 </div>
               </div>
-              <div className="streak-box best">
-                <Crown size={32} />
-                <div className="streak-info">
+
+              <div className="streak-card best">
+                <div className="streak-icon">
+                  <Crown size={24} />
+                </div>
+                <div className="streak-content">
                   <div className="streak-value">{streakData.best_streak}</div>
-                  <div className="streak-label">Récord Personal</div>
+                  <div className="streak-label">Mejor Racha</div>
                 </div>
               </div>
             </div>
 
-            {/* Ranking Card */}
-            <div className="ranking-card-compact">
-              <div className="ranking-header">
+            {/* Ranking */}
+            <div className="ranking-card-modern">
+              <div className="ranking-card-header">
                 <Trophy size={20} />
-                <h3>Ranking Global</h3>
+                <span>Ranking Global</span>
               </div>
-              <div className="ranking-position">
-                <span className="position-number">#{userRanking.position || '--'}</span>
-                <span className="position-total">de {userRanking.totalUsers} jugadores</span>
+              <div className="ranking-position-display">
+                <div className="position-large">#{userRanking.position || '--'}</div>
+                <div className="position-context">de {userRanking.totalUsers} jugadores</div>
               </div>
             </div>
           </div>
@@ -603,45 +608,47 @@ export default function ProfilePage({ currentUser, onBack }) {
 
       case 'achievements':
         return (
-          <div className="tab-content">
-            {/* Título Activo */}
+          <div className="tab-content-wrapper">
+            {/* Active Title */}
             {activeTitle && (
-              <div className="active-title-compact" style={{ borderColor: activeTitle.color }}>
-                <div className="title-icon-large" style={{ color: activeTitle.color }}>
-                  <Gem size={24} />
+              <div className="active-title-card" style={{ borderColor: activeTitle.color }}>
+                <div className="title-icon-large" style={{ background: `${activeTitle.color}15` }}>
+                  <Gem size={24} style={{ color: activeTitle.color }} />
                 </div>
-                <div className="title-info">
-                  <h4 style={{ color: activeTitle.color }}>{activeTitle.name}</h4>
-                  <p>{activeTitle.description}</p>
+                <div className="title-card-info">
+                  <div className="title-card-name" style={{ color: activeTitle.color }}>{activeTitle.name}</div>
+                  <div className="title-card-desc">{activeTitle.description}</div>
                 </div>
               </div>
             )}
 
-            {/* Títulos */}
-            <div className="section-compact">
-              <div className="section-header-compact">
+            {/* Titles Section */}
+            <div className="section-modern">
+              <div className="section-header-modern">
                 <Layers size={18} />
-                <h3>Títulos Obtenidos</h3>
-                <span className="count-badge">{userTitles.length}</span>
+                <h3>Títulos</h3>
+                <span className="count-badge-modern">{userTitles.length}</span>
               </div>
               
               {achievementsLoading ? (
-                <div className="loading-compact">
+                <div className="loading-state">
                   <Activity size={24} className="spinner" />
                 </div>
               ) : userTitles.length === 0 ? (
-                <div className="empty-compact">
+                <div className="empty-state">
                   <Shield size={32} />
                   <p>Aún no has obtenido títulos</p>
                 </div>
               ) : (
-                <div className="titles-grid-compact">
+                <div className="titles-list">
                   {userTitles.map((title) => (
-                    <div key={title.id} className="title-item" style={{ borderLeftColor: title.color }}>
-                      <Crown size={18} style={{ color: title.color }} />
-                      <div className="title-item-info">
-                        <h4 style={{ color: title.color }}>{title.name}</h4>
-                        <p>{title.description}</p>
+                    <div key={title.id} className="title-list-item" style={{ borderLeftColor: title.color }}>
+                      <div className="title-item-icon" style={{ color: title.color }}>
+                        <Crown size={18} />
+                      </div>
+                      <div className="title-item-content">
+                        <div className="title-item-name" style={{ color: title.color }}>{title.name}</div>
+                        <div className="title-item-desc">{title.description}</div>
                       </div>
                     </div>
                   ))}
@@ -649,38 +656,34 @@ export default function ProfilePage({ currentUser, onBack }) {
               )}
             </div>
 
-            {/* Logros */}
-            <div className="section-compact">
-              <div className="section-header-compact">
+            {/* Achievements Section */}
+            <div className="section-modern">
+              <div className="section-header-modern">
                 <Award size={18} />
-                <h3>Logros Desbloqueados</h3>
-                <span className="count-badge">{userAchievements.length}/{availableAchievements.length}</span>
+                <h3>Logros</h3>
+                <span className="count-badge-modern">{userAchievements.length}/{availableAchievements.length}</span>
               </div>
               
               {achievementsLoading ? (
-                <div className="loading-compact">
+                <div className="loading-state">
                   <Activity size={24} className="spinner" />
                 </div>
               ) : userAchievements.length === 0 ? (
-                <div className="empty-compact">
+                <div className="empty-state">
                   <Target size={32} />
                   <p>Comienza a hacer predicciones para desbloquear logros</p>
                 </div>
               ) : (
-                <div className="achievements-grid-compact">
+                <div className="achievements-grid-modern">
                   {userAchievements.map((achievement) => (
-                    <div 
-                      key={achievement.id} 
-                      className="achievement-item"
-                      style={{ borderColor: getCategoryColor(achievement.category) }}
-                    >
-                      <div className="achievement-emoji">{getIconEmoji(achievement.icon)}</div>
-                      <div className="achievement-item-info">
-                        <h4>{achievement.name}</h4>
-                        <p>{achievement.description}</p>
-                        <span className="achievement-category" style={{ color: getCategoryColor(achievement.category) }}>
+                    <div key={achievement.id} className="achievement-card-modern">
+                      <div className="achievement-emoji-icon">{getIconEmoji(achievement.icon)}</div>
+                      <div className="achievement-card-content">
+                        <div className="achievement-card-name">{achievement.name}</div>
+                        <div className="achievement-card-desc">{achievement.description}</div>
+                        <div className="achievement-category-badge" style={{ background: `${getCategoryColor(achievement.category)}15`, color: getCategoryColor(achievement.category) }}>
                           {achievement.category}
-                        </span>
+                        </div>
                       </div>
                     </div>
                   ))}
@@ -692,69 +695,69 @@ export default function ProfilePage({ currentUser, onBack }) {
 
       case 'history':
         return (
-          <div className="tab-content">
-            <div className="section-header-compact">
+          <div className="tab-content-wrapper">
+            <div className="section-header-modern">
               <Activity size={18} />
               <h3>Historial de Predicciones</h3>
             </div>
 
             {historyLoading ? (
-              <div className="loading-compact">
+              <div className="loading-state large">
                 <Activity size={32} className="spinner" />
                 <p>Cargando historial...</p>
               </div>
             ) : predictionHistory.length === 0 ? (
-              <div className="empty-compact large">
+              <div className="empty-state large">
                 <Gamepad2 size={48} />
                 <p>Aún no has hecho predicciones</p>
-                <span>¡Comienza a predecir resultados!</span>
+                <span className="empty-subtitle">¡Comienza a predecir resultados!</span>
               </div>
             ) : (
-              <div className="history-list-compact">
+              <div className="history-list-modern">
                 {predictionHistory.map((pred) => {
                   const result = getPredictionResult(pred);
                   const match = pred.matches;
 
                   return (
-                    <div key={pred.id} className={`history-item-compact ${result.status}`}>
-                      <div className="match-header">
-                        <span className="league-badge">{match?.league}</span>
-                        <span className="match-date">{match?.date}</span>
+                    <div key={pred.id} className={`history-card-modern ${result.status}`}>
+                      <div className="history-card-header">
+                        <span className="league-badge-modern">{match?.league}</span>
+                        <span className="match-date-modern">{match?.date}</span>
                       </div>
                       
-                      <div className="teams-row">
-                        <div className="team">
-                          <span className="team-logo">{match?.home_team_logo}</span>
-                          <span className="team-name">{match?.home_team}</span>
+                      <div className="teams-display">
+                        <div className="team-display">
+                          <span className="team-logo-modern">{match?.home_team_logo}</span>
+                          <span className="team-name-modern">{match?.home_team}</span>
                         </div>
-                        <div className="vs">VS</div>
-                        <div className="team">
-                          <span className="team-name">{match?.away_team}</span>
-                          <span className="team-logo">{match?.away_team_logo}</span>
+                        <div className="vs-divider">VS</div>
+                        <div className="team-display">
+                          <span className="team-name-modern">{match?.away_team}</span>
+                          <span className="team-logo-modern">{match?.away_team_logo}</span>
                         </div>
                       </div>
 
-                      <div className="scores-row">
-                        <div className="score-group">
-                          <span className="score-label">Tu predicción</span>
-                          <span className="score-value">{pred.home_score} - {pred.away_score}</span>
+                      <div className="scores-display">
+                        <div className="score-section">
+                          <span className="score-label-modern">Tu predicción</span>
+                          <span className="score-value-modern">{pred.home_score} - {pred.away_score}</span>
                         </div>
                         
                         {match?.status === 'finished' && (
-                          <div className="score-group">
-                            <span className="score-label">Resultado</span>
-                            <span className="score-value">{match.result_home} - {match.result_away}</span>
+                          <div className="score-section">
+                            <span className="score-label-modern">Resultado</span>
+                            <span className="score-value-modern">{match.result_home} - {match.result_away}</span>
                           </div>
                         )}
                       </div>
 
-                      <div className={`result-badge ${result.status}`}>
+                      <div className={`result-badge-modern ${result.status}`}>
                         {result.status === 'exact' && <CheckCircle2 size={16} />}
                         {result.status === 'correct' && <CheckCircle2 size={16} />}
                         {result.status === 'wrong' && <XCircle size={16} />}
                         {result.status === 'pending' && <Clock size={16} />}
                         <span>{result.label}</span>
-                        {result.points > 0 && <span className="points">+{result.points} pts</span>}
+                        {result.points > 0 && <span className="points-earned">+{result.points}</span>}
                       </div>
                     </div>
                   );
@@ -766,13 +769,13 @@ export default function ProfilePage({ currentUser, onBack }) {
 
       case 'edit':
         return (
-          <div className="tab-content">
-            <div className="section-header-compact">
+          <div className="tab-content-wrapper">
+            <div className="section-header-modern">
               <Edit2 size={18} />
               <h3>Editar Perfil</h3>
             </div>
 
-            <div className="edit-avatar-section">
+            <div className="edit-avatar-wrapper">
               <AvatarUpload
                 currentUrl={userData.avatar_url}
                 userId={currentUser.id}
@@ -781,52 +784,56 @@ export default function ProfilePage({ currentUser, onBack }) {
               />
             </div>
 
-            <div className="edit-form">
-              <div className="form-group">
-                <label>
+            <div className="edit-form-modern">
+              <div className="form-group-modern">
+                <label className="form-label-modern">
                   <User size={16} />
                   <span>Nombre Completo</span>
                 </label>
                 <input
                   type="text"
+                  className="form-input-modern"
                   value={userData.name}
                   onChange={(e) => setUserData({ ...userData, name: e.target.value })}
                   placeholder="Tu nombre"
                 />
               </div>
 
-              <div className="form-group">
-                <label>
+              <div className="form-group-modern">
+                <label className="form-label-modern">
                   <Trophy size={16} />
                   <span>Equipo Favorito</span>
                 </label>
                 <input
                   type="text"
+                  className="form-input-modern"
                   value={userData.favorite_team}
                   onChange={(e) => setUserData({ ...userData, favorite_team: e.target.value })}
                   placeholder="Ej: Real Madrid"
                 />
               </div>
 
-              <div className="form-group">
-                <label>
+              <div className="form-group-modern">
+                <label className="form-label-modern">
                   <Heart size={16} />
                   <span>Jugador Favorito</span>
                 </label>
                 <input
                   type="text"
+                  className="form-input-modern"
                   value={userData.favorite_player}
                   onChange={(e) => setUserData({ ...userData, favorite_player: e.target.value })}
                   placeholder="Ej: Lionel Messi"
                 />
               </div>
 
-              <div className="form-group">
-                <label>
+              <div className="form-group-modern">
+                <label className="form-label-modern">
                   <User size={16} />
                   <span>Género</span>
                 </label>
                 <select
+                  className="form-select-modern"
                   value={userData.gender}
                   onChange={(e) => setUserData({ ...userData, gender: e.target.value })}
                 >
@@ -838,25 +845,27 @@ export default function ProfilePage({ currentUser, onBack }) {
                 </select>
               </div>
 
-              <div className="form-group">
-                <label>
+              <div className="form-group-modern">
+                <label className="form-label-modern">
                   <Flag size={16} />
                   <span>Nacionalidad</span>
                 </label>
                 <input
                   type="text"
+                  className="form-input-modern"
                   value={userData.nationality}
                   onChange={(e) => setUserData({ ...userData, nationality: e.target.value })}
                   placeholder="Ej: Colombia"
                 />
               </div>
 
-              <div className="form-group full-width">
-                <label>
+              <div className="form-group-modern full-width">
+                <label className="form-label-modern">
                   <Star size={16} />
                   <span>Biografía</span>
                 </label>
                 <textarea
+                  className="form-textarea-modern"
                   value={userData.bio}
                   onChange={(e) => setUserData({ ...userData, bio: e.target.value })}
                   placeholder="Cuéntanos sobre ti..."
@@ -864,9 +873,9 @@ export default function ProfilePage({ currentUser, onBack }) {
                 />
               </div>
 
-              <div className="form-actions">
+              <div className="form-actions-modern">
                 <button 
-                  className="save-button"
+                  className="save-button-modern"
                   onClick={handleSave}
                   disabled={loading}
                 >
@@ -883,7 +892,7 @@ export default function ProfilePage({ currentUser, onBack }) {
                   )}
                 </button>
                 <button 
-                  className="cancel-button"
+                  className="cancel-button-modern"
                   onClick={() => {
                     loadUserData();
                     setActiveTab('overview');
@@ -903,89 +912,88 @@ export default function ProfilePage({ currentUser, onBack }) {
   };
 
   return (
-    <div className="profile-page">
-      <div className="profile-container">
-        {/* Header */}
-        <div className="profile-header-top">
-          <button className="back-btn" onClick={onBack}>
+    <div className="profile-page-modern">
+      <div className="profile-container-modern">
+        {/* Header Minimalista */}
+        <div className="profile-header-minimal">
+          <button className="back-btn-modern" onClick={onBack}>
             <ArrowLeft size={20} />
           </button>
-          <h1>{userData.name}</h1>
+          <h1 className="profile-header-title">{userData.name}</h1>
+          <div className="header-spacer"></div>
         </div>
 
-        {/* Profile Info Section */}
-        <div className="profile-info-section">
-          {/* Avatar y Stats en una fila */}
-          <div className="profile-main-info">
-            <div className="avatar-wrapper">
-              <div className="avatar-large">
-                {userData.avatar_url ? (
-                  <img src={userData.avatar_url} alt={userData.name} />
-                ) : (
-                  <div className="avatar-placeholder">
-                    {userData.name.charAt(0).toUpperCase()}
-                  </div>
-                )}
-              </div>
-              <div className="level-badge-profile">
-                <Crown size={12} fill="currentColor" />
-                <span>Lvl {userData.level}</span>
-              </div>
+        {/* Avatar y Info Principal */}
+        <div className="profile-hero">
+          <div className="avatar-section">
+            <div className="avatar-circle">
+              {userData.avatar_url ? (
+                <img src={userData.avatar_url} alt={userData.name} />
+              ) : (
+                <div className="avatar-placeholder-modern">
+                  {userData.name.charAt(0).toUpperCase()}
+                </div>
+              )}
             </div>
-
-            <div className="stats-row">
-              <div className="stat-item-mini">
-                <div className="stat-mini-value">{currentUser?.predictions || 0}</div>
-                <div className="stat-mini-label">Predicciones</div>
-              </div>
-              <div className="stat-item-mini">
-                <div className="stat-mini-value">{currentUser?.points || 0}</div>
-                <div className="stat-mini-label">Puntos</div>
-              </div>
-              <div className="stat-item-mini">
-                <div className="stat-mini-value">{accuracy}%</div>
-                <div className="stat-mini-label">Precisión</div>
-              </div>
+            <div className="level-badge-modern">
+              <Crown size={12} />
+              <span>{userData.level}</span>
             </div>
           </div>
 
-          {/* User Details */}
-          <div className="profile-details">
-            <h2 className="profile-name">{userData.name}</h2>
-            <p className="profile-email">{userData.email}</p>
-            {userData.bio && <p className="profile-bio">{userData.bio}</p>}
+          <div className="user-info-section">
+            <h2 className="user-name-display">{userData.name}</h2>
+            <p className="user-email-display">{userData.email}</p>
+            {userData.bio && <p className="user-bio-display">{userData.bio}</p>}
             
-            {/* Badges Compactos */}
             {(userData.favorite_team || userData.favorite_player || userData.nationality) && (
-              <div className="profile-badges">
+              <div className="user-tags">
                 {userData.favorite_team && (
-                  <span className="profile-badge">
+                  <span className="user-tag">
                     <Trophy size={12} /> {userData.favorite_team}
                   </span>
                 )}
                 {userData.favorite_player && (
-                  <span className="profile-badge">
+                  <span className="user-tag">
                     <Heart size={12} /> {userData.favorite_player}
                   </span>
                 )}
                 {userData.nationality && (
-                  <span className="profile-badge">
+                  <span className="user-tag">
                     <Globe size={12} /> {userData.nationality}
                   </span>
                 )}
               </div>
             )}
+
+            {/* Stats Mini */}
+            <div className="stats-mini-row">
+              <div className="stat-mini">
+                <div className="stat-mini-value">{currentUser?.predictions || 0}</div>
+                <div className="stat-mini-label">Predicciones</div>
+              </div>
+              <div className="stat-mini-divider"></div>
+              <div className="stat-mini">
+                <div className="stat-mini-value">{currentUser?.points || 0}</div>
+                <div className="stat-mini-label">Puntos</div>
+              </div>
+              <div className="stat-mini-divider"></div>
+              <div className="stat-mini">
+                <div className="stat-mini-value">{accuracy}%</div>
+                <div className="stat-mini-label">Precisión</div>
+              </div>
+            </div>
           </div>
         </div>
 
-        {/* Tabs Navigation (Estilo Instagram) */}
-        <div className="profile-tabs">
+        {/* Tabs Minimalistas */}
+        <div className="profile-tabs-modern">
           {profileTabs.map((tab) => {
             const IconComponent = tab.icon;
             return (
               <button
                 key={tab.id}
-                className={`tab-button ${activeTab === tab.id ? 'active' : ''}`}
+                className={`tab-btn-modern ${activeTab === tab.id ? 'active' : ''}`}
                 onClick={() => setActiveTab(tab.id)}
               >
                 <IconComponent size={20} />
@@ -995,14 +1003,15 @@ export default function ProfilePage({ currentUser, onBack }) {
           })}
         </div>
 
-        {/* Tab Content */}
-        {renderTabContent()}
+        {/* Content Area */}
+        <div className="profile-content-area">
+          {renderTabContent()}
+        </div>
       </div>
 
       <Footer />
       <ToastContainer toasts={toast.toasts} removeToast={toast.removeToast} />
 
-      {/* Modales de Administración */}
       {showAdminAchievementsModal && (
         <AdminAchievementsModal
           onClose={() => {
