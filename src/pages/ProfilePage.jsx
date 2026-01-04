@@ -696,11 +696,6 @@ export default function ProfilePage({ currentUser, onBack }) {
       case 'history':
         return (
           <div className="tab-content-wrapper">
-            <div className="section-header-modern">
-              <Activity size={18} />
-              <h3>Historial de Predicciones</h3>
-            </div>
-
             {historyLoading ? (
               <div className="loading-state large">
                 <Activity size={32} className="spinner" />
