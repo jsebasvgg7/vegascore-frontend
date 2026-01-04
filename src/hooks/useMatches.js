@@ -58,7 +58,7 @@ export const useMatches = (currentUser) => {
     }
   }, []);
 
-  // Finalizar partido y calcular puntos
+  // ✅ FINALIZAR PARTIDO - Actualiza GLOBAL + SEMANAL
   const finishMatch = useCallback(async (matchId, homeScore, awayScore, onSuccess, onError) => {
     setLoading(true);
     try {
@@ -113,7 +113,7 @@ export const useMatches = (currentUser) => {
           console.log(`❌ Usuario ${prediction.user_id}: No acertó (0 pts)`);
         }
 
-        // Obtener puntos actuales del usuario
+        // Obtener datos actuales del usuario
         const { data: userData, error: userError } = await supabase
           .from("users")
           .select("points, predictions, correct, best_streak, current_streak, weekly_points, weekly_predictions, weekly_correct")
@@ -125,17 +125,17 @@ export const useMatches = (currentUser) => {
           continue;
         }
 
-        // Calcular nuevas estadísticas GLOBALES
+        // ========== ESTADÍSTICAS GLOBALES ==========
         const newPoints = (userData.points || 0) + pointsEarned;
         const newPredictions = (userData.predictions || 0) + 1;
         const newCorrect = (userData.correct || 0) + (pointsEarned > 0 ? 1 : 0);
         
-        // Calcular nuevas estadísticas SEMANALES ⭐
+        // ========== ESTADÍSTICAS SEMANALES ==========
         const newWeeklyPoints = (userData.weekly_points || 0) + pointsEarned;
         const newWeeklyPredictions = (userData.weekly_predictions || 0) + 1;
         const newWeeklyCorrect = (userData.weekly_correct || 0) + (pointsEarned > 0 ? 1 : 0);
         
-        // Actualizar racha
+        // ========== RACHAS ==========
         let newCurrentStreak = userData.current_streak || 0;
         let newBestStreak = userData.best_streak || 0;
         
@@ -146,17 +146,17 @@ export const useMatches = (currentUser) => {
           newCurrentStreak = 0;
         }
 
-        // Actualizar usuario con TODAS las estadísticas (globales + semanales) ⭐
+        // ✅ ACTUALIZAR USUARIO CON TODAS LAS ESTADÍSTICAS
         const { error: updateUserError } = await supabase
           .from("users")
           .update({
-            // Estadísticas globales
+            // 🌍 Estadísticas globales
             points: newPoints,
             predictions: newPredictions,
             correct: newCorrect,
             current_streak: newCurrentStreak,
             best_streak: newBestStreak,
-            // Estadísticas semanales ⭐
+            // 📅 Estadísticas semanales
             weekly_points: newWeeklyPoints,
             weekly_predictions: newWeeklyPredictions,
             weekly_correct: newWeeklyCorrect
@@ -166,9 +166,9 @@ export const useMatches = (currentUser) => {
         if (updateUserError) {
           console.error(`❌ Error actualizando usuario ${prediction.user_id}:`, updateUserError);
         } else {
-          console.log(`✅ Usuario ${prediction.user_id} actualizado:`);
-          console.log(`   Global: ${newPoints} pts, ${newCorrect}/${newPredictions} correctas`);
-          console.log(`   Semanal: ${newWeeklyPoints} pts, ${newWeeklyCorrect}/${newWeeklyPredictions} correctas`);
+          console.log(`✅ Usuario ${prediction.user_id} actualizado exitosamente:`);
+          console.log(`   🌍 Global: ${newPoints} pts, ${newCorrect}/${newPredictions} correctas, racha: ${newCurrentStreak}`);
+          console.log(`   📅 Semanal: ${newWeeklyPoints} pts, ${newWeeklyCorrect}/${newWeeklyPredictions} correctas`);
         }
       }
 
@@ -184,6 +184,7 @@ export const useMatches = (currentUser) => {
 
       console.log("✅ Partido finalizado exitosamente");
       console.log(`📈 Resultados: ${exactPredictions} exactos, ${correctResults} resultados correctos`);
+      console.log(`🔄 Rankings actualizados: Global + Semanal`);
 
       onSuccess?.({
         users: updatedUsers || [],
