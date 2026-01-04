@@ -72,6 +72,208 @@
 }
 
 /* ==========================================
+   FIX 1: OVERVIEW EN HORIZONTAL (DESKTOP)
+========================================== */
+
+/* DESKTOP: Layout específico por tab */
+@media (min-width: 1024px) {
+  /* OVERVIEW: Layout horizontal en 2 filas */
+  .tab-content-wrapper[data-tab="overview"] {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 1.5rem;
+    align-items: start;
+  }
+  
+  /* Primera fila: Stats grid ocupa 2 columnas, streaks 1 */
+  .tab-content-wrapper[data-tab="overview"] > .stats-cards-grid {
+    grid-column: 1 / 2;
+    grid-row: 1;
+  }
+  
+  .tab-content-wrapper[data-tab="overview"] > .streaks-grid {
+    grid-column: 2 / 3;
+    grid-row: 1;
+  }
+  
+  /* Segunda fila: Level card y Ranking card */
+  .tab-content-wrapper[data-tab="overview"] > .level-card-modern {
+    grid-column: 1 / 2;
+    grid-row: 2;
+  }
+  
+  .tab-content-wrapper[data-tab="overview"] > .ranking-card-modern {
+    grid-column: 2 / 3;
+    grid-row: 2;
+  }
+  
+  /* ACHIEVEMENTS: Título arriba full width, luego 2 columnas */
+  .tab-content-wrapper[data-tab="achievements"] {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    align-items: start;
+  }
+  
+  .tab-content-wrapper[data-tab="achievements"] > .active-title-card {
+    grid-column: 1 / -1;
+  }
+  
+  .tab-content-wrapper[data-tab="achievements"] > .section-modern {
+    grid-column: span 1;
+  }
+  
+  /* HISTORY: Grid horizontal de 3-4 columnas que fluye */
+  .tab-content-wrapper[data-tab="history"] {
+    display: block;
+  }
+  
+  /* EDIT: Todo en vertical (una columna) */
+  .tab-content-wrapper[data-tab="edit"] {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+}
+
+/* ==========================================
+   FIX 2: HISTORIAL - PREVENIR SCROLL HORIZONTAL
+========================================== */
+
+.history-list-modern {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden; /* Prevenir scroll horizontal */
+}
+
+/* DESKTOP: Grid horizontal de 3 columnas para history */
+@media (min-width: 1024px) {
+  .history-list-modern {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+    overflow-x: visible;
+  }
+}
+
+@media (min-width: 1400px) {
+  .history-list-modern {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Asegurar que las cards no desborden */
+.history-card-modern {
+  background: var(--profile-card);
+  border: 1px solid var(--profile-border);
+  border-left-width: 4px;
+  border-radius: 16px;
+  padding: 1.25rem;
+  transition: all 0.3s ease;
+  box-shadow: var(--profile-shadow);
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden; /* Importante: prevenir desbordamiento */
+  box-sizing: border-box;
+}
+
+/* Asegurar que el contenido interno no cause overflow */
+.teams-display {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.team-display {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  flex: 1;
+  min-width: 0; /* Importante: permite que el flex item se encoja */
+  overflow: hidden;
+}
+
+.team-name-modern {
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: var(--profile-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%; /* Asegurar que respete el contenedor */
+}
+
+/* ==========================================
+   FIX 3: STATS CARDS EN HORIZONTAL
+========================================== */
+
+.stats-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  width: 100%;
+  max-width: 100%;
+}
+
+/* DESKTOP: Mantener horizontal (3 columnas en fila) */
+@media (min-width: 1024px) {
+  .stats-cards-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+    margin-bottom: 0;
+    align-items: stretch;
+  }
+  
+  .stat-card-modern {
+    min-height: 140px;
+  }
+}
+
+/* ==========================================
+   FIX 4: CONTENT AREA SIN OVERFLOW
+========================================== */
+
+.profile-content-area {
+  padding: 1.5rem 1rem 2rem;
+  position: relative;
+  flex: 1;
+  min-height: 400px;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden; /* Prevenir scroll horizontal en toda el área */
+  box-sizing: border-box;
+}
+
+/* DESKTOP: Layout de dos columnas */
+@media (min-width: 1024px) {
+  .profile-content-area {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem 2.5rem;
+  }
+}
+
+.tab-content-wrapper {
+  animation: fadeInUp 0.4s ease;
+  min-height: 300px;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  box-sizing: border-box;
+}
+
+/* ==========================================
    FIX: TABS STICKY - NO SUPERPONER HEADER
 ========================================== */
 
@@ -674,10 +876,6 @@
     transform: translateY(0);
   }
 }
-
-/* ==========================================
-   STATS CARDS - DISEÑO CON CAPAS
-========================================== */
 
 /* ==========================================
    STATS CARDS - DISEÑO CON CAPAS

@@ -728,19 +728,6 @@ export default function AdminPage({ currentUser, onBack }) {
               <div className="admin-empty-state">
                 <AlertCircle size={48} />
                 <p>No hay {activeSection} para mostrar</p>
-                <button 
-                  className="add-new-btn"
-                  onClick={() => {
-                    if (activeSection === 'matches') setShowMatchModal(true);
-                    if (activeSection === 'leagues') setShowLeagueModal(true);
-                    if (activeSection === 'awards') setShowAwardModal(true);
-                    if (activeSection === 'achievements') setShowAchievementModal(true);
-                    if (activeSection === 'titles') setShowTitleModal(true);
-                  }}
-                >
-                  <Plus size={20} />
-                  <span>Agregar Nuevo</span>
-                </button>
               </div>
             )}
           </div>

@@ -569,29 +569,6 @@ export default function ProfilePage({ currentUser, onBack }) {
               </div>
             </div>
 
-            {/* Streaks */}
-            <div className="streaks-grid">
-              <div className="streak-card current">
-                <div className="streak-icon">
-                  <Flame size={24} />
-                </div>
-                <div className="streak-content">
-                  <div className="streak-value">{streakData.current_streak}</div>
-                  <div className="streak-label">Racha Actual</div>
-                </div>
-              </div>
-
-              <div className="streak-card best">
-                <div className="streak-icon">
-                  <Crown size={24} />
-                </div>
-                <div className="streak-content">
-                  <div className="streak-value">{streakData.best_streak}</div>
-                  <div className="streak-label">Mejor Racha</div>
-                </div>
-              </div>
-            </div>
-
             {/* Ranking */}
             <div className="ranking-card-modern">
               <div className="ranking-card-header">
