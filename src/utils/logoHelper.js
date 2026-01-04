@@ -64,7 +64,7 @@ export const teamSlugMap = {
   'Udinese': 'udinese',
   'Genoa': 'genoa',
   'Cagliari': 'cagliari',
-  'Hellas Verona': 'hellasverona',
+  'Verona': 'hellasverona',
   'Lecce': 'lecce',
   'Parma': 'parma',
   'Pisa': 'pisa',
