@@ -605,7 +605,7 @@
 /* DESKTOP: Layout de dos columnas */
 @media (min-width: 1024px) {
   .profile-content-area {
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto;
     padding: 2rem 2.5rem;
   }
@@ -616,34 +616,51 @@
   min-height: 300px;
 }
 
-/* DESKTOP: Grid de dos columnas para overview */
+/* DESKTOP: Layout específico por tab */
 @media (min-width: 1024px) {
-  .tab-content-wrapper {
+  /* OVERVIEW: Todo en horizontal (4 componentes en fila) */
+  .tab-content-wrapper[data-tab="overview"] {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    align-items: start;
+  }
+  
+  .tab-content-wrapper[data-tab="overview"] > .stats-cards-grid,
+  .tab-content-wrapper[data-tab="overview"] > .level-card-modern,
+  .tab-content-wrapper[data-tab="overview"] > .streaks-grid,
+  .tab-content-wrapper[data-tab="overview"] > .ranking-card-modern {
+    grid-column: span 1;
+  }
+  
+  /* ACHIEVEMENTS: Título arriba full width, luego 2 columnas */
+  .tab-content-wrapper[data-tab="achievements"] {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 2rem;
     align-items: start;
   }
   
-  /* Stats cards ocupan columna izquierda */
-  .tab-content-wrapper > .stats-cards-grid {
-    grid-column: 1;
+  .tab-content-wrapper[data-tab="achievements"] > .active-title-card {
+    grid-column: 1 / -1;
   }
   
-  /* Level card en columna derecha */
-  .tab-content-wrapper > .level-card-modern {
-    grid-column: 2;
-    grid-row: 1;
+  .tab-content-wrapper[data-tab="achievements"] > .section-modern {
+    grid-column: span 1;
   }
   
-  /* Streaks debajo de stats */
-  .tab-content-wrapper > .streaks-grid {
-    grid-column: 1;
+  /* HISTORY: Grid horizontal de 3-4 columnas que fluye */
+  .tab-content-wrapper[data-tab="history"] {
+    display: block;
   }
   
-  /* Ranking debajo de level */
-  .tab-content-wrapper > .ranking-card-modern {
-    grid-column: 2;
+  /* EDIT: Todo en vertical (una columna) */
+  .tab-content-wrapper[data-tab="edit"] {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    max-width: 600px;
+    margin: 0 auto;
   }
 }
 
@@ -669,7 +686,7 @@
   margin-bottom: 1.5rem;
 }
 
-/* DESKTOP: Una sola columna vertical */
+/* DESKTOP: Una sola columna vertical para overview */
 @media (min-width: 1024px) {
   .stats-cards-grid {
     grid-template-columns: 1fr;
@@ -1577,6 +1594,21 @@
   display: flex;
   flex-direction: column;
   gap: 1rem;
+}
+
+/* DESKTOP: Grid horizontal de 3 columnas para history */
+@media (min-width: 1024px) {
+  .history-list-modern {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+  }
+}
+
+@media (min-width: 1400px) {
+  .history-list-modern {
+    grid-template-columns: repeat(4, 1fr);
+  }
 }
 
 .history-card-modern {
