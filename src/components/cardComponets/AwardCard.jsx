@@ -1,5 +1,6 @@
+// src/components/cardComponents/AwardCard.jsx
 import React, { useState } from 'react';
-import { Trophy, Award, Calendar, CheckCircle2, Star } from 'lucide-react';
+import { Trophy, Award, Calendar, CheckCircle2, Star, Clock } from 'lucide-react';
 import '../../styles/cardStyles/AwardCard.css';
 
 export default function AwardCard({ award, userPrediction, onPredict }) {
@@ -23,25 +24,35 @@ export default function AwardCard({ award, userPrediction, onPredict }) {
           alt="Award logo" 
           className="award-logo-img"
           onError={(e) => {
-            // Si la imagen falla, mostrar el emoji
             e.target.style.display = 'none';
             e.target.nextElementSibling.style.display = 'flex';
           }}
         />
       );
     }
-    // Si no hay URL, usar emoji
     return <span className="award-logo-emoji-display">{fallbackEmoji || '🏆'}</span>;
   };
 
+  // ✅ VERIFICACIÓN DE DEADLINE (igual que en MatchCard)
+  const now = new Date();
+  const deadline = award.deadline ? new Date(award.deadline) : null;
+  const isPastDeadline = deadline && now >= deadline;
+  
   const hasPrediction = userPrediction !== undefined;
   const isFinished = award.status === 'finished';
-  const deadline = award.deadline ? new Date(award.deadline).toLocaleDateString('es-ES', {
+  
+  // ✅ El input debe deshabilitarse si pasó el deadline O si ya finalizó
+  const isDisabled = isPastDeadline || isFinished;
+  
+  const deadlineFormatted = deadline ? deadline.toLocaleDateString('es-ES', {
     day: 'numeric',
     month: 'short',
     hour: '2-digit',
     minute: '2-digit'
   }) : null;
+
+  const isPredictionChanged = predictedWinner !== userPrediction?.predicted_winner;
+  const showSaveButton = !isDisabled && (!hasPrediction || isPredictionChanged);
 
   return (
     <div 
@@ -67,6 +78,14 @@ export default function AwardCard({ award, userPrediction, onPredict }) {
             <span className="award-season-light">{award.season}</span>
           </div>
         </div>
+        
+        {/* ✅ BADGE DE DEADLINE */}
+        {deadlineFormatted && !isFinished && (
+          <div className={`award-deadline-badge ${isPastDeadline ? 'expired' : ''}`}>
+            <Clock size={12} />
+            <span>{isPastDeadline ? 'Expirado' : `Hasta ${deadlineFormatted}`}</span>
+          </div>
+        )}
       </div>
 
       {/* Formulario de predicción */}
@@ -82,7 +101,7 @@ export default function AwardCard({ award, userPrediction, onPredict }) {
             value={predictedWinner}
             onChange={(e) => setPredictedWinner(e.target.value)}
             placeholder="Ingresa el nombre del ganador..."
-            disabled={isFinished}
+            disabled={isDisabled}
           />
           
           {isFinished && award.winner && (
@@ -108,7 +127,12 @@ export default function AwardCard({ award, userPrediction, onPredict }) {
 
       {/* Footer */}
       <div className="award-footer-light">
-        {isFinished && userPrediction ? (
+        {/* ✅ MENSAJE DE DEADLINE EXPIRADO */}
+        {isPastDeadline && !isFinished ? (
+          <span className="prediction-status-light" style={{color: '#ef4444'}}>
+            <Clock size={14} /> Plazo de predicción expirado
+          </span>
+        ) : isFinished && userPrediction ? (
           <div className="final-points-display">
             <Trophy size={16} />
             <span>
@@ -117,42 +141,29 @@ export default function AwardCard({ award, userPrediction, onPredict }) {
                 : 'No acertaste esta vez'}
             </span>
           </div>
-        ) : !isFinished && hasPrediction && (
-          predictedWinner === userPrediction?.predicted_winner ? (
-            <span className="prediction-status-light">
-              <CheckCircle2 size={14} style={{color: '#059669'}}/>
-              Predicción guardada
-              {userPrediction.points_earned > 0 && (
-                <span className="points-badge">+{userPrediction.points_earned} pts</span>
-              )}
-            </span>
-          ) : null
-        )}
-
-        {!isFinished && (
-          (!hasPrediction || predictedWinner !== userPrediction?.predicted_winner) && (
-            <button className="predict-button-light" onClick={handleSubmit}>
-              <Trophy size={16} />
-              <span>{hasPrediction ? 'Actualizar' : 'Guardar'}</span>
-            </button>
-          )
-        )}
+        ) : !isDisabled && hasPrediction && !showSaveButton ? (
+          <span className="prediction-status-light">
+            <CheckCircle2 size={14} style={{color: '#059669'}}/>
+            Predicción guardada
+            {userPrediction.points_earned > 0 && (
+              <span className="points-badge">+{userPrediction.points_earned} pts</span>
+            )}
+          </span>
+        ) : showSaveButton ? (
+          <button className="predict-button-light" onClick={handleSubmit}>
+            <Trophy size={16} />
+            <span>{hasPrediction ? 'Actualizar' : 'Guardar'}</span>
+          </button>
+        ) : null}
       </div>
 
-      {/* Deadline badge 
-      {deadline && !isFinished && (
-        <div className="award-deadline-badge">
-          <Calendar size={12} />
-          <span>Hasta {deadline}</span>
-        </div>
-      )}
-
+      {/* Badge de estado finalizado */}
       {isFinished && (
         <div className="award-status-badge finished">
           <CheckCircle2 size={12} />
           <span>Finalizado</span>
         </div>
-      )}*/}
+      )}
     </div>
   );
 }

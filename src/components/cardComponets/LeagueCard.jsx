@@ -1,6 +1,6 @@
-// src/components/LeagueCard.jsx
+// src/components/cardComponents/LeagueCard.jsx
 import React, { useState } from 'react';
-import { Trophy, Target, Award, Star, CheckCircle2, Calendar, Shield } from 'lucide-react';
+import { Trophy, Target, Award, Star, CheckCircle2, Calendar, Shield, Clock } from 'lucide-react';
 import '../../styles/cardStyles/LeagueCard.css';
 
 export default function LeagueCard({ league, userPrediction, onPredict }) {
@@ -13,14 +13,12 @@ export default function LeagueCard({ league, userPrediction, onPredict }) {
           alt="League logo" 
           className="league-logo-img"
           onError={(e) => {
-            // Si la imagen falla, mostrar el emoji
             e.target.style.display = 'none';
             e.target.nextElementSibling.style.display = 'flex';
           }}
         />
       );
     }
-    // Si no hay URL, usar emoji
     return <span className="league-logo-emoji-display">{fallbackEmoji || '🏆'}</span>;
   };
 
@@ -37,9 +35,18 @@ export default function LeagueCard({ league, userPrediction, onPredict }) {
     onPredict(league.id, champion.trim(), topScorer.trim(), topAssist.trim(), mvp.trim());
   };
 
+  // ✅ VERIFICACIÓN DE DEADLINE (igual que en MatchCard)
+  const now = new Date();
+  const deadline = league.deadline ? new Date(league.deadline) : null;
+  const isPastDeadline = deadline && now >= deadline;
+  
   const hasPrediction = userPrediction !== undefined;
   const isFinished = league.status === 'finished';
-  const deadline = league.deadline ? new Date(league.deadline).toLocaleDateString('es-ES', {
+  
+  // ✅ El input debe deshabilitarse si pasó el deadline O si ya finalizó
+  const isDisabled = isPastDeadline || isFinished;
+  
+  const deadlineFormatted = deadline ? deadline.toLocaleDateString('es-ES', {
     day: 'numeric',
     month: 'short',
     hour: '2-digit',
@@ -53,7 +60,7 @@ export default function LeagueCard({ league, userPrediction, onPredict }) {
     mvp !== userPrediction?.predicted_mvp
   );
 
-  const showSaveButton = !isFinished && (!hasPrediction || isPredictionChanged);
+  const showSaveButton = !isDisabled && (!hasPrediction || isPredictionChanged);
 
   return (
     <div className="league-card-light">
@@ -71,6 +78,14 @@ export default function LeagueCard({ league, userPrediction, onPredict }) {
             <span className="league-season-light">{league.season}</span>
           </div>
         </div>
+        
+        {/* ✅ BADGE DE DEADLINE */}
+        {deadlineFormatted && !isFinished && (
+          <div className={`league-deadline-badge ${isPastDeadline ? 'expired' : ''}`}>
+            <Clock size={12} />
+            <span>{isPastDeadline ? 'Expirado' : `Hasta ${deadlineFormatted}`}</span>
+          </div>
+        )}
       </div>
 
       {/* Formulario de predicciones */}
@@ -87,7 +102,7 @@ export default function LeagueCard({ league, userPrediction, onPredict }) {
             value={champion}
             onChange={(e) => setChampion(e.target.value)}
             placeholder="Escribe el equipo..."
-            disabled={isFinished}
+            disabled={isDisabled}
           />
           {isFinished && league.champion && (
             <div className="actual-result-light">
@@ -114,7 +129,7 @@ export default function LeagueCard({ league, userPrediction, onPredict }) {
             value={topScorer}
             onChange={(e) => setTopScorer(e.target.value)}
             placeholder="Jugador..."
-            disabled={isFinished}
+            disabled={isDisabled}
           />
           {isFinished && league.top_scorer && (
             <div className="actual-result-light">
@@ -140,7 +155,7 @@ export default function LeagueCard({ league, userPrediction, onPredict }) {
             value={topAssist}
             onChange={(e) => setTopAssist(e.target.value)}
             placeholder="Jugador..."
-            disabled={isFinished}
+            disabled={isDisabled}
           />
           {isFinished && league.top_assist && (
             <div className="actual-result-light">
@@ -166,7 +181,7 @@ export default function LeagueCard({ league, userPrediction, onPredict }) {
             value={mvp}
             onChange={(e) => setMvp(e.target.value)}
             placeholder="Jugador..."
-            disabled={isFinished}
+            disabled={isDisabled}
           />
           {isFinished && league.mvp_player && (
             <div className="actual-result-light">
@@ -184,12 +199,17 @@ export default function LeagueCard({ league, userPrediction, onPredict }) {
 
       {/* Footer */}
       <div className="league-footer-light">
-        {isFinished && userPrediction ? (
+        {/* ✅ MENSAJE DE DEADLINE EXPIRADO */}
+        {isPastDeadline && !isFinished ? (
+          <span className="prediction-status-light" style={{color: '#ef4444'}}>
+            <Clock size={14} /> Plazo de predicción expirado
+          </span>
+        ) : isFinished && userPrediction ? (
           <div className="final-points-display">
             <Star size={16} />
             <span>Obtuviste {userPrediction.points_earned} puntos</span>
           </div>
-        ) : !isFinished && hasPrediction && !showSaveButton ? (
+        ) : !isDisabled && hasPrediction && !showSaveButton ? (
           <span className="prediction-status-light">
             <CheckCircle2 size={14} style={{color: '#059669'}}/>
             Predicción guardada
