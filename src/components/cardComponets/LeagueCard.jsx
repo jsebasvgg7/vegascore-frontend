@@ -83,7 +83,7 @@ export default function LeagueCard({ league, userPrediction, onPredict }) {
         {deadlineFormatted && !isFinished && (
           <div className={`league-deadline-badge ${isPastDeadline ? 'expired' : ''}`}>
             <Clock size={12} />
-            <span>{isPastDeadline ? 'Expirado' : `Hasta ${deadlineFormatted}`}</span>
+            <span>{isPastDeadline ? 'Expirado' : `${deadlineFormatted}`}</span>
           </div>
         )}
       </div>

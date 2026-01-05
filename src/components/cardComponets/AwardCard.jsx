@@ -83,7 +83,7 @@ export default function AwardCard({ award, userPrediction, onPredict }) {
         {deadlineFormatted && !isFinished && (
           <div className={`award-deadline-badge ${isPastDeadline ? 'expired' : ''}`}>
             <Clock size={12} />
-            <span>{isPastDeadline ? 'Expirado' : `Hasta ${deadlineFormatted}`}</span>
+            <span>{isPastDeadline ? 'Expirado' : `${deadlineFormatted}`}</span>
           </div>
         )}
       </div>
