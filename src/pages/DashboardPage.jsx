@@ -273,13 +273,6 @@ export default function VegaScorePage() {
                 {/* Header */}
                 <div className="matches-header-premium">
                   <div className="matches-title-section">
-                    <div className="matches-icon-wrapper">
-                      <Trophy size={22} />
-                    </div>
-                    <div>
-                      <h2 className="matches-title-premium">Próximos Partidos</h2>
-                      <p className="matches-subtitle-premium">Haz tus predicciones y gana puntos</p>
-                    </div>
                   </div>
                   <div className="matches-header-actions">
                     <div className="matches-badge">
