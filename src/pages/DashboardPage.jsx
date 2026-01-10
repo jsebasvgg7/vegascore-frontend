@@ -274,7 +274,7 @@ export default function VegaScorePage() {
                   <div className="matches-header-actions">
                     <div className="matches-badge">
                       <Target size={14} />
-                      <span>{filteredMatches.length}</span>
+                      <span>{filteredMatches.length} disponibles</span>
                     </div>
                     <button 
                       className="filter-toggle-btn"
