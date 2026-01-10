@@ -1,5 +1,5 @@
 import React from "react";
-import { Trophy, LogOut, User2, Award, Shield, Bell, Home, BarChart3, Moon, Sun } from "lucide-react";
+import { Trophy, LogOut, User2, Award, Shield, Bell, Home, BarChart3, Moon, Sun, Football } from "lucide-react";
 import { supabase } from "../utils/supabaseClient";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useTheme } from "../context/ThemeContext";
@@ -62,7 +62,13 @@ export default function Header({ currentUser, users = [], onProfileClick }) {
         </div>
 
         <div className="header-center">
-          <h1 className="app-title">GlobalScore</h1>
+          <h1 className="app-title">
+            <span className="title-text">Gl</span>
+            <Trophy className="title-icon trophy-icon" size={28} strokeWidth={2.5} />
+            <span className="title-text">balSc</span>
+            <Football className="title-icon football-icon" size={28} strokeWidth={2.5} />
+            <span className="title-text">re</span>
+          </h1>
         </div>
 
         <div className="header-right">
