@@ -1,5 +1,5 @@
 // src/components/MatchCard.jsx
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {  
   Clock, 
   CheckCircle2,
@@ -13,6 +13,8 @@ export default function MatchCard({ match, userPred, onPredict }) {
   const [homeScore, setHomeScore] = useState(userPred?.home_score ?? "");
   const [awayScore, setAwayScore] = useState(userPred?.away_score ?? "");
   const [isSaved, setIsSaved] = useState(userPred !== undefined);
+  const [isSaving, setIsSaving] = useState(false);
+  const saveTimeoutRef = useRef(null);
 
   // Sincronizar con cambios en userPred
   useEffect(() => {
@@ -27,12 +29,40 @@ export default function MatchCard({ match, userPred, onPredict }) {
   const isPastDeadline = deadline && now >= deadline;
   const isDisabled = isPastDeadline || match.status !== "pending";
 
-  // Verificar si la predicción cambió
-  const isPredictionChanged = (
-    parseInt(homeScore) !== userPred?.home_score || 
-    parseInt(awayScore) !== userPred?.away_score
-  );
-  const showSaveButton = !isDisabled && (!isSaved || isPredictionChanged);
+  // Auto-save cuando ambos campos tienen valores válidos
+  useEffect(() => {
+    if (isDisabled) return;
+
+    // Limpiar timeout anterior
+    if (saveTimeoutRef.current) {
+      clearTimeout(saveTimeoutRef.current);
+    }
+
+    const home = parseInt(homeScore);
+    const away = parseInt(awayScore);
+
+    // Solo guardar si ambos valores son válidos y diferentes a la predicción actual
+    const isValidPrediction = !isNaN(home) && !isNaN(away) && homeScore !== "" && awayScore !== "";
+    const isDifferent = home !== userPred?.home_score || away !== userPred?.away_score;
+
+    if (isValidPrediction && isDifferent) {
+      // Esperar 1 segundo después del último cambio para guardar
+      saveTimeoutRef.current = setTimeout(() => {
+        setIsSaving(true);
+        onPredict(match.id, home, away);
+        setTimeout(() => {
+          setIsSaved(true);
+          setIsSaving(false);
+        }, 300);
+      }, 1000);
+    }
+
+    return () => {
+      if (saveTimeoutRef.current) {
+        clearTimeout(saveTimeoutRef.current);
+      }
+    };
+  }, [homeScore, awayScore, isDisabled, match.id, onPredict, userPred]);
 
   // Manejadores
   const handleScoreChange = (team, value) => {
@@ -47,23 +77,6 @@ export default function MatchCard({ match, userPred, onPredict }) {
       setAwayScore(score);
     }
     setIsSaved(false);
-  };
-
-  const handleSubmit = () => {
-    const home = parseInt(homeScore);
-    const away = parseInt(awayScore);
-
-    if (homeScore === "" || awayScore === "" || isNaN(home) || isNaN(away)) {
-      alert("Por favor, ingresa un marcador válido en ambos campos.");
-      return;
-    }
-
-    if (isSaved && home === userPred.home_score && away === userPred.away_score) {
-      return; 
-    }
-
-    onPredict(match.id, home, away);
-    setIsSaved(true);
   };
 
   // Funciones auxiliares
@@ -228,22 +241,20 @@ export default function MatchCard({ match, userPred, onPredict }) {
         </div>
       </div>
 
-      {/* FOOTER: Estado y Acciones */}
-      {(isPastDeadline || showSaveButton || (isSaved && !isDisabled)) && (
+      {/* FOOTER: Estado */}
+      {(isPastDeadline || isSaved || isSaving) && (
         <div className="match-footer">
           {isPastDeadline ? (
             <div className="status-message expired">
               <Clock size={14} />
               <span>Predicción cerrada</span>
             </div>
-          ) : showSaveButton ? (
-            <button
-              className="save-button"
-              onClick={handleSubmit}
-            >
-              {isSaved ? "Actualiza" : "Guarda"}
-            </button>
-          ) : isSaved && !isDisabled ? (
+          ) : isSaving ? (
+            <div className="status-message saving">
+              <div className="spinner-small" />
+              <span>Guardando...</span>
+            </div>
+          ) : isSaved ? (
             <div className="status-message saved">
               <CheckCircle2 size={14} />
               <span>Predicción guardada</span>
