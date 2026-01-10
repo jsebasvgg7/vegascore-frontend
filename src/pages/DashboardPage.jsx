@@ -29,6 +29,7 @@ export default function VegaScorePage() {
   // ========== STATE MANAGEMENT ==========
   const [showProfile, setShowProfile] = useState(false);
   const [showRanking, setShowRanking] = useState(false);
+  const [leagueFilter, setLeagueFilter] = useState('all');
   const [showAdmin, setShowAdmin] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
   const [showStats, setShowStats] = useState(false);
@@ -71,6 +72,17 @@ export default function VegaScorePage() {
     addAward,
     finishAward: finishAwardHook
   } = useAwards(currentUser);
+
+  // ========== LEAGUE FILTERS ==========
+const leagueCategories = [
+  { id: 'all', name: 'Todos', icon: '🌍', leagues: [] },
+  { id: 'england', name: 'Inglaterra', icon: '🏴󠁧󠁢󠁥󠁮󠁧󠁿', leagues: ['Premier League', 'Championship', 'FA Cup', 'Carabao Cup'] },
+  { id: 'spain', name: 'España', icon: '🇪🇸', leagues: ['La Liga', 'Copa del Rey', 'Supercopa'] },
+  { id: 'italy', name: 'Italia', icon: '🇮🇹', leagues: ['Serie A', 'Coppa Italia', 'Supercoppa'] },
+  { id: 'germany', name: 'Alemania', icon: '🇩🇪', leagues: ['Bundesliga', 'DFB Pokal', 'Supercup'] },
+  { id: 'france', name: 'Francia', icon: '🇫🇷', leagues: ['Ligue 1', 'Coupe de France', 'Trophée des Champions'] },
+  { id: 'europe', name: 'Europa', icon: '🏆', leagues: ['UEFA Champions League', 'UEFA Europa League', 'UEFA Conference League', 'Champions League', 'Europa League', 'Conference League'] }
+];
 
   // ========== HANDLERS - PAGINAS ==========
   const handleBackToHome = () => {
@@ -217,14 +229,24 @@ export default function VegaScorePage() {
       </>
     );
   }
+
   const pendingMatches = matches
-    .filter((m) => m.status === "pending")
-    .sort((a, b) => {
-      // Convertir fecha y hora a objetos Date comparables
-      const dateA = new Date(`${a.date}T${a.time}`);
-      const dateB = new Date(`${b.date}T${b.time}`);
-      return dateA - dateB; // Orden ascendente (más cercanos primero)
+  .filter((m) => m.status === "pending")
+  .sort((a, b) => {
+    const dateA = new Date(`${a.date}T${a.time}`);
+    const dateB = new Date(`${b.date}T${b.time}`);
+    return dateA - dateB;
+  });
+
+const filteredPendingMatches = leagueFilter === 'all'
+  ? pendingMatches
+  : pendingMatches.filter(match => {
+      const category = leagueCategories.find(c => c.id === leagueFilter);
+      return category.leagues.some(league => 
+        match.league.toLowerCase().includes(league.toLowerCase())
+      );
     });
+
   const sortedUsers = [...users].sort((a, b) => b.points - a.points);
   const activeLeagues = leagues.filter((l) => l.status === "active");
   const activeAwards = awards.filter((a) => a.status === "active");
@@ -256,6 +278,33 @@ export default function VegaScorePage() {
                   <div className="matches-badge">
                     <Target size={14} />
                     <span>{pendingMatches.length} disponibles</span>
+                  </div>
+                </div>
+
+                {/* ✨ FILTROS DE LIGAS */}
+                <div className="league-filters-container">
+                  <div className="league-filters-scroll">
+                    {leagueCategories.map((category) => {
+                      const categoryMatches = category.id === 'all'
+                        ? pendingMatches
+                        : pendingMatches.filter(match =>
+                            category.leagues.some(league =>
+                              match.league.toLowerCase().includes(league.toLowerCase())
+                            )
+                          );
+
+                      return (
+                        <button
+                          key={category.id}
+                          className={`league-filter-chip ${leagueFilter === category.id ? 'active' : ''}`}
+                          onClick={() => setLeagueFilter(category.id)}
+                        >
+                          <span className="filter-icon">{category.icon}</span>
+                          <span className="filter-name">{category.name}</span>
+                          <span className="filter-count">{categoryMatches.length}</span>
+                        </button>
+                      );
+                    })}
                   </div>
                 </div>
 
