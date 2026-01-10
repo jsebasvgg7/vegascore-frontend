@@ -105,10 +105,14 @@
 .filter-toggle-btn svg {
   width: 16px;
   height: 16px;
+  color: var(--text-primary);
+  transition: color 0.2s ease;
 }
 
 .filter-toggle-btn span {
-  display: inline; /* Mostrar texto "Filtrar" */
+  display: inline;
+  color: var(--text-primary);
+  transition: color 0.2s ease;
 }
 
 .filter-toggle-btn:hover {
@@ -119,8 +123,32 @@
   box-shadow: 0 4px 12px rgba(96, 81, 155, 0.3);
 }
 
+.filter-toggle-btn:hover svg,
+.filter-toggle-btn:hover span {
+  color: white;
+}
+
 .filter-toggle-btn:active {
   transform: translateY(0);
+}
+
+/* Fix específico para modo oscuro */
+[data-theme="dark"] .filter-toggle-btn {
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .filter-toggle-btn span,
+[data-theme="dark"] .filter-toggle-btn svg {
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .filter-toggle-btn:hover {
+  color: white;
+}
+
+[data-theme="dark"] .filter-toggle-btn:hover span,
+[data-theme="dark"] .filter-toggle-btn:hover svg {
+  color: white;
 }
 
 /* ===================================
