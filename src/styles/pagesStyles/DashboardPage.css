@@ -27,45 +27,33 @@
 }
 
 /* ===================================
-   HEADER - Super Clean
+   HEADER - Ultra Minimal (Solo contador + filtro)
 =================================== */
 
 .matches-header-premium {
   background: var(--bg);
-  padding: 16px 20px;
+  padding: 14px 20px;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   border-bottom: 1px solid var(--border);
+  gap: 12px;
 }
 
 .matches-title-section {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+  display: none; /* Ocultar completamente título e icono */
 }
 
 .matches-icon-wrapper {
-  width: 36px;
-  height: 36px;
-  border-radius: 10px;
-  background: linear-gradient(135deg, var(--accent), var(--accent-light));
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  flex-shrink: 0;
+  display: none;
 }
 
 .matches-title-premium {
-  margin: 0;
-  font-size: 18px;
-  font-weight: 700;
-  color: var(--text-primary);
+  display: none;
 }
 
 .matches-subtitle-premium {
-  display: none; /* Ocultar subtítulo para minimalismo */
+  display: none;
 }
 
 .matches-header-actions {
@@ -77,38 +65,40 @@
 .matches-badge {
   display: flex;
   align-items: center;
-  gap: 6px;
-  background: rgba(96, 81, 155, 0.1);
-  color: var(--accent);
-  padding: 6px 12px;
-  border-radius: 10px;
-  font-size: 13px;
-  font-weight: 600;
-  border: 1px solid rgba(96, 81, 155, 0.2);
+  gap: 8px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-light));
+  color: white;
+  padding: 8px 16px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 700;
+  border: none;
+  box-shadow: 0 2px 8px rgba(96, 81, 155, 0.2);
 }
 
 .matches-badge svg {
-  width: 14px;
-  height: 14px;
+  width: 16px;
+  height: 16px;
 }
 
 /* ===================================
-   FILTER TOGGLE - Icono Solo
+   FILTER TOGGLE - Botón principal
 =================================== */
 
 .filter-toggle-btn {
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 8px 12px;
+  gap: 8px;
+  padding: 8px 16px;
   background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  font-size: 0; /* Ocultar texto */
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
   color: var(--text-primary);
   cursor: pointer;
   transition: all 0.2s ease;
-  min-width: 36px;
+  min-width: auto;
   justify-content: center;
 }
 
@@ -118,14 +108,19 @@
 }
 
 .filter-toggle-btn span {
-  display: none; /* Ocultar texto "Filtrar" */
+  display: inline; /* Mostrar texto "Filtrar" */
 }
 
 .filter-toggle-btn:hover {
-  background: var(--glass);
+  background: var(--accent);
   border-color: var(--accent);
-  color: var(--accent);
-  transform: translateY(-1px);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(96, 81, 155, 0.3);
+}
+
+.filter-toggle-btn:active {
+  transform: translateY(0);
 }
 
 /* ===================================
@@ -398,32 +393,27 @@
 
   .matches-header-premium {
     padding: 12px 16px;
-    flex-wrap: wrap;
     gap: 10px;
   }
 
-  .matches-header-actions {
-    width: 100%;
-    justify-content: space-between;
-  }
-
-  .matches-icon-wrapper {
-    width: 32px;
-    height: 32px;
-  }
-
-  .matches-title-premium {
-    font-size: 16px;
-  }
-
   .matches-badge {
-    font-size: 11px;
-    padding: 5px 10px;
+    font-size: 13px;
+    padding: 7px 14px;
+  }
+
+  .matches-badge svg {
+    width: 15px;
+    height: 15px;
   }
 
   .filter-toggle-btn {
-    padding: 6px 10px;
-    min-width: 32px;
+    padding: 7px 14px;
+    font-size: 13px;
+  }
+
+  .filter-toggle-btn svg {
+    width: 15px;
+    height: 15px;
   }
 
   .league-filters-panel {
@@ -481,25 +471,27 @@
 
   .matches-header-premium {
     padding: 10px 14px;
-  }
-
-  .matches-icon-wrapper {
-    width: 30px;
-    height: 30px;
-  }
-
-  .matches-title-premium {
-    font-size: 15px;
+    gap: 8px;
   }
 
   .matches-badge {
-    font-size: 10px;
-    padding: 4px 8px;
+    font-size: 12px;
+    padding: 6px 12px;
+  }
+
+  .matches-badge svg {
+    width: 14px;
+    height: 14px;
   }
 
   .filter-toggle-btn {
-    padding: 5px 8px;
-    min-width: 30px;
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+
+  .filter-toggle-btn svg {
+    width: 14px;
+    height: 14px;
   }
 
   .league-filters-panel {

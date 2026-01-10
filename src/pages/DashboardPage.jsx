@@ -269,16 +269,8 @@ export default function VegaScorePage() {
 
             {activeTab === 'matches' && (
               <div className="matches-section-premium">
-                {/* Header Minimalista */}
+                {/* Header Ultra Minimalista - Solo contador + filtro */}
                 <div className="matches-header-premium">
-                  <div className="matches-title-section">
-                    <div className="matches-icon-wrapper">
-                      <Trophy size={20} />
-                    </div>
-                    <div>
-                      <h2 className="matches-title-premium">Próximos Partidos</h2>
-                    </div>
-                  </div>
                   <div className="matches-header-actions">
                     <div className="matches-badge">
                       <Target size={14} />
@@ -290,6 +282,7 @@ export default function VegaScorePage() {
                       title="Filtrar por liga"
                     >
                       <Filter size={16} />
+                      <span>Filtrar</span>
                     </button>
                   </div>
                 </div>
@@ -395,17 +388,11 @@ export default function VegaScorePage() {
             {activeTab === 'leagues' && (
               <div className="matches-section-premium">
                 <div className="matches-header-premium">
-                  <div className="matches-title-section">
-                    <div className="matches-icon-wrapper">
-                      <Trophy size={20} />
+                  <div className="matches-header-actions">
+                    <div className="matches-badge">
+                      <Trophy size={14} />
+                      <span>{activeLeagues.length}</span>
                     </div>
-                    <div>
-                      <h2 className="matches-title-premium">Competiciones</h2>
-                    </div>
-                  </div>
-                  <div className="matches-badge">
-                    <Trophy size={14} />
-                    <span>{activeLeagues.length}</span>
                   </div>
                 </div>
 
@@ -434,17 +421,11 @@ export default function VegaScorePage() {
             {activeTab === 'awards' && (
               <div className="matches-section-premium">
                 <div className="matches-header-premium">
-                  <div className="matches-title-section">
-                    <div className="matches-icon-wrapper">
-                      <Trophy size={20} />
+                  <div className="matches-header-actions">
+                    <div className="matches-badge">
+                      <Trophy size={14} />
+                      <span>{activeAwards.length}</span>
                     </div>
-                    <div>
-                      <h2 className="matches-title-premium">Premios</h2>
-                    </div>
-                  </div>
-                  <div className="matches-badge">
-                    <Trophy size={14} />
-                    <span>{activeAwards.length}</span>
                   </div>
                 </div>
 
