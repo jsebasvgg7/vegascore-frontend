@@ -1,9 +1,8 @@
 // src/pages/AdminPage.jsx
 import React, { useState, useEffect } from 'react';
 import { 
-  ArrowLeft, Shield, Plus, Edit2, Trash2, CheckCircle, X,
-  Trophy, Target, Award, Calendar, Clock, Users, BarChart3,
-  Zap, TrendingUp, Package, Filter, Search, AlertCircle
+  Plus, Trash2, CheckCircle, Trophy, Target, Award, 
+  Zap, Package, Search, TrendingUp, Clock, Calendar, Edit2
 } from 'lucide-react';
 import { supabase } from '../utils/supabaseClient';
 import { useMatches } from '../hooks/useMatches';
@@ -27,7 +26,6 @@ export default function AdminPage({ currentUser, onBack }) {
   const [achievements, setAchievements] = useState([]);
   const [titles, setTitles] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [showFinishMatchModal, setShowFinishMatchModal] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState('all');
 
@@ -37,14 +35,13 @@ export default function AdminPage({ currentUser, onBack }) {
   const [showAwardModal, setShowAwardModal] = useState(false);
   const [showAchievementModal, setShowAchievementModal] = useState(false);
   const [showTitleModal, setShowTitleModal] = useState(false);
+  const [showFinishMatchModal, setShowFinishMatchModal] = useState(false);
   const [showFinishLeagueModal, setShowFinishLeagueModal] = useState(false);
   const [showFinishAwardModal, setShowFinishAwardModal] = useState(false);
   const [itemToFinish, setItemToFinish] = useState(null);
   const [editingItem, setEditingItem] = useState(null);
 
   const toast = useToast();
-  
-  // ✅ USAR EL HOOK QUE YA TIENE LA LÓGICA
   const { finishMatch } = useMatches(currentUser);
 
   useEffect(() => {
@@ -75,21 +72,20 @@ export default function AdminPage({ currentUser, onBack }) {
     }
   };
 
-  // ========== HANDLERS - MATCHES ==========
+  // Handlers
   const handleAddMatch = async (match) => {
     try {
       const { error } = await supabase.from('matches').insert(match);
       if (error) throw error;
       await loadData();
-      toast.success(`✅ Partido ${match.home_team} vs ${match.away_team} agregado`, 4000);
+      toast.success(`✅ Partido agregado`, 3000);
       setShowMatchModal(false);
     } catch (err) {
       console.error('Error adding match:', err);
-      toast.error('❌ Error al agregar el partido. Verifica los datos.');
+      toast.error('❌ Error al agregar el partido');
     }
   };
 
-  // ✅ USAR LA FUNCIÓN DEL HOOK
   const handleFinishMatch = async (matchId, homeScore, awayScore) => {
     try {
       await finishMatch(
@@ -97,15 +93,13 @@ export default function AdminPage({ currentUser, onBack }) {
         homeScore,
         awayScore,
         async () => {
-          // onSuccess: recargar datos
           await loadData();
-          toast.success(`⚽ Partido finalizado: ${homeScore} - ${awayScore}`, 4000);
+          toast.success(`⚽ Partido finalizado`, 3000);
           setShowFinishMatchModal(false);
           setItemToFinish(null);
         },
         (error) => {
-          // onError
-          toast.error(`❌ Error: ${error}`);
+          toast.error(`❌ ${error}`);
           throw new Error(error);
         }
       );
@@ -115,201 +109,161 @@ export default function AdminPage({ currentUser, onBack }) {
   };
 
   const handleDeleteMatch = async (matchId) => {
-    if (!confirm('¿Estás seguro de eliminar este partido?')) return;
-    
+    if (!confirm('¿Eliminar este partido?')) return;
     try {
       const { error } = await supabase.from('matches').delete().eq('id', matchId);
       if (error) throw error;
       await loadData();
-      toast.success('🗑️ Partido eliminado correctamente', 3000);
+      toast.success('🗑️ Partido eliminado', 2000);
     } catch (err) {
       console.error('Error deleting match:', err);
-      toast.error('❌ Error al eliminar el partido');
+      toast.error('❌ Error al eliminar');
     }
   };
 
-  // ========== HANDLERS - LEAGUES ==========
   const handleAddLeague = async (league) => {
     try {
       const { error } = await supabase.from('leagues').insert(league);
       if (error) throw error;
       await loadData();
-      toast.success(`🏆 Liga "${league.name}" agregada exitosamente`, 4000);
+      toast.success(`🏆 Liga agregada`, 3000);
       setShowLeagueModal(false);
     } catch (err) {
       console.error('Error adding league:', err);
-      toast.error('❌ Error al agregar la liga. Verifica los datos.');
+      toast.error('❌ Error al agregar liga');
     }
   };
 
   const handleFinishLeague = async (leagueId, results) => {
     try {
-      await supabase
-        .from('leagues')
-        .update({ 
-          status: 'finished',
-          ...results
-        })
-        .eq('id', leagueId);
-
+      await supabase.from('leagues').update({ status: 'finished', ...results }).eq('id', leagueId);
       await loadData();
-      toast.success('🏆 Liga finalizada y resultados guardados', 4000);
+      toast.success('🏆 Liga finalizada', 3000);
       setShowFinishLeagueModal(false);
       setItemToFinish(null);
     } catch (err) {
       console.error('Error finishing league:', err);
-      toast.error('❌ Error al finalizar la liga. Intenta de nuevo.');
+      toast.error('❌ Error al finalizar liga');
     }
   };
 
   const handleDeleteLeague = async (leagueId) => {
-    if (!confirm('¿Estás seguro de eliminar esta liga?')) return;
-    
+    if (!confirm('¿Eliminar esta liga?')) return;
     try {
       const { error } = await supabase.from('leagues').delete().eq('id', leagueId);
       if (error) throw error;
       await loadData();
-      toast.success('🗑️ Liga eliminada correctamente', 3000);
+      toast.success('🗑️ Liga eliminada', 2000);
     } catch (err) {
       console.error('Error deleting league:', err);
-      toast.error('❌ Error al eliminar la liga');
+      toast.error('❌ Error al eliminar');
     }
   };
 
-  // ========== HANDLERS - AWARDS ==========
   const handleAddAward = async (award) => {
     try {
       const { error } = await supabase.from('awards').insert(award);
       if (error) throw error;
       await loadData();
-      toast.success(`🏅 Premio "${award.name}" agregado exitosamente`, 4000);
+      toast.success(`🏅 Premio agregado`, 3000);
       setShowAwardModal(false);
     } catch (err) {
       console.error('Error adding award:', err);
-      toast.error('❌ Error al agregar el premio. Verifica los datos.');
+      toast.error('❌ Error al agregar premio');
     }
   };
 
   const handleFinishAward = async (awardId, winner) => {
     try {
-      await supabase
-        .from('awards')
-        .update({ status: 'finished', winner })
-        .eq('id', awardId);
-
+      await supabase.from('awards').update({ status: 'finished', winner }).eq('id', awardId);
       await loadData();
-      toast.success(`🏅 Premio finalizado. Ganador: ${winner}`, 4000);
+      toast.success(`🏅 Premio finalizado`, 3000);
       setShowFinishAwardModal(false);
       setItemToFinish(null);
     } catch (err) {
       console.error('Error finishing award:', err);
-      toast.error('❌ Error al finalizar el premio. Intenta de nuevo.');
+      toast.error('❌ Error al finalizar premio');
     }
   };
 
   const handleDeleteAward = async (awardId) => {
-    if (!confirm('¿Estás seguro de eliminar este premio?')) return;
-    
+    if (!confirm('¿Eliminar este premio?')) return;
     try {
       const { error } = await supabase.from('awards').delete().eq('id', awardId);
       if (error) throw error;
       await loadData();
-      toast.success('🗑️ Premio eliminado correctamente', 3000);
+      toast.success('🗑️ Premio eliminado', 2000);
     } catch (err) {
       console.error('Error deleting award:', err);
-      toast.error('❌ Error al eliminar el premio');
+      toast.error('❌ Error al eliminar');
     }
   };
 
-  // ========== HANDLERS - ACHIEVEMENTS & TITLES ==========
   const handleSaveAchievement = async (achievement) => {
     try {
-      const { error } = await supabase
-        .from('available_achievements')
-        .upsert(achievement, { onConflict: 'id' });
+      const { error } = await supabase.from('available_achievements').upsert(achievement, { onConflict: 'id' });
       if (error) throw error;
       await loadData();
-      toast.success(`⭐ Logro "${achievement.name}" guardado exitosamente`, 3000);
+      toast.success(`⭐ Logro guardado`, 2000);
       setShowAchievementModal(false);
       setEditingItem(null);
     } catch (err) {
       console.error('Error saving achievement:', err);
-      toast.error('❌ Error al guardar el logro');
+      toast.error('❌ Error al guardar');
     }
   };
 
   const handleDeleteAchievement = async (achievementId) => {
     try {
-      const { error } = await supabase
-        .from('available_achievements')
-        .delete()
-        .eq('id', achievementId);
+      const { error } = await supabase.from('available_achievements').delete().eq('id', achievementId);
       if (error) throw error;
       await loadData();
-      toast.success('🗑️ Logro eliminado correctamente', 3000);
+      toast.success('🗑️ Logro eliminado', 2000);
       setShowAchievementModal(false);
       setEditingItem(null);
     } catch (err) {
       console.error('Error deleting achievement:', err);
-      toast.error('❌ Error al eliminar el logro');
+      toast.error('❌ Error al eliminar');
     }
   };
 
   const handleSaveTitle = async (title) => {
     try {
-      const { error } = await supabase
-        .from('available_titles')
-        .upsert(title, { onConflict: 'id' });
+      const { error } = await supabase.from('available_titles').upsert(title, { onConflict: 'id' });
       if (error) throw error;
       await loadData();
-      toast.success(`👑 Título "${title.name}" guardado exitosamente`, 3000);
+      toast.success(`👑 Título guardado`, 2000);
       setShowTitleModal(false);
       setEditingItem(null);
     } catch (err) {
       console.error('Error saving title:', err);
-      toast.error('❌ Error al guardar el título');
+      toast.error('❌ Error al guardar');
     }
   };
 
   const handleDeleteTitle = async (titleId) => {
     try {
-      const { error } = await supabase
-        .from('available_titles')
-        .delete()
-        .eq('id', titleId);
+      const { error } = await supabase.from('available_titles').delete().eq('id', titleId);
       if (error) throw error;
       await loadData();
-      toast.success('🗑️ Título eliminado correctamente', 3000);
+      toast.success('🗑️ Título eliminado', 2000);
       setShowTitleModal(false);
       setEditingItem(null);
     } catch (err) {
       console.error('Error deleting title:', err);
-      toast.error('❌ Error al eliminar el título');
+      toast.error('❌ Error al eliminar');
     }
   };
 
-  // ========== FILTERS ==========
   const getFilteredItems = () => {
     let items = [];
-    
     switch(activeSection) {
-      case 'matches':
-        items = matches;
-        break;
-      case 'leagues':
-        items = leagues;
-        break;
-      case 'awards':
-        items = awards;
-        break;
-      case 'achievements':
-        items = achievements;
-        break;
-      case 'titles':
-        items = titles;
-        break;
-      default:
-        items = [];
+      case 'matches': items = matches; break;
+      case 'leagues': items = leagues; break;
+      case 'awards': items = awards; break;
+      case 'achievements': items = achievements; break;
+      case 'titles': items = titles; break;
+      default: items = [];
     }
 
     if (searchTerm) {
@@ -325,36 +279,27 @@ export default function AdminPage({ currentUser, onBack }) {
     return items;
   };
 
-  // ========== STATS ==========
   const stats = {
-    matches: {
-      total: matches.length,
-      pending: matches.filter(m => m.status === 'pending').length,
-      finished: matches.filter(m => m.status === 'finished').length
-    },
-    leagues: {
-      total: leagues.length,
-      active: leagues.filter(l => l.status === 'active').length,
-      finished: leagues.filter(l => l.status === 'finished').length
-    },
-    awards: {
-      total: awards.length,
-      active: awards.filter(a => a.status === 'active').length,
-      finished: awards.filter(a => a.status === 'finished').length
-    },
-    achievements: {
-      total: achievements.length
-    },
-    titles: {
-      total: titles.length
-    }
+    matches: { total: matches.length, pending: matches.filter(m => m.status === 'pending').length },
+    leagues: { total: leagues.length, active: leagues.filter(l => l.status === 'active').length },
+    awards: { total: awards.length, active: awards.filter(a => a.status === 'active').length },
+    achievements: { total: achievements.length },
+    titles: { total: titles.length }
   };
+
+  const sections = [
+    { id: 'matches', label: 'Partidos', icon: Target, count: stats.matches.pending },
+    { id: 'leagues', label: 'Ligas', icon: Trophy, count: stats.leagues.active },
+    { id: 'awards', label: 'Premios', icon: Award, count: stats.awards.active },
+    { id: 'achievements', label: 'Logros', icon: Zap, count: null },
+    { id: 'titles', label: 'Títulos', icon: Package, count: null }
+  ];
 
   if (loading) {
     return (
-      <div className="admin-page-loading">
-        <div className="spinner-large"></div>
-        <p>Cargando panel de administración...</p>
+      <div className="admin-loading">
+        <div className="spinner"></div>
+        <p>Cargando...</p>
       </div>
     );
   }
@@ -362,155 +307,93 @@ export default function AdminPage({ currentUser, onBack }) {
   return (
     <>
       <div className="admin-page">
-        <div className="admin-page-container">
-          {/* Stats Overview */}
-          <div className="admin-stats-overview">
-            <div className="admin-stat-card matches">
-              <div className="stat-icon-wrapper">
-                <Target size={24} />
-              </div>
-              <div className="stat-content">
-                <div className="stat-label">Partidos</div>
-                <div className="stat-value">{stats.matches.total}</div>
-                <div className="stat-detail">
-                  {stats.matches.pending} pendientes
+        <div className="admin-container">
+          {/* Header con Stats */}
+          <div className="admin-header">
+            <div className="admin-stats">
+              <div className="stat-item">
+                <Target className="stat-icon" />
+                <div className="stat-content">
+                  <span className="stat-value">{stats.matches.total}</span>
+                  <span className="stat-label">Partidos</span>
                 </div>
               </div>
-            </div>
-
-            <div className="admin-stat-card leagues">
-              <div className="stat-icon-wrapper">
-                <Trophy size={24} />
-              </div>
-              <div className="stat-content">
-                <div className="stat-label">Ligas</div>
-                <div className="stat-value">{stats.leagues.total}</div>
-                <div className="stat-detail">
-                  {stats.leagues.active} activas
+              <div className="stat-item">
+                <Trophy className="stat-icon" />
+                <div className="stat-content">
+                  <span className="stat-value">{stats.leagues.total}</span>
+                  <span className="stat-label">Ligas</span>
                 </div>
               </div>
-            </div>
-
-            <div className="admin-stat-card awards">
-              <div className="stat-icon-wrapper">
-                <Award size={24} />
-              </div>
-              <div className="stat-content">
-                <div className="stat-label">Premios</div>
-                <div className="stat-value">{stats.awards.total}</div>
-                <div className="stat-detail">
-                  {stats.awards.active} activos
+              <div className="stat-item">
+                <Award className="stat-icon" />
+                <div className="stat-content">
+                  <span className="stat-value">{stats.awards.total}</span>
+                  <span className="stat-label">Premios</span>
                 </div>
               </div>
-            </div>
-
-            <div className="admin-stat-card system">
-              <div className="stat-icon-wrapper">
-                <Package size={24} />
-              </div>
-              <div className="stat-content">
-                <div className="stat-label">Sistema</div>
-                <div className="stat-value">
-                  {stats.achievements.total + stats.titles.total}
-                </div>
-                <div className="stat-detail">
-                  logros y títulos
+              <div className="stat-item">
+                <TrendingUp className="stat-icon" />
+                <div className="stat-content">
+                  <span className="stat-value">{stats.achievements.total + stats.titles.total}</span>
+                  <span className="stat-label">Sistema</span>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Navigation Tabs */}
-          <div className="admin-nav-tabs">
-            <button 
-              className={`admin-nav-tab ${activeSection === 'matches' ? 'active' : ''}`}
-              onClick={() => setActiveSection('matches')}
-            >
-              <Target size={20} />
-              <span>Partidos</span>
-              {stats.matches.pending > 0 && (
-                <span className="tab-badge">{stats.matches.pending}</span>
-              )}
-            </button>
-
-            <button 
-              className={`admin-nav-tab ${activeSection === 'leagues' ? 'active' : ''}`}
-              onClick={() => setActiveSection('leagues')}
-            >
-              <Trophy size={20} />
-              <span>Ligas</span>
-              {stats.leagues.active > 0 && (
-                <span className="tab-badge">{stats.leagues.active}</span>
-              )}
-            </button>
-
-            <button 
-              className={`admin-nav-tab ${activeSection === 'awards' ? 'active' : ''}`}
-              onClick={() => setActiveSection('awards')}
-            >
-              <Award size={20} />
-              <span>Premios</span>
-              {stats.awards.active > 0 && (
-                <span className="tab-badge">{stats.awards.active}</span>
-              )}
-            </button>
-
-            <button 
-              className={`admin-nav-tab ${activeSection === 'achievements' ? 'active' : ''}`}
-              onClick={() => setActiveSection('achievements')}
-            >
-              <Zap size={20} />
-              <span>Logros</span>
-            </button>
-
-            <button 
-              className={`admin-nav-tab ${activeSection === 'titles' ? 'active' : ''}`}
-              onClick={() => setActiveSection('titles')}
-            >
-              <Package size={20} />
-              <span>Títulos</span>
-            </button>
+          {/* Navigation */}
+          <div className="admin-nav">
+            {sections.map(section => (
+              <button
+                key={section.id}
+                className={`nav-btn ${activeSection === section.id ? 'active' : ''}`}
+                onClick={() => setActiveSection(section.id)}
+              >
+                <section.icon size={18} />
+                <span>{section.label}</span>
+                {section.count > 0 && <span className="badge">{section.count}</span>}
+              </button>
+            ))}
           </div>
 
           {/* Controls */}
           <div className="admin-controls">
-            <div className="search-filter-group">
-              <div className="search-bar">
-                <Search size={20} />
-                <input
-                  type="text"
-                  placeholder={`Buscar ${activeSection}...`}
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                />
-              </div>
-
-              {['matches', 'leagues', 'awards'].includes(activeSection) && (
-                <div className="filter-buttons">
-                  <button 
-                    className={`filter-btn ${filterStatus === 'all' ? 'active' : ''}`}
-                    onClick={() => setFilterStatus('all')}
-                  >
-                    Todos
-                  </button>
-                  <button 
-                    className={`filter-btn ${filterStatus === 'pending' || filterStatus === 'active' ? 'active' : ''}`}
-                    onClick={() => setFilterStatus(activeSection === 'matches' ? 'pending' : 'active')}
-                  >
-                    Activos
-                  </button>
-                  <button 
-                    className={`filter-btn ${filterStatus === 'finished' ? 'active' : ''}`}
-                    onClick={() => setFilterStatus('finished')}
-                  >
-                    Finalizados
-                  </button>
-                </div>
-              )}
+            <div className="search-box">
+              <Search size={18} />
+              <input
+                type="text"
+                placeholder={`Buscar...`}
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
             </div>
 
+            {['matches', 'leagues', 'awards'].includes(activeSection) && (
+              <div className="filter-chips">
+                <button 
+                  className={`chip ${filterStatus === 'all' ? 'active' : ''}`}
+                  onClick={() => setFilterStatus('all')}
+                >
+                  Todos
+                </button>
+                <button 
+                  className={`chip ${filterStatus === 'pending' || filterStatus === 'active' ? 'active' : ''}`}
+                  onClick={() => setFilterStatus(activeSection === 'matches' ? 'pending' : 'active')}
+                >
+                  Activos
+                </button>
+                <button 
+                  className={`chip ${filterStatus === 'finished' ? 'active' : ''}`}
+                  onClick={() => setFilterStatus('finished')}
+                >
+                  Finalizados
+                </button>
+              </div>
+            )}
+
             <button 
-              className="add-new-btn"
+              className="add-btn"
               onClick={() => {
                 if (activeSection === 'matches') setShowMatchModal(true);
                 if (activeSection === 'leagues') setShowLeagueModal(true);
@@ -519,52 +402,52 @@ export default function AdminPage({ currentUser, onBack }) {
                 if (activeSection === 'titles') setShowTitleModal(true);
               }}
             >
-              <Plus size={20} />
-              <span>Agregar Nuevo</span>
+              <Plus size={18} />
+              <span>Agregar</span>
             </button>
           </div>
 
-          {/* Content Area */}
-          <div className="admin-content-area">
+          {/* Content */}
+          <div className="admin-content">
             {activeSection === 'matches' && (
-              <div className="admin-items-grid">
+              <div className="items-grid">
                 {getFilteredItems().map(match => (
-                  <div key={match.id} className="admin-item-card match">
-                    <div className="item-header">
-                      <div className="item-info">
-                        <div className="item-league">{match.league}</div>
-                        <div className="item-teams">
+                  <div key={match.id} className="item-card">
+                    <div className="card-top">
+                      <div className="card-info">
+                        <span className="card-league">{match.league}</span>
+                        <h3 className="card-title">
                           {match.home_team_logo} {match.home_team} vs {match.away_team} {match.away_team_logo}
-                        </div>
-                        <div className="item-meta">
-                          <Calendar size={14} />
+                        </h3>
+                        <div className="card-meta">
+                          <Calendar size={12} />
                           <span>{match.date}</span>
-                          <Clock size={14} />
+                          <Clock size={12} />
                           <span>{match.time}</span>
                         </div>
                       </div>
-                      <div className={`item-status ${match.status}`}>
+                      <span className={`status ${match.status}`}>
                         {match.status === 'pending' ? 'Pendiente' : 'Finalizado'}
-                      </div>
+                      </span>
                     </div>
-                    <div className="item-actions">
+                    <div className="card-actions">
                       {match.status === 'pending' && (
                         <button 
-                          className="action-btn finish"
+                          className="btn-finish"
                           onClick={() => {
                             setItemToFinish(match);
                             setShowFinishMatchModal(true);
                           }}
                         >
-                          <CheckCircle size={16} />
-                          <span>Finalizar</span>
+                          <CheckCircle size={14} />
+                          Finalizar
                         </button>
                       )}
                       <button 
-                        className="action-btn delete"
+                        className="btn-delete"
                         onClick={() => handleDeleteMatch(match.id)}
                       >
-                        <Trash2 size={16} />
+                        <Trash2 size={14} />
                       </button>
                     </div>
                   </div>
@@ -573,38 +456,36 @@ export default function AdminPage({ currentUser, onBack }) {
             )}
 
             {activeSection === 'leagues' && (
-              <div className="admin-items-grid">
+              <div className="items-grid">
                 {getFilteredItems().map(league => (
-                  <div key={league.id} className="admin-item-card league">
-                    <div className="item-header">
-                      <div className="item-info">
-                        <div className="item-title">
-                          {league.logo} {league.name}
-                        </div>
-                        <div className="item-subtitle">{league.season}</div>
+                  <div key={league.id} className="item-card">
+                    <div className="card-top">
+                      <div className="card-info">
+                        <h3 className="card-title">{league.logo} {league.name}</h3>
+                        <p className="card-subtitle">{league.season}</p>
                       </div>
-                      <div className={`item-status ${league.status}`}>
+                      <span className={`status ${league.status}`}>
                         {league.status === 'active' ? 'Activa' : 'Finalizada'}
-                      </div>
+                      </span>
                     </div>
-                    <div className="item-actions">
+                    <div className="card-actions">
                       {league.status === 'active' && (
                         <button 
-                          className="action-btn finish"
+                          className="btn-finish"
                           onClick={() => {
                             setItemToFinish(league);
                             setShowFinishLeagueModal(true);
                           }}
                         >
-                          <CheckCircle size={16} />
-                          <span>Finalizar</span>
+                          <CheckCircle size={14} />
+                          Finalizar
                         </button>
                       )}
                       <button 
-                        className="action-btn delete"
+                        className="btn-delete"
                         onClick={() => handleDeleteLeague(league.id)}
                       >
-                        <Trash2 size={16} />
+                        <Trash2 size={14} />
                       </button>
                     </div>
                   </div>
@@ -613,38 +494,36 @@ export default function AdminPage({ currentUser, onBack }) {
             )}
 
             {activeSection === 'awards' && (
-              <div className="admin-items-grid">
+              <div className="items-grid">
                 {getFilteredItems().map(award => (
-                  <div key={award.id} className="admin-item-card award">
-                    <div className="item-header">
-                      <div className="item-info">
-                        <div className="item-title">
-                          {award.logo} {award.name}
-                        </div>
-                        <div className="item-subtitle">{award.season}</div>
+                  <div key={award.id} className="item-card">
+                    <div className="card-top">
+                      <div className="card-info">
+                        <h3 className="card-title">{award.logo} {award.name}</h3>
+                        <p className="card-subtitle">{award.season}</p>
                       </div>
-                      <div className={`item-status ${award.status}`}>
+                      <span className={`status ${award.status}`}>
                         {award.status === 'active' ? 'Activo' : 'Finalizado'}
-                      </div>
+                      </span>
                     </div>
-                    <div className="item-actions">
+                    <div className="card-actions">
                       {award.status === 'active' && (
                         <button 
-                          className="action-btn finish"
+                          className="btn-finish"
                           onClick={() => {
                             setItemToFinish(award);
                             setShowFinishAwardModal(true);
                           }}
                         >
-                          <CheckCircle size={16} />
-                          <span>Finalizar</span>
+                          <CheckCircle size={14} />
+                          Finalizar
                         </button>
                       )}
                       <button 
-                        className="action-btn delete"
+                        className="btn-delete"
                         onClick={() => handleDeleteAward(award.id)}
                       >
-                        <Trash2 size={16} />
+                        <Trash2 size={14} />
                       </button>
                     </div>
                   </div>
@@ -653,36 +532,32 @@ export default function AdminPage({ currentUser, onBack }) {
             )}
 
             {activeSection === 'achievements' && (
-              <div className="admin-items-grid">
+              <div className="items-grid">
                 {getFilteredItems().map(achievement => (
-                  <div key={achievement.id} className="admin-item-card achievement">
-                    <div className="item-header">
-                      <div className="item-info">
-                        <div className="item-title">
-                          {achievement.icon} {achievement.name}
-                        </div>
-                        <div className="item-subtitle">{achievement.description}</div>
-                        <div className="item-meta">
-                          <span className="category-badge">{achievement.category}</span>
-                          <span>{achievement.requirement_value} {achievement.requirement_type}</span>
-                        </div>
+                  <div key={achievement.id} className="item-card">
+                    <div className="card-top">
+                      <div className="card-info">
+                        <h3 className="card-title">{achievement.icon} {achievement.name}</h3>
+                        <p className="card-subtitle">{achievement.description}</p>
+                        <span className="card-badge">{achievement.category}</span>
                       </div>
                     </div>
-                    <div className="item-actions">
+                    <div className="card-actions">
                       <button 
-                        className="action-btn edit"
+                        className="btn-edit"
                         onClick={() => {
                           setEditingItem(achievement);
                           setShowAchievementModal(true);
                         }}
                       >
-                        <Edit2 size={16} />
+                        <Edit2 size={14} />
+                        Editar
                       </button>
                       <button 
-                        className="action-btn delete"
+                        className="btn-delete"
                         onClick={() => handleDeleteAchievement(achievement.id)}
                       >
-                        <Trash2 size={16} />
+                        <Trash2 size={14} />
                       </button>
                     </div>
                   </div>
@@ -691,32 +566,31 @@ export default function AdminPage({ currentUser, onBack }) {
             )}
 
             {activeSection === 'titles' && (
-              <div className="admin-items-grid">
+              <div className="items-grid">
                 {getFilteredItems().map(title => (
-                  <div key={title.id} className="admin-item-card title">
-                    <div className="item-header">
-                      <div className="item-info">
-                        <div className="item-title" style={{ color: title.color }}>
-                          {title.name}
-                        </div>
-                        <div className="item-subtitle">{title.description}</div>
+                  <div key={title.id} className="item-card">
+                    <div className="card-top">
+                      <div className="card-info">
+                        <h3 className="card-title" style={{ color: title.color }}>{title.name}</h3>
+                        <p className="card-subtitle">{title.description}</p>
                       </div>
                     </div>
-                    <div className="item-actions">
+                    <div className="card-actions">
                       <button 
-                        className="action-btn edit"
+                        className="btn-edit"
                         onClick={() => {
                           setEditingItem(title);
                           setShowTitleModal(true);
                         }}
                       >
-                        <Edit2 size={16} />
+                        <Edit2 size={14} />
+                        Editar
                       </button>
                       <button 
-                        className="action-btn delete"
+                        className="btn-delete"
                         onClick={() => handleDeleteTitle(title.id)}
                       >
-                        <Trash2 size={16} />
+                        <Trash2 size={14} />
                       </button>
                     </div>
                   </div>
@@ -725,9 +599,8 @@ export default function AdminPage({ currentUser, onBack }) {
             )}
 
             {getFilteredItems().length === 0 && (
-              <div className="admin-empty-state">
-                <AlertCircle size={48} />
-                <p>No hay {activeSection} para mostrar</p>
+              <div className="empty-state">
+                <p>No hay {activeSection} disponibles</p>
               </div>
             )}
           </div>
@@ -736,81 +609,44 @@ export default function AdminPage({ currentUser, onBack }) {
       </div>
 
       {/* Modales */}
-      {showMatchModal && (
-        <AdminModal 
-          onAdd={handleAddMatch} 
-          onClose={() => setShowMatchModal(false)} 
-        />
-      )}
-
-      {showLeagueModal && (
-        <AdminLeagueModal 
-          onAdd={handleAddLeague} 
-          onClose={() => setShowLeagueModal(false)} 
-        />
-      )}
-
-      {showAwardModal && (
-        <AdminAwardModal 
-          onAdd={handleAddAward}
-          onClose={() => setShowAwardModal(false)}
-        />
-      )}
-
+      {showMatchModal && <AdminModal onAdd={handleAddMatch} onClose={() => setShowMatchModal(false)} />}
+      {showLeagueModal && <AdminLeagueModal onAdd={handleAddLeague} onClose={() => setShowLeagueModal(false)} />}
+      {showAwardModal && <AdminAwardModal onAdd={handleAddAward} onClose={() => setShowAwardModal(false)} />}
       {showAchievementModal && (
         <AdminAchievementsModal
-          onClose={() => {
-            setShowAchievementModal(false);
-            setEditingItem(null);
-          }}
+          onClose={() => { setShowAchievementModal(false); setEditingItem(null); }}
           onSave={handleSaveAchievement}
           onDelete={handleDeleteAchievement}
           existingAchievement={editingItem}
         />
       )}
-
       {showTitleModal && (
         <AdminTitlesModal
-          onClose={() => {
-            setShowTitleModal(false);
-            setEditingItem(null);
-          }}
+          onClose={() => { setShowTitleModal(false); setEditingItem(null); }}
           onSave={handleSaveTitle}
           onDelete={handleDeleteTitle}
           existingTitle={editingItem}
         />
       )}
-
-      {showFinishLeagueModal && itemToFinish && (
-        <FinishLeagueModal 
-          league={itemToFinish}
-          onFinish={handleFinishLeague}
-          onClose={() => {
-            setShowFinishLeagueModal(false);
-            setItemToFinish(null);
-          }}
-        />
-      )}
-
       {showFinishMatchModal && itemToFinish && (
         <FinishMatchModal 
           match={itemToFinish}
           onFinish={handleFinishMatch}
-          onClose={() => {
-            setShowFinishMatchModal(false);
-            setItemToFinish(null);
-          }}
+          onClose={() => { setShowFinishMatchModal(false); setItemToFinish(null); }}
         />
       )}
-
+      {showFinishLeagueModal && itemToFinish && (
+        <FinishLeagueModal 
+          league={itemToFinish}
+          onFinish={handleFinishLeague}
+          onClose={() => { setShowFinishLeagueModal(false); setItemToFinish(null); }}
+        />
+      )}
       {showFinishAwardModal && itemToFinish && (
         <FinishAwardModal 
           award={itemToFinish}
           onFinish={handleFinishAward}
-          onClose={() => {
-            setShowFinishAwardModal(false);
-            setItemToFinish(null);
-          }}
+          onClose={() => { setShowFinishAwardModal(false); setItemToFinish(null); }}
         />
       )}
 
