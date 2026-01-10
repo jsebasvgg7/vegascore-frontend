@@ -1,4 +1,4 @@
-// src/pages/DashboardPage.jsx
+// src/pages/DashboardPage.jsx - VERSIÓN MINIMALISTA
 import React, { useState, useMemo } from "react";
 import { Trophy, TrendingUp, Target, Filter, X } from "lucide-react";
 
@@ -74,15 +74,14 @@ export default function VegaScorePage() {
     finishAward: finishAwardHook
   } = useAwards(currentUser);
 
-  // ========== LEAGUE FILTERS ==========
+  // ========== LEAGUE FILTERS - Reducido a lo esencial ==========
   const leagueCategories = [
     { id: 'all', name: 'Todos', icon: '🌍', leagues: [] },
     { id: 'england', name: 'Inglaterra', icon: '🏴󠁧󠁢󠁥󠁮󠁧󠁿', leagues: ['Premier League', 'Championship', 'FA Cup', 'Carabao Cup'] },
     { id: 'spain', name: 'España', icon: '🇪🇸', leagues: ['La Liga', 'Copa del Rey', 'Supercopa'] },
     { id: 'italy', name: 'Italia', icon: '🇮🇹', leagues: ['Serie A', 'Coppa Italia', 'Supercoppa'] },
-    { id: 'germany', name: 'Alemania', icon: '🇩🇪', leagues: ['Bundesliga', 'DFB Pokal', 'Supercup'] },
-    { id: 'france', name: 'Francia', icon: '🇫🇷', leagues: ['Ligue 1', 'Coupe de France', 'Trophée des Champions'] },
-    { id: 'europe', name: 'Europa', icon: '🏆', leagues: ['UEFA Champions League', 'UEFA Europa League', 'UEFA Conference League', 'Champions League', 'Europa League', 'Conference League'] }
+    { id: 'germany', name: 'Alemania', icon: '🇩🇪', leagues: ['Bundesliga', 'DFB Pokal'] },
+    { id: 'europe', name: 'Europa', icon: '🏆', leagues: ['Champions League', 'Europa League', 'Conference League'] }
   ];
 
   // ========== HANDLERS - PAGINAS ==========
@@ -101,7 +100,7 @@ export default function VegaScorePage() {
       const now = new Date();
       const deadline = new Date(match.deadline);
       if (now > deadline) {
-        toast.warning("El tiempo para hacer predicciones ha expirado");
+        toast.warning("Plazo expirado");
         return;
       }
     }
@@ -112,7 +111,7 @@ export default function VegaScorePage() {
       awayScore,
       (matchList) => {
         updateMatches(matchList);
-        toast.success("¡Predicción guardada exitosamente! 🎯");
+        toast.success("Guardado 🎯");
       },
       (error) => toast.error(`Error: ${error}`)
     );
@@ -128,7 +127,7 @@ export default function VegaScorePage() {
       mvp,
       (leagueList) => {
         updateLeagues(leagueList);
-        toast.success("¡Predicción de liga guardada exitosamente! 🏆");
+        toast.success("Guardado 🏆");
       },
       (error) => toast.error(`Error: ${error}`)
     );
@@ -141,7 +140,7 @@ export default function VegaScorePage() {
       predictedWinner,
       (awardList) => {
         updateAwards(awardList);
-        toast.success("¡Predicción guardada exitosamente! 🏆");
+        toast.success("Guardado 🏆");
       },
       (error) => toast.error(`Error: ${error}`)
     );
@@ -185,7 +184,7 @@ export default function VegaScorePage() {
   if (!currentUser) {
     return (
       <div className="centered">
-        <div>Error: No se pudo cargar el usuario</div>
+        <div>Error: Usuario no encontrado</div>
       </div>
     );
   }
@@ -270,28 +269,27 @@ export default function VegaScorePage() {
 
             {activeTab === 'matches' && (
               <div className="matches-section-premium">
-                {/* Header */}
+                {/* Header Minimalista */}
                 <div className="matches-header-premium">
                   <div className="matches-title-section">
                     <div className="matches-icon-wrapper">
-                      <Trophy size={22} />
+                      <Trophy size={20} />
                     </div>
                     <div>
                       <h2 className="matches-title-premium">Próximos Partidos</h2>
-                      <p className="matches-subtitle-premium">Haz tus predicciones y gana puntos</p>
                     </div>
                   </div>
                   <div className="matches-header-actions">
                     <div className="matches-badge">
                       <Target size={14} />
-                      <span>{filteredMatches.length} disponibles</span>
+                      <span>{filteredMatches.length}</span>
                     </div>
                     <button 
                       className="filter-toggle-btn"
                       onClick={() => setShowFilters(!showFilters)}
+                      title="Filtrar por liga"
                     >
                       <Filter size={16} />
-                      <span>Filtrar</span>
                     </button>
                   </div>
                 </div>
@@ -300,12 +298,12 @@ export default function VegaScorePage() {
                 {showFilters && (
                   <div className="league-filters-panel">
                     <div className="filters-panel-header">
-                      <h3>Filtrar por competición</h3>
+                      <h3>Filtrar</h3>
                       <button 
                         className="filters-close-btn"
                         onClick={() => setShowFilters(false)}
                       >
-                        <X size={18} />
+                        <X size={16} />
                       </button>
                     </div>
                     <div className="league-filters-grid">
@@ -331,7 +329,7 @@ export default function VegaScorePage() {
                             <span className="filter-icon">{category.icon}</span>
                             <div className="filter-info">
                               <span className="filter-name">{category.name}</span>
-                              <span className="filter-count">{categoryMatches.length} partidos</span>
+                              <span className="filter-count">{categoryMatches.length}</span>
                             </div>
                           </button>
                         );
@@ -352,7 +350,7 @@ export default function VegaScorePage() {
                         className="clear-filter-btn"
                         onClick={() => setLeagueFilter('all')}
                       >
-                        <X size={14} />
+                        <X size={12} />
                       </button>
                     </div>
                   </div>
@@ -365,8 +363,8 @@ export default function VegaScorePage() {
                       <div className="matches-empty-icon">⚽</div>
                       <div className="matches-empty-text">
                         {leagueFilter === 'all' 
-                          ? 'No hay partidos disponibles'
-                          : `No hay partidos de ${leagueCategories.find(c => c.id === leagueFilter)?.name}`
+                          ? 'Sin partidos'
+                          : `Sin partidos de ${leagueCategories.find(c => c.id === leagueFilter)?.name}`
                         }
                       </div>
                       {leagueFilter !== 'all' && (
@@ -374,7 +372,7 @@ export default function VegaScorePage() {
                           className="show-all-btn"
                           onClick={() => setLeagueFilter('all')}
                         >
-                          Ver todos los partidos
+                          Ver todos
                         </button>
                       )}
                     </div>
@@ -399,16 +397,15 @@ export default function VegaScorePage() {
                 <div className="matches-header-premium">
                   <div className="matches-title-section">
                     <div className="matches-icon-wrapper">
-                      <Trophy size={22} />
+                      <Trophy size={20} />
                     </div>
                     <div>
                       <h2 className="matches-title-premium">Competiciones</h2>
-                      <p className="matches-subtitle-premium">Predice campeones y goleadores</p>
                     </div>
                   </div>
                   <div className="matches-badge">
                     <Trophy size={14} />
-                    <span>{activeLeagues.length} activas</span>
+                    <span>{activeLeagues.length}</span>
                   </div>
                 </div>
 
@@ -416,8 +413,7 @@ export default function VegaScorePage() {
                   {leagues.length === 0 ? (
                     <div className="matches-empty-state">
                       <div className="matches-empty-icon">🏆</div>
-                      <div className="matches-empty-text">No hay ligas disponibles</div>
-                      <div className="matches-empty-subtext">Las nuevas ligas aparecerán aquí</div>
+                      <div className="matches-empty-text">Sin ligas</div>
                     </div>
                   ) : (
                     leagues.map((league) => (
@@ -440,16 +436,15 @@ export default function VegaScorePage() {
                 <div className="matches-header-premium">
                   <div className="matches-title-section">
                     <div className="matches-icon-wrapper">
-                      <Trophy size={22} />
+                      <Trophy size={20} />
                     </div>
                     <div>
-                      <h2 className="matches-title-premium">Premios Individuales</h2>
-                      <p className="matches-subtitle-premium">Predice ganadores y gana puntos</p>
+                      <h2 className="matches-title-premium">Premios</h2>
                     </div>
                   </div>
                   <div className="matches-badge">
                     <Trophy size={14} />
-                    <span>{activeAwards.length} activos</span>
+                    <span>{activeAwards.length}</span>
                   </div>
                 </div>
 
@@ -457,8 +452,7 @@ export default function VegaScorePage() {
                   {awards.length === 0 ? (
                     <div className="matches-empty-state">
                       <div className="matches-empty-icon">🥇</div>
-                      <div className="matches-empty-text">No hay premios disponibles</div>
-                      <div className="matches-empty-subtext">Los nuevos premios aparecerán aquí</div>
+                      <div className="matches-empty-text">Sin premios</div>
                     </div>
                   ) : (
                     awards.map((award) => (

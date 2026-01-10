@@ -1,8 +1,4 @@
-/* src/styles/pagesStyles/DashboardPage.css */
-
-/* ============================================
-   VEGA SCORE PAGE - Minimal & Modern Design
-============================================ */
+/* src/styles/pagesStyles/DashboardPage.css - MINIMALISTA */
 
 .vega-root {
   min-height: 100vh;
@@ -19,7 +15,7 @@
 }
 
 /* ===================================
-   MATCHES SECTION - Minimal Container
+   MATCHES SECTION - Ultra Minimal
 =================================== */
 
 .matches-section-premium {
@@ -31,12 +27,12 @@
 }
 
 /* ===================================
-   HEADER - Clean & Functional
+   HEADER - Super Clean
 =================================== */
 
 .matches-header-premium {
   background: var(--bg);
-  padding: 20px 24px;
+  padding: 16px 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -46,12 +42,12 @@
 .matches-title-section {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
 }
 
 .matches-icon-wrapper {
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
   border-radius: 10px;
   background: linear-gradient(135deg, var(--accent), var(--accent-light));
   display: flex;
@@ -63,21 +59,19 @@
 
 .matches-title-premium {
   margin: 0;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 700;
   color: var(--text-primary);
 }
 
 .matches-subtitle-premium {
-  margin: 4px 0 0 0;
-  font-size: 13px;
-  color: var(--text-secondary);
+  display: none; /* Ocultar subtítulo para minimalismo */
 }
 
 .matches-header-actions {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
 }
 
 .matches-badge {
@@ -86,30 +80,45 @@
   gap: 6px;
   background: rgba(96, 81, 155, 0.1);
   color: var(--accent);
-  padding: 8px 14px;
+  padding: 6px 12px;
   border-radius: 10px;
   font-size: 13px;
-  font-weight: 700;
+  font-weight: 600;
   border: 1px solid rgba(96, 81, 155, 0.2);
 }
 
+.matches-badge svg {
+  width: 14px;
+  height: 14px;
+}
+
 /* ===================================
-   FILTER TOGGLE BUTTON
+   FILTER TOGGLE - Icono Solo
 =================================== */
 
 .filter-toggle-btn {
   display: flex;
   align-items: center;
   gap: 6px;
-  padding: 8px 16px;
+  padding: 8px 12px;
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: 10px;
-  font-size: 13px;
-  font-weight: 600;
+  font-size: 0; /* Ocultar texto */
   color: var(--text-primary);
   cursor: pointer;
   transition: all 0.2s ease;
+  min-width: 36px;
+  justify-content: center;
+}
+
+.filter-toggle-btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+.filter-toggle-btn span {
+  display: none; /* Ocultar texto "Filtrar" */
 }
 
 .filter-toggle-btn:hover {
@@ -119,18 +128,14 @@
   transform: translateY(-1px);
 }
 
-.filter-toggle-btn:active {
-  transform: translateY(0);
-}
-
 /* ===================================
-   FILTERS PANEL - Dropdown Style
+   FILTERS PANEL - Compacto
 =================================== */
 
 .league-filters-panel {
   background: var(--bg);
   border-bottom: 1px solid var(--border);
-  padding: 20px 24px;
+  padding: 16px 20px;
   animation: slideDown 0.3s ease-out;
 }
 
@@ -149,12 +154,12 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
 }
 
 .filters-panel-header h3 {
   margin: 0;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 700;
   color: var(--text-primary);
   text-transform: uppercase;
@@ -162,8 +167,8 @@
 }
 
 .filters-close-btn {
-  width: 32px;
-  height: 32px;
+  width: 28px;
+  height: 28px;
   border-radius: 8px;
   border: 1px solid var(--border);
   background: var(--card);
@@ -182,20 +187,20 @@
 }
 
 /* ===================================
-   FILTERS GRID - Clean Layout
+   FILTERS GRID - Compacto
 =================================== */
 
 .league-filters-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 12px;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 10px;
 }
 
 .league-filter-btn {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 14px 16px;
+  gap: 10px;
+  padding: 10px 12px;
   background: var(--card);
   border: 2px solid var(--border);
   border-radius: 12px;
@@ -218,7 +223,7 @@
 }
 
 .league-filter-btn .filter-icon {
-  font-size: 24px;
+  font-size: 20px;
   flex-shrink: 0;
 }
 
@@ -231,7 +236,7 @@
 }
 
 .filter-name {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 700;
   color: var(--text-primary);
 }
@@ -251,11 +256,11 @@
 }
 
 /* ===================================
-   ACTIVE FILTER BAR
+   ACTIVE FILTER BAR - Compacto
 =================================== */
 
 .active-filter-bar {
-  padding: 12px 24px;
+  padding: 10px 20px;
   background: var(--bg);
   border-bottom: 1px solid var(--border);
   display: flex;
@@ -266,22 +271,22 @@
 .active-filter-chip {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 8px 12px;
+  gap: 6px;
+  padding: 6px 10px;
   background: linear-gradient(135deg, var(--accent), var(--accent-light));
   border-radius: 10px;
   color: white;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 600;
 }
 
 .active-filter-chip .filter-icon {
-  font-size: 18px;
+  font-size: 16px;
 }
 
 .clear-filter-btn {
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.2);
   border: none;
@@ -293,553 +298,65 @@
   transition: all 0.2s ease;
 }
 
+.clear-filter-btn svg {
+  width: 12px;
+  height: 12px;
+}
+
 .clear-filter-btn:hover {
   background: rgba(255, 255, 255, 0.3);
   transform: rotate(90deg);
 }
 
 /* ===================================
-   MATCHES CONTAINER
+   MATCHES CONTAINER - Más espacioso
 =================================== */
 
 .matches-container {
-  padding: 24px;
+  padding: 20px;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
+  gap: 16px;
 }
 
 /* ===================================
-   EMPTY STATE
+   EMPTY STATE - Minimalista
 =================================== */
 
 .matches-empty-state {
   grid-column: 1 / -1;
   text-align: center;
-  padding: 60px 24px;
+  padding: 48px 24px;
   color: var(--text-secondary);
 }
 
 .matches-empty-icon {
-  font-size: 64px;
-  margin-bottom: 20px;
+  font-size: 48px;
+  margin-bottom: 16px;
   opacity: 0.3;
 }
 
 .matches-empty-text {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 600;
   color: var(--text-primary);
-  margin-bottom: 8px;
+  margin-bottom: 4px;
 }
 
 .matches-empty-subtext {
-  font-size: 14px;
-  color: var(--text-secondary);
-  margin-bottom: 20px;
-}
-
-.show-all-btn {
-  margin-top: 16px;
-  padding: 10px 20px;
-  background: linear-gradient(135deg, var(--accent), var(--accent-light));
-  color: white;
-  border: none;
-  border-radius: 10px;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.show-all-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(96, 81, 155, 0.3);
-}
-
-/* ===================================
-   RESPONSIVE - TABLET
-=================================== */
-
-@media (max-width: 1024px) {
-  .matches-container {
-    grid-template-columns: 1fr;
-  }
-
-  .league-filters-grid {
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  }
-}
-
-/* ===================================
-   RESPONSIVE - MOBILE
-=================================== */
-
-@media (max-width: 768px) {
-  .main-content-full {
-    margin-top: 16px;
-    padding: 0 12px;
-  }
-
-  .matches-section-premium {
-    border-radius: 16px;
-  }
-
-  .matches-header-premium {
-    padding: 16px;
-    flex-wrap: wrap;
-    gap: 12px;
-  }
-
-  .matches-header-actions {
-    width: 100%;
-    justify-content: space-between;
-  }
-
-  .matches-icon-wrapper {
-    width: 36px;
-    height: 36px;
-  }
-
-  .matches-title-premium {
-    font-size: 18px;
-  }
-
-  .matches-subtitle-premium {
-    font-size: 12px;
-  }
-
-  .matches-badge {
-    font-size: 12px;
-    padding: 6px 12px;
-  }
-
-  .filter-toggle-btn {
-    font-size: 12px;
-    padding: 6px 12px;
-  }
-
-  .league-filters-panel {
-    padding: 16px;
-  }
-
-  .league-filters-grid {
-    grid-template-columns: 1fr;
-    gap: 10px;
-  }
-
-  .league-filter-btn {
-    padding: 12px 14px;
-  }
-
-  .active-filter-bar {
-    padding: 10px 16px;
-  }
-
-  .matches-container {
-    padding: 16px;
-    gap: 16px;
-  }
-
-  .matches-empty-state {
-    padding: 40px 20px;
-  }
-
-  .matches-empty-icon {
-    font-size: 48px;
-  }
-
-  .matches-empty-text {
-    font-size: 16px;
-  }
-}
-
-/* ===================================
-   RESPONSIVE - SMALL MOBILE
-=================================== */
-
-@media (max-width: 480px) {
-  .main-content-full {
-    padding: 0 10px;
-  }
-
-  .matches-section-premium {
-    border-radius: 14px;
-  }
-
-  .matches-header-premium {
-    padding: 14px;
-  }
-
-  .matches-icon-wrapper {
-    width: 32px;
-    height: 32px;
-  }
-
-  .matches-title-premium {
-    font-size: 16px;
-  }
-
-  .matches-subtitle-premium {
-    font-size: 11px;
-  }
-
-  .league-filters-panel {
-    padding: 14px;
-  }
-
-  .league-filter-btn {
-    padding: 10px 12px;
-  }
-  /* src/styles/pagesStyles/DashboardPage.css */
-
-/* ============================================
-   VEGA SCORE PAGE - Minimal & Modern Design
-============================================ */
-
-.vega-root {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-
-.main-content-full {
-  margin-top: 24px;
-  max-width: 1200px;
-  margin-left: auto;
-  margin-right: auto;
-  width: 100%;
-}
-
-/* ===================================
-   MATCHES SECTION - Minimal Container
-=================================== */
-
-.matches-section-premium {
-  background: var(--card);
-  border-radius: 20px;
-  overflow: hidden;
-  border: 1px solid var(--border);
-  box-shadow: var(--small-shadow);
-}
-
-/* ===================================
-   HEADER - Clean & Functional
-=================================== */
-
-.matches-header-premium {
-  background: var(--bg);
-  padding: 20px 24px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid var(--border);
-}
-
-.matches-title-section {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.matches-icon-wrapper {
-  width: 40px;
-  height: 40px;
-  border-radius: 10px;
-  background: linear-gradient(135deg, var(--accent), var(--accent-light));
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  flex-shrink: 0;
-}
-
-.matches-title-premium {
-  margin: 0;
-  font-size: 20px;
-  font-weight: 700;
-  color: var(--text-primary);
-}
-
-.matches-subtitle-premium {
-  margin: 4px 0 0 0;
   font-size: 13px;
   color: var(--text-secondary);
-}
-
-.matches-header-actions {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.matches-badge {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  background: rgba(96, 81, 155, 0.1);
-  color: var(--accent);
-  padding: 8px 14px;
-  border-radius: 10px;
-  font-size: 13px;
-  font-weight: 700;
-  border: 1px solid rgba(96, 81, 155, 0.2);
-}
-
-/* ===================================
-   FILTER TOGGLE BUTTON
-=================================== */
-
-.filter-toggle-btn {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 8px 16px;
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--text-primary);
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.filter-toggle-btn:hover {
-  background: var(--glass);
-  border-color: var(--accent);
-  color: var(--accent);
-  transform: translateY(-1px);
-}
-
-.filter-toggle-btn:active {
-  transform: translateY(0);
-}
-
-/* ===================================
-   FILTERS PANEL - Dropdown Style
-=================================== */
-
-.league-filters-panel {
-  background: var(--bg);
-  border-bottom: 1px solid var(--border);
-  padding: 20px 24px;
-  animation: slideDown 0.3s ease-out;
-}
-
-@keyframes slideDown {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.filters-panel-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   margin-bottom: 16px;
 }
 
-.filters-panel-header h3 {
-  margin: 0;
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--text-primary);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.filters-close-btn {
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
-  border: 1px solid var(--border);
-  background: var(--card);
-  color: var(--text-secondary);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.filters-close-btn:hover {
-  background: var(--glass);
-  color: var(--text-primary);
-  border-color: var(--accent);
-}
-
-/* ===================================
-   FILTERS GRID - Clean Layout
-=================================== */
-
-.league-filters-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 12px;
-}
-
-.league-filter-btn {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 14px 16px;
-  background: var(--card);
-  border: 2px solid var(--border);
-  border-radius: 12px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  text-align: left;
-}
-
-.league-filter-btn:hover {
-  border-color: var(--accent);
-  background: var(--glass);
-  transform: translateY(-2px);
-  box-shadow: var(--small-shadow);
-}
-
-.league-filter-btn.active {
-  background: linear-gradient(135deg, var(--accent), var(--accent-light));
-  border-color: var(--accent);
-  color: white;
-}
-
-.league-filter-btn .filter-icon {
-  font-size: 24px;
-  flex-shrink: 0;
-}
-
-.filter-info {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  flex: 1;
-  min-width: 0;
-}
-
-.filter-name {
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--text-primary);
-}
-
-.league-filter-btn.active .filter-name {
-  color: white;
-}
-
-.filter-count {
-  font-size: 11px;
-  font-weight: 500;
-  color: var(--text-secondary);
-}
-
-.league-filter-btn.active .filter-count {
-  color: rgba(255, 255, 255, 0.8);
-}
-
-/* ===================================
-   ACTIVE FILTER BAR
-=================================== */
-
-.active-filter-bar {
-  padding: 12px 24px;
-  background: var(--bg);
-  border-bottom: 1px solid var(--border);
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.active-filter-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 12px;
-  background: linear-gradient(135deg, var(--accent), var(--accent-light));
-  border-radius: 10px;
-  color: white;
-  font-size: 13px;
-  font-weight: 600;
-}
-
-.active-filter-chip .filter-icon {
-  font-size: 18px;
-}
-
-.clear-filter-btn {
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.2);
-  border: none;
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.clear-filter-btn:hover {
-  background: rgba(255, 255, 255, 0.3);
-  transform: rotate(90deg);
-}
-
-/* ===================================
-   MATCHES CONTAINER
-=================================== */
-
-.matches-container {
-  padding: 24px;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
-}
-
-/* ===================================
-   EMPTY STATE
-=================================== */
-
-.matches-empty-state {
-  grid-column: 1 / -1;
-  text-align: center;
-  padding: 60px 24px;
-  color: var(--text-secondary);
-}
-
-.matches-empty-icon {
-  font-size: 64px;
-  margin-bottom: 20px;
-  opacity: 0.3;
-}
-
-.matches-empty-text {
-  font-size: 18px;
-  font-weight: 600;
-  color: var(--text-primary);
-  margin-bottom: 8px;
-}
-
-.matches-empty-subtext {
-  font-size: 14px;
-  color: var(--text-secondary);
-  margin-bottom: 20px;
-}
-
 .show-all-btn {
-  margin-top: 16px;
-  padding: 10px 20px;
+  margin-top: 12px;
+  padding: 8px 16px;
   background: linear-gradient(135deg, var(--accent), var(--accent-light));
   color: white;
   border: none;
   border-radius: 10px;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -857,10 +374,11 @@
 @media (max-width: 1024px) {
   .matches-container {
     grid-template-columns: 1fr;
+    gap: 14px;
   }
 
   .league-filters-grid {
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
   }
 }
 
@@ -870,7 +388,7 @@
 
 @media (max-width: 768px) {
   .main-content-full {
-    margin-top: 16px;
+    margin-top: 14px;
     padding: 0 12px;
   }
 
@@ -879,9 +397,9 @@
   }
 
   .matches-header-premium {
-    padding: 16px;
+    padding: 12px 16px;
     flex-wrap: wrap;
-    gap: 12px;
+    gap: 10px;
   }
 
   .matches-header-actions {
@@ -890,60 +408,61 @@
   }
 
   .matches-icon-wrapper {
-    width: 36px;
-    height: 36px;
+    width: 32px;
+    height: 32px;
   }
 
   .matches-title-premium {
-    font-size: 18px;
-  }
-
-  .matches-subtitle-premium {
-    font-size: 12px;
+    font-size: 16px;
   }
 
   .matches-badge {
-    font-size: 12px;
-    padding: 6px 12px;
+    font-size: 11px;
+    padding: 5px 10px;
   }
 
   .filter-toggle-btn {
-    font-size: 12px;
-    padding: 6px 12px;
+    padding: 6px 10px;
+    min-width: 32px;
   }
 
   .league-filters-panel {
-    padding: 16px;
+    padding: 12px 16px;
   }
 
   .league-filters-grid {
     grid-template-columns: 1fr;
-    gap: 10px;
+    gap: 8px;
   }
 
   .league-filter-btn {
-    padding: 12px 14px;
+    padding: 10px 12px;
   }
 
   .active-filter-bar {
-    padding: 10px 16px;
+    padding: 8px 16px;
   }
 
   .matches-container {
-    padding: 16px;
-    gap: 16px;
+    padding: 14px;
+    gap: 12px;
   }
 
   .matches-empty-state {
-    padding: 40px 20px;
+    padding: 36px 20px;
   }
 
   .matches-empty-icon {
-    font-size: 48px;
+    font-size: 40px;
+    margin-bottom: 12px;
   }
 
   .matches-empty-text {
-    font-size: 16px;
+    font-size: 14px;
+  }
+
+  .matches-empty-subtext {
+    font-size: 12px;
   }
 }
 
@@ -961,41 +480,84 @@
   }
 
   .matches-header-premium {
-    padding: 14px;
+    padding: 10px 14px;
   }
 
   .matches-icon-wrapper {
-    width: 32px;
-    height: 32px;
+    width: 30px;
+    height: 30px;
   }
 
   .matches-title-premium {
-    font-size: 16px;
+    font-size: 15px;
   }
 
-  .matches-subtitle-premium {
-    font-size: 11px;
+  .matches-badge {
+    font-size: 10px;
+    padding: 4px 8px;
+  }
+
+  .filter-toggle-btn {
+    padding: 5px 8px;
+    min-width: 30px;
   }
 
   .league-filters-panel {
-    padding: 14px;
+    padding: 10px 14px;
+  }
+
+  .filters-panel-header h3 {
+    font-size: 12px;
   }
 
   .league-filter-btn {
-    padding: 10px 12px;
-  } 
+    padding: 8px 10px;
+  }
 
   .filter-name {
-  font-size: 13px;
+    font-size: 12px;
   }
 
   .filter-count {
-  font-size: 10px;
+    font-size: 10px;
   }
-  
+
   .matches-container {
-  padding: 14px;
-  gap: 14px;
+    padding: 12px;
+    gap: 10px;
+  }
+
+  .matches-empty-state {
+    padding: 32px 16px;
+  }
+
+  .matches-empty-icon {
+    font-size: 36px;
+  }
+
+  .matches-empty-text {
+    font-size: 13px;
+  }
+
+  .matches-empty-subtext {
+    font-size: 11px;
   }
 }
+
+/* ===================================
+   LANDSCAPE MOBILE
+=================================== */
+
+@media (max-height: 600px) and (orientation: landscape) {
+  .matches-header-premium {
+    padding: 10px 16px;
+  }
+
+  .matches-container {
+    padding: 16px;
+  }
+
+  .matches-empty-state {
+    padding: 24px 20px;
+  }
 }
