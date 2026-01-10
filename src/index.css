@@ -470,72 +470,100 @@ button {
 }
 
 /* ==========================================
-   MOBILE HEADER Y BOTTOM NAV - ADAPTABLES AL TEMA
+   BOTTOM NAVIGATION - ADAPTABLE AL TEMA
 ========================================== */
 
-/* Mobile header - SE ADAPTA AL TEMA */
+/* MODO CLARO - Bottom Nav con fondo claro */
 @media (max-width: 768px) {
-  /* Modo claro - header blanco */
-  [data-theme="light"] .app-header {
+  [data-theme="light"] .bottom-nav {
     background: #ffffff !important;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1) !important;
+    border-top: 1px solid rgba(0, 0, 0, 0.1) !important;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08) !important;
   }
   
-  [data-theme="light"] .app-title {
-    background: linear-gradient(135deg, #60519b 0%, #8b7fc7 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+  /* Barra superior animada en modo claro */
+  [data-theme="light"] .bottom-nav::before {
+    background: linear-gradient(90deg, 
+      transparent,
+      #60519b,
+      #8b7fc7,
+      #60519b,
+      transparent
+    ) !important;
   }
   
-  /* Modo oscuro - header oscuro */
-  [data-theme="dark"] .app-header {
-    background: var(--card) !important;
-    border-bottom: 1px solid var(--border) !important;
+  /* Botones en modo claro - texto oscuro */
+  [data-theme="light"] .bottom-nav-btn {
+    color: #6b7280 !important;
   }
   
-  [data-theme="dark"] .app-title {
-    color: var(--text-primary);
+  /* Hover en modo claro */
+  [data-theme="light"] .bottom-nav-btn:active {
+    background: rgba(96, 81, 155, 0.08) !important;
   }
   
-  /* Bottom Nav - SIEMPRE OSCURO */
-  .bottom-nav {
+  /* Botón activo en modo claro */
+  [data-theme="light"] .bottom-nav-btn.active {
+    color: #60519b !important;
+    background: rgba(96, 81, 155, 0.12) !important;
+  }
+  
+  [data-theme="light"] .bottom-nav-btn.active span {
+    color: #60519b !important;
+  }
+  
+  [data-theme="light"] .bottom-nav-btn.active svg {
+    filter: drop-shadow(0 0 8px rgba(96, 81, 155, 0.4)) !important;
+  }
+  
+  /* Indicador superior en modo claro */
+  [data-theme="light"] .bottom-nav-btn.active::before {
+    background: linear-gradient(90deg, #60519b, #8b7fc7) !important;
+  }
+}
+
+/* MODO OSCURO - Mantener colores oscuros actuales */
+@media (max-width: 768px) {
+  [data-theme="dark"] .bottom-nav {
     background: linear-gradient(135deg, #1e202c 0%, #31323e 100%) !important;
     border-top: 1px solid rgba(96, 81, 155, 0.2) !important;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3) !important;
   }
   
-  /* Botones del bottom nav - SIEMPRE texto claro */
-  .bottom-nav-btn {
+  [data-theme="dark"] .bottom-nav::before {
+    background: linear-gradient(90deg, 
+      transparent,
+      #60519b,
+      #8b7fc7,
+      #60519b,
+      transparent
+    ) !important;
+  }
+  
+  [data-theme="dark"] .bottom-nav-btn {
     color: #bfc0d1 !important;
   }
   
-  .bottom-nav-btn.active {
+  [data-theme="dark"] .bottom-nav-btn:active {
+    background: rgba(96, 81, 155, 0.15) !important;
+  }
+  
+  [data-theme="dark"] .bottom-nav-btn.active {
     color: #ffffff !important;
     background: rgba(96, 81, 155, 0.2) !important;
   }
   
-  .bottom-nav-btn.active span {
+  [data-theme="dark"] .bottom-nav-btn.active span {
     color: #8b7fc7 !important;
   }
-}
-
-/* Forzar para MODO CLARO también en bottom nav */
-[data-theme="light"] .bottom-nav {
-  background: linear-gradient(135deg, #1e202c 0%, #31323e 100%) !important;
-  border-top-color: rgba(96, 81, 155, 0.2) !important;
-}
-
-[data-theme="light"] .bottom-nav-btn {
-  color: #bfc0d1 !important;
-}
-
-[data-theme="light"] .bottom-nav-btn.active {
-  color: #ffffff !important;
-  background: rgba(96, 81, 155, 0.2) !important;
-}
-
-[data-theme="light"] .bottom-nav-btn.active span {
-  color: #8b7fc7 !important;
+  
+  [data-theme="dark"] .bottom-nav-btn.active svg {
+    filter: drop-shadow(0 0 8px rgba(96, 81, 155, 0.6)) !important;
+  }
+  
+  [data-theme="dark"] .bottom-nav-btn.active::before {
+    background: linear-gradient(90deg, #60519b, #8b7fc7) !important;
+  }
 }
 
 /* ================================
