@@ -459,71 +459,151 @@
 }
 
 /* ========================================
-   SCORE BOXES - USANDO VARIABLES
+   SCORE BOXES - SIEMPRE VERDES CON VALORES
 ======================================== */
 
-[data-theme="dark"] .score-separator {
-  color: var(--muted);
+/* MODO CLARO - Score box base (sin valores) */
+.score-box {
+  width: 58px;
+  height: 58px;
+  background: #f8fafc;
+  border: 2px solid #e2e8f0;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
 }
 
-/* Score box normal */
+/* MODO CLARO - Score box CON VALORES (guardado o cerrado) */
+.score-box.saved,
+.score-box.disabled {
+  background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%) !important;
+  border-color: #10b981 !important;
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.15) !important;
+}
+
+/* Input en modo claro */
+.score-input {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  border: none;
+  background: transparent;
+  text-align: center;
+  font-size: 24px;
+  font-weight: 800;
+  color: #1e293b;
+  outline: none;
+  transition: color 0.3s ease;
+}
+
+/* Input con valores (verde oscuro) */
+.score-box.saved .score-input,
+.score-box.disabled .score-input {
+  color: #065f46 !important;
+}
+
+/* MODO OSCURO - Score box base (sin valores) */
 [data-theme="dark"] .score-box {
   background: var(--input-bg);
   border: 2px solid var(--input-border);
-  border-radius: 14px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
-[data-theme="dark"] .score-box:hover:not(.saved):not(.disabled) {
-  background: var(--dark-secondary);
-  border-color: var(--border);
-  border-radius: 14px;
-  transform: translateY(-1px);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-}
-
-/* Score box GUARDADO - Verde con variables de acento */
-[data-theme="dark"] .score-box.saved {
-  background: rgba(16, 185, 129, 0.15);
-  border: 2px solid #10b981;
-  border-radius: 14px;
-  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.25);
-}
-
-[data-theme="dark"] .score-box.saved .score-input {
-  border-radius: 12px;
-}
-
+/* MODO OSCURO - Score box CON VALORES (guardado o cerrado) - VERDE VIBRANTE */
+[data-theme="dark"] .score-box.saved,
 [data-theme="dark"] .score-box.disabled {
-  background: var(--input-bg);
-  border: 2px solid var(--border);
-  border-radius: 14px;
-  opacity: 0.5;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+  border: 2px solid #34d399 !important;
+  box-shadow: 
+    0 0 0 1px rgba(52, 211, 153, 0.3) inset,
+    0 4px 16px rgba(16, 185, 129, 0.35),
+    0 2px 8px rgba(16, 185, 129, 0.25) !important;
 }
 
-/* Input de score */
+/* Input en modo oscuro */
 [data-theme="dark"] .score-input {
   color: var(--text-primary);
 }
 
-[data-theme="dark"] .score-box.saved .score-input {
-  color: #34d399;
+/* Input con valores (blanco en verde) */
+[data-theme="dark"] .score-box.saved .score-input,
+[data-theme="dark"] .score-box.disabled .score-input {
+  color: #ffffff !important;
+  font-weight: 800;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* Placeholder */
+.score-input::placeholder {
+  color: #cbd5e1;
+  opacity: 1;
+  font-weight: 400;
 }
 
 [data-theme="dark"] .score-input::placeholder {
   color: var(--muted);
 }
 
-/* Indicador de guardado */
-[data-theme="dark"] .saved-indicator {
-  background: #10b981;
-  color: white;
-  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.5);
-  border: 2px solid var(--card);
-  z-index: 10;
-  position: absolute;
+/* Disabled state - mantener verde */
+.score-input:disabled {
+  cursor: not-allowed;
+  opacity: 1 !important;
 }
 
+/* Hover solo cuando NO está disabled */
+.score-box:hover:not(.disabled):not(.saved) {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="dark"] .score-box:hover:not(.disabled):not(.saved) {
+  background: var(--dark-secondary);
+  border-color: var(--border);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Indicador de guardado - más pequeño y discreto */
+.saved-indicator {
+  position: absolute;
+  top: -7px;
+  right: -7px;
+  background: #ffffff;
+  color: #10b981;
+  border-radius: 50%;
+  padding: 4px;
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #d1fae5;
+  z-index: 10;
+}
+
+[data-theme="dark"] .saved-indicator {
+  background: #ffffff;
+  color: #10b981;
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.5);
+  border: 2px solid #34d399;
+}
+
+/* Remover spin buttons */
+.score-input::-webkit-outer-spin-button,
+.score-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.score-input[type=number] {
+  -moz-appearance: textfield;
+}
 /* ========================================
    MATCH TIME
 ======================================== */
