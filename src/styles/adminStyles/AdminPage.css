@@ -524,7 +524,7 @@
 }
 
 /* ==========================================
-   RESPONSIVE - LARGE TABLET (769px - 1024px)
+   RESPONSIVE - TABLET (769px - 1024px)
 ========================================== */
 
 @media (max-width: 1024px) and (min-width: 769px) {
@@ -553,7 +553,7 @@
 }
 
 /* ==========================================
-   RESPONSIVE - SMALL TABLET (481px - 768px)
+   RESPONSIVE - TABLET SMALL (481px - 768px)
 ========================================== */
 
 @media (max-width: 768px) and (min-width: 481px) {
@@ -1254,101 +1254,4 @@
 [data-theme="dark"] .spinner-large {
   border-color: #353b4d;
   border-top-color: #8b7fc7;
-}
-
-/* ==========================================
-   OPTIMIZACIÓN PARA TABLETS PEQUEÑAS (≤700px)
-========================================== */
-@media (max-width: 700px) {
-  .admin-stats-overview {
-    grid-template-columns: repeat(2, 1fr); /* 2 columnas en lugar de 4 */
-    gap: 12px;
-  }
-
-  .admin-nav-tabs {
-    padding: 4px;
-  }
-
-  .admin-nav-tab {
-    padding: 10px 12px;
-    font-size: 13px;
-  }
-
-  .admin-nav-tab span {
-    display: none; /* Ocultamos texto para priorizar iconos en este breakpoint */
-  }
-  
-  /* Si prefieres mantener el texto, usa scroll horizontal */
-  .admin-nav-tabs {
-    justify-content: flex-start;
-    overflow-x: auto;
-  }
-  .admin-nav-tab span {
-    display: inline;
-  }
-}
-
-/* ==========================================
-   OPTIMIZACIÓN PARA MÓVILES (≤400px)
-========================================== */
-@media (max-width: 400px) {
-  .admin-page {
-    padding: 10px 8px 80px;
-  }
-
-  /* Estadísticas: Una sola columna para que el texto no se corte */
-  .admin-stats-overview {
-    grid-template-columns: 1fr;
-  }
-
-  .admin-stat-card {
-    padding: 14px;
-    flex-direction: row; /* Volvemos a fila para maximizar espacio horizontal */
-    text-align: left;
-  }
-
-  .admin-stat-card .stat-value {
-    font-size: 22px;
-  }
-
-  /* Barra de búsqueda y filtros */
-  .search-filter-group {
-    flex-direction: column;
-  }
-
-  .filter-buttons {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); /* Botones de filtro en rejilla */
-    width: 100%;
-  }
-
-  .filter-btn {
-    padding: 8px 4px;
-    font-size: 11px;
-    text-align: center;
-  }
-
-  /* Tarjetas de ítems */
-  .admin-item-card {
-    padding: 12px;
-  }
-
-  .item-teams {
-    font-size: 12px;
-    line-height: 1.4;
-  }
-
-  /* Acciones: Botones apilados o más grandes para facilitar el toque */
-  .item-actions {
-    flex-direction: row;
-    flex-wrap: nowrap;
-  }
-
-  .action-btn {
-    padding: 12px 8px; /* Área de toque más alta */
-  }
-
-  .action-btn.delete {
-    flex: 0 0 45px; /* Mantener el botón de borrar pequeño al lado */
-  }
 }
