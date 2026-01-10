@@ -54,856 +54,411 @@
   position: relative;
   z-index: 10;
 }
-
 /* Stats Overview */
 .admin-stats-overview {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
+display: grid;
+grid-template-columns: repeat(4, 1fr);
+gap: 20px;
 }
-
 .admin-stat-card {
-  background: linear-gradient(135deg, #FFFFFF 0%, #F8FAFC 100%);
-  border-radius: 20px;
-  padding: 24px;
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  border: 2px solid rgba(124, 58, 237, 0.1);
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
+background: linear-gradient(135deg, #FFFFFF 0%, #F8FAFC 100%);
+border-radius: 20px;
+padding: 24px;
+display: flex;
+align-items: center;
+gap: 20px;
+border: 2px solid rgba(124, 58, 237, 0.1);
+box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+transition: all 0.3s ease;
 }
-
 .admin-stat-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 0 30px rgba(124, 58, 237, 0.2);
+transform: translateY(-4px);
+box-shadow: 0 0 30px rgba(124, 58, 237, 0.2);
 }
-
 .admin-stat-card .stat-icon-wrapper {
-  width: 64px;
-  height: 64px;
-  border-radius: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  flex-shrink: 0;
+width: 64px;
+height: 64px;
+border-radius: 16px;
+display: flex;
+align-items: center;
+justify-content: center;
+color: white;
+flex-shrink: 0;
 }
-
 .admin-stat-card.matches .stat-icon-wrapper {
-  background: linear-gradient(135deg, #10B981, #059669);
+background: linear-gradient(135deg, #10B981, #059669);
 }
-
 .admin-stat-card.leagues .stat-icon-wrapper {
-  background: linear-gradient(135deg, #F59E0B, #D97706);
+background: linear-gradient(135deg, #F59E0B, #D97706);
 }
-
 .admin-stat-card.awards .stat-icon-wrapper {
-  background: linear-gradient(135deg, #EF4444, #DC2626);
+background: linear-gradient(135deg, #EF4444, #DC2626);
 }
-
 .admin-stat-card.system .stat-icon-wrapper {
-  background: linear-gradient(135deg, #7C3AED, #5B21B6);
+background: linear-gradient(135deg, #7C3AED, #5B21B6);
 }
-
 .admin-stat-card .stat-content {
-  flex: 1;
+flex: 1;
 }
-
 .admin-stat-card .stat-label {
-  font-size: 13px;
-  font-weight: 700;
-  color: #6B7280;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin-bottom: 4px;
+font-size: 13px;
+font-weight: 700;
+color: #6B7280;
+text-transform: uppercase;
+letter-spacing: 0.5px;
+margin-bottom: 4px;
 }
-
 .admin-stat-card .stat-value {
-  font-size: 32px;
-  font-weight: 900;
-  color: #1F2937;
-  line-height: 1;
+font-size: 32px;
+font-weight: 900;
+color: #1F2937;
+line-height: 1;
 }
-
 .admin-stat-card .stat-detail {
-  font-size: 13px;
-  color: #9CA3AF;
-  margin-top: 4px;
+font-size: 13px;
+color: #9CA3AF;
+margin-top: 4px;
 }
-
 /* Navigation Tabs */
 .admin-nav-tabs {
-  display: flex;
-  gap: 12px;
-  background: white;
-  padding: 8px;
-  border-radius: 20px;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-  border: 2px solid rgba(124, 58, 237, 0.1);
+display: flex;
+gap: 12px;
+background: white;
+padding: 8px;
+border-radius: 20px;
+box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+border: 2px solid rgba(124, 58, 237, 0.1);
 }
-
 .admin-nav-tab {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  padding: 14px 24px;
-  border: none;
-  border-radius: 14px;
-  background: transparent;
-  color: #6B7280;
-  font-weight: 700;
-  font-size: 15px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  position: relative;
+flex: 1;
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 10px;
+padding: 14px 24px;
+border: none;
+border-radius: 14px;
+background: transparent;
+color: #6B7280;
+font-weight: 700;
+font-size: 15px;
+cursor: pointer;
+transition: all 0.3s ease;
+position: relative;
 }
-
 .admin-nav-tab:hover {
-  background: #F9FAFB;
-  color: #374151;
+background: #F9FAFB;
+color: #374151;
 }
-
 .admin-nav-tab.active {
-  background: linear-gradient(135deg, #7C3AED, #5B21B6);
-  color: white;
-  box-shadow: 0 4px 16px rgba(124, 58, 237, 0.4);
+background: linear-gradient(135deg, #7C3AED, #5B21B6);
+color: white;
+box-shadow: 0 4px 16px rgba(124, 58, 237, 0.4);
 }
-
 .tab-badge {
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  background: #EF4444;
-  color: white;
-  font-size: 11px;
-  font-weight: 800;
-  padding: 2px 6px;
-  border-radius: 10px;
-  min-width: 20px;
-  text-align: center;
+position: absolute;
+top: 8px;
+right: 8px;
+background: #EF4444;
+color: white;
+font-size: 11px;
+font-weight: 800;
+padding: 2px 6px;
+border-radius: 10px;
+min-width: 20px;
+text-align: center;
 }
-
 /* Controls */
 .admin-controls {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 16px;
+display: flex;
+justify-content: space-between;
+align-items: center;
+gap: 16px;
 }
-
 .search-filter-group {
-  display: flex;
-  gap: 12px;
-  flex: 1;
+display: flex;
+gap: 12px;
+flex: 1;
 }
-
 .search-bar {
-  flex: 1;
-  max-width: 400px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  background: white;
-  border: 2px solid #E5E7EB;
-  border-radius: 14px;
-  padding: 12px 20px;
-  transition: all 0.2s ease;
+flex: 1;
+max-width: 400px;
+display: flex;
+align-items: center;
+gap: 12px;
+background: white;
+border: 2px solid #E5E7EB;
+border-radius: 14px;
+padding: 12px 20px;
+transition: all 0.2s ease;
 }
-
 .search-bar:focus-within {
-  border-color: #7C3AED;
-  box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.1);
+border-color: #7C3AED;
+box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.1);
 }
-
 .search-bar input {
-  flex: 1;
-  border: none;
-  outline: none;
-  font-size: 15px;
-  color: #1F2937;
-  background: transparent;
+flex: 1;
+border: none;
+outline: none;
+font-size: 15px;
+color: #1F2937;
+background: transparent;
 }
-
 .search-bar input::placeholder {
-  color: #9CA3AF;
+color: #9CA3AF;
 }
-
 .filter-buttons {
-  display: flex;
-  gap: 8px;
-  background: white;
-  border-radius: 14px;
-  padding: 4px;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+display: flex;
+gap: 8px;
+background: white;
+border-radius: 14px;
+padding: 4px;
+box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
-
 .filter-btn {
-  padding: 10px 16px;
-  border: none;
-  border-radius: 10px;
-  background: transparent;
-  color: #6B7280;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
+padding: 10px 16px;
+border: none;
+border-radius: 10px;
+background: transparent;
+color: #6B7280;
+font-size: 14px;
+font-weight: 600;
+cursor: pointer;
+transition: all 0.2s ease;
 }
-
 .filter-btn:hover {
-  background: #F3F4F6;
-  color: #374151;
+background: #F3F4F6;
+color: #374151;
 }
-
 .filter-btn.active {
-  background: linear-gradient(135deg, #7C3AED, #5B21B6);
-  color: white;
+background: linear-gradient(135deg, #7C3AED, #5B21B6);
+color: white;
 }
-
 .add-new-btn {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 14px 24px;
-  background: linear-gradient(135deg, #7C3AED, #5B21B6);
-  color: white;
-  border: none;
-  border-radius: 14px;
-  font-size: 15px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 16px rgba(124, 58, 237, 0.3);
+display: flex;
+align-items: center;
+gap: 10px;
+padding: 14px 24px;
+background: linear-gradient(135deg, #7C3AED, #5B21B6);
+color: white;
+border: none;
+border-radius: 14px;
+font-size: 15px;
+font-weight: 700;
+cursor: pointer;
+transition: all 0.3s ease;
+box-shadow: 0 4px 16px rgba(124, 58, 237, 0.3);
 }
-
 .add-new-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(124, 58, 237, 0.4);
+transform: translateY(-2px);
+box-shadow: 0 8px 24px rgba(124, 58, 237, 0.4);
 }
-
 /* Content Area */
 .admin-content-area {
-  background: white;
-  border-radius: 24px;
-  padding: 32px;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-  border: 2px solid rgba(124, 58, 237, 0.1);
-  min-height: 500px;
+background: white;
+border-radius: 24px;
+padding: 32px;
+box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+border: 2px solid rgba(124, 58, 237, 0.1);
+min-height: 500px;
 }
-
 .admin-items-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
-  gap: 20px;
+display: grid;
+grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+gap: 20px;
 }
-
 .admin-item-card {
-  background: #F9FAFB;
-  border-radius: 16px;
-  padding: 20px;
-  border: 2px solid #E5E7EB;
-  transition: all 0.3s ease;
+background: #F9FAFB;
+border-radius: 16px;
+padding: 20px;
+border: 2px solid #E5E7EB;
+transition: all 0.3s ease;
 }
-
 .admin-item-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-  border-color: #7C3AED;
+transform: translateY(-4px);
+box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+border-color: #7C3AED;
 }
-
 .item-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 16px;
+display: flex;
+justify-content: space-between;
+align-items: flex-start;
+margin-bottom: 16px;
 }
-
 .item-info {
-  flex: 1;
+flex: 1;
 }
-
 .item-league,
 .item-title {
-  font-size: 16px;
-  font-weight: 700;
-  color: #1F2937;
-  margin-bottom: 8px;
+font-size: 16px;
+font-weight: 700;
+color: #1F2937;
+margin-bottom: 8px;
 }
-
 .item-teams,
 .item-subtitle {
-  font-size: 14px;
-  color: #6B7280;
-  margin-bottom: 8px;
+font-size: 14px;
+color: #6B7280;
+margin-bottom: 8px;
 }
-
 .item-meta {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-size: 13px;
-  color: #9CA3AF;
+display: flex;
+align-items: center;
+gap: 12px;
+font-size: 13px;
+color: #9CA3AF;
 }
-
 .item-status {
-  padding: 6px 12px;
-  border-radius: 12px;
-  font-size: 12px;
-  font-weight: 700;
-  text-transform: uppercase;
+padding: 6px 12px;
+border-radius: 12px;
+font-size: 12px;
+font-weight: 700;
+text-transform: uppercase;
 }
-
 .item-status.pending,
 .item-status.active {
-  background: rgba(245, 158, 11, 0.1);
-  color: #D97706;
+background: rgba(245, 158, 11, 0.1);
+color: #D97706;
 }
-
 .item-status.finished {
-  background: rgba(16, 185, 129, 0.1);
-  color: #059669;
+background: rgba(16, 185, 129, 0.1);
+color: #059669;
 }
-
 .category-badge {
-  padding: 4px 10px;
-  background: rgba(124, 58, 237, 0.1);
-  color: #7C3AED;
-  border-radius: 8px;
-  font-size: 11px;
-  font-weight: 700;
-  text-transform: uppercase;
+padding: 4px 10px;
+background: rgba(124, 58, 237, 0.1);
+color: #7C3AED;
+border-radius: 8px;
+font-size: 11px;
+font-weight: 700;
+text-transform: uppercase;
 }
-
 .item-actions {
-  display: flex;
-  gap: 8px;
-  margin-top: 16px;
-  padding-top: 16px;
-  border-top: 2px solid #E5E7EB;
+display: flex;
+gap: 8px;
+margin-top: 16px;
+padding-top: 16px;
+border-top: 2px solid #E5E7EB;
 }
-
 .action-btn {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 10px 16px;
-  border: none;
-  border-radius: 10px;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
+flex: 1;
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 8px;
+padding: 10px 16px;
+border: none;
+border-radius: 10px;
+font-size: 14px;
+font-weight: 600;
+cursor: pointer;
+transition: all 0.2s ease;
 }
-
 .action-btn.finish {
-  background: linear-gradient(135deg, #10B981, #059669);
-  color: white;
+background: linear-gradient(135deg, #10B981, #059669);
+color: white;
 }
-
 .action-btn.edit {
-  background: linear-gradient(135deg, #3B82F6, #2563EB);
-  color: white;
+background: linear-gradient(135deg, #3B82F6, #2563EB);
+color: white;
 }
-
 .action-btn.delete {
-  background: linear-gradient(135deg, #EF4444, #DC2626);
-  color: white;
+background: linear-gradient(135deg, #EF4444, #DC2626);
+color: white;
 }
-
 .action-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+transform: translateY(-2px);
+box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
-
 /* Empty State */
 .admin-empty-state {
-  text-align: center;
-  padding: 80px 24px;
-  color: #9CA3AF;
+text-align: center;
+padding: 80px 24px;
+color: #9CA3AF;
 }
-
 .admin-empty-state svg {
-  margin-bottom: 20px;
-  opacity: 0.3;
+margin-bottom: 20px;
+opacity: 0.3;
 }
-
 .admin-empty-state p {
-  font-size: 18px;
-  font-weight: 600;
-  color: #6B7280;
-  margin: 16px 0 24px;
+font-size: 18px;
+font-weight: 600;
+color: #6B7280;
+margin: 16px 0 24px;
 }
-
 /* Loading */
 .admin-page-loading {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 20px;
-  color: #6B7280;
+min-height: 100vh;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+gap: 20px;
+color: #6B7280;
 }
-
 .spinner-large {
-  width: 60px;
-  height: 60px;
-  border: 4px solid #F3F4F6;
-  border-top-color: #7C3AED;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
+width: 60px;
+height: 60px;
+border: 4px solid #F3F4F6;
+border-top-color: #7C3AED;
+border-radius: 50%;
+animation: spin 1s linear infinite;
 }
-
 @keyframes spin {
-  to { transform: rotate(360deg); }
+to { transform: rotate(360deg); }
 }
-
-/* ==========================================
-   RESPONSIVE - MEJORADO PARA MÓVILES
-========================================== */
-
-/* Tablets grandes */
+/* Responsive */
 @media (max-width: 1200px) {
-  .admin-stats-overview {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  
-  .admin-items-grid {
-    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-  }
+.admin-stats-overview {
+grid-template-columns: repeat(2, 1fr);
 }
-
-/* Tablets */
-@media (max-width: 900px) {
-  .admin-page {
-    padding: 24px 16px;
-  }
-
-  .admin-page-container {
-    gap: 24px;
-  }
-
-  .admin-items-grid {
-    grid-template-columns: 1fr;
-  }
+.admin-items-grid {
+grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
 }
-
-/* Móviles grandes */
+}
 @media (max-width: 768px) {
-  .admin-page {
-    padding: 20px 12px;
-  }
-
-  .admin-page::before {
-    height: 250px;
-    border-radius: 0 0 24px 24px;
-  }
-
-  .admin-page-title {
-    font-size: 28px;
-    gap: 12px;
-  }
-
-  .admin-page-container {
-    gap: 20px;
-  }
-
-  /* Stats - 1 columna */
-  .admin-stats-overview {
-    grid-template-columns: 1fr;
-    gap: 12px;
-  }
-
-  .admin-stat-card {
-    padding: 16px;
-    gap: 14px;
-    border-radius: 16px;
-  }
-
-  .admin-stat-card .stat-icon-wrapper {
-    width: 52px;
-    height: 52px;
-    border-radius: 12px;
-  }
-
-  .admin-stat-card .stat-value {
-    font-size: 26px;
-  }
-
-  .admin-stat-card .stat-label {
-    font-size: 12px;
-  }
-
-  /* Tabs - Scroll horizontal */
-  .admin-nav-tabs {
-    gap: 6px;
-    padding: 6px;
-    border-radius: 16px;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    flex-wrap: nowrap;
-  }
-
-  .admin-nav-tabs::-webkit-scrollbar {
-    display: none;
-  }
-
-  .admin-nav-tab {
-    padding: 12px 16px;
-    font-size: 14px;
-    gap: 8px;
-    border-radius: 12px;
-    flex-shrink: 0;
-    min-width: fit-content;
-  }
-
-  .admin-nav-tab span {
-    display: inline;
-  }
-
-  .tab-badge {
-    top: 6px;
-    right: 6px;
-    font-size: 10px;
-    padding: 2px 5px;
-  }
-
-  /* Controles en columna */
-  .admin-controls {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 12px;
-  }
-
-  .search-filter-group {
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .search-bar {
-    max-width: none;
-    padding: 10px 16px;
-    border-radius: 12px;
-  }
-
-  .search-bar input {
-    font-size: 14px;
-  }
-
-  .filter-buttons {
-    width: 100%;
-    border-radius: 12px;
-    justify-content: space-between;
-  }
-
-  .filter-btn {
-    flex: 1;
-    padding: 10px 12px;
-    font-size: 13px;
-  }
-
-  .add-new-btn {
-    width: 100%;
-    justify-content: center;
-    padding: 12px 20px;
-    font-size: 14px;
-    border-radius: 12px;
-  }
-
-  /* Content area */
-  .admin-content-area {
-    padding: 20px 16px;
-    border-radius: 20px;
-  }
-
-  .admin-items-grid {
-    gap: 14px;
-  }
-
-  .admin-item-card {
-    padding: 16px;
-    border-radius: 14px;
-  }
-
-  .item-header {
-    margin-bottom: 12px;
-  }
-
-  .item-league,
-  .item-title {
-    font-size: 15px;
-    margin-bottom: 6px;
-  }
-
-  .item-teams,
-  .item-subtitle {
-    font-size: 13px;
-  }
-
-  .item-meta {
-    gap: 8px;
-    font-size: 12px;
-    flex-wrap: wrap;
-  }
-
-  .item-status {
-    padding: 5px 10px;
-    font-size: 11px;
-  }
-
-  .item-actions {
-    gap: 6px;
-    margin-top: 12px;
-    padding-top: 12px;
-  }
-
-  .action-btn {
-    padding: 10px 12px;
-    font-size: 13px;
-    gap: 6px;
-    border-radius: 8px;
-  }
-
-  .action-btn svg {
-    width: 14px;
-    height: 14px;
-  }
-
-  /* Empty state */
-  .admin-empty-state {
-    padding: 60px 20px;
-  }
-
-  .admin-empty-state svg {
-    width: 40px;
-    height: 40px;
-  }
-
-  .admin-empty-state p {
-    font-size: 16px;
-  }
+.admin-page {
+padding: 20px 16px;
 }
-
-/* Móviles pequeños */
+.admin-page-title {
+font-size: 32px;
+}
+.admin-stats-overview {
+grid-template-columns: 1fr;
+gap: 12px;
+}
+.admin-nav-tabs {
+flex-wrap: wrap;
+}
+.admin-nav-tab {
+font-size: 14px;
+padding: 12px 16px;
+}
+.admin-nav-tab span {
+display: none;
+}
+.admin-controls {
+flex-direction: column;
+align-items: stretch;
+}
+.search-filter-group {
+flex-direction: column;
+}
+.search-bar {
+max-width: none;
+}
+.admin-content-area {
+padding: 20px;
+}
+.admin-items-grid {
+grid-template-columns: 1fr;
+}
+}
 @media (max-width: 480px) {
-  .admin-page {
-    padding: 16px 10px;
-  }
-
-  .admin-page-title {
-    font-size: 24px;
-    gap: 10px;
-  }
-
-  .admin-page-container {
-    gap: 16px;
-  }
-
-  /* Stats más compactos */
-  .admin-stats-overview {
-    gap: 10px;
-  }
-
-  .admin-stat-card {
-    padding: 14px;
-    gap: 12px;
-  }
-
-  .admin-stat-card .stat-icon-wrapper {
-    width: 44px;
-    height: 44px;
-    border-radius: 10px;
-  }
-
-  .admin-stat-card .stat-icon-wrapper svg {
-    width: 20px;
-    height: 20px;
-  }
-
-  .admin-stat-card .stat-value {
-    font-size: 22px;
-  }
-
-  .admin-stat-card .stat-label {
-    font-size: 11px;
-  }
-
-  .admin-stat-card .stat-detail {
-    font-size: 11px;
-  }
-
-  /* Tabs más pequeños */
-  .admin-nav-tab {
-    padding: 10px 14px;
-    font-size: 13px;
-    gap: 6px;
-  }
-
-  .admin-nav-tab svg {
-    width: 16px;
-    height: 16px;
-  }
-
-  /* Controles */
-  .search-bar {
-    padding: 9px 14px;
-    gap: 8px;
-  }
-
-  .search-bar svg {
-    width: 18px;
-    height: 18px;
-  }
-
-  .search-bar input {
-    font-size: 13px;
-  }
-
-  .filter-btn {
-    padding: 9px 10px;
-    font-size: 12px;
-  }
-
-  .add-new-btn {
-    padding: 11px 18px;
-    font-size: 13px;
-    gap: 8px;
-  }
-
-  .add-new-btn svg {
-    width: 18px;
-    height: 18px;
-  }
-
-  /* Content area */
-  .admin-content-area {
-    padding: 16px 12px;
-    border-radius: 16px;
-  }
-
-  .admin-items-grid {
-    gap: 12px;
-  }
-
-  .admin-item-card {
-    padding: 14px;
-    border-radius: 12px;
-  }
-
-  .item-league,
-  .item-title {
-    font-size: 14px;
-    margin-bottom: 5px;
-  }
-
-  .item-teams,
-  .item-subtitle {
-    font-size: 12px;
-    margin-bottom: 5px;
-  }
-
-  .item-meta {
-    gap: 6px;
-    font-size: 11px;
-  }
-
-  .item-meta svg {
-    width: 12px;
-    height: 12px;
-  }
-
-  .item-status {
-    padding: 4px 8px;
-    font-size: 10px;
-  }
-
-  .category-badge {
-    padding: 3px 8px;
-    font-size: 10px;
-  }
-
-  .item-actions {
-    gap: 5px;
-    margin-top: 10px;
-    padding-top: 10px;
-  }
-
-  .action-btn {
-    padding: 9px 8px;
-    font-size: 12px;
-    gap: 4px;
-  }
-
-  .action-btn span {
-    display: none;
-  }
-
-  .action-btn svg {
-    width: 16px;
-    height: 16px;
-  }
-
-  /* Loading */
-  .spinner-large {
-    width: 48px;
-    height: 48px;
-    border: 3px solid #F3F4F6;
-  }
-
-  .admin-page-loading {
-    gap: 16px;
-  }
-
-  .admin-page-loading p {
-    font-size: 14px;
-  }
-
-  /* Empty state */
-  .admin-empty-state {
-    padding: 40px 16px;
-  }
-
-  .admin-empty-state svg {
-    width: 36px;
-    height: 36px;
-  }
-
-  .admin-empty-state p {
-    font-size: 14px;
-  }
+.admin-page-title {
+font-size: 28px;
 }
-
-/* Móviles muy pequeños */
-@media (max-width: 360px) {
-  .admin-page {
-    padding: 14px 8px;
-  }
-
-  .admin-page-title {
-    font-size: 22px;
-  }
-
-  .admin-stat-card .stat-value {
-    font-size: 20px;
-  }
-
-  .admin-nav-tab {
-    padding: 9px 12px;
-    font-size: 12px;
-  }
-
-  .filter-btn {
-    font-size: 11px;
-    padding: 8px 8px;
-  }
-
-  .item-league,
-  .item-title {
-    font-size: 13px;
-  }
+.admin-stat-card .stat-value {
+font-size: 28px;
+}
 }
