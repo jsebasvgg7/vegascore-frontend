@@ -216,15 +216,6 @@ export default function MatchCard({ match, userPred, onPredict }) {
             <Clock size={13} />
             <span>{match.time}</span>
           </div>
-           
-          {showSaveButton && (
-            <button
-              className="save-button"
-              onClick={handleSubmit}
-            >
-              {isSaved ? "Actualizar" : "Guardar"}
-            </button>
-          )}
 
         </div>
 
@@ -240,13 +231,20 @@ export default function MatchCard({ match, userPred, onPredict }) {
         </div>
       </div>
 
-      {/* FOOTER */}
+      {/* FOOTER - AHORA CON EL BOTÓN */}
       <div className="match-footer">
-        {isDisabled ? (
+        {isPastDeadline ? (
           <span className="status-message expired">
             <Clock size={14} /> Plazo de predicción expirado
           </span>
-        ) : !showSaveButton && isSaved ? (
+        ) : showSaveButton ? (
+          <button
+            className="save-button"
+            onClick={handleSubmit}
+          >
+            {isSaved ? "Actualizar" : "Guardar"}
+          </button>
+        ) : !isDisabled && isSaved ? (
           <span className="status-message saved">
             <CheckCircle2 size={14} />
             Predicción guardada
