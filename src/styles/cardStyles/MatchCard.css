@@ -87,7 +87,7 @@
 ======================================== */
 
 .match-content {
-  padding: 24px 18px;
+  padding: 20px 18px;
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
@@ -162,12 +162,12 @@
   height: 56px;
   background: #f9fafb;
   border: 2px solid #e5e7eb;
-  border-radius: 12px;
+  border-radius: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
-  transition: all 0.2s;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .score-box:hover:not(.saved) {
@@ -250,12 +250,11 @@
 ======================================== */
 
 .match-footer {
-  padding: 12px 16px;
+  padding: 14px 18px;
   border-top: 1px dashed #e5e7eb;
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 48px;
 }
 
 .status-message {
@@ -455,7 +454,7 @@
   
   .match-content {
     grid-template-columns: 1fr auto 1fr;
-    padding: 20px 14px;
+    padding: 16px 14px;
     gap: 12px;
   }
   
@@ -484,6 +483,7 @@
   .score-box {
     width: 48px;
     height: 48px;
+    border-radius: 12px;
   }
   
   .score-input {
@@ -502,7 +502,7 @@
   }
   
   .match-footer {
-    padding: 10px 12px;
+    padding: 12px 14px;
   }
   
   .status-message {
@@ -522,6 +522,10 @@
     font-size: 12px;
   }
   
+  .match-content {
+    padding: 14px 12px;
+  }
+  
   .team-logo-container {
     width: 48px;
     height: 48px;
@@ -538,6 +542,7 @@
   .score-box {
     width: 44px;
     height: 44px;
+    border-radius: 10px;
   }
   
   .score-input {
@@ -547,5 +552,9 @@
   .save-button {
     padding: 8px 16px;
     font-size: 11px;
+  }
+  
+  .match-footer {
+    padding: 10px 12px;
   }
 }
