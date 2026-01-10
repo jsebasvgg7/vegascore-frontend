@@ -490,7 +490,7 @@
   border: 2px solid #10b981;
   border-radius: 14px;
   box-shadow: 0 2px 8px rgba(16, 185, 129, 0.25);
-  overflow: hidden;
+  overflow: visible;
 }
 
 [data-theme="dark"] .score-box.disabled {
@@ -519,6 +519,8 @@
   color: white;
   box-shadow: 0 2px 8px rgba(16, 185, 129, 0.5);
   border: 2px solid var(--card);
+  z-index: 10;
+  position: absolute;
 }
 
 /* ========================================
