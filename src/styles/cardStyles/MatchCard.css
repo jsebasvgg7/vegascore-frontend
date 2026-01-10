@@ -73,12 +73,12 @@
   align-items: center;
   gap: 6px;
   padding: 6px 12px;
-  background: rgba(59, 130, 246, 0.08);
-  border: 1px solid rgba(59, 130, 246, 0.15);
+  background: rgba(96, 81, 155, 0.08);
+  border: 1px solid rgba(96, 81, 155, 0.15);
   border-radius: 8px;
   font-size: 12px;
   font-weight: 600;
-  color: #3b82f6;
+  color: #60519b;
   flex-shrink: 0;
   white-space: nowrap;
 }
@@ -382,7 +382,7 @@
   box-shadow: 
     0 4px 16px rgba(0, 0, 0, 0.6),
     0 12px 32px rgba(0, 0, 0, 0.4);
-  border-color: rgba(139, 92, 246, 0.4);
+  border-color: rgba(139, 127, 199, 0.4);
 }
 
 [data-theme="dark"] .match-header {
@@ -403,10 +403,10 @@
 }
 
 [data-theme="dark"] .match-date {
-  background: rgba(139, 92, 246, 0.15);
-  border-color: rgba(139, 92, 246, 0.35);
-  color: #a78bfa;
-  box-shadow: 0 1px 3px rgba(139, 92, 246, 0.25);
+  background: rgba(139, 127, 199, 0.15);
+  border-color: rgba(139, 127, 199, 0.35);
+  color: #a599d9;
+  box-shadow: 0 1px 3px rgba(139, 127, 199, 0.25);
 }
 
 [data-theme="dark"] .team-logo-wrapper {
@@ -569,6 +569,7 @@
 @media (max-width: 767px) {
   .match-card {
     border-radius: 12px;
+    margin-bottom: 0;
   }
   
   .match-header {
@@ -657,215 +658,5 @@
   .save-button {
     padding: 10px 20px;
     font-size: 13px;
-  }
-  
-  .status-message {
-    font-size: 12px;
-    gap: 6px;
-    padding: 7px 14px;
-  }
-}
-
-/* ========================================
-   RESPONSIVE - MOBILE PEQUEÑO (≤480px)
-======================================== */
-
-@media (max-width: 480px) {
-  .match-card {
-    border-radius: 12px;
-  }
-
-  .match-header {
-    padding: 12px 14px;
-  }
-  
-  .league-logo,
-  .league-icon-fallback {
-    width: 18px;
-    height: 18px;
-  }
-  
-  .league-name {
-    font-size: 12px;
-  }
-  
-  .match-date {
-    padding: 4px 9px;
-    font-size: 11px;
-    gap: 4px;
-  }
-  
-  .match-content {
-    padding: 16px 14px;
-    gap: 12px;
-  }
-  
-  .team-logo-wrapper {
-    width: 52px;
-    height: 52px;
-    border-radius: 10px;
-  }
-  
-  .team-logo {
-    width: 40px;
-    height: 40px;
-  }
-  
-  .team-emoji {
-    font-size: 36px;
-  }
-  
-  .team-name {
-    font-size: 13px;
-  }
-  
-  .prediction-section {
-    min-width: 110px;
-    gap: 9px;
-  }
-  
-  .score-inputs {
-    gap: 7px;
-  }
-  
-  .score-separator {
-    font-size: 22px;
-  }
-  
-  .score-box {
-    width: 46px;
-    height: 46px;
-    border-radius: 10px;
-  }
-  
-  .score-input {
-    font-size: 18px;
-  }
-  
-  .saved-indicator {
-    top: -6px;
-    right: -6px;
-    padding: 3px;
-  }
-  
-  .saved-indicator svg {
-    width: 10px;
-    height: 10px;
-  }
-  
-  .match-time {
-    padding: 5px 10px;
-    font-size: 11px;
-  }
-  
-  .match-footer {
-    padding: 12px 14px;
-    min-height: 52px;
-  }
-  
-  .save-button {
-    padding: 9px 18px;
-    font-size: 12px;
-    border-radius: 10px;
-  }
-  
-  .status-message {
-    font-size: 11px;
-    gap: 5px;
-    padding: 6px 12px;
-  }
-}
-
-/* ========================================
-   RESPONSIVE - EXTRA PEQUEÑO (≤360px)
-======================================== */
-
-@media (max-width: 360px) {
-  .match-header {
-    padding: 10px 12px;
-  }
-  
-  .league-logo,
-  .league-icon-fallback {
-    width: 16px;
-    height: 16px;
-  }
-  
-  .league-name {
-    font-size: 11px;
-  }
-  
-  .match-date {
-    padding: 4px 8px;
-    font-size: 10px;
-  }
-  
-  .match-content {
-    padding: 14px 12px;
-    gap: 10px;
-  }
-  
-  .team-logo-wrapper {
-    width: 48px;
-    height: 48px;
-    border-radius: 8px;
-  }
-  
-  .team-logo {
-    width: 36px;
-    height: 36px;
-  }
-  
-  .team-emoji {
-    font-size: 32px;
-  }
-  
-  .team-name {
-    font-size: 12px;
-  }
-  
-  .prediction-section {
-    min-width: 100px;
-    gap: 8px;
-  }
-  
-  .score-inputs {
-    gap: 6px;
-  }
-  
-  .score-separator {
-    font-size: 20px;
-  }
-  
-  .score-box {
-    width: 42px;
-    height: 42px;
-    border-radius: 9px;
-  }
-  
-  .score-input {
-    font-size: 17px;
-  }
-  
-  .match-time {
-    padding: 4px 9px;
-    font-size: 10px;
-  }
-  
-  .match-footer {
-    padding: 10px 12px;
-    min-height: 48px;
-  }
-  
-  .save-button {
-    padding: 8px 16px;
-    font-size: 11px;
-    border-radius: 9px;
-  }
-  
-  .status-message {
-    font-size: 10px;
-    gap: 5px;
-    padding: 5px 10px;
-  }
+  } 
 }

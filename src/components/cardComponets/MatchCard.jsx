@@ -191,8 +191,6 @@ export default function MatchCard({ match, userPred, onPredict }) {
               )}
             </div>
             
-            <div className="score-separator">:</div>
-            
             <div className={`score-box ${isSaved ? 'saved' : ''} ${isDisabled ? 'disabled' : ''}`}>
               <input
                 type="number"
