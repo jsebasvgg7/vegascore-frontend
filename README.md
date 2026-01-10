@@ -470,7 +470,11 @@ Usa el [issue tracker](https://github.com/tu-usuario/globalscore/issues) con:
 **Link del Proyecto**: [https://https://github.com/jsebasvgg7/GlobalScore](https://github.com/jsebasvgg7/GlobalScore)
 
 ---
+## 🫱🏼‍🫲🏼 Colaborador
 
+- [FRIEND](https://www.instagram.com/brainy_bh?igsh=ZzJzZ2J1dWd6dnEw) - The Brainy 
+
+---
 ## 🙏 Agradecimientos
 
 - [React](https://reactjs.org/) - Framework frontend
@@ -486,7 +490,6 @@ Usa el [issue tracker](https://github.com/tu-usuario/globalscore/issues) con:
 - [FRIEND](https://www.instagram.com/f_dixxz7?igsh=djlzM28yaHdwdTBs) - Francisco Diaz
 - [FRIEND](https://www.instagram.com/bry4n._tdc?igsh=ZDcwMXEwZ2V4emZ1) - Bryan Tuñon
 - [FRIEND](https://www.instagram.com/tmichael_27?igsh=am9kd2ZhYXk0NzB2) - Mahicol Hurtado
-- [FRIEND](https://www.instagram.com/brainy_bh?igsh=ZzJzZ2J1dWd6dnEw) - The Brainy 
 
 ---
 

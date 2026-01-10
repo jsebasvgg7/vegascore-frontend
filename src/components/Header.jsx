@@ -52,38 +52,20 @@ export default function Header({ currentUser, users = [], onProfileClick }) {
       <header className="app-header">
         <div className="header-left">
           <button 
-            className="logo-box-button" 
-            onClick={handleHomeClick}
-            aria-label="Ir al inicio"
-            title="Volver al Inicio"
+            className="icon-btn logout-btn" 
+            onClick={handleLogout} 
+            aria-label="Cerrar sesión"
+            title="Cerrar Sesión"
           >
-            <Trophy size={28} />
+            <LogOut size={18} />
           </button>
-          <div className="title-wrap">
-            <h1 className="app-title">GlobalScore</h1>
-            <div className="app-sub">
-              {location.pathname === '/app' && 'Inicio'}
-              {location.pathname === '/ranking' && 'Ranking'}
-              {location.pathname === '/admin' && 'Administración'}
-              {location.pathname === '/profile' && 'Perfil'}
-              {location.pathname === '/notifications' && 'Notificaciones'}
-              {location.pathname === '/stats' && 'Estadísticas'}
-              {location.pathname === '/worldcup' && 'Mundial 2026'}
-            </div>
-          </div>
+        </div>
+
+        <div className="header-center">
+          <h1 className="app-title">GlobalScore</h1>
         </div>
 
         <div className="header-right">
-          <button 
-            className="icon-btn theme-btn" 
-            onClick={toggleTheme}
-            aria-label={theme === 'light' ? 'Activar modo oscuro' : 'Activar modo claro'}
-            title={theme === 'light' ? 'Modo Oscuro' : 'Modo Claro'}
-          >
-            {theme === 'light' ? <Moon size={18} /> : <Sun size={18} />}
-          </button>
-
-          {/* Notificaciones - SIEMPRE VISIBLE en header */}
           <button 
             className="icon-btn notifications-btn" 
             onClick={handleNotificationsClick} 
@@ -93,6 +75,16 @@ export default function Header({ currentUser, users = [], onProfileClick }) {
             <Bell size={18} />
           </button>
 
+          <button 
+            className="icon-btn theme-btn" 
+            onClick={toggleTheme}
+            aria-label={theme === 'light' ? 'Activar modo oscuro' : 'Activar modo claro'}
+            title={theme === 'light' ? 'Modo Oscuro' : 'Modo Claro'}
+          >
+            {theme === 'light' ? <Moon size={18} /> : <Sun size={18} />}
+          </button>
+
+          {/* Botones solo para desktop */}
           <button
             className="icon-btn worldcup-btn desktop-only"
             onClick={handleWorldCupClick}
@@ -139,19 +131,10 @@ export default function Header({ currentUser, users = [], onProfileClick }) {
           >
             <User2 size={18} />
           </button>
-
-          <button 
-            className="icon-btn logout-btn" 
-            onClick={handleLogout} 
-            aria-label="Cerrar sesión"
-            title="Cerrar Sesión"
-          >
-            <LogOut size={18} />
-          </button>
         </div>
       </header>
 
-      {/* Bottom Navigation Bar - Sin notificaciones */}
+      {/* Bottom Navigation Bar */}
       <nav className="bottom-nav">
         <button 
           className={`bottom-nav-btn ${isActive('/app') ? 'active' : ''}`}
