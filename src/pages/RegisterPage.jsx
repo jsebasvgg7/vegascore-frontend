@@ -21,7 +21,6 @@ export default function RegisterPage() {
   };
 
   const validateName = (name) => {
-    // Solo letras, espacios y caracteres acentuados
     const regex = /^[a-zA-ZÀ-ÿ\s]{3,50}$/;
     return regex.test(name.trim());
   };
@@ -70,7 +69,7 @@ export default function RegisterPage() {
     setLoading(true);
 
     try {
-      // Verificar si el email ya existe
+      // 1. Verificar si el email ya existe en users
       const { data: existingUser, error: checkError } = await supabase
         .from("users")
         .select("email")
@@ -90,13 +89,14 @@ export default function RegisterPage() {
         return;
       }
 
-      // Crear cuenta de autenticación
+      // 2. Crear cuenta de autenticación CON METADATA
       const { data: authData, error: signUpError } = await supabase.auth.signUp({
         email: email.trim().toLowerCase(),
         password,
         options: {
           data: {
-            name: name.trim()
+            name: name.trim(), // ← GUARDAMOS EL NOMBRE EN METADATA
+            display_name: name.trim()
           }
         }
       });
@@ -121,39 +121,66 @@ export default function RegisterPage() {
         return;
       }
 
-      console.log("Usuario de autenticación creado:", authData.user.id);
+      console.log("✅ Usuario de autenticación creado:", authData.user.id);
 
-      // Crear perfil en la base de datos
-      const { error: insertError } = await supabase
+      // 3. ESPERAR UN MOMENTO antes de crear el perfil
+      // Esto evita race condition con App.jsx
+      await new Promise(resolve => setTimeout(resolve, 500));
+
+      // 4. Verificar si App.jsx ya creó el perfil
+      const { data: checkProfile } = await supabase
         .from("users")
-        .insert({
-          auth_id: authData.user.id,
-          name: name.trim(),
-          email: email.trim().toLowerCase(),
-          points: 0,
-          predictions: 0,
-          correct: 0,
-          weekly_points: 0,
-          weekly_predictions: 0,
-          weekly_correct: 0,
-          current_streak: 0,
-          best_streak: 0
-        });
+        .select("id")
+        .eq("auth_id", authData.user.id)
+        .maybeSingle();
 
-      if (insertError) {
-        console.error("Error al crear perfil:", insertError);
+      if (checkProfile) {
+        console.log("ℹ️ Perfil ya creado por App.jsx, actualizando nombre...");
         
-        // Si falla la creación del perfil, eliminar el usuario de auth
-        await supabase.auth.admin.deleteUser(authData.user.id);
+        // Solo actualizar el nombre si App.jsx ya creó el perfil
+        const { error: updateError } = await supabase
+          .from("users")
+          .update({ name: name.trim() })
+          .eq("auth_id", authData.user.id);
+
+        if (updateError) {
+          console.error("Error actualizando nombre:", updateError);
+        }
+      } else {
+        // 5. Crear perfil solo si no existe
+        console.log("📝 Creando perfil en base de datos...");
         
-        setError("No se pudo crear el perfil. Por favor intenta de nuevo o contacta al soporte.");
-        setLoading(false);
-        return;
+        const { error: insertError } = await supabase
+          .from("users")
+          .insert({
+            auth_id: authData.user.id,
+            name: name.trim(),
+            email: email.trim().toLowerCase(),
+            points: 0,
+            predictions: 0,
+            correct: 0,
+            weekly_points: 0,
+            weekly_predictions: 0,
+            weekly_correct: 0,
+            current_streak: 0,
+            best_streak: 0
+          });
+
+        if (insertError) {
+          console.error("Error al crear perfil:", insertError);
+          
+          // Si falla la creación del perfil, eliminar el usuario de auth
+          await supabase.auth.admin.deleteUser(authData.user.id);
+          
+          setError("No se pudo crear el perfil. Por favor intenta de nuevo o contacta al soporte.");
+          setLoading(false);
+          return;
+        }
+
+        console.log("✅ Perfil creado exitosamente");
       }
 
-      console.log("Perfil creado exitosamente");
-
-      // Registro exitoso
+      // 6. Registro exitoso
       setSuccess(
         "¡Cuenta creada exitosamente! " +
         (authData.user.identities?.length === 0 
@@ -167,10 +194,10 @@ export default function RegisterPage() {
       setPassword("");
       setConfirmPassword("");
 
-      // Redirigir después de 3 segundos
+      // Redirigir después de 2 segundos
       setTimeout(() => {
         navigate("/");
-      }, 3000);
+      }, 2000);
 
     } catch (err) {
       console.error("Error inesperado:", err);
@@ -304,7 +331,6 @@ export default function RegisterPage() {
             </button>
           </div>
 
-          {/* Indicador de fuerza de contraseña */}
           {password && (
             <div style={{
               padding: '8px 12px',

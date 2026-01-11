@@ -73,118 +73,153 @@ export default function App() {
     };
   }, []);
 
-  const loadUserData = async (authId) => {
-    try {
-      console.log("🔍 Loading user data for auth_id:", authId);
+  // Reemplaza la función loadUserData en App.jsx con esta versión corregida:
 
-      // 1. Obtener perfil del usuario
-      const { data: profile, error: profileError } = await supabase
-        .from("users")
-        .select("*")
-        .eq("auth_id", authId)
-        .maybeSingle();
+const loadUserData = async (authId) => {
+  try {
+    console.log("🔍 Loading user data for auth_id:", authId);
 
-      if (profileError) {
-        console.error("❌ Profile error:", profileError);
-        
-        // Si hay error de permisos o tabla no encontrada, cerrar sesión
-        if (profileError.code === 'PGRST116' || 
-            profileError.message.includes('permission') ||
-            profileError.message.includes('not found')) {
-          console.log("🚪 Signing out due to profile error");
-          await supabase.auth.signOut();
-          setSession(null);
-          setCurrentUser(null);
-          setLoading(false);
-          setInitialLoad(false);
-          return;
-        }
-        throw profileError;
-      }
+    // 1. Obtener perfil del usuario
+    const { data: profile, error: profileError } = await supabase
+      .from("users")
+      .select("*")
+      .eq("auth_id", authId)
+      .maybeSingle();
 
-      // 2. Si no existe el perfil, crearlo
-      if (!profile) {
-        console.log("📝 Profile not found, creating new profile...");
-        
-        const { data: authUser, error: authError } = await supabase.auth.getUser();
-        
-        if (authError || !authUser?.user) {
-          console.error("❌ Auth user not found:", authError);
-          await supabase.auth.signOut();
-          setSession(null);
-          setCurrentUser(null);
-          setLoading(false);
-          setInitialLoad(false);
-          return;
-        }
-
-        // Crear perfil con todos los campos necesarios
-        const { data: newProfile, error: createError } = await supabase
-          .from("users")
-          .insert({
-            auth_id: authId,
-            name: authUser.user.email?.split('@')[0] || "Usuario",
-            email: authUser.user.email,
-            points: 0,
-            predictions: 0,
-            correct: 0,
-            weekly_points: 0,
-            weekly_predictions: 0,
-            weekly_correct: 0,
-            current_streak: 0,
-            best_streak: 0
-          })
-          .select()
-          .single();
-
-        if (createError) {
-          console.error("❌ Create profile error:", createError);
-          
-          // Si falla la creación del perfil, cerrar sesión
-          console.log("🚪 Signing out due to profile creation failure");
-          await supabase.auth.signOut();
-          setSession(null);
-          setCurrentUser(null);
-          setLoading(false);
-          setInitialLoad(false);
-          return;
-        }
-
-        console.log("✅ New profile created:", newProfile);
-        setCurrentUser(newProfile);
-      } else {
-        console.log("✅ Profile loaded:", profile);
-        setCurrentUser(profile);
-      }
-
-      // 3. Cargar lista de usuarios para el ranking
-      const { data: userList, error: usersError } = await supabase
-        .from("users")
-        .select("*")
-        .order("points", { ascending: false });
-
-      if (usersError) {
-        console.error("⚠️ Error loading users list:", usersError);
-        // No cerramos sesión por esto, solo lo registramos
-      } else {
-        setUsers(userList || []);
-      }
-
-    } catch (err) {
-      console.error("💥 Unexpected error loading user data:", err);
+    if (profileError) {
+      console.error("❌ Profile error:", profileError);
       
-      // En caso de error inesperado, cerrar sesión para evitar bugs
-      console.log("🚪 Signing out due to unexpected error");
-      await supabase.auth.signOut();
-      setSession(null);
-      setCurrentUser(null);
-    } finally {
-      setTimeout(() => {
+      if (profileError.code === 'PGRST116' || 
+          profileError.message.includes('permission') ||
+          profileError.message.includes('not found')) {
+        console.log("🚪 Signing out due to profile error");
+        await supabase.auth.signOut();
+        setSession(null);
+        setCurrentUser(null);
         setLoading(false);
         setInitialLoad(false);
-      }, 300);
+        return;
+      }
+      throw profileError;
     }
-  };
+
+    // 2. Si no existe el perfil, crearlo
+    if (!profile) {
+      console.log("📝 Profile not found, creating new profile...");
+      
+      const { data: authUser, error: authError } = await supabase.auth.getUser();
+      
+      if (authError || !authUser?.user) {
+        console.error("❌ Auth user not found:", authError);
+        await supabase.auth.signOut();
+        setSession(null);
+        setCurrentUser(null);
+        setLoading(false);
+        setInitialLoad(false);
+        return;
+      }
+
+      // ✅ USAR EL NOMBRE DE USER_METADATA SI EXISTE
+      const userName = authUser.user.user_metadata?.name || 
+                       authUser.user.user_metadata?.display_name ||
+                       authUser.user.email?.split('@')[0] || 
+                       "Usuario";
+
+      console.log("👤 Nombre para el perfil:", userName);
+
+      // Crear perfil con el nombre correcto
+      const { data: newProfile, error: createError } = await supabase
+        .from("users")
+        .insert({
+          auth_id: authId,
+          name: userName, // ← NOMBRE CORRECTO
+          email: authUser.user.email,
+          points: 0,
+          predictions: 0,
+          correct: 0,
+          weekly_points: 0,
+          weekly_predictions: 0,
+          weekly_correct: 0,
+          current_streak: 0,
+          best_streak: 0
+        })
+        .select()
+        .single();
+
+      if (createError) {
+        console.error("❌ Create profile error:", createError);
+        
+        // Si el error es duplicado, intentar obtener el perfil existente
+        if (createError.code === '23505') { // Código de duplicado en PostgreSQL
+          console.log("⚠️ Perfil duplicado detectado, intentando obtener...");
+          
+          const { data: existingProfile } = await supabase
+            .from("users")
+            .select("*")
+            .eq("auth_id", authId)
+            .single();
+
+          if (existingProfile) {
+            console.log("✅ Perfil existente encontrado");
+            setCurrentUser(existingProfile);
+            
+            // Continuar con la carga de usuarios
+            const { data: userList } = await supabase
+              .from("users")
+              .select("*")
+              .order("points", { ascending: false });
+            setUsers(userList || []);
+            
+            setTimeout(() => {
+              setLoading(false);
+              setInitialLoad(false);
+            }, 300);
+            return;
+          }
+        }
+        
+        console.log("🚪 Signing out due to profile creation failure");
+        await supabase.auth.signOut();
+        setSession(null);
+        setCurrentUser(null);
+        setLoading(false);
+        setInitialLoad(false);
+        return;
+      }
+
+      console.log("✅ New profile created:", newProfile);
+      setCurrentUser(newProfile);
+    } else {
+      console.log("✅ Profile loaded:", profile);
+      setCurrentUser(profile);
+    }
+
+    // 3. Cargar lista de usuarios para el ranking
+    const { data: userList, error: usersError } = await supabase
+      .from("users")
+      .select("*")
+      .order("points", { ascending: false });
+
+    if (usersError) {
+      console.error("⚠️ Error loading users list:", usersError);
+    } else {
+      setUsers(userList || []);
+    }
+
+  } catch (err) {
+    console.error("💥 Unexpected error loading user data:", err);
+    
+    console.log("🚪 Signing out due to unexpected error");
+    await supabase.auth.signOut();
+    setSession(null);
+    setCurrentUser(null);
+  } finally {
+    setTimeout(() => {
+      setLoading(false);
+      setInitialLoad(false);
+    }, 300);
+  }
+};
 
   if (loading && initialLoad) {
     return <PageLoader />;
