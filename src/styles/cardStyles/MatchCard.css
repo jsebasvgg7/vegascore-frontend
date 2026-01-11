@@ -474,7 +474,6 @@
   position: relative;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
-  overflow: hidden; /* Esto asegura que nada se salga de los bordes redondeados */
 }
 
 .score-box:hover:not(.saved):not(.disabled) {
