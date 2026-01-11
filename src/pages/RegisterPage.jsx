@@ -123,64 +123,48 @@ export default function RegisterPage() {
 
       console.log("✅ Usuario de autenticación creado:", authData.user.id);
 
-      // 3. ESPERAR UN MOMENTO antes de crear el perfil
-      // Esto evita race condition con App.jsx
-      await new Promise(resolve => setTimeout(resolve, 500));
-
-      // 4. Verificar si App.jsx ya creó el perfil
-      const { data: checkProfile } = await supabase
+      // 3. Crear perfil en la base de datos INMEDIATAMENTE
+      console.log("📝 Creando perfil en base de datos...");
+      
+      const { error: insertError } = await supabase
         .from("users")
-        .select("id")
-        .eq("auth_id", authData.user.id)
-        .maybeSingle();
+        .insert({
+          auth_id: authData.user.id,
+          name: name.trim(),
+          email: email.trim().toLowerCase(),
+          points: 0,
+          predictions: 0,
+          correct: 0,
+          weekly_points: 0,
+          weekly_predictions: 0,
+          weekly_correct: 0,
+          current_streak: 0,
+          best_streak: 0
+        });
 
-      if (checkProfile) {
-        console.log("ℹ️ Perfil ya creado por App.jsx, actualizando nombre...");
+      if (insertError) {
+        console.error("Error al crear perfil:", insertError);
         
-        // Solo actualizar el nombre si App.jsx ya creó el perfil
-        const { error: updateError } = await supabase
-          .from("users")
-          .update({ name: name.trim() })
-          .eq("auth_id", authData.user.id);
-
-        if (updateError) {
-          console.error("Error actualizando nombre:", updateError);
-        }
-      } else {
-        // 5. Crear perfil solo si no existe
-        console.log("📝 Creando perfil en base de datos...");
-        
-        const { error: insertError } = await supabase
-          .from("users")
-          .insert({
-            auth_id: authData.user.id,
-            name: name.trim(),
-            email: email.trim().toLowerCase(),
-            points: 0,
-            predictions: 0,
-            correct: 0,
-            weekly_points: 0,
-            weekly_predictions: 0,
-            weekly_correct: 0,
-            current_streak: 0,
-            best_streak: 0
-          });
-
-        if (insertError) {
-          console.error("Error al crear perfil:", insertError);
+        // Si ya existe (duplicado), ignorar el error
+        if (insertError.code === '23505') {
+          console.log("⚠️ El perfil ya existe, continuando...");
+        } else {
+          // Si es otro error, eliminar el usuario de auth
+          try {
+            await supabase.auth.signOut();
+          } catch (e) {
+            console.error("Error signing out:", e);
+          }
           
-          // Si falla la creación del perfil, eliminar el usuario de auth
-          await supabase.auth.admin.deleteUser(authData.user.id);
-          
-          setError("No se pudo crear el perfil. Por favor intenta de nuevo o contacta al soporte.");
+          setError("No se pudo crear el perfil. Por favor intenta de nuevo.");
           setLoading(false);
           return;
         }
-
+      } else {
         console.log("✅ Perfil creado exitosamente");
       }
 
-      // 6. Registro exitoso
+      // 4. Registro exitoso
       setSuccess(
         "¡Cuenta creada exitosamente! " +
         (authData.user.identities?.length === 0 

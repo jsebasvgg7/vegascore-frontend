@@ -103,96 +103,22 @@ const loadUserData = async (authId) => {
       throw profileError;
     }
 
-    // 2. Si no existe el perfil, crearlo
+    // 2. Si no existe el perfil, ERROR (debe crearse en RegisterPage)
     if (!profile) {
-      console.log("📝 Profile not found, creating new profile...");
+      console.error("❌ No profile found for auth_id:", authId);
+      console.error("El perfil debe crearse durante el registro");
       
-      const { data: authUser, error: authError } = await supabase.auth.getUser();
-      
-      if (authError || !authUser?.user) {
-        console.error("❌ Auth user not found:", authError);
-        await supabase.auth.signOut();
-        setSession(null);
-        setCurrentUser(null);
-        setLoading(false);
-        setInitialLoad(false);
-        return;
-      }
-
-      // ✅ USAR EL NOMBRE DE USER_METADATA SI EXISTE
-      const userName = authUser.user.user_metadata?.name || 
-                       authUser.user.user_metadata?.display_name ||
-                       authUser.user.email?.split('@')[0] || 
-                       "Usuario";
-
-      console.log("👤 Nombre para el perfil:", userName);
-
-      // Crear perfil con el nombre correcto
-      const { data: newProfile, error: createError } = await supabase
-        .from("users")
-        .insert({
-          auth_id: authId,
-          name: userName, // ← NOMBRE CORRECTO
-          email: authUser.user.email,
-          points: 0,
-          predictions: 0,
-          correct: 0,
-          weekly_points: 0,
-          weekly_predictions: 0,
-          weekly_correct: 0,
-          current_streak: 0,
-          best_streak: 0
-        })
-        .select()
-        .single();
-
-      if (createError) {
-        console.error("❌ Create profile error:", createError);
-        
-        // Si el error es duplicado, intentar obtener el perfil existente
-        if (createError.code === '23505') { // Código de duplicado en PostgreSQL
-          console.log("⚠️ Perfil duplicado detectado, intentando obtener...");
-          
-          const { data: existingProfile } = await supabase
-            .from("users")
-            .select("*")
-            .eq("auth_id", authId)
-            .single();
-
-          if (existingProfile) {
-            console.log("✅ Perfil existente encontrado");
-            setCurrentUser(existingProfile);
-            
-            // Continuar con la carga de usuarios
-            const { data: userList } = await supabase
-              .from("users")
-              .select("*")
-              .order("points", { ascending: false });
-            setUsers(userList || []);
-            
-            setTimeout(() => {
-              setLoading(false);
-              setInitialLoad(false);
-            }, 300);
-            return;
-          }
-        }
-        
-        console.log("🚪 Signing out due to profile creation failure");
-        await supabase.auth.signOut();
-        setSession(null);
-        setCurrentUser(null);
-        setLoading(false);
-        setInitialLoad(false);
-        return;
-      }
-
-      console.log("✅ New profile created:", newProfile);
-      setCurrentUser(newProfile);
-    } else {
-      console.log("✅ Profile loaded:", profile);
-      setCurrentUser(profile);
+      // Cerrar sesión y redirigir al registro
+      await supabase.auth.signOut();
+      setSession(null);
+      setCurrentUser(null);
+      setLoading(false);
+      setInitialLoad(false);
+      return;
     }
+
+    console.log("✅ Profile loaded:", profile);
+    setCurrentUser(profile);
 
     // 3. Cargar lista de usuarios para el ranking
     const { data: userList, error: usersError } = await supabase

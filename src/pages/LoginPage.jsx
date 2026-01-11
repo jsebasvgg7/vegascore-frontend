@@ -20,7 +20,6 @@ export default function LoginPage() {
     e.preventDefault();
     setError("");
     
-    // Validaciones antes de intentar login
     if (!email.trim()) {
       setError("Por favor ingresa tu correo electrónico");
       return;
@@ -53,7 +52,6 @@ export default function LoginPage() {
       if (signInError) {
         console.error("Error de login:", signInError);
         
-        // Mensajes de error más específicos
         if (signInError.message.includes("Invalid login credentials")) {
           setError("Correo o contraseña incorrectos. Por favor intenta de nuevo.");
         } else if (signInError.message.includes("Email not confirmed")) {
@@ -86,15 +84,20 @@ export default function LoginPage() {
           return;
         }
 
-        // Si no existe el perfil, crearlo
+        // ✅ Si no existe el perfil, crearlo (usuarios antiguos o migrados)
         if (!profile) {
-          console.log("Perfil no encontrado, creando uno nuevo...");
+          console.log("📝 Perfil no encontrado, creando uno nuevo...");
+          
+          const userName = data.user.user_metadata?.name || 
+                          data.user.user_metadata?.display_name ||
+                          data.user.email?.split('@')[0] || 
+                          "Usuario";
           
           const { error: createError } = await supabase
             .from("users")
             .insert({
               auth_id: data.user.id,
-              name: data.user.email?.split('@')[0] || "Usuario",
+              name: userName,
               email: data.user.email,
               points: 0,
               predictions: 0,
@@ -108,17 +111,21 @@ export default function LoginPage() {
 
           if (createError) {
             console.error("Error al crear perfil:", createError);
-            setError("Error al crear tu perfil. Por favor contacta al soporte.");
-            await supabase.auth.signOut();
-            setLoading(false);
-            return;
+            
+            // Si es duplicado, ignorar
+            if (createError.code !== '23505') {
+              setError("Error al crear tu perfil. Por favor contacta al soporte.");
+              await supabase.auth.signOut();
+              setLoading(false);
+              return;
+            }
           }
 
-          console.log("Perfil creado exitosamente");
+          console.log("✅ Perfil creado exitosamente");
         }
 
         // Login exitoso
-        console.log("Inicio de sesión exitoso, redirigiendo...");
+        console.log("✅ Inicio de sesión exitoso, redirigiendo...");
         navigate("/app");
       }
 
