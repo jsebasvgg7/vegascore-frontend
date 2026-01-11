@@ -521,7 +521,6 @@
   border: 2px solid var(--input-border);
   border-radius: 14px !important;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-  overflow: hidden;
 }
 
 [data-theme="dark"] .score-box:hover:not(.saved):not(.disabled) {
