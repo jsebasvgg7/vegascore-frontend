@@ -593,6 +593,12 @@
 .score-box.disabled .saved-indicator {
   display: flex !important;
 }
+[data-theme="dark"] .saved-indicator {
+  background: var(--card);
+  color: #34d399;
+  border: 2px solid rgba(16, 185, 129, 0.4);
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.4);
+}
 
 /* ========================================
    MATCH TIME
