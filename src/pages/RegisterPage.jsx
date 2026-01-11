@@ -312,7 +312,7 @@ export default function RegisterPage() {
               }}
               disabled={loading}
             >
-              {showConfirmPassword ? '👁️' : '👁️‍🗨️'}
+              {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
             </button>
           </div>
 
