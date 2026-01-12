@@ -268,7 +268,7 @@ export default function RegisterPage() {
 
         <div className="auth-alt">
           <span>¿Ya tienes cuenta?</span>
-          <Link to="/">entrar</Link>
+          <Link to="/">Entrar</Link>
         </div>
 
         <div className="info-box">

@@ -133,7 +133,6 @@ export default function LoginPage() {
     <div className="auth-wrapper">
       <div className="auth-card">
         <h2>Bienvenido a GlobalScore</h2>
-        <p>Empieza a predecir aqui!!</p>
 
         <form onSubmit={login}>
           <input
@@ -198,7 +197,7 @@ export default function LoginPage() {
 
         <div className="auth-alt">
           <span>¿No tienes una cuenta?</span>
-          <Link to="/register">regístrate</Link>
+          <Link to="/register">Regístrate</Link>
         </div>
       </div>
     </div>
