@@ -211,6 +211,20 @@
   letter-spacing: 0.5px;
 }
 
+/* Asegurar contraste en modo oscuro para el modal de ordenar */
+[data-theme="dark"] .sort-modal,
+[data-theme="dark"] .sort-modal .sort-modal-header h4,
+[data-theme="dark"] .sort-modal .sort-option-text,
+[data-theme="dark"] .sort-modal .sort-option-icon {
+  color: #ffffff;
+}
+
+/* Icona y fondo de icono ligeramente aclarados para destacar */
+[data-theme="dark"] .sort-modal .sort-option-icon {
+  background: rgba(255, 255, 255, 0.06);
+  color: #ffffff;
+}
+
 .sort-options {
   padding: 6px;
 }
