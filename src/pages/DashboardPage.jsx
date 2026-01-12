@@ -24,6 +24,7 @@ import { useAwards } from "../hooks/useAwards";
 
 // Styles
 import "../styles/pagesStyles/DashboardPage.css";
+import { id } from "date-fns/locale";
 
 export default function VegaScorePage() {
   // ========== STATE MANAGEMENT ==========
@@ -77,11 +78,12 @@ export default function VegaScorePage() {
   // ========== LEAGUE FILTERS - Reducido a lo esencial ==========
   const leagueCategories = [
     { id: 'all', name: 'Todos', icon: '🌍', leagues: [] },
-    { id: 'england', name: 'Inglaterra', icon: '🏴󠁧󠁢󠁥󠁮󠁧󠁿', leagues: ['Premier League', 'Championship', 'FA Cup', 'Carabao Cup'] },
+    { id: 'europe', name: 'Europa', icon: '🏆', leagues: ['Champions League', 'Europa League', 'Conference League'] },
+    { id: 'england', name: 'Inglaterra', icon: '🏴󠁧󠁢󠁥󠁮󠁧󠁿', leagues: ['Premier League', 'Championship', 'FA Cup', 'EFL Cup'] },
     { id: 'spain', name: 'España', icon: '🇪🇸', leagues: ['La Liga', 'Copa del Rey', 'Supercopa'] },
     { id: 'italy', name: 'Italia', icon: '🇮🇹', leagues: ['Serie A', 'Coppa Italia', 'Supercoppa'] },
     { id: 'germany', name: 'Alemania', icon: '🇩🇪', leagues: ['Bundesliga', 'DFB Pokal'] },
-    { id: 'europe', name: 'Europa', icon: '🏆', leagues: ['Champions League', 'Europa League', 'Conference League'] }
+    { id: 'france', name: 'Francia', icon: '🇫🇷', leagues: ['Ligue 1', 'Coupe de France', 'Coupe de la Ligue'] },
   ];
 
   // ========== HANDLERS - PAGINAS ==========
