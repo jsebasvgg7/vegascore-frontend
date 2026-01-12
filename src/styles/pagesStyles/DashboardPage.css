@@ -212,17 +212,35 @@
 }
 
 /* Asegurar contraste en modo oscuro para el modal de ordenar */
-[data-theme="dark"] .sort-modal,
-[data-theme="dark"] .sort-modal .sort-modal-header h4,
-[data-theme="dark"] .sort-modal .sort-option-text,
-[data-theme="dark"] .sort-modal .sort-option-icon {
-  color: #ffffff;
+[data-theme="dark"] .sort-modal {
+  background: var(--card) !important;
+  border-color: rgba(255,255,255,0.06) !important;
+  color: #ffffff !important;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.6) !important;
 }
 
-/* Icona y fondo de icono ligeramente aclarados para destacar */
+[data-theme="dark"] .sort-modal .sort-modal-header {
+  background: var(--bg) !important;
+  border-bottom-color: rgba(255,255,255,0.06) !important;
+}
+
+[data-theme="dark"] .sort-modal .sort-modal-header h4,
+[data-theme="dark"] .sort-modal .sort-option-text,
+[data-theme="dark"] .sort-modal .sort-option {
+  color: #ffffff !important;
+}
+
+/* Icono y fondo de icono ligeramente aclarados para destacar */
 [data-theme="dark"] .sort-modal .sort-option-icon {
-  background: rgba(255, 255, 255, 0.06);
-  color: #ffffff;
+  background: rgba(255, 255, 255, 0.06) !important;
+  color: #ffffff !important;
+}
+
+/* Forzar color de SVGs dentro del modal */
+[data-theme="dark"] .sort-modal svg {
+  color: #ffffff !important;
+  stroke: #ffffff !important;
+  fill: #ffffff !important;
 }
 
 .sort-options {
