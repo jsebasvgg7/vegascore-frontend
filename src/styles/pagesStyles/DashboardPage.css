@@ -682,12 +682,12 @@
   }
 
   .filters-modal {
-    /* Móvil: panel de filtros ocupa 75% del ancho y deja espacio para bottom nav */
+    /* Móvil: panel de filtros ocupa 75% del ancho y queda justo encima del bottom-nav */
     width: 75vw;
     max-width: 75vw;
     right: 0;
     top: 0;
-    bottom: calc(70px + 12px); /* espacio para bottom-nav */
+    bottom: 70px; /* ajustado para alinearse con bottom-nav */
   }
 
   /* Ocultar la palabra 'disponibles' en móvil para una cabecera compacta */
@@ -737,7 +737,7 @@
   .sort-modal {
     position: fixed;
     top: auto;
-    bottom: calc(70px + 12px); /* dejar espacio para bottom-nav */
+    bottom: 70px; /* alineado con bottom-nav */
     left: 0;
     right: 0;
     border-radius: 20px 20px 0 0;
@@ -790,6 +790,15 @@
 
   .filters-modal-header {
     padding: 14px 16px;
+  }
+
+  /* Ajuste para pantallas muy pequeñas: bottom-nav más pequeño (65px) */
+  .filters-modal {
+    bottom: 65px;
+  }
+
+  .sort-modal {
+    bottom: 65px;
   }
 
   .filters-modal-title h3 {
