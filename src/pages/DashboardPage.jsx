@@ -1,6 +1,6 @@
-// src/pages/DashboardPage.jsx - VERSIÓN MINIMALISTA
-import React, { useState, useMemo } from "react";
-import { Trophy, TrendingUp, Target, Filter, X } from "lucide-react";
+// src/pages/DashboardPage.jsx - CON FILTROS MODERNOS
+import React, { useState, useMemo, useRef, useEffect } from "react";
+import { Trophy, TrendingUp, Target, Filter, X, ArrowUpDown, ChevronRight } from "lucide-react";
 
 // Components
 import MatchCard from "../components/cardComponets/MatchCard";
@@ -24,7 +24,6 @@ import { useAwards } from "../hooks/useAwards";
 
 // Styles
 import "../styles/pagesStyles/DashboardPage.css";
-import { id } from "date-fns/locale";
 
 export default function VegaScorePage() {
   // ========== STATE MANAGEMENT ==========
@@ -36,7 +35,10 @@ export default function VegaScorePage() {
   const [showStats, setShowStats] = useState(false);
   const [activeTab, setActiveTab] = useState('matches');
   const [showFilters, setShowFilters] = useState(false);
-
+  const [showSort, setShowSort] = useState(false);
+  const [sortOption, setSortOption] = useState('date-asc');
+  
+  const sortRef = useRef(null);
   const toast = useToast();
 
   // ========== CUSTOM HOOKS ==========
@@ -75,7 +77,7 @@ export default function VegaScorePage() {
     finishAward: finishAwardHook
   } = useAwards(currentUser);
 
-  // ========== LEAGUE FILTERS - Reducido a lo esencial ==========
+  // ========== LEAGUE CATEGORIES ==========
   const leagueCategories = [
     { id: 'all', name: 'Todos', icon: '🌍', leagues: [] },
     { id: 'europe', name: 'Europa', icon: '🏆', leagues: ['Champions League', 'Europa League', 'Conference League'] },
@@ -84,9 +86,29 @@ export default function VegaScorePage() {
     { id: 'italy', name: 'Italia', icon: '🇮🇹', leagues: ['Serie A', 'Coppa Italia', 'Supercoppa'] },
     { id: 'germany', name: 'Alemania', icon: '🇩🇪', leagues: ['Bundesliga', 'DFB Pokal'] },
     { id: 'france', name: 'Francia', icon: '🇫🇷', leagues: ['Ligue 1', 'Coupe de France', 'Coupe de la Ligue'] },
+    { id: 'portugal', name: 'Portugal', icon: '🇵🇹', leagues: ['Primeira Liga', 'Taça de Portugal'] },
+    { id: 'netherlands', name: 'Países Bajos', icon: '🇳🇱', leagues: ['Eredivisie'] },
+    { id: 'southamerica', name: 'Sudamérica', icon: '🌎', leagues: ['Copa Libertadores', 'Copa Sudamericana'] },
   ];
 
-  // ========== HANDLERS - PAGINAS ==========
+  // ========== CLOSE SORT ON OUTSIDE CLICK ==========
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (sortRef.current && !sortRef.current.contains(event.target)) {
+        setShowSort(false);
+      }
+    };
+
+    if (showSort) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [showSort]);
+
+  // ========== HANDLERS ==========
   const handleBackToHome = () => {
     setShowProfile(false);
     setShowRanking(false);
@@ -95,7 +117,6 @@ export default function VegaScorePage() {
     setShowStats(false);
   };
 
-  // ========== HANDLERS - MATCHES ==========
   const handleMakePrediction = async (matchId, homeScore, awayScore) => {
     const match = matches.find(m => m.id === matchId);
     if (match?.deadline) {
@@ -119,7 +140,6 @@ export default function VegaScorePage() {
     );
   };
 
-  // ========== HANDLERS - LEAGUES ==========
   const handleMakeLeaguePrediction = async (leagueId, champion, topScorer, topAssist, mvp) => {
     await makeLeaguePrediction(
       leagueId,
@@ -135,7 +155,6 @@ export default function VegaScorePage() {
     );
   };
 
-  // ========== HANDLERS - AWARDS ==========
   const handleMakeAwardPrediction = async (awardId, predictedWinner) => {
     await makeAwardPrediction(
       awardId,
@@ -148,27 +167,42 @@ export default function VegaScorePage() {
     );
   };
 
-  // ========== FILTERED MATCHES ==========
+  // ========== FILTERED & SORTED MATCHES ==========
   const filteredMatches = useMemo(() => {
-    const pending = matches
-      .filter((m) => m.status === "pending")
-      .sort((a, b) => {
-        const dateA = new Date(`${a.date}T${a.time}`);
-        const dateB = new Date(`${b.date}T${b.time}`);
-        return dateA - dateB;
-      });
+    let pending = matches
+      .filter((m) => m.status === "pending");
 
-    if (leagueFilter === 'all') return pending;
+    // Aplicar filtro de liga
+    if (leagueFilter !== 'all') {
+      const category = leagueCategories.find(c => c.id === leagueFilter);
+      if (category) {
+        pending = pending.filter(match => 
+          category.leagues.some(league => 
+            match.league.toLowerCase().includes(league.toLowerCase())
+          )
+        );
+      }
+    }
 
-    const category = leagueCategories.find(c => c.id === leagueFilter);
-    if (!category) return pending;
-
-    return pending.filter(match => 
-      category.leagues.some(league => 
-        match.league.toLowerCase().includes(league.toLowerCase())
-      )
-    );
-  }, [matches, leagueFilter]);
+    // Aplicar ordenamiento
+    return pending.sort((a, b) => {
+      const dateA = new Date(`${a.date}T${a.time}`);
+      const dateB = new Date(`${b.date}T${b.time}`);
+      
+      switch (sortOption) {
+        case 'date-asc':
+          return dateA - dateB;
+        case 'date-desc':
+          return dateB - dateA;
+        case 'league-asc':
+          return a.league.localeCompare(b.league);
+        case 'league-desc':
+          return b.league.localeCompare(a.league);
+        default:
+          return dateA - dateB;
+      }
+    });
+  }, [matches, leagueFilter, sortOption]);
 
   // ========== RENDER ==========
   if (loading) {
@@ -271,17 +305,94 @@ export default function VegaScorePage() {
 
             {activeTab === 'matches' && (
               <div className="matches-section-premium">
-                {/* Header Ultra Minimalista - Solo contador + filtro */}
+                {/* Header con Sort y Filter */}
                 <div className="matches-header-premium">
-                  <div className="matches-header-actions">
-                    <div className="matches-badge">
-                      <Target size={14} />
-                      <span>{filteredMatches.length} disponibles</span>
+                  <div className="matches-badge">
+                    <Target size={16} />
+                    <span>{filteredMatches.length} disponibles</span>
+                  </div>
+                  
+                  <div className="sort-filter-buttons">
+                    {/* Sort Button */}
+                    <div style={{ position: 'relative' }} ref={sortRef}>
+                      <button 
+                        className={`sort-btn ${showSort ? 'active' : ''}`}
+                        onClick={() => setShowSort(!showSort)}
+                      >
+                        <ArrowUpDown size={16} />
+                        <span>Ordenar</span>
+                      </button>
+
+                      {showSort && (
+                        <>
+                          <div 
+                            className="sort-modal-backdrop" 
+                            onClick={() => setShowSort(false)}
+                          />
+                          <div className="sort-modal">
+                            <div className="sort-modal-header">
+                              <ArrowUpDown size={18} />
+                              <h4>Ordenar por</h4>
+                            </div>
+                            <div className="sort-options">
+                              <button
+                                className={`sort-option ${sortOption === 'date-asc' ? 'active' : ''}`}
+                                onClick={() => {
+                                  setSortOption('date-asc');
+                                  setShowSort(false);
+                                }}
+                              >
+                                <div className="sort-option-icon">
+                                  <TrendingUp size={14} />
+                                </div>
+                                <span className="sort-option-text">Fecha: Más reciente</span>
+                              </button>
+                              <button
+                                className={`sort-option ${sortOption === 'date-desc' ? 'active' : ''}`}
+                                onClick={() => {
+                                  setSortOption('date-desc');
+                                  setShowSort(false);
+                                }}
+                              >
+                                <div className="sort-option-icon">
+                                  <TrendingUp size={14} style={{ transform: 'rotate(180deg)' }} />
+                                </div>
+                                <span className="sort-option-text">Fecha: Más antiguo</span>
+                              </button>
+                              <button
+                                className={`sort-option ${sortOption === 'league-asc' ? 'active' : ''}`}
+                                onClick={() => {
+                                  setSortOption('league-asc');
+                                  setShowSort(false);
+                                }}
+                              >
+                                <div className="sort-option-icon">
+                                  <Trophy size={14} />
+                                </div>
+                                <span className="sort-option-text">Liga: A-Z</span>
+                              </button>
+                              <button
+                                className={`sort-option ${sortOption === 'league-desc' ? 'active' : ''}`}
+                                onClick={() => {
+                                  setSortOption('league-desc');
+                                  setShowSort(false);
+                                }}
+                              >
+                                <div className="sort-option-icon">
+                                  <Trophy size={14} />
+                                </div>
+                                <span className="sort-option-text">Liga: Z-A</span>
+                              </button>
+                            </div>
+                          </div>
+                        </>
+                      )}
                     </div>
+
+                    {/* Filter Button */}
                     <button 
                       className="filter-toggle-btn"
-                      onClick={() => setShowFilters(!showFilters)}
-                      title="Filtrar por liga"
+                      onClick={() => setShowFilters(true)}
                     >
                       <Filter size={16} />
                       <span>Filtrar</span>
@@ -289,48 +400,105 @@ export default function VegaScorePage() {
                   </div>
                 </div>
 
-                {/* Filtros Desplegables */}
+                {/* Filtros Modal (Side Panel) */}
                 {showFilters && (
-                  <div className="league-filters-panel">
-                    <div className="filters-panel-header">
-                      <h3>Filtrar</h3>
-                      <button 
-                        className="filters-close-btn"
-                        onClick={() => setShowFilters(false)}
-                      >
-                        <X size={16} />
-                      </button>
-                    </div>
-                    <div className="league-filters-grid">
-                      {leagueCategories.map((category) => {
-                        const categoryMatches = category.id === 'all'
-                          ? matches.filter(m => m.status === "pending")
-                          : matches.filter(m => 
-                              m.status === "pending" &&
-                              category.leagues.some(league =>
-                                m.league.toLowerCase().includes(league.toLowerCase())
-                              )
-                            );
-
-                        return (
-                          <button
-                            key={category.id}
-                            className={`league-filter-btn ${leagueFilter === category.id ? 'active' : ''}`}
-                            onClick={() => {
-                              setLeagueFilter(category.id);
-                              setShowFilters(false);
-                            }}
+                  <>
+                    <div 
+                      className="filters-modal-backdrop"
+                      onClick={() => setShowFilters(false)}
+                    />
+                    <div className="filters-modal">
+                      <div className="filters-modal-header">
+                        <div className="filters-modal-title">
+                          <Filter size={22} />
+                          <h3>Filtrar</h3>
+                        </div>
+                        <div style={{ display: 'flex', gap: '8px' }}>
+                          <button 
+                            className="filters-reset-btn"
+                            onClick={() => setLeagueFilter('all')}
                           >
-                            <span className="filter-icon">{category.icon}</span>
-                            <div className="filter-info">
-                              <span className="filter-name">{category.name}</span>
-                              <span className="filter-count">{categoryMatches.length}</span>
-                            </div>
+                            Reset
                           </button>
-                        );
-                      })}
+                          <button 
+                            className="filters-close-btn"
+                            onClick={() => setShowFilters(false)}
+                          >
+                            <X size={16} />
+                          </button>
+                        </div>
+                      </div>
+
+                      <div className="filters-modal-body">
+                        {/* Categoría: Región */}
+                        <div className="filter-category">
+                          <div className="filter-category-header">
+                            <span className="filter-category-title">Categoría</span>
+                            <button className="view-all-link">
+                              Ver todas <ChevronRight size={12} style={{ display: 'inline', verticalAlign: 'middle' }} />
+                            </button>
+                          </div>
+                          <div className="filter-pills">
+                            {leagueCategories.slice(0, 7).map((category) => {
+                              const categoryMatches = category.id === 'all'
+                                ? matches.filter(m => m.status === "pending")
+                                : matches.filter(m => 
+                                    m.status === "pending" &&
+                                    category.leagues.some(league =>
+                                      m.league.toLowerCase().includes(league.toLowerCase())
+                                    )
+                                  );
+
+                              return (
+                                <button
+                                  key={category.id}
+                                  className={`filter-pill ${leagueFilter === category.id ? 'active' : ''}`}
+                                  onClick={() => {
+                                    setLeagueFilter(category.id);
+                                    setShowFilters(false);
+                                  }}
+                                >
+                                  <span className="filter-pill-icon">{category.icon}</span>
+                                  <span>{category.name}</span>
+                                </button>
+                              );
+                            })}
+                          </div>
+                        </div>
+
+                        {/* Categoría: Más regiones */}
+                        <div className="filter-category">
+                          <div className="filter-category-header">
+                            <span className="filter-category-title">Más regiones</span>
+                          </div>
+                          <div className="filter-pills">
+                            {leagueCategories.slice(7).map((category) => {
+                              const categoryMatches = matches.filter(m => 
+                                m.status === "pending" &&
+                                category.leagues.some(league =>
+                                  m.league.toLowerCase().includes(league.toLowerCase())
+                                )
+                              );
+
+                              return (
+                                <button
+                                  key={category.id}
+                                  className={`filter-pill ${leagueFilter === category.id ? 'active' : ''}`}
+                                  onClick={() => {
+                                    setLeagueFilter(category.id);
+                                    setShowFilters(false);
+                                  }}
+                                >
+                                  <span className="filter-pill-icon">{category.icon}</span>
+                                  <span>{category.name}</span>
+                                </button>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                  </div>
+                  </>
                 )}
 
                 {/* Chip de filtro activo */}

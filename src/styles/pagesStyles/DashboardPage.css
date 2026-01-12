@@ -1,4 +1,4 @@
-/* src/styles/pagesStyles/DashboardPage.css - MINIMALISTA */
+/* src/styles/pagesStyles/DashboardPage.css - FILTROS MODERNOS */
 
 .vega-root {
   min-height: 100vh;
@@ -15,7 +15,7 @@
 }
 
 /* ===================================
-   MATCHES SECTION - Ultra Minimal
+   MATCHES SECTION
 =================================== */
 
 .matches-section-premium {
@@ -27,39 +27,24 @@
 }
 
 /* ===================================
-   HEADER - Ultra Minimal (Solo contador + filtro)
+   HEADER CON SORT Y FILTER
 =================================== */
 
 .matches-header-premium {
   background: var(--bg);
-  padding: 14px 20px;
+  padding: 16px 20px;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid var(--border);
-  gap: 12px;
-}
-
-.matches-title-section {
-  display: none; /* Ocultar completamente título e icono */
-}
-
-.matches-icon-wrapper {
-  display: none;
-}
-
-.matches-title-premium {
-  display: none;
-}
-
-.matches-subtitle-premium {
-  display: none;
+  gap: 16px;
+  flex-wrap: wrap;
 }
 
 .matches-header-actions {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
 }
 
 .matches-badge {
@@ -82,90 +67,112 @@
 }
 
 /* ===================================
-   FILTER TOGGLE - Botón principal
+   BOTONES SORT Y FILTER (Top Bar)
 =================================== */
 
+.sort-filter-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.sort-btn,
 .filter-toggle-btn {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 8px 16px;
+  padding: 9px 16px;
   background: var(--card);
-  border: 2px solid var(--border);
+  border: 1.5px solid var(--border);
   border-radius: 12px;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
   color: var(--text-primary);
   cursor: pointer;
   transition: all 0.2s ease;
-  min-width: auto;
-  justify-content: center;
+  position: relative;
 }
 
+.sort-btn svg,
 .filter-toggle-btn svg {
   width: 16px;
   height: 16px;
-  color: var(--text-primary);
-  transition: color 0.2s ease;
+  color: var(--text-secondary);
+  transition: all 0.2s ease;
 }
 
+.sort-btn span,
 .filter-toggle-btn span {
-  display: inline;
   color: var(--text-primary);
   transition: color 0.2s ease;
 }
 
+.sort-btn:hover,
 .filter-toggle-btn:hover {
-  background: var(--accent);
+  background: var(--glass);
   border-color: var(--accent);
-  color: white;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(96, 81, 155, 0.3);
+  transform: translateY(-1px);
 }
 
-.filter-toggle-btn:hover svg,
-.filter-toggle-btn:hover span {
-  color: white;
+.sort-btn:hover svg,
+.filter-toggle-btn:hover svg {
+  color: var(--accent);
 }
 
+.sort-btn:active,
 .filter-toggle-btn:active {
   transform: translateY(0);
 }
 
-/* Fix específico para modo oscuro */
-[data-theme="dark"] .filter-toggle-btn {
-  color: var(--text-primary);
-}
-
-[data-theme="dark"] .filter-toggle-btn span,
-[data-theme="dark"] .filter-toggle-btn svg {
-  color: var(--text-primary);
-}
-
-[data-theme="dark"] .filter-toggle-btn:hover {
+/* Estado activo para Sort */
+.sort-btn.active {
+  background: var(--accent);
+  border-color: var(--accent);
   color: white;
 }
 
-[data-theme="dark"] .filter-toggle-btn:hover span,
-[data-theme="dark"] .filter-toggle-btn:hover svg {
+.sort-btn.active svg,
+.sort-btn.active span {
   color: white;
 }
 
 /* ===================================
-   FILTERS PANEL - Compacto
+   MODAL SORT (Dropdown estilo imagen)
 =================================== */
 
-.league-filters-panel {
-  background: var(--bg);
-  border-bottom: 1px solid var(--border);
-  padding: 16px 20px;
-  animation: slideDown 0.3s ease-out;
+.sort-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(2px);
+  z-index: 1000;
+  animation: fadeIn 0.15s ease-out;
+}
+
+.sort-modal {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  min-width: 200px;
+  box-shadow: 
+    0 4px 6px rgba(0, 0, 0, 0.05),
+    0 10px 25px rgba(0, 0, 0, 0.1);
+  z-index: 1001;
+  overflow: hidden;
+  animation: slideDown 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 @keyframes slideDown {
   from {
     opacity: 0;
-    transform: translateY(-10px);
+    transform: translateY(-8px);
   }
   to {
     opacity: 1;
@@ -173,14 +180,22 @@
   }
 }
 
-.filters-panel-header {
+.sort-modal-header {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border);
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-bottom: 12px;
+  gap: 8px;
+  background: var(--bg);
 }
 
-.filters-panel-header h3 {
+.sort-modal-header svg {
+  width: 18px;
+  height: 18px;
+  color: var(--accent);
+}
+
+.sort-modal-header h4 {
   margin: 0;
   font-size: 13px;
   font-weight: 700;
@@ -189,11 +204,163 @@
   letter-spacing: 0.5px;
 }
 
-.filters-close-btn {
-  width: 28px;
-  height: 28px;
+.sort-options {
+  padding: 6px;
+}
+
+.sort-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
   border-radius: 8px;
-  border: 1px solid var(--border);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  border: none;
+  background: transparent;
+  width: 100%;
+  text-align: left;
+}
+
+.sort-option-icon {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  background: var(--glass);
+  color: var(--text-secondary);
+  transition: all 0.15s ease;
+  flex-shrink: 0;
+}
+
+.sort-option-icon svg {
+  width: 14px;
+  height: 14px;
+}
+
+.sort-option-text {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+  flex: 1;
+}
+
+.sort-option:hover {
+  background: var(--glass);
+}
+
+.sort-option:hover .sort-option-icon {
+  background: var(--accent);
+  color: white;
+}
+
+.sort-option.active {
+  background: linear-gradient(135deg, var(--accent), var(--accent-light));
+}
+
+.sort-option.active .sort-option-icon {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+}
+
+.sort-option.active .sort-option-text {
+  color: white;
+  font-weight: 700;
+}
+
+/* ===================================
+   FILTERS PANEL (Estilo imagen - Side Modal)
+=================================== */
+
+.filters-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(3px);
+  z-index: 2000;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.filters-modal {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 380px;
+  max-width: 90vw;
+  background: var(--card);
+  border-left: 1px solid var(--border);
+  box-shadow: -4px 0 24px rgba(0, 0, 0, 0.15);
+  z-index: 2001;
+  display: flex;
+  flex-direction: column;
+  animation: slideInRight 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+/* Header del modal */
+.filters-modal-header {
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--bg);
+  flex-shrink: 0;
+}
+
+.filters-modal-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.filters-modal-title h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.filters-modal-title svg {
+  width: 22px;
+  height: 22px;
+  color: var(--accent);
+}
+
+.filters-reset-btn {
+  padding: 6px 14px;
+  background: transparent;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.filters-reset-btn:hover {
+  background: var(--glass);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.filters-close-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  border: 1.5px solid var(--border);
   background: var(--card);
   color: var(--text-secondary);
   display: flex;
@@ -201,106 +368,147 @@
   justify-content: center;
   cursor: pointer;
   transition: all 0.2s ease;
+  margin-left: 12px;
 }
 
 .filters-close-btn:hover {
   background: var(--glass);
   color: var(--text-primary);
   border-color: var(--accent);
+  transform: rotate(90deg);
 }
 
-/* ===================================
-   FILTERS GRID - Compacto
-=================================== */
-
-.league-filters-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-  gap: 10px;
+/* Body scrollable */
+.filters-modal-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px;
 }
 
-.league-filter-btn {
+/* Categoría de filtros */
+.filter-category {
+  margin-bottom: 28px;
+}
+
+.filter-category:last-child {
+  margin-bottom: 0;
+}
+
+.filter-category-header {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 10px 12px;
-  background: var(--card);
-  border: 2px solid var(--border);
-  border-radius: 12px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  text-align: left;
+  justify-content: space-between;
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
 }
 
-.league-filter-btn:hover {
-  border-color: var(--accent);
-  background: var(--glass);
-  transform: translateY(-2px);
-  box-shadow: var(--small-shadow);
-}
-
-.league-filter-btn.active {
-  background: linear-gradient(135deg, var(--accent), var(--accent-light));
-  border-color: var(--accent);
-  color: white;
-}
-
-.league-filter-btn .filter-icon {
-  font-size: 20px;
-  flex-shrink: 0;
-}
-
-.filter-info {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  flex: 1;
-  min-width: 0;
-}
-
-.filter-name {
+.filter-category-title {
   font-size: 13px;
   font-weight: 700;
   color: var(--text-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
-.league-filter-btn.active .filter-name {
+.view-all-link {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--accent);
+  cursor: pointer;
+  transition: color 0.2s ease;
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+.view-all-link:hover {
+  color: var(--accent-hover);
+  text-decoration: underline;
+}
+
+/* Pills de filtros */
+.filter-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.filter-pill {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  background: var(--input-bg);
+  border: 1.5px solid var(--border);
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.filter-pill-icon {
+  font-size: 16px;
+  line-height: 1;
+}
+
+.filter-pill:hover {
+  background: var(--glass);
+  border-color: var(--accent);
+  transform: translateY(-1px);
+}
+
+.filter-pill.active {
+  background: linear-gradient(135deg, var(--accent), var(--accent-light));
+  border-color: var(--accent);
   color: white;
+  box-shadow: 0 4px 12px rgba(96, 81, 155, 0.25);
 }
 
-.filter-count {
-  font-size: 11px;
-  font-weight: 500;
-  color: var(--text-secondary);
+.filter-pill.active .filter-pill-icon {
+  animation: popIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-.league-filter-btn.active .filter-count {
-  color: rgba(255, 255, 255, 0.8);
+@keyframes popIn {
+  0% {
+    transform: scale(0.8);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 /* ===================================
-   ACTIVE FILTER BAR - Compacto
+   ACTIVE FILTER BAR (Chips superiores)
 =================================== */
 
 .active-filter-bar {
-  padding: 10px 20px;
+  padding: 12px 20px;
   background: var(--bg);
   border-bottom: 1px solid var(--border);
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
+  flex-wrap: wrap;
 }
 
 .active-filter-chip {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 6px 10px;
+  gap: 8px;
+  padding: 7px 12px;
   background: linear-gradient(135deg, var(--accent), var(--accent-light));
-  border-radius: 10px;
+  border-radius: 12px;
   color: white;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 600;
+  box-shadow: 0 2px 8px rgba(96, 81, 155, 0.2);
 }
 
 .active-filter-chip .filter-icon {
@@ -308,8 +516,8 @@
 }
 
 .clear-filter-btn {
-  width: 18px;
-  height: 18px;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.2);
   border: none;
@@ -332,7 +540,7 @@
 }
 
 /* ===================================
-   MATCHES CONTAINER - Más espacioso
+   MATCHES CONTAINER
 =================================== */
 
 .matches-container {
@@ -343,7 +551,7 @@
 }
 
 /* ===================================
-   EMPTY STATE - Minimalista
+   EMPTY STATE
 =================================== */
 
 .matches-empty-state {
@@ -389,109 +597,6 @@
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(96, 81, 155, 0.3);
 }
-/* ===================================
-   FILTERS GRID - Compacto
-=================================== */
-
-.league-filters-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-  gap: 10px;
-}
-
-.league-filter-btn {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 12px;
-  background: var(--card);
-  border: 2px solid var(--border);
-  border-radius: 12px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  text-align: left;
-}
-
-.league-filter-btn:hover {
-  border-color: var(--accent);
-  background: var(--glass);
-  transform: translateY(-2px);
-  box-shadow: var(--small-shadow);
-}
-
-.league-filter-btn.active {
-  background: linear-gradient(135deg, var(--accent), var(--accent-light));
-  border-color: var(--accent);
-  color: white;
-}
-
-.league-filter-btn .filter-icon {
-  font-size: 20px;
-  flex-shrink: 0;
-}
-
-.filter-info {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  flex: 1;
-  min-width: 0;
-}
-
-.filter-name {
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--text-primary);
-  transition: color 0.2s ease;
-}
-
-.league-filter-btn:hover .filter-name {
-  color: var(--text-primary);
-}
-
-.league-filter-btn.active .filter-name {
-  color: white !important;
-}
-
-.filter-count {
-  font-size: 11px;
-  font-weight: 500;
-  color: var(--text-secondary);
-  transition: color 0.2s ease;
-}
-
-.league-filter-btn:hover .filter-count {
-  color: var(--text-primary);
-}
-
-.league-filter-btn.active .filter-count {
-  color: rgba(255, 255, 255, 0.8) !important;
-}
-
-/* Fix específico para Dark Mode */
-[data-theme="dark"] .filter-name {
-  color: var(--text-primary);
-}
-
-[data-theme="dark"] .filter-count {
-  color: var(--text-secondary);
-}
-
-[data-theme="dark"] .league-filter-btn:hover .filter-name {
-  color: var(--text-primary);
-}
-
-[data-theme="dark"] .league-filter-btn:hover .filter-count {
-  color: var(--text-primary);
-}
-
-[data-theme="dark"] .league-filter-btn.active .filter-name {
-  color: white !important;
-}
-
-[data-theme="dark"] .league-filter-btn.active .filter-count {
-  color: rgba(255, 255, 255, 0.8) !important;
-}
 
 /* ===================================
    RESPONSIVE - TABLET
@@ -503,8 +608,8 @@
     gap: 14px;
   }
 
-  .league-filters-grid {
-    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  .filters-modal {
+    width: 340px;
   }
 }
 
@@ -525,43 +630,58 @@
   .matches-header-premium {
     padding: 12px 16px;
     gap: 10px;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .matches-header-actions {
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .sort-filter-buttons {
+    width: 100%;
+    justify-content: flex-end;
   }
 
   .matches-badge {
     font-size: 13px;
     padding: 7px 14px;
+    width: 100%;
+    justify-content: center;
   }
 
-  .matches-badge svg {
-    width: 15px;
-    height: 15px;
-  }
-
+  .sort-btn,
   .filter-toggle-btn {
-    padding: 7px 14px;
-    font-size: 13px;
+    padding: 8px 14px;
+    font-size: 12px;
   }
 
+  .sort-btn svg,
   .filter-toggle-btn svg {
     width: 15px;
     height: 15px;
   }
 
-  .league-filters-panel {
-    padding: 12px 16px;
+  .filters-modal {
+    width: 100%;
+    max-width: 100vw;
   }
 
-  .league-filters-grid {
-    grid-template-columns: 1fr;
-    gap: 8px;
+  .filters-modal-header {
+    padding: 16px 20px;
   }
 
-  .league-filter-btn {
-    padding: 10px 12px;
+  .filters-modal-title h3 {
+    font-size: 16px;
+  }
+
+  .filters-modal-body {
+    padding: 20px;
   }
 
   .active-filter-bar {
-    padding: 8px 16px;
+    padding: 10px 16px;
   }
 
   .matches-container {
@@ -585,6 +705,26 @@
   .matches-empty-subtext {
     font-size: 12px;
   }
+
+  /* Sort modal mobile */
+  .sort-modal {
+    position: fixed;
+    top: auto;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    border-radius: 20px 20px 0 0;
+    animation: slideUp 0.3s ease-out;
+  }
+
+  @keyframes slideUp {
+    from {
+      transform: translateY(100%);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
 }
 
 /* ===================================
@@ -602,7 +742,6 @@
 
   .matches-header-premium {
     padding: 10px 14px;
-    gap: 8px;
   }
 
   .matches-badge {
@@ -610,39 +749,41 @@
     padding: 6px 12px;
   }
 
-  .matches-badge svg {
-    width: 14px;
-    height: 14px;
-  }
-
+  .sort-btn,
   .filter-toggle-btn {
-    padding: 6px 12px;
-    font-size: 12px;
+    padding: 7px 12px;
+    font-size: 11px;
   }
 
+  .sort-btn svg,
   .filter-toggle-btn svg {
     width: 14px;
     height: 14px;
   }
 
-  .league-filters-panel {
-    padding: 10px 14px;
+  .filters-modal-header {
+    padding: 14px 16px;
   }
 
-  .filters-panel-header h3 {
+  .filters-modal-title h3 {
+    font-size: 15px;
+  }
+
+  .filters-modal-body {
+    padding: 16px;
+  }
+
+  .filter-category {
+    margin-bottom: 24px;
+  }
+
+  .filter-category-title {
     font-size: 12px;
   }
 
-  .league-filter-btn {
-    padding: 8px 10px;
-  }
-
-  .filter-name {
+  .filter-pill {
+    padding: 7px 12px;
     font-size: 12px;
-  }
-
-  .filter-count {
-    font-size: 10px;
   }
 
   .matches-container {
@@ -664,23 +805,5 @@
 
   .matches-empty-subtext {
     font-size: 11px;
-  }
-}
-
-/* ===================================
-   LANDSCAPE MOBILE
-=================================== */
-
-@media (max-height: 600px) and (orientation: landscape) {
-  .matches-header-premium {
-    padding: 10px 16px;
-  }
-
-  .matches-container {
-    padding: 16px;
-  }
-
-  .matches-empty-state {
-    padding: 24px 20px;
   }
 }
