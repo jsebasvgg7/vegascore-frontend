@@ -44,7 +44,6 @@ export default function LoginPage() {
     setLoading(true);
 
     try {
-      // Intentar login
       const { data, error: signInError } = await supabase.auth.signInWithPassword({
         email: email.trim().toLowerCase(),
         password,
@@ -54,23 +53,21 @@ export default function LoginPage() {
         console.error("Error de login:", signInError);
         
         if (signInError.message.includes("Invalid login credentials")) {
-          setError("Correo o contraseña incorrectos. Por favor intenta de nuevo.");
+          setError("Correo o contraseña incorrectos");
         } else if (signInError.message.includes("Email not confirmed")) {
-          setError("Por favor verifica tu correo antes de iniciar sesión. Revisa tu bandeja de entrada.");
+          setError("Por favor verifica tu correo antes de iniciar sesión");
         } else if (signInError.message.includes("User not found")) {
-          setError("Esta cuenta no existe. Por favor regístrate primero.");
+          setError("Esta cuenta no existe. Por favor regístrate primero");
         } else {
-          setError("Error al iniciar sesión. Por favor verifica tus credenciales.");
+          setError("Error al iniciar sesión. Verifica tus credenciales");
         }
         setLoading(false);
         return;
       }
 
-      // Verificar que el usuario existe en la base de datos
       if (data?.user) {
         console.log("Usuario autenticado:", data.user.id);
 
-        // Verificar si el perfil del usuario existe
         const { data: profile, error: profileError } = await supabase
           .from("users")
           .select("*")
@@ -79,13 +76,12 @@ export default function LoginPage() {
 
         if (profileError) {
           console.error("Error al verificar perfil:", profileError);
-          setError("Error al cargar tu perfil. Por favor intenta de nuevo.");
+          setError("Error al cargar tu perfil");
           await supabase.auth.signOut();
           setLoading(false);
           return;
         }
 
-        // ✅ Si no existe el perfil, crearlo (usuarios antiguos o migrados)
         if (!profile) {
           console.log("📝 Perfil no encontrado, creando uno nuevo...");
           
@@ -110,29 +106,24 @@ export default function LoginPage() {
               best_streak: 0
             });
 
-          if (createError) {
+          if (createError && createError.code !== '23505') {
             console.error("Error al crear perfil:", createError);
-            
-            // Si es duplicado, ignorar
-            if (createError.code !== '23505') {
-              setError("Error al crear tu perfil. Por favor contacta al soporte.");
-              await supabase.auth.signOut();
-              setLoading(false);
-              return;
-            }
+            setError("Error al crear tu perfil");
+            await supabase.auth.signOut();
+            setLoading(false);
+            return;
           }
 
           console.log("✅ Perfil creado exitosamente");
         }
 
-        // Login exitoso
-        console.log("✅ Inicio de sesión exitoso, redirigiendo...");
+        console.log("✅ Inicio de sesión exitoso");
         navigate("/app");
       }
 
     } catch (err) {
       console.error("Error inesperado:", err);
-      setError("Ocurrió un error inesperado. Por favor intenta de nuevo.");
+      setError("Ocurrió un error inesperado");
     } finally {
       setLoading(false);
     }
@@ -141,20 +132,13 @@ export default function LoginPage() {
   return (
     <div className="auth-wrapper">
       <div className="auth-card">
-        <h2>GlobalScore</h2>
-        <p style={{ 
-          color: 'var(--text-secondary)', 
-          fontSize: '14px', 
-          marginBottom: '20px',
-          textAlign: 'center' 
-        }}>
-          Inicia sesión para comenzar a predecir
-        </p>
+        <h2>Entrar</h2>
+        <p>¿No tienes una cuenta? <Link to="/register" style={{ color: '#9b87d8', fontWeight: 600, textDecoration: 'none' }}>regístrate</Link></p>
 
-        <form onSubmit={login} style={{ width: '100%' }}>
+        <form onSubmit={login}>
           <input
             type="email"
-            placeholder="Tu Correo Electrónico"
+            placeholder="Correo o teléfono"
             value={email}
             onChange={(e) => {
               setEmail(e.target.value);
@@ -163,12 +147,9 @@ export default function LoginPage() {
             disabled={loading}
             autoComplete="email"
             required
-            style={{
-              borderColor: error && email === "" ? '#EF4444' : undefined
-            }}
           />
 
-          <div style={{ position: 'relative', width: '100%' }}>
+          <div className="password-input-wrapper">
             <input
               type={showPassword ? "text" : "password"}
               placeholder="Contraseña"
@@ -180,46 +161,24 @@ export default function LoginPage() {
               disabled={loading}
               autoComplete="current-password"
               required
-              style={{
-                borderColor: error && password === "" ? '#EF4444' : undefined,
-                paddingRight: '40px'
-              }}
             />
             <button
               type="button"
+              className="password-toggle-btn"
               onClick={() => setShowPassword(!showPassword)}
-              style={{
-                position: 'absolute',
-                right: '12px',
-                top: '50%',
-                transform: 'translateY(-50%)',
-                background: 'none',
-                border: 'none',
-                color: 'var(--text-secondary)',
-                cursor: 'pointer',
-                padding: '4px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center'
-              }}
               disabled={loading}
             >
-              {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
             </button>
           </div>
 
+          <div className="forgot-password-link">
+            <Link to="/forgot-password">¿OLVIDASTE TU CONTRASEÑA?</Link>
+          </div>
+
           {error && (
-            <div style={{
-              padding: '12px',
-              background: 'rgba(239, 68, 68, 0.1)',
-              border: '1px solid rgba(239, 68, 68, 0.3)',
-              borderRadius: '8px',
-              color: '#EF4444',
-              fontSize: '14px',
-              marginBottom: '16px',
-              textAlign: 'center'
-            }}>
-              ⚠️ {error}
+            <div className="error-message">
+              {error}
             </div>
           )}
 
@@ -227,53 +186,21 @@ export default function LoginPage() {
             className="btn" 
             type="submit" 
             disabled={loading || !email || !password}
-            style={{
-              opacity: loading || !email || !password ? 0.6 : 1,
-              cursor: loading || !email || !password ? 'not-allowed' : 'pointer'
-            }}
           >
             {loading ? (
-              <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
-                <span style={{ 
-                  width: '16px', 
-                  height: '16px', 
-                  border: '2px solid white', 
-                  borderTopColor: 'transparent',
-                  borderRadius: '50%',
-                  animation: 'spin 0.6s linear infinite'
-                }}/> 
-                Iniciando sesión...
+              <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}>
+                <span className="loading-spinner" /> 
+                Entrando...
               </span>
             ) : "Entrar"}
           </button>
         </form>
 
         <div className="auth-alt">
-          <Link to="/forgot-password">¿Olvidaste tu Contraseña?</Link>
-          <Link to="/register" style={{ fontWeight: 'bold' }}>
-            Crear Cuenta
-          </Link>
-        </div>
-
-        <div style={{
-          marginTop: '20px',
-          padding: '12px',
-          background: 'rgba(59, 130, 246, 0.1)',
-          border: '1px solid rgba(59, 130, 246, 0.3)',
-          borderRadius: '8px',
-          fontSize: '13px',
-          color: 'var(--text-secondary)',
-          textAlign: 'center'
-        }}>
-          💡 <strong>¿Nuevo aquí?</strong> ¡Crea una cuenta para comenzar a predecir partidos!
+          <span>¿No tienes una cuenta?</span>
+          <Link to="/register">regístrate</Link>
         </div>
       </div>
-
-      <style>{`
-        @keyframes spin {
-          to { transform: rotate(360deg); }
-        }
-      `}</style>
     </div>
   );
 }

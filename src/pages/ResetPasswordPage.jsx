@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { Eye, EyeOff } from "lucide-react";
 import { supabase } from "../utils/supabaseClient";
 import "../styles/pagesStyles/Auth.css";
 
@@ -7,18 +8,19 @@ export default function ResetPasswordPage() {
   const [loading, setLoading] = useState(false);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const [isValidToken, setIsValidToken] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Verificar si hay una sesión de recuperación activa
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session?.user) {
         setIsValidToken(true);
       } else {
-        setError("Invalid or expired reset link. Please request a new one.");
+        setError("Enlace inválido o expirado. Por favor solicita uno nuevo");
       }
     });
   }, []);
@@ -29,21 +31,14 @@ export default function ResetPasswordPage() {
     setMessage("");
     setError("");
 
-    // Validaciones
-    if (!password || !confirmPassword) {
-      setError("Please fill in all fields");
+    if (!password) {
+      setError("Por favor ingresa una contraseña");
       setLoading(false);
       return;
     }
 
     if (password.length < 6) {
-      setError("Password must be at least 6 characters");
-      setLoading(false);
-      return;
-    }
-
-    if (password !== confirmPassword) {
-      setError("Passwords don't match");
+      setError("La contraseña debe tener al menos 6 caracteres");
       setLoading(false);
       return;
     }
@@ -55,14 +50,13 @@ export default function ResetPasswordPage() {
 
       if (error) throw error;
 
-      setMessage("Password updated successfully! Redirecting...");
+      setMessage("¡Contraseña actualizada! Redirigiendo...");
       
-      // Redirigir al login después de 2 segundos
       setTimeout(() => {
         navigate("/");
       }, 2000);
     } catch (err) {
-      setError(err.message || "An error occurred. Please try again.");
+      setError(err.message || "Ocurrió un error. Por favor intenta de nuevo");
     } finally {
       setLoading(false);
     }
@@ -72,12 +66,10 @@ export default function ResetPasswordPage() {
     return (
       <div className="auth-wrapper">
         <div className="auth-card">
-          <h2>Invalid Link</h2>
-          <p className="error-message">{error}</p>
+          <h2>Enlace Inválido</h2>
+          <div className="error-message">{error}</div>
           <div className="auth-alt" style={{ justifyContent: "center", marginTop: "24px" }}>
-            <a href="/forgot-password" style={{ color: "#6a11cb", textDecoration: "none" }}>
-              Request a new reset link
-            </a>
+            <Link to="/forgot-password">Solicitar nuevo enlace</Link>
           </div>
         </div>
       </div>
@@ -87,34 +79,60 @@ export default function ResetPasswordPage() {
   return (
     <div className="auth-wrapper">
       <div className="auth-card">
-        <h2>Reset Your Password</h2>
+        <h2>Nueva Contraseña</h2>
+        <p>Ingresa tu nueva contraseña</p>
 
         <form onSubmit={handleResetPassword}>
-          <input
-            type="password"
-            placeholder="New Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            disabled={loading}
-            required
-          />
+          <div className="password-input-wrapper">
+            <input
+              type={showPassword ? "text" : "password"}
+              placeholder="Nueva Contraseña"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              disabled={loading}
+              required
+            />
+            <button
+              type="button"
+              className="password-toggle-btn"
+              onClick={() => setShowPassword(!showPassword)}
+              disabled={loading}
+            >
+              {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+            </button>
+          </div>
 
-          <input
-            type="password"
-            placeholder="Confirm Password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            disabled={loading}
-            required
-          />
+          <div className="password-input-wrapper">
+            <input
+              type={showConfirmPassword ? "text" : "password"}
+              placeholder="Confirmar Contraseña"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              disabled={loading}
+              required
+            />
+            <button
+              type="button"
+              className="password-toggle-btn"
+              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+              disabled={loading}
+            >
+              {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+            </button>
+          </div>
+
+          {error && <div className="error-message">{error}</div>}
+          {message && <div className="success-message">{message}</div>}
 
           <button className="btn" type="submit" disabled={loading}>
-            {loading ? "Updating..." : "Update Password"}
+            {loading ? (
+              <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}>
+                <span className="loading-spinner" /> 
+                Actualizando...
+              </span>
+            ) : "Actualizar Contraseña"}
           </button>
         </form>
-
-        {message && <p className="success-message">{message}</p>}
-        {error && <p className="error-message">{error}</p>}
       </div>
     </div>
   );

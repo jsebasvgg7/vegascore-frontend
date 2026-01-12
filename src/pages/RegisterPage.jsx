@@ -10,9 +10,7 @@ export default function RegisterPage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
@@ -31,14 +29,13 @@ export default function RegisterPage() {
     setError("");
     setSuccess("");
 
-    // Validaciones
     if (!name.trim()) {
       setError("Por favor ingresa tu nombre");
       return;
     }
 
     if (!validateName(name)) {
-      setError("El nombre debe tener entre 3 y 50 caracteres y solo contener letras");
+      setError("El nombre debe tener entre 3 y 50 caracteres");
       return;
     }
 
@@ -62,15 +59,9 @@ export default function RegisterPage() {
       return;
     }
 
-    if (password !== confirmPassword) {
-      setError("Las contraseñas no coinciden");
-      return;
-    }
-
     setLoading(true);
 
     try {
-      // 1. Verificar si el email ya existe en users
       const { data: existingUser, error: checkError } = await supabase
         .from("users")
         .select("email")
@@ -79,24 +70,23 @@ export default function RegisterPage() {
 
       if (checkError && checkError.code !== 'PGRST116') {
         console.error("Error al verificar email:", checkError);
-        setError("Error al verificar el correo. Por favor intenta de nuevo.");
+        setError("Error al verificar el correo");
         setLoading(false);
         return;
       }
 
       if (existingUser) {
-        setError("Este correo ya está registrado. Por favor inicia sesión.");
+        setError("Este correo ya está registrado");
         setLoading(false);
         return;
       }
 
-      // 2. Crear cuenta de autenticación CON METADATA
       const { data: authData, error: signUpError } = await supabase.auth.signUp({
         email: email.trim().toLowerCase(),
         password,
         options: {
           data: {
-            name: name.trim(), // ← GUARDAMOS EL NOMBRE EN METADATA
+            name: name.trim(),
             display_name: name.trim()
           }
         }
@@ -106,9 +96,9 @@ export default function RegisterPage() {
         console.error("Error de registro:", signUpError);
         
         if (signUpError.message.includes("already registered")) {
-          setError("Este correo ya está registrado. Por favor inicia sesión.");
+          setError("Este correo ya está registrado");
         } else if (signUpError.message.includes("Password")) {
-          setError("La contraseña es muy débil. Usa al menos 6 caracteres.");
+          setError("La contraseña es muy débil");
         } else {
           setError(`Error al registrarse: ${signUpError.message}`);
         }
@@ -117,14 +107,12 @@ export default function RegisterPage() {
       }
 
       if (!authData?.user) {
-        setError("No se pudo crear la cuenta. Por favor intenta de nuevo.");
+        setError("No se pudo crear la cuenta");
         setLoading(false);
         return;
       }
 
       console.log("✅ Usuario de autenticación creado:", authData.user.id);
-
-      // 3. Crear perfil en la base de datos INMEDIATAMENTE
       console.log("📝 Creando perfil en base de datos...");
       
       const { error: insertError } = await supabase
@@ -143,50 +131,40 @@ export default function RegisterPage() {
           best_streak: 0
         });
 
-      if (insertError) {
+      if (insertError && insertError.code !== '23505') {
         console.error("Error al crear perfil:", insertError);
         
-        // Si ya existe (duplicado), ignorar el error
-        if (insertError.code === '23505') {
-          console.log("⚠️ El perfil ya existe, continuando...");
-        } else {
-          // Si es otro error, eliminar el usuario de auth
-          try {
-            await supabase.auth.signOut();
-          } catch (e) {
-            console.error("Error signing out:", e);
-          }
-          
-          setError("No se pudo crear el perfil. Por favor intenta de nuevo.");
-          setLoading(false);
-          return;
+        try {
+          await supabase.auth.signOut();
+        } catch (e) {
+          console.error("Error signing out:", e);
         }
-      } else {
-        console.log("✅ Perfil creado exitosamente");
+        
+        setError("No se pudo crear el perfil");
+        setLoading(false);
+        return;
       }
 
-      // 4. Registro exitoso
+      console.log("✅ Perfil creado exitosamente");
+
       setSuccess(
         "¡Cuenta creada exitosamente! " +
         (authData.user.identities?.length === 0 
           ? "Ya puedes iniciar sesión." 
-          : "Por favor revisa tu correo para verificar tu cuenta.")
+          : "Revisa tu correo para verificar tu cuenta.")
       );
 
-      // Limpiar formulario
       setName("");
       setEmail("");
       setPassword("");
-      setConfirmPassword("");
 
-      // Redirigir después de 2 segundos
       setTimeout(() => {
         navigate("/");
       }, 2000);
 
     } catch (err) {
       console.error("Error inesperado:", err);
-      setError("Ocurrió un error inesperado. Por favor intenta de nuevo.");
+      setError("Ocurrió un error inesperado");
     } finally {
       setLoading(false);
     }
@@ -195,20 +173,13 @@ export default function RegisterPage() {
   return (
     <div className="auth-wrapper">
       <div className="auth-card">
-        <h2>Crear Cuenta</h2>
-        <p style={{ 
-          color: 'var(--text-secondary)', 
-          fontSize: '14px', 
-          marginBottom: '20px',
-          textAlign: 'center' 
-        }}>
-          Únete a GlobalScore y comienza a predecir
-        </p>
+        <h2>Crear cuenta</h2>
+        <p>¿Ya tienes una cuenta? <Link to="/" style={{ color: '#9b87d8', fontWeight: 600, textDecoration: 'none' }}>entrar</Link></p>
 
-        <form onSubmit={register} style={{ width: '100%' }}>
+        <form onSubmit={register}>
           <input
             type="text"
-            placeholder="Nombre Completo"
+            placeholder="Nombre"
             value={name}
             onChange={(e) => {
               setName(e.target.value);
@@ -219,14 +190,11 @@ export default function RegisterPage() {
             required
             minLength={3}
             maxLength={50}
-            style={{
-              borderColor: error && !name.trim() ? '#EF4444' : undefined
-            }}
           />
 
           <input
             type="email"
-            placeholder="Correo Electrónico"
+            placeholder="Correo o teléfono"
             value={email}
             onChange={(e) => {
               setEmail(e.target.value);
@@ -235,15 +203,12 @@ export default function RegisterPage() {
             disabled={loading}
             autoComplete="email"
             required
-            style={{
-              borderColor: error && !email.trim() ? '#EF4444' : undefined
-            }}
           />
 
-          <div style={{ position: 'relative', width: '100%' }}>
+          <div className="password-input-wrapper">
             <input
               type={showPassword ? "text" : "password"}
-              placeholder="Contraseña (mínimo 6 caracteres)"
+              placeholder="Contraseña"
               value={password}
               onChange={(e) => {
                 setPassword(e.target.value);
@@ -253,79 +218,20 @@ export default function RegisterPage() {
               autoComplete="new-password"
               required
               minLength={6}
-              style={{
-                borderColor: error && !password ? '#EF4444' : undefined,
-                paddingRight: '40px'
-              }}
             />
             <button
               type="button"
+              className="password-toggle-btn"
               onClick={() => setShowPassword(!showPassword)}
-              style={{
-                position: 'absolute',
-                right: '12px',
-                top: '50%',
-                transform: 'translateY(-50%)',
-                background: 'none',
-                border: 'none',
-                color: 'var(--text-secondary)',
-                cursor: 'pointer',
-                padding: '4px'
-              }}
               disabled={loading}
             >
-              {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-            </button>
-          </div>
-
-          <div style={{ position: 'relative', width: '100%' }}>
-            <input
-              type={showConfirmPassword ? "text" : "password"}
-              placeholder="Confirmar Contraseña"
-              value={confirmPassword}
-              onChange={(e) => {
-                setConfirmPassword(e.target.value);
-                setError("");
-              }}
-              disabled={loading}
-              autoComplete="new-password"
-              required
-              minLength={6}
-              style={{
-                borderColor: error && password !== confirmPassword ? '#EF4444' : undefined,
-                paddingRight: '40px'
-              }}
-            />
-            <button
-              type="button"
-              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-              style={{
-                position: 'absolute',
-                right: '12px',
-                top: '50%',
-                transform: 'translateY(-50%)',
-                background: 'none',
-                border: 'none',
-                color: 'var(--text-secondary)',
-                cursor: 'pointer',
-                padding: '4px'
-              }}
-              disabled={loading}
-            >
-              {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
             </button>
           </div>
 
           {password && (
-            <div style={{
-              padding: '8px 12px',
-              background: 'var(--glass)',
-              borderRadius: '8px',
-              fontSize: '12px',
-              color: 'var(--text-secondary)',
-              marginBottom: '12px'
-            }}>
-              Seguridad de la contraseña: {
+            <div className="password-strength">
+              Seguridad: {
                 password.length < 6 ? '❌ Muy corta' :
                 password.length < 8 ? '⚠️ Débil' :
                 password.length < 12 ? '✅ Buena' :
@@ -335,84 +241,40 @@ export default function RegisterPage() {
           )}
 
           {error && (
-            <div style={{
-              padding: '12px',
-              background: 'rgba(239, 68, 68, 0.1)',
-              border: '1px solid rgba(239, 68, 68, 0.3)',
-              borderRadius: '8px',
-              color: '#EF4444',
-              fontSize: '14px',
-              marginBottom: '16px',
-              textAlign: 'center'
-            }}>
-              ⚠️ {error}
+            <div className="error-message">
+              {error}
             </div>
           )}
 
           {success && (
-            <div style={{
-              padding: '12px',
-              background: 'rgba(16, 185, 129, 0.1)',
-              border: '1px solid rgba(16, 185, 129, 0.3)',
-              borderRadius: '8px',
-              color: '#10B981',
-              fontSize: '14px',
-              marginBottom: '16px',
-              textAlign: 'center'
-            }}>
-              ✅ {success}
+            <div className="success-message">
+              {success}
             </div>
           )}
 
           <button 
             className="btn" 
             type="submit" 
-            disabled={loading || !name || !email || !password || !confirmPassword}
-            style={{
-              opacity: loading || !name || !email || !password || !confirmPassword ? 0.6 : 1,
-              cursor: loading || !name || !email || !password || !confirmPassword ? 'not-allowed' : 'pointer'
-            }}
+            disabled={loading || !name || !email || !password}
           >
             {loading ? (
-              <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
-                <span style={{ 
-                  width: '16px', 
-                  height: '16px', 
-                  border: '2px solid white', 
-                  borderTopColor: 'transparent',
-                  borderRadius: '50%',
-                  animation: 'spin 0.6s linear infinite'
-                }}/> 
-                Creando Cuenta...
+              <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}>
+                <span className="loading-spinner" /> 
+                Creando cuenta...
               </span>
             ) : "Registrarse"}
           </button>
         </form>
 
         <div className="auth-alt">
-          <span style={{ color: 'var(--text-secondary)' }}>¿Ya tienes cuenta?</span>
-          <Link to="/" style={{ fontWeight: 'bold' }}>Iniciar Sesión</Link>
+          <span>¿Ya tienes cuenta?</span>
+          <Link to="/">entrar</Link>
         </div>
 
-        <div style={{
-          marginTop: '20px',
-          padding: '12px',
-          background: 'rgba(59, 130, 246, 0.1)',
-          border: '1px solid rgba(59, 130, 246, 0.3)',
-          borderRadius: '8px',
-          fontSize: '13px',
-          color: 'var(--text-secondary)',
-          textAlign: 'center'
-        }}>
-          🔒 Tus datos están seguros y nunca serán compartidos
+        <div className="info-box">
+          🔒 Tus datos están seguros y protegidos
         </div>
       </div>
-
-      <style>{`
-        @keyframes spin {
-          to { transform: rotate(360deg); }
-        }
-      `}</style>
     </div>
   );
 }

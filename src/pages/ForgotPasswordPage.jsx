@@ -15,9 +15,8 @@ export default function ForgotPasswordPage() {
     setMessage("");
     setError("");
 
-    // Validación básica
     if (!email) {
-      setError("Please enter your email");
+      setError("Por favor ingresa tu correo");
       setLoading(false);
       return;
     }
@@ -30,11 +29,11 @@ export default function ForgotPasswordPage() {
       if (error) throw error;
 
       setMessage(
-        "Check your email! We've sent you a password reset link."
+        "¡Revisa tu correo! Te hemos enviado un enlace para restablecer tu contraseña"
       );
       setEmail("");
     } catch (err) {
-      setError(err.message || "An error occurred. Please try again.");
+      setError(err.message || "Ocurrió un error. Por favor intenta de nuevo");
     } finally {
       setLoading(false);
     }
@@ -43,29 +42,35 @@ export default function ForgotPasswordPage() {
   return (
     <div className="auth-wrapper">
       <div className="auth-card">
-        <h2>Recover Your Strategy</h2>
+        <h2>Recuperar Contraseña</h2>
+        <p>Ingresa tu correo para recibir un enlace de recuperación</p>
 
         <form onSubmit={handleResetPassword}>
           <input
             type="email"
-            placeholder="Your Email"
+            placeholder="Tu Correo Electrónico"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             disabled={loading}
             required
           />
 
+          {message && <div className="success-message">{message}</div>}
+          {error && <div className="error-message">{error}</div>}
+
           <button className="btn" type="submit" disabled={loading}>
-            {loading ? "Sending..." : "Send Reset Link"}
+            {loading ? (
+              <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}>
+                <span className="loading-spinner" /> 
+                Enviando...
+              </span>
+            ) : "Enviar Enlace"}
           </button>
         </form>
 
-        {message && <p className="success-message">{message}</p>}
-        {error && <p className="error-message">{error}</p>}
-
         <div className="auth-alt">
-          <Link to="/">Back to Login</Link>
-          <Link to="/register">Sign Up</Link>
+          <Link to="/">Volver a Entrar</Link>
+          <Link to="/register">Crear Cuenta</Link>
         </div>
       </div>
     </div>
