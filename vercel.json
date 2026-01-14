@@ -1,17 +1,7 @@
 {
-  "routes": [
-    {
-      "src": "/sw.js",
-      "dest": "/sw.js",
-      "headers": {
-        "Content-Type": "application/javascript; charset=utf-8",
-        "Service-Worker-Allowed": "/"
-      }
-    }
-  ],
   "rewrites": [
     {
-      "source": "/((?!sw\\.js$).*)",
+      "source": "/(.*)",
       "destination": "/index.html"
     }
   ]
