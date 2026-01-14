@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { X, Plus, Calendar, Clock, Shield, Zap, Home, Plane } from "lucide-react";
-import { getLogoUrlByTeamName } from "../utils/logoHelper.js";
+import { getLogoUrlByTeamName, getLeagueLogoUrlDirect } from "../utils/logoHelper.js";
 import { supabase } from "../utils/supabaseClient";
 import "../styles/adminStyles/AdminModal.css";
 
@@ -37,8 +37,15 @@ export default function AdminModal({ onAdd, onClose }) {
       }
     }
     
-    // Si cambia la liga, recalcular ambos logos
+    // Si cambia la liga, recalcular ambos logos de equipos Y el logo de la liga
     if (name === 'league' && value) {
+      // Logo de la liga
+      const leagueLogoUrl = getLeagueLogoUrlDirect(value);
+      if (leagueLogoUrl) {
+        setForm(prev => ({ ...prev, league_logo_url: leagueLogoUrl }));
+      }
+      
+      // Logos de equipos
       if (form.home_team) {
         const homeLogo = getLogoUrlByTeamName(supabase, form.home_team, value);
         if (homeLogo) setForm(prev => ({ ...prev, home_team_logo_url: homeLogo }));
@@ -62,16 +69,18 @@ export default function AdminModal({ onAdd, onClose }) {
     // Generar URLs de logos automáticamente
     const homeLogoUrl = getLogoUrlByTeamName(supabase, form.home_team, form.league);
     const awayLogoUrl = getLogoUrlByTeamName(supabase, form.away_team, form.league);
+    const leagueLogoUrl = getLeagueLogoUrlDirect(form.league);
 
     onAdd({
       id: form.id,
       league: form.league,
       home_team: form.home_team,
       away_team: form.away_team,
-      home_team_logo: form.home_team_logo, // Mantener emoji como fallback
-      away_team_logo: form.away_team_logo, // Mantener emoji como fallback
-      home_team_logo_url: homeLogoUrl,     // Nueva URL del logo real
-      away_team_logo_url: awayLogoUrl,     // Nueva URL del logo real
+      home_team_logo: form.home_team_logo,
+      away_team_logo: form.away_team_logo,
+      home_team_logo_url: homeLogoUrl,
+      away_team_logo_url: awayLogoUrl,
+      league_logo_url: leagueLogoUrl,
       date: form.date,
       time: form.time,
       deadline: deadlineISO,
@@ -136,6 +145,16 @@ export default function AdminModal({ onAdd, onClose }) {
             <span className="form-hint">Los logos se asignarán automáticamente según la liga</span>
           </div>
 
+          {/* Vista previa del logo de la liga */}
+          {form.league && form.league_logo_url && (
+            <div className="logo-preview-section">
+              <div className="logo-preview-item">
+                <span className="logo-preview-label">Logo de la Liga:</span>
+                <img src={form.league_logo_url} alt="League" className="logo-preview-img" />
+              </div>
+            </div>
+          )}
+
           {/* Equipos en grid */}
           <div className="teams-grid-premium">
             <div className="form-group-premium">
@@ -147,10 +166,11 @@ export default function AdminModal({ onAdd, onClose }) {
               <input 
                 className="form-input-premium" 
                 name="home_team" 
-                placeholder="Man United" 
+                placeholder="MUN" 
                 value={form.home_team}
                 onChange={handleChange}
               />
+              <span className="form-hint">Usa código de 3 letras (MUN, BAR, RMA)</span>
             </div>
 
             <div className="form-group-premium">
@@ -162,10 +182,11 @@ export default function AdminModal({ onAdd, onClose }) {
               <input 
                 className="form-input-premium" 
                 name="away_team" 
-                placeholder="Liverpool" 
+                placeholder="LIV" 
                 value={form.away_team}
                 onChange={handleChange}
               />
+              <span className="form-hint">Usa código de 3 letras (LIV, ARS, CHE)</span>
             </div>
           </div>
 
