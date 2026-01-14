@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { 
   ArrowLeft, Shield, Plus, Edit2, Trash2, CheckCircle, X,
   Trophy, Target, Award, Calendar, Clock, Users, BarChart3,
-  Zap, TrendingUp, Package, Filter, Search, AlertCircle
+  Zap, TrendingUp, Package, Filter, Search, AlertCircle, Crown
 } from 'lucide-react';
 import { supabase } from '../utils/supabaseClient';
 import { useMatches } from '../hooks/useMatches';
@@ -26,10 +26,14 @@ export default function AdminPage({ currentUser, onBack }) {
   const [awards, setAwards] = useState([]);
   const [achievements, setAchievements] = useState([]);
   const [titles, setTitles] = useState([]);
+  const [topUsers, setTopUsers] = useState([]);
+  const [championshipHistory, setChampionshipHistory] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showFinishMatchModal, setShowFinishMatchModal] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState('all');
+  const [showConfirmAward, setShowConfirmAward] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(null);
 
   // Modales
   const [showMatchModal, setShowMatchModal] = useState(false);
@@ -54,12 +58,14 @@ export default function AdminPage({ currentUser, onBack }) {
   const loadData = async () => {
     try {
       setLoading(true);
-      const [matchData, leagueData, awardData, achievementData, titleData] = await Promise.all([
+      const [matchData, leagueData, awardData, achievementData, titleData, userData, historyData] = await Promise.all([
         supabase.from('matches').select('*, predictions(*)'),
         supabase.from('leagues').select('*, league_predictions(*)'),
         supabase.from('awards').select('*, award_predictions(*)'),
         supabase.from('available_achievements').select('*'),
-        supabase.from('available_titles').select('*')
+        supabase.from('available_titles').select('*'),
+        supabase.from('users').select('*').order('monthly_points', { ascending: false }).limit(10), // Asumiendo 'monthly_points' para ranking mensual
+        supabase.from('monthly_championship_history').select('*, user:users(name)').order('awarded_at', { ascending: false })
       ]);
 
       setMatches(matchData.data || []);
@@ -67,6 +73,8 @@ export default function AdminPage({ currentUser, onBack }) {
       setAwards(awardData.data || []);
       setAchievements(achievementData.data || []);
       setTitles(titleData.data || []);
+      setTopUsers(userData.data || []);
+      setChampionshipHistory(historyData.data || []);
     } catch (err) {
       console.error('Error loading data:', err);
       toast.error('Error al cargar los datos');
@@ -288,6 +296,21 @@ export default function AdminPage({ currentUser, onBack }) {
     }
   };
 
+  // ========== HANDLERS - CORONAS ==========
+  const handleAwardChampionship = async (userId) => {
+    try {
+      const { data, error } = await supabase.rpc('award_monthly_championship', { winner_user_id: userId });
+      if (error) throw error;
+      await loadData();
+      toast.success(`👑 Corona otorgada exitosamente a ${data.user_name}`, 4000);
+      setShowConfirmAward(false);
+      setSelectedUser(null);
+    } catch (err) {
+      console.error('Error awarding championship:', err);
+      toast.error('❌ Error al otorgar la corona. Verifica si ya fue otorgada este mes.');
+    }
+  };
+
   // ========== FILTERS ==========
   const getFilteredItems = () => {
     let items = [];
@@ -308,6 +331,8 @@ export default function AdminPage({ currentUser, onBack }) {
       case 'titles':
         items = titles;
         break;
+      case 'coronas':
+        return { topUsers: topUsers.filter(user => user.name.toLowerCase().includes(searchTerm.toLowerCase())), history: championshipHistory };
       default:
         items = [];
     }
@@ -347,6 +372,9 @@ export default function AdminPage({ currentUser, onBack }) {
     },
     titles: {
       total: titles.length
+    },
+    coronas: {
+      total: championshipHistory.length
     }
   };
 
@@ -358,6 +386,8 @@ export default function AdminPage({ currentUser, onBack }) {
       </div>
     );
   }
+
+  const filtered = getFilteredItems();
 
   return (
     <>
@@ -418,6 +448,19 @@ export default function AdminPage({ currentUser, onBack }) {
                 </div>
               </div>
             </div>
+
+            <div className="admin-stat-card coronas">
+              <div className="stat-icon-wrapper" style={{background: 'linear-gradient(135deg, #F59E0B, #D97706)'}}>
+                <Crown size={24} />
+              </div>
+              <div className="stat-content">
+                <div className="stat-label">Coronas</div>
+                <div className="stat-value">{stats.coronas.total}</div>
+                <div className="stat-detail">
+                  otorgadas
+                </div>
+              </div>
+            </div>
           </div>
 
           {/* Navigation Tabs */}
@@ -470,6 +513,14 @@ export default function AdminPage({ currentUser, onBack }) {
               <Package size={20} />
               <span>Títulos</span>
             </button>
+
+            <button 
+              className={`admin-nav-tab ${activeSection === 'coronas' ? 'active' : ''}`}
+              onClick={() => setActiveSection('coronas')}
+            >
+              <Crown size={20} />
+              <span>Coronas</span>
+            </button>
           </div>
 
           {/* Controls */}
@@ -514,9 +565,10 @@ export default function AdminPage({ currentUser, onBack }) {
               onClick={() => {
                 if (activeSection === 'matches') setShowMatchModal(true);
                 if (activeSection === 'leagues') setShowLeagueModal(true);
-                if (activeSection === 'awards') setShowAwardModal(true);
+                if (activeSection === 'awards') setShowAward(true);
                 if (activeSection === 'achievements') setShowAchievementModal(true);
                 if (activeSection === 'titles') setShowTitleModal(true);
+                // No agregar nuevo para coronas, ya que se otorgan
               }}
             >
               <Plus size={20} />
@@ -527,54 +579,54 @@ export default function AdminPage({ currentUser, onBack }) {
           {/* Content Area */}
           <div className="admin-content-area">
             {activeSection === 'matches' && (
-            <div className="admin-items-grid">
-              {getFilteredItems().map(match => (
-                <div key={match.id} className="admin-item-card match">
-                  <div className="item-header">
-                    <div className="item-info">
-                      <div className="item-league">{match.league}</div>
-                      <div className="item-teams">
-                        {match.home_team_logo} {match.home_team} vs {match.away_team} {match.away_team_logo}
+              <div className="admin-items-grid">
+                {filtered.map(match => (
+                  <div key={match.id} className="admin-item-card match">
+                    <div className="item-header">
+                      <div className="item-info">
+                        <div className="item-league">{match.league}</div>
+                        <div className="item-teams">
+                          {match.home_team_logo} {match.home_team} vs {match.away_team} {match.away_team_logo}
+                        </div>
+                        <div className="item-meta">
+                          <Calendar size={14} />
+                          <span>{match.date}</span>
+                          <Clock size={14} />
+                          <span>{match.time}</span>
+                        </div>
                       </div>
-                      <div className="item-meta">
-                        <Calendar size={14} />
-                        <span>{match.date}</span>
-                        <Clock size={14} />
-                        <span>{match.time}</span>
+                      <div className={`item-status ${match.status}`}>
+                        {match.status === 'pending' ? 'Pendiente' : 'Finalizado'}
                       </div>
                     </div>
-                    <div className={`item-status ${match.status}`}>
-                      {match.status === 'pending' ? 'Pendiente' : 'Finalizado'}
-                    </div>
-                  </div>
-                  <div className="item-actions">
-                    {match.status === 'pending' && (
+                    <div className="item-actions">
+                      {match.status === 'pending' && (
+                        <button 
+                          className="action-btn finish"
+                          onClick={() => {
+                            setItemToFinish(match);
+                            setShowFinishMatchModal(true);
+                          }}
+                        >
+                          <CheckCircle size={16} />
+                          <span>Finalizar</span>
+                        </button>
+                      )}
                       <button 
-                        className="action-btn finish"
-                        onClick={() => {
-                          setItemToFinish(match);
-                          setShowFinishMatchModal(true);
-                        }}
+                        className="action-btn delete"
+                        onClick={() => handleDeleteMatch(match.id)}
                       >
-                        <CheckCircle size={16} />
-                        <span>Finalizar</span>
+                        <Trash2 size={16} />
                       </button>
-                    )}
-                    <button 
-                      className="action-btn delete"
-                      onClick={() => handleDeleteMatch(match.id)}
-                    >
-                      <Trash2 size={16} />
-                    </button>
+                    </div>
                   </div>
-                </div>
-              ))}
-            </div>
-          )}
+                ))}
+              </div>
+            )}
 
             {activeSection === 'leagues' && (
               <div className="admin-items-grid">
-                {getFilteredItems().map(league => (
+                {filtered.map(league => (
                   <div key={league.id} className="admin-item-card league">
                     <div className="item-header">
                       <div className="item-info">
@@ -614,7 +666,7 @@ export default function AdminPage({ currentUser, onBack }) {
 
             {activeSection === 'awards' && (
               <div className="admin-items-grid">
-                {getFilteredItems().map(award => (
+                {filtered.map(award => (
                   <div key={award.id} className="admin-item-card award">
                     <div className="item-header">
                       <div className="item-info">
@@ -654,7 +706,7 @@ export default function AdminPage({ currentUser, onBack }) {
 
             {activeSection === 'achievements' && (
               <div className="admin-items-grid">
-                {getFilteredItems().map(achievement => (
+                {filtered.map(achievement => (
                   <div key={achievement.id} className="admin-item-card achievement">
                     <div className="item-header">
                       <div className="item-info">
@@ -692,7 +744,7 @@ export default function AdminPage({ currentUser, onBack }) {
 
             {activeSection === 'titles' && (
               <div className="admin-items-grid">
-                {getFilteredItems().map(title => (
+                {filtered.map(title => (
                   <div key={title.id} className="admin-item-card title">
                     <div className="item-header">
                       <div className="item-info">
@@ -724,10 +776,68 @@ export default function AdminPage({ currentUser, onBack }) {
               </div>
             )}
 
-            {getFilteredItems().length === 0 && (
+            {activeSection === 'coronas' && (
+              <div className="coronas-section">
+                <h3 className="section-title">Ranking Mensual Actual (Top 10)</h3>
+                <div className="admin-items-grid">
+                  {filtered.topUsers.map((user, index) => (
+                    <div key={user.id} className="admin-item-card user">
+                      <div className="item-header">
+                        <div className="item-info">
+                          <div className="item-title">
+                            #{index + 1} {user.name}
+                          </div>
+                          <div className="item-subtitle">Puntos: {user.monthly_points || 0}</div>
+                          <div className="item-meta">
+                            <Crown size={14} />
+                            <span>Coronas: {user.monthly_championships || 0}</span>
+                          </div>
+                        </div>
+                      </div>
+                      {index === 0 && (
+                        <div className="item-actions">
+                          <button 
+                            className="action-btn award"
+                            onClick={() => {
+                              setSelectedUser(user);
+                              setShowConfirmAward(true);
+                            }}
+                          >
+                            <Crown size={16} />
+                            <span>Otorgar Corona</span>
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+
+                <h3 className="section-title">Historial de Coronas Otorgadas</h3>
+                <div className="admin-history-list">
+                  {filtered.history.map(history => (
+                    <div key={history.id} className="history-item">
+                      <div className="history-info">
+                        <div className="history-user">{history.user.name}</div>
+                        <div className="history-month">{history.month_year}</div>
+                        <div className="history-points">Puntos: {history.points}</div>
+                      </div>
+                      <div className="history-date">{new Date(history.awarded_at).toLocaleString()}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {activeSection !== 'coronas' && filtered.length === 0 && (
               <div className="admin-empty-state">
                 <AlertCircle size={48} />
                 <p>No hay {activeSection} para mostrar</p>
+              </div>
+            )}
+            {activeSection === 'coronas' && (filtered.topUsers.length === 0 || filtered.history.length === 0) && (
+              <div className="admin-empty-state">
+                <AlertCircle size={48} />
+                <p>No hay datos para mostrar en coronas</p>
               </div>
             )}
           </div>
@@ -750,10 +860,10 @@ export default function AdminPage({ currentUser, onBack }) {
         />
       )}
 
-      {showAwardModal && (
+      {showAward && (
         <AdminAwardModal 
           onAdd={handleAddAward}
-          onClose={() => setShowAwardModal(false)}
+          onClose={() => setShowAward(false)}
         />
       )}
 
@@ -802,6 +912,38 @@ export default function AdminPage({ currentUser, onBack }) {
           }}
         />
       )}
+
+      {showFinishAwardModal && itemToFinish && (
+        <FinishAwardModal 
+          award={itemToFinish}
+          onFinish={handleFinishAward}
+          onClose={() => {
+            setShowFinishAwardModal(false);
+            setItemToFinish(null);
+          }}
+        />
+      )}
+
+      {showConfirmAward && selectedUser && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <h3>Confirmar Otorgar Corona</h3>
+            <p>¿Estás seguro de otorgar la corona mensual a {selectedUser.name}?</p>
+            <div className="modal-actions">
+              <button className="action-btn finish" onClick={() => handleAwardChampionship(selectedUser.id)}>
+                Sí, Otorgar
+              </button>
+              <button className="action-btn delete" onClick={() => {
+                setShowConfirmAward(false);
+                setSelectedUser(null);
+              }}>
+                Cancelar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <ToastContainer toasts={toast.toasts} removeToast={toast.removeToast} />
     </>
   );
