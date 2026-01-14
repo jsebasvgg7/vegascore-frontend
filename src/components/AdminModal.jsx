@@ -17,6 +17,7 @@ export default function AdminModal({ onAdd, onClose }) {
     deadLine: "",
     deadLine_time: ""
   });
+  const [sending, setSending] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -57,37 +58,77 @@ export default function AdminModal({ onAdd, onClose }) {
     }
   };
 
-  const submit = () => {
+  const sendPushNotification = async (matchData) => {
+    try {
+      // Enviar notificación push a través de Edge Function
+      const { error } = await supabase.functions.invoke('send-push', {
+        body: {
+          matchId: matchData.id,
+          title: '🔥 ¡Nuevo partido disponible!',
+          body: `${matchData.home_team} vs ${matchData.away_team} - ${matchData.league}`,
+          url: `/matches/${matchData.id}`,
+          league: matchData.league,
+          date: matchData.date,
+          time: matchData.time
+        }
+      });
+
+      if (error) {
+        console.error('Error enviando notificación push:', error);
+      } else {
+        console.log('✅ Notificación push enviada exitosamente');
+      }
+    } catch (error) {
+      console.error('Error en sendPushNotification:', error);
+    }
+  };
+
+  const submit = async () => {
     if (!form.id || !form.home_team || !form.away_team || !form.date || !form.time || !form.deadLine || !form.deadLine_time) {
       alert("Todos los campos son obligatorios");
       return;
     }
 
-    // Combinar fecha y hora del deadline en formato ISO
-    const deadlineISO = `${form.deadLine}T${form.deadLine_time}:00`;
+    setSending(true);
 
-    // Generar URLs de logos automáticamente
-    const homeLogoUrl = getLogoUrlByTeamName(supabase, form.home_team, form.league);
-    const awayLogoUrl = getLogoUrlByTeamName(supabase, form.away_team, form.league);
-    const leagueLogoUrl = getLeagueLogoUrlDirect(form.league);
+    try {
+      // Combinar fecha y hora del deadline en formato ISO
+      const deadlineISO = `${form.deadLine}T${form.deadLine_time}:00`;
 
-    onAdd({
-      id: form.id,
-      league: form.league,
-      home_team: form.home_team,
-      away_team: form.away_team,
-      home_team_logo: form.home_team_logo,
-      away_team_logo: form.away_team_logo,
-      home_team_logo_url: homeLogoUrl,
-      away_team_logo_url: awayLogoUrl,
-      league_logo_url: leagueLogoUrl,
-      date: form.date,
-      time: form.time,
-      deadline: deadlineISO,
-      status: "pending",
-    });
+      // Generar URLs de logos automáticamente
+      const homeLogoUrl = getLogoUrlByTeamName(supabase, form.home_team, form.league);
+      const awayLogoUrl = getLogoUrlByTeamName(supabase, form.away_team, form.league);
+      const leagueLogoUrl = getLeagueLogoUrlDirect(form.league);
 
-    onClose();
+      const matchData = {
+        id: form.id,
+        league: form.league,
+        home_team: form.home_team,
+        away_team: form.away_team,
+        home_team_logo: form.home_team_logo,
+        away_team_logo: form.away_team_logo,
+        home_team_logo_url: homeLogoUrl,
+        away_team_logo_url: awayLogoUrl,
+        league_logo_url: leagueLogoUrl,
+        date: form.date,
+        time: form.time,
+        deadline: deadlineISO,
+        status: "pending",
+      };
+
+      // Agregar el partido
+      onAdd(matchData);
+
+      // Enviar notificación push (sin esperar)
+      sendPushNotification(matchData);
+
+      onClose();
+    } catch (error) {
+      console.error('Error al crear partido:', error);
+      alert('Error al crear el partido');
+    } finally {
+      setSending(false);
+    }
   };
 
   return (
@@ -285,12 +326,12 @@ export default function AdminModal({ onAdd, onClose }) {
 
         {/* Footer con botones */}
         <div className="modal-footer-premium">
-          <button className="modal-btn-premium secondary" onClick={onClose}>
+          <button className="modal-btn-premium secondary" onClick={onClose} disabled={sending}>
             Cancelar
           </button>
-          <button className="modal-btn-premium primary" onClick={submit}>
+          <button className="modal-btn-premium primary" onClick={submit} disabled={sending}>
             <Plus size={18} />
-            <span>Agregar Partido</span>
+            <span>{sending ? 'Enviando...' : 'Agregar Partido'}</span>
           </button>
         </div>
       </div>

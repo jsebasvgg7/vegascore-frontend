@@ -2,8 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { 
   Bell, Filter, Calendar, Trophy, CheckCircle2, 
-  Clock, Target, Smartphone, Download, X, 
-  TrendingUp, Zap, Award, Share2
+  Clock, Target, Award, BellRing, BellOff
 } from 'lucide-react';
 import { supabase } from '../utils/supabaseClient';
 import Footers from '../components/Footer';
@@ -12,18 +11,27 @@ import '../styles/pagesStyles/NotificationsPage.css';
 export default function NotificationsPage({ currentUser }) {
   const [notifications, setNotifications] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [filter, setFilter] = useState('all'); // all, new, finished
-  const [showInstallBanner, setShowInstallBanner] = useState(true);
+  const [filter, setFilter] = useState('all');
+  const [pushEnabled, setPushEnabled] = useState(false);
+  const [checkingPermission, setCheckingPermission] = useState(true);
 
   useEffect(() => {
     loadNotifications();
+    checkPushPermission();
   }, []);
+
+  const checkPushPermission = async () => {
+    setCheckingPermission(true);
+    if ('Notification' in window) {
+      setPushEnabled(Notification.permission === 'granted');
+    }
+    setCheckingPermission(false);
+  };
 
   const loadNotifications = async () => {
     try {
       setLoading(true);
       
-      // Cargar partidos nuevos (creados en los últimos 7 días)
       const sevenDaysAgo = new Date();
       sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
 
@@ -35,7 +43,6 @@ export default function NotificationsPage({ currentUser }) {
 
       if (error) throw error;
 
-      // Convertir a formato de notificaciones
       const notifs = matches.map(match => {
         const isNew = match.status === 'pending';
         const isFinished = match.status === 'finished';
@@ -62,28 +69,132 @@ export default function NotificationsPage({ currentUser }) {
     }
   };
 
+  const requestNotificationPermission = async () => {
+    if (!('Notification' in window)) {
+      alert('Tu navegador no soporta notificaciones');
+      return false;
+    }
+
+    if (Notification.permission === 'granted') {
+      return true;
+    }
+
+    if (Notification.permission !== 'denied') {
+      const permission = await Notification.requestPermission();
+      return permission === 'granted';
+    }
+
+    alert('Has bloqueado las notificaciones. Por favor, actívalas en la configuración de tu navegador.');
+    return false;
+  };
+
+  const registerServiceWorker = async () => {
+    if (!('serviceWorker' in navigator)) {
+      console.log('Service Workers no soportados');
+      return null;
+    }
+
+    try {
+      const registration = await navigator.serviceWorker.register('/sw.js');
+      console.log('Service Worker registrado:', registration);
+      return registration;
+    } catch (error) {
+      console.error('Error registrando Service Worker:', error);
+      return null;
+    }
+  };
+
+  const urlBase64ToUint8Array = (base64String) => {
+    const padding = '='.repeat((4 - base64String.length % 4) % 4);
+    const base64 = (base64String + padding)
+      .replace(/\-/g, '+')
+      .replace(/_/g, '/');
+
+    const rawData = window.atob(base64);
+    const outputArray = new Uint8Array(rawData.length);
+
+    for (let i = 0; i < rawData.length; ++i) {
+      outputArray[i] = rawData.charCodeAt(i);
+    }
+    return outputArray;
+  };
+
+  const subscribeToPush = async () => {
+    try {
+      const registration = await registerServiceWorker();
+      if (!registration) {
+        alert('Error al registrar Service Worker');
+        return null;
+      }
+
+      const permitted = await requestNotificationPermission();
+      if (!permitted) return null;
+
+      const vapidPublicKey = 'BBxgmAtEOHeYNi1tJQcrWzL_Q-6_Mj16ECGgQSL6JPX0i9XyL5V5LFJHjNdde_TTRxAUXJHSYNtUOvXcAsYS_Xs';
+      
+      const subscription = await registration.pushManager.subscribe({
+        userVisibleOnly: true,
+        applicationServerKey: urlBase64ToUint8Array(vapidPublicKey)
+      });
+
+      // Guardar suscripción en Supabase
+      const { error } = await supabase
+        .from('push_subscriptions')
+        .upsert({
+          user_id: currentUser.id,
+          subscription: JSON.stringify(subscription),
+          created_at: new Date().toISOString()
+        });
+
+      if (error) throw error;
+
+      console.log('✅ Suscrito a notificaciones push');
+      return subscription;
+
+    } catch (error) {
+      console.error('Error en suscripción push:', error);
+      return null;
+    }
+  };
+
+  const unsubscribeFromPush = async () => {
+    try {
+      const registration = await navigator.serviceWorker.ready;
+      const subscription = await registration.pushManager.getSubscription();
+      
+      if (subscription) {
+        await subscription.unsubscribe();
+      }
+
+      await supabase
+        .from('push_subscriptions')
+        .delete()
+        .eq('user_id', currentUser.id);
+
+      console.log('❌ Desuscrito de notificaciones push');
+    } catch (error) {
+      console.error('Error al desuscribirse:', error);
+    }
+  };
+
+  const handleTogglePush = async () => {
+    if (pushEnabled) {
+      await unsubscribeFromPush();
+      setPushEnabled(false);
+      alert('Notificaciones desactivadas');
+    } else {
+      const subscription = await subscribeToPush();
+      if (subscription) {
+        setPushEnabled(true);
+        alert('¡Notificaciones activadas! 🔔\nTe avisaremos de nuevos partidos.');
+      }
+    }
+  };
+
   const filteredNotifications = notifications.filter(notif => {
     if (filter === 'all') return true;
     return notif.type === filter;
   });
-
-  const handleInstallPWA = () => {
-    alert('Para instalar la app:\n\n1. En tu navegador, toca el menú (⋮)\n2. Selecciona "Añadir a pantalla de inicio"\n3. ¡Listo! Tendrás acceso directo');
-  };
-
-  const getTimeAgo = (dateString) => {
-    const now = new Date();
-    const date = new Date(dateString);
-    const diffMs = now - date;
-    const diffMins = Math.floor(diffMs / 60000);
-    const diffHours = Math.floor(diffMs / 3600000);
-    const diffDays = Math.floor(diffMs / 86400000);
-
-    if (diffMins < 1) return 'Hace un momento';
-    if (diffMins < 60) return `Hace ${diffMins} min`;
-    if (diffHours < 24) return `Hace ${diffHours}h`;
-    return `Hace ${diffDays}d`;
-  };
 
   return (
     <div className="notifications-page">
@@ -96,46 +207,35 @@ export default function NotificationsPage({ currentUser }) {
             <p className="page-subtitle">Mantente al día con todos los partidos</p>
           </div>
         </div>
+        
+        {/* Botón para activar/desactivar push notifications */}
+        {!checkingPermission && (
+          <button 
+            className={`push-toggle-btn ${pushEnabled ? 'enabled' : ''}`}
+            onClick={handleTogglePush}
+          >
+            {pushEnabled ? <BellRing size={20} /> : <BellOff size={20} />}
+            <span>{pushEnabled ? 'Activadas' : 'Activar'}</span>
+          </button>
+        )}
       </div>
 
       <div className="notifications-container">
-        {/* Banner de Instalación - Fijado 
-        {showInstallBanner && (
-          <div className="install-banner pinned">
-            <button 
-              className="banner-close"
-              onClick={() => setShowInstallBanner(false)}
-            >
-              <X size={18} />
+        {/* Banner informativo si las notificaciones están desactivadas */}
+        {!pushEnabled && !checkingPermission && (
+          <div className="push-info-banner">
+            <div className="banner-icon-circle">
+              <BellRing size={24} />
+            </div>
+            <div className="banner-text">
+              <h4>Activa las notificaciones push</h4>
+              <p>Recibe alertas cuando haya nuevos partidos o resultados</p>
+            </div>
+            <button onClick={handleTogglePush} className="activate-btn">
+              Activar
             </button>
-            
-            <div className="banner-content">
-              <div className="banner-icon">
-                <Smartphone size={32} />
-              </div>
-              
-              <div className="banner-info">
-                <h3 className="banner-title">
-                  <Download size={18} />
-                  ¡Instala GlobalScore!
-                </h3>
-                <p className="banner-description">
-                  Agrega nuestra app a tu pantalla de inicio para acceso rápido y sin complicaciones
-                </p>
-              </div>
-            </div>
-
-            <div className="banner-actions">
-              <button className="install-btn" onClick={handleInstallPWA}>
-                <Download size={18} />
-                <span>Instalar Ahora</span>
-              </button>
-              <button className="share-btn">
-                <Share2 size={18} />
-              </button>
-            </div>
           </div>
-        )}*/}
+        )}
 
         {/* Filtros */}
         <div className="notifications-filters">
@@ -144,6 +244,7 @@ export default function NotificationsPage({ currentUser }) {
             onClick={() => setFilter('all')}
           >
             <Filter size={16} />
+            <span>Todas</span>
             <span className="chip-count">{notifications.length}</span>
           </button>
 
@@ -152,6 +253,7 @@ export default function NotificationsPage({ currentUser }) {
             onClick={() => setFilter('new')}
           >
             <Trophy size={16} />
+            <span>Nuevas</span>
             <span className="chip-count">
               {notifications.filter(n => n.type === 'new').length}
             </span>
@@ -162,6 +264,7 @@ export default function NotificationsPage({ currentUser }) {
             onClick={() => setFilter('finished')}
           >
             <CheckCircle2 size={16} />
+            <span>Finalizadas</span>
             <span className="chip-count">
               {notifications.filter(n => n.type === 'finished').length}
             </span>
