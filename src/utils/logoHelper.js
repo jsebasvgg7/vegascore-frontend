@@ -31,7 +31,7 @@ export const teamSlugMap = {
   'NFO': 'nottingham_forest',
   'BUR': 'burnley',
   'RMA': 'realmadrid',
-  'BAR': 'barcelona',
+  'FCB': 'barcelona',
   'ATM': 'atlmadrid',
   'SEV': 'sevilla',
   'BET': 'betis',
