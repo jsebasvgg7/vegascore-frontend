@@ -1,6 +1,5 @@
-// src/hooks/usePredictionHistory.js
 import { useState, useEffect } from 'react';
-import { supabase } from '../utils/supabaseClient';
+import { supabase } from '../../utils/supabaseClient';
 
 export const usePredictionHistory = (currentUser) => {
   const [predictionHistory, setPredictionHistory] = useState([]);

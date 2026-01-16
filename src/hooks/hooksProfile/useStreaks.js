@@ -1,6 +1,5 @@
-// src/hooks/useStreaks.js
 import { useState, useEffect } from 'react';
-import { supabase } from '../utils/supabaseClient';
+import { supabase } from '../../utils/supabaseClient';
 
 const checkPredictionCorrect = (prediction, match) => {
   if (match.result_home === null || match.result_away === null) return false;
@@ -18,7 +17,6 @@ const isConsecutive = (date1, date2) => {
   const diffDays = Math.abs((d1 - d2) / (1000 * 60 * 60 * 24));
   return diffDays <= 7;
 };
-
 export const useStreaks = (currentUser) => {
   const [streakData, setStreakData] = useState({
     current_streak: 0,
