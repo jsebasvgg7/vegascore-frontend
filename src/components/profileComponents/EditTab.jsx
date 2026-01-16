@@ -1,7 +1,7 @@
 // src/components/profileComponents/EditTab.jsx
 import React from 'react';
 import { Edit2, User, Trophy, Heart, Flag, Star, Save, X, Activity } from 'lucide-react';
-import AvatarUpload from '../AvatarUpload';
+import AvatarUpload from './AvatarUpload';
 
 export default function EditTab({ 
   userData, 
