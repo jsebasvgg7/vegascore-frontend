@@ -241,22 +241,24 @@
   justify-content: center;
   width: 100%;
 }
-
 /* ==================== RESPONSIVE: TABLETS ==================== */
 @media (max-width: 768px) {
   .user-modal-overlay {
-    padding: 12px;
-    /* IMPORTANTE: Ajustar para header móvil (60px aprox) + bottom nav (70px) */
-    padding-top: calc(60px + 12px);
-    padding-bottom: calc(70px + 12px);
-    align-items: flex-start;
+    padding: 0;
+    /* CRÍTICO: Usar padding interno en lugar de externo */
+    padding-top: 0;
+    padding-bottom: 0;
+    align-items: center;
+    justify-content: center;
   }
 
   .user-modal-container {
-    /* IMPORTANTE: Restar espacio del header + bottom nav */
-    max-height: calc(100vh - 60px - 70px - 24px);
+    /* CRÍTICO: Usar márgenes en lugar de padding en overlay */
+    margin-top: 70px;
+    margin-bottom: 70px;
+    max-height: calc(100vh - 140px);
     border-radius: 20px;
-    margin-top: 0;
+    width: calc(100% - 24px);
   }
 
   .user-modal-container::-webkit-scrollbar {
@@ -265,7 +267,6 @@
 
   .user-modal-header {
     padding: 18px;
-    /* Asegurar que el header del modal sea sticky */
     position: sticky;
     top: 0;
     background: var(--bg-card);
@@ -331,21 +332,22 @@
 /* ==================== RESPONSIVE: MÓVILES ==================== */
 @media (max-width: 480px) {
   .user-modal-overlay {
-    padding: 10px;
-    /* CRÍTICO: Ajustar para header móvil más pequeño */
-    padding-top: calc(56px + 10px);
-    padding-bottom: calc(65px + 10px);
+    padding: 0;
+    align-items: center;
+    justify-content: center;
   }
 
   .user-modal-container {
-    /* CRÍTICO: Calcular correctamente el espacio disponible */
-    max-height: calc(100vh - 56px - 65px - 20px);
+    /* SOLUCIÓN: Usar márgenes para dar espacio arriba y abajo */
+    margin-top: 66px;
+    margin-bottom: 75px;
+    max-height: calc(100vh - 141px);
     border-radius: 16px;
+    width: calc(100% - 20px);
   }
 
   .user-modal-header {
     padding: 16px;
-    /* Header sticky en móviles */
     position: sticky;
     top: 0;
     background: var(--bg-card);
@@ -618,14 +620,15 @@
 /* ==================== RESPONSIVE: MÓVILES EXTRA PEQUEÑOS ==================== */
 @media (max-width: 360px) {
   .user-modal-overlay {
-    padding: 8px;
-    padding-top: calc(54px + 8px);
-    padding-bottom: calc(65px + 8px);
+    padding: 0;
   }
 
   .user-modal-container {
-    max-height: calc(100vh - 54px - 65px - 16px);
+    margin-top: 64px;
+    margin-bottom: 75px;
+    max-height: calc(100vh - 139px);
     border-radius: 14px;
+    width: calc(100% - 16px);
   }
 
   .user-modal-header {
