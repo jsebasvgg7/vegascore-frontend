@@ -245,18 +245,16 @@
 @media (max-width: 768px) {
   .user-modal-overlay {
     padding: 0;
-    /* CRÍTICO: Usar padding interno en lugar de externo */
-    padding-top: 0;
-    padding-bottom: 0;
-    align-items: center;
+    align-items: flex-start; /* Cambiar de center a flex-start */
     justify-content: center;
+    padding-top: 16px; /* Añadir padding top al overlay */
   }
 
   .user-modal-container {
-    /* CRÍTICO: Usar márgenes en lugar de padding en overlay */
-    margin-top: 70px;
-    margin-bottom: 70px;
-    max-height: calc(100vh - 140px);
+    /* CRÍTICO: Aumentar margen superior para evitar header */
+    margin-top: 90px;  /* Aumentado significativamente */
+    margin-bottom: 90px;
+    max-height: calc(100vh - 180px);
     border-radius: 20px;
     width: calc(100% - 24px);
   }
@@ -333,15 +331,16 @@
 @media (max-width: 480px) {
   .user-modal-overlay {
     padding: 0;
-    align-items: center;
+    align-items: flex-start; /* Cambiar de center a flex-start */
     justify-content: center;
+    padding-top: 12px; /* Añadir padding top al overlay */
   }
 
   .user-modal-container {
-    /* SOLUCIÓN: Usar márgenes para dar espacio arriba y abajo */
-    margin-top: 66px;
-    margin-bottom: 75px;
-    max-height: calc(100vh - 141px);
+    /* SOLUCIÓN: Márgenes mayores para evitar superposición con header */
+    margin-top: 85px;  /* Aumentado significativamente de 75px */
+    margin-bottom: 85px;
+    max-height: calc(100vh - 170px);
     border-radius: 16px;
     width: calc(100% - 20px);
   }
@@ -621,12 +620,15 @@
 @media (max-width: 360px) {
   .user-modal-overlay {
     padding: 0;
+    align-items: flex-start; /* Añadir esto */
+    justify-content: center;
+    padding-top: 10px; /* Añadir padding top */
   }
 
   .user-modal-container {
-    margin-top: 64px;
-    margin-bottom: 75px;
-    max-height: calc(100vh - 139px);
+    margin-top: 80px;  /* Aumentado de 72px */
+    margin-bottom: 85px;
+    max-height: calc(100vh - 165px);
     border-radius: 14px;
     width: calc(100% - 16px);
   }
