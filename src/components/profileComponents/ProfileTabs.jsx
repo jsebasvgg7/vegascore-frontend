@@ -3,11 +3,11 @@ import React from 'react';
 import { Grid3x3, Trophy, List, Edit2, Crown } from 'lucide-react';
 
 const profileTabs = [
-  { id: 'overview', label: 'Resumen', icon: Grid3x3 },
-  { id: 'achievements', label: 'Logros', icon: Trophy },
-  { id: 'championships', label: 'Campeonatos', icon: Crown },
-  { id: 'history', label: 'Historial', icon: List },
-  { id: 'edit', label: 'Editar', icon: Edit2 },
+  { id: 'overview', icon: Grid3x3 },
+  { id: 'achievements', icon: Trophy },
+  { id: 'championships', icon: Crown },
+  { id: 'history', icon: List },
+  { id: 'edit', icon: Edit2 },
 ];
 
 export default function ProfileTabs({ activeTab, setActiveTab }) {
