@@ -58,7 +58,8 @@ export default function AdminModalsContainer({
   editingItem,
   setEditingItem,
   users,
-  currentMonth
+  currentMonth,
+  currentUser // ⬅️ NUEVO: necesitamos el usuario actual
 }) {
   return (
     <>
@@ -145,13 +146,14 @@ export default function AdminModalsContainer({
         />
       )}
 
-      {/* Crown Modal */}
+      {/* Crown Modal - ⬇️ ACTUALIZADO */}
       {showCrownModal && (
         <AdminCrownModal 
           onClose={() => setShowCrownModal(false)}
           onAward={handleAwardCrown}
-          currentTopUser={users[0]}
+          currentTopUser={users && users.length > 0 ? users[0] : null}
           currentMonth={currentMonth}
+          currentUserId={currentUser?.id}
         />
       )}
     </>

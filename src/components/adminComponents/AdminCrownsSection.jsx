@@ -1,14 +1,49 @@
 // src/components/adminComponents/AdminCrownsSection.jsx
 import React from 'react';
-import { Calendar } from 'lucide-react';
+import { Calendar, RotateCcw } from 'lucide-react';
 
-export default function AdminCrownsSection({ top10, history }) {
+export default function AdminCrownsSection({ top10, history, onResetStats }) {
   return (
     <div className="admin-crowns-section">
       <div className="section-header">
-        <h3>Ranking Mensual Top 10</h3>
-        <p>Usuarios ordenados por puntos mensuales</p>
+        <div>
+          <h3>Ranking Mensual Top 10</h3>
+          <p>Usuarios ordenados por puntos mensuales</p>
+        </div>
+        {onResetStats && (
+          <button 
+            className="reset-stats-btn"
+            onClick={onResetStats}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              padding: '10px 16px',
+              background: 'linear-gradient(135deg, #EF4444, #DC2626)',
+              color: 'white',
+              border: 'none',
+              borderRadius: '12px',
+              fontSize: '14px',
+              fontWeight: '700',
+              cursor: 'pointer',
+              transition: 'all 0.2s ease',
+              boxShadow: '0 4px 12px rgba(239, 68, 68, 0.3)'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = 'translateY(-2px)';
+              e.currentTarget.style.boxShadow = '0 6px 16px rgba(239, 68, 68, 0.4)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'translateY(0)';
+              e.currentTarget.style.boxShadow = '0 4px 12px rgba(239, 68, 68, 0.3)';
+            }}
+          >
+            <RotateCcw size={16} />
+            <span>Resetear Estadísticas</span>
+          </button>
+        )}
       </div>
+
       <div className="top10-list">
         {top10?.map((user, index) => (
           <div key={user.id} className={`top-user-card ${index === 0 ? 'top1' : ''}`}>
@@ -20,12 +55,18 @@ export default function AdminCrownsSection({ top10, history }) {
             </div>
           </div>
         ))}
+        {(!top10 || top10.length === 0) && (
+          <p className="empty-history">No hay usuarios con puntos mensuales aún</p>
+        )}
       </div>
 
-      <div className="section-header">
-        <h3>Historial de Coronas</h3>
-        <p>Últimas coronas otorgadas</p>
+      <div className="section-header" style={{ marginTop: '32px' }}>
+        <div>
+          <h3>Historial de Coronas</h3>
+          <p>Últimas coronas otorgadas</p>
+        </div>
       </div>
+
       <div className="history-list">
         {history?.map(historyItem => (
           <div key={historyItem.id} className="history-item">

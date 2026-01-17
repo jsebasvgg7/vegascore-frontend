@@ -1,15 +1,18 @@
 // src/components/adminComponents/AdminCrownModal.jsx
 import React, { useState } from 'react';
-import { X, Trophy, AlertCircle, CheckCircle } from 'lucide-react';
-import { supabase } from '../../utils/supabaseClient';
-import { ToastContainer, useToast } from '../../components/Toast';
+import { X, Trophy, AlertCircle, CheckCircle, Calendar } from 'lucide-react';
 import '../../styles/adminStyles/AdminCrownModal.css';
 
-export default function AdminCrownModal({ onClose, onAward, currentTopUser, currentMonth }) {
+export default function AdminCrownModal({ 
+  onClose, 
+  onAward, 
+  currentTopUser, 
+  currentMonth,
+  currentUserId 
+}) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [monthLabel, setMonthLabel] = useState(currentMonth || '');
-  const toast = useToast();
 
   const handleAward = async () => {
     if (!currentTopUser) {
@@ -22,25 +25,22 @@ export default function AdminCrownModal({ onClose, onAward, currentTopUser, curr
       return;
     }
 
+    // Validar formato del mes (YYYY-MM)
+    const monthRegex = /^\d{4}-\d{2}$/;
+    if (!monthRegex.test(monthLabel)) {
+      setError('Formato inválido. Usa YYYY-MM (ej: 2026-01)');
+      return;
+    }
+
     setIsLoading(true);
     setError(null);
 
     try {
-      const { data, error } = await supabase.rpc('award_monthly_championship', {
-        winner_user_id: currentTopUser.id,
-        month_label: monthLabel,
-        awarded_by_user_id: supabase.auth.user()?.id // Asumiendo currentUser es el admin
-      });
-
-      if (error) throw error;
-
-      toast.success(`👑 Corona otorgada a ${currentTopUser.name} para ${monthLabel}`);
-      onAward?.(data);
+      await onAward(currentTopUser.id, monthLabel, currentUserId);
       onClose();
     } catch (err) {
       console.error('Error awarding crown:', err);
       setError(err.message || 'Error al otorgar la corona');
-      toast.error('❌ Error al otorgar la corona');
     } finally {
       setIsLoading(false);
     }
@@ -74,10 +74,17 @@ export default function AdminCrownModal({ onClose, onAward, currentTopUser, curr
               <span className="label">Puntos Mensuales:</span>
               <span className="value">{currentTopUser?.monthly_points || 0}</span>
             </div>
+            <div className="user-detail">
+              <span className="label">Coronas Actuales:</span>
+              <span className="value">{currentTopUser?.monthly_championships || 0}</span>
+            </div>
           </div>
 
           <div className="form-group">
-            <label htmlFor="monthLabel">Mes (YYYY-MM):</label>
+            <label htmlFor="monthLabel">
+              <Calendar size={14} />
+              Mes (YYYY-MM):
+            </label>
             <input
               id="monthLabel"
               type="text"
@@ -86,12 +93,19 @@ export default function AdminCrownModal({ onClose, onAward, currentTopUser, curr
               placeholder="Ej: 2026-01"
               disabled={isLoading}
             />
+            <span style={{ fontSize: '12px', color: '#666', marginTop: '4px', display: 'block' }}>
+              Formato: Año-Mes (ej: 2026-01 para Enero 2026)
+            </span>
           </div>
 
           <p className="confirmation-text">
-            ¿Confirmas otorgar la corona mensual a {currentTopUser?.name} para {monthLabel || 'el mes actual'}?
+            ¿Confirmas otorgar la corona mensual a <strong>{currentTopUser?.name}</strong> para <strong>{monthLabel || 'el mes seleccionado'}</strong>?
+            <br /><br />
+            Esta acción es permanente y actualizará:
             <br />
-            Esta acción es permanente y actualizará el contador de campeonatos.
+            • El historial de coronas
+            <br />
+            • El contador de campeonatos del usuario
           </p>
         </div>
 
@@ -99,7 +113,11 @@ export default function AdminCrownModal({ onClose, onAward, currentTopUser, curr
           <button className="cancel-btn" onClick={onClose} disabled={isLoading}>
             Cancelar
           </button>
-          <button className="award-btn" onClick={handleAward} disabled={isLoading || !currentTopUser}>
+          <button 
+            className="award-btn" 
+            onClick={handleAward} 
+            disabled={isLoading || !currentTopUser || !monthLabel}
+          >
             {isLoading ? (
               <div className="spinner"></div>
             ) : (
@@ -111,7 +129,6 @@ export default function AdminCrownModal({ onClose, onAward, currentTopUser, curr
           </button>
         </div>
       </div>
-      <ToastContainer toasts={toast.toasts} removeToast={toast.removeToast} />
     </div>
   );
 }

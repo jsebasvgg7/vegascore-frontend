@@ -8,6 +8,7 @@ import { useAdminMatches } from '../hooks/adminHooks/useAdminMatches';
 import { useAdminLeagues } from '../hooks/adminHooks/useAdminLeagues';
 import { useAdminAwards } from '../hooks/adminHooks/useAdminAwards';
 import { useAdminAchievements } from '../hooks/adminHooks/useAdminAchievements';
+import { useAdminCrowns } from '../hooks/adminHooks/useAdminCrowns'; // ⬅️ NUEVO
 
 // Utils
 import { getFilteredItems, calculateStats } from '../utils/adminFilters';
@@ -86,11 +87,10 @@ export default function AdminPage({ currentUser }) {
     handleDeleteTitle 
   } = useAdminAchievements(loadData, toast);
 
-  // Handlers
-  const handleAwardCrown = async () => {
-    await loadData();
-  };
+  // ⬇️ NUEVO: Hook para coronas
+  const { handleAwardCrown, handleResetMonthlyStats } = useAdminCrowns(loadData, toast);
 
+  // Handlers
   const handleAddNew = () => {
     if (activeSection === 'matches') setShowMatchModal(true);
     if (activeSection === 'leagues') setShowLeagueModal(true);
@@ -213,6 +213,7 @@ export default function AdminPage({ currentUser }) {
               <AdminCrownsSection
                 top10={filteredItems.top10}
                 history={filteredItems.history}
+                onResetStats={handleResetMonthlyStats}
               />
             )}
 
@@ -267,7 +268,7 @@ export default function AdminPage({ currentUser }) {
         handleSaveTitle={handleSaveTitle}
         handleDeleteTitle={handleDeleteTitle}
         
-        // Crown modal
+        // Crown modal - ⬇️ ACTUALIZADO
         showCrownModal={showCrownModal}
         setShowCrownModal={setShowCrownModal}
         handleAwardCrown={handleAwardCrown}
@@ -279,6 +280,7 @@ export default function AdminPage({ currentUser }) {
         setEditingItem={setEditingItem}
         users={users}
         currentMonth={currentMonth}
+        currentUser={currentUser}
       />
 
       <ToastContainer toasts={toast.toasts} removeToast={toast.removeToast} />
