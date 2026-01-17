@@ -1,0 +1,118 @@
+/* ============================================
+   src/styles/components/LoadingSpinner.css
+   Estilos para los puntos de carga animados
+============================================ */
+
+.dots-container {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 20px;
+}
+
+.dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: white;
+  animation: dot-bounce 1.4s infinite ease-in-out both;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.dot:nth-child(1) {
+  animation-delay: -0.32s;
+}
+
+.dot:nth-child(2) {
+  animation-delay: -0.16s;
+}
+
+.dot:nth-child(3) {
+  animation-delay: 0s;
+}
+
+@keyframes dot-bounce {
+  0%, 80%, 100% {
+    opacity: 0.3;
+    transform: scale(0.7) translateY(0);
+  }
+  40% {
+    opacity: 1;
+    transform: scale(1.2) translateY(-8px);
+  }
+}
+
+/* Variante de color primario (morado) */
+.dots-primary .dot {
+  background-color: #9b87d8;
+}
+
+/* Responsive - tamaños más pequeños */
+@media (max-width: 768px) {
+  .dots-container {
+    gap: 5px;
+    height: 18px;
+  }
+  
+  .dot {
+    width: 6px;
+    height: 6px;
+  }
+  
+  @keyframes dot-bounce {
+    0%, 80%, 100% {
+      opacity: 0.3;
+      transform: scale(0.7) translateY(0);
+    }
+    40% {
+      opacity: 1;
+      transform: scale(1.2) translateY(-6px);
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .dots-container {
+    gap: 4px;
+    height: 16px;
+  }
+  
+  .dot {
+    width: 5px;
+    height: 5px;
+  }
+  
+  @keyframes dot-bounce {
+    0%, 80%, 100% {
+      opacity: 0.3;
+      transform: scale(0.7) translateY(0);
+    }
+    40% {
+      opacity: 1;
+      transform: scale(1.2) translateY(-5px);
+    }
+  }
+}
+
+/* Accesibilidad - reduce motion */
+@media (prefers-reduced-motion: reduce) {
+  .dot {
+    animation: dot-fade 2s infinite ease-in-out both;
+  }
+  
+  @keyframes dot-fade {
+    0%, 100% {
+      opacity: 0.4;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+}
+
+/* Dark mode */
+[data-theme="dark"] .dot {
+  background-color: white;
+  box-shadow: 0 2px 6px rgba(255, 255, 255, 0.15);
+}

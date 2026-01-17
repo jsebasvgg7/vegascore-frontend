@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Eye, EyeOff } from "lucide-react";
 import { supabase } from "../utils/supabaseClient";
+import LoadingDots from "../components/LoadingSpinner";
 import "../styles/pagesStyles/Auth.css";
 
 export default function LoginPage() {
@@ -187,9 +188,9 @@ export default function LoginPage() {
             disabled={loading || !email || !password}
           >
             {loading ? (
-              <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}>
-                <span className="loading-spinner" /> 
-                Entrando...
+              <span className="btn-loading">
+                <LoadingDots />
+                <span>Entrando...</span>
               </span>
             ) : "Entrar"}
           </button>

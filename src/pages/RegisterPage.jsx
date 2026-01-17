@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Eye, EyeOff } from "lucide-react";
 import { supabase } from "../utils/supabaseClient";
+import LoadingDots from "../components/LoadingSpinner";
 import "../styles/pagesStyles/Auth.css";
 
 export default function RegisterPage() {
@@ -258,9 +259,9 @@ export default function RegisterPage() {
             disabled={loading || !name || !email || !password}
           >
             {loading ? (
-              <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}>
-                <span className="loading-spinner" /> 
-                Creando cuenta...
+              <span className="btn-loading">
+                <LoadingDots />
+                <span>Creando cuenta...</span>
               </span>
             ) : "Registrarse"}
           </button>
