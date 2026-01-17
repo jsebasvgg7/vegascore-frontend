@@ -201,14 +201,14 @@
   flex-direction: column;
   gap: 24px;
 }
-
-/* ==================== LOADING STATE ==================== */
+/* ==================== LOADING STATE - MEJORADO PARA MÓVILES ==================== */
 .loading-spinner {
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 60px 20px;
   min-height: 300px;
+  width: 100%;
 }
 
 .loading-content {
@@ -216,11 +216,14 @@
   flex-direction: column;
   align-items: center;
   gap: 20px;
+  width: 100%;
+  max-width: 100%;
 }
 
 .loading-icon {
   color: var(--primary);
   animation: floatUpDown 2s ease-in-out infinite;
+  flex-shrink: 0;
 }
 
 .loading-text {
@@ -228,8 +231,443 @@
   font-weight: 600;
   color: var(--text-primary);
   margin: 0;
+  text-align: center;
+  width: 100%;
 }
 
+/* Asegurar que LoadingDots esté centrado */
+.loading-content > div {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+/* ==================== RESPONSIVE: TABLETS ==================== */
+@media (max-width: 768px) {
+  .user-modal-overlay {
+    padding: 12px;
+    /* IMPORTANTE: Ajustar para header móvil (60px aprox) + bottom nav (70px) */
+    padding-top: calc(60px + 12px);
+    padding-bottom: calc(70px + 12px);
+    align-items: flex-start;
+  }
+
+  .user-modal-container {
+    /* IMPORTANTE: Restar espacio del header + bottom nav */
+    max-height: calc(100vh - 60px - 70px - 24px);
+    border-radius: 20px;
+    margin-top: 0;
+  }
+
+  .user-modal-container::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .user-modal-header {
+    padding: 18px;
+    /* Asegurar que el header del modal sea sticky */
+    position: sticky;
+    top: 0;
+    background: var(--bg-card);
+    z-index: 10;
+  }
+
+  .user-modal-title-section h2 {
+    font-size: 18px;
+  }
+
+  .user-modal-close {
+    width: 38px;
+    height: 38px;
+    min-width: 38px;
+    min-height: 38px;
+  }
+
+  .user-modal-body {
+    padding: 20px;
+    gap: 20px;
+  }
+
+  /* Loading en tablets */
+  .loading-spinner {
+    padding: 50px 20px;
+    min-height: 250px;
+  }
+
+  .loading-content {
+    gap: 18px;
+  }
+
+  .loading-icon {
+    width: 44px;
+    height: 44px;
+  }
+
+  .loading-text {
+    font-size: 15px;
+  }
+
+  /* Stats en 2 columnas en tablets */
+  .user-modal-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Streaks en 2 columnas en tablets */
+  .user-modal-streaks {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Badges en 2 columnas en tablets */
+  .user-modal-badges-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Achievements en 2 columnas en tablets */
+  .achievements-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ==================== RESPONSIVE: MÓVILES ==================== */
+@media (max-width: 480px) {
+  .user-modal-overlay {
+    padding: 10px;
+    /* CRÍTICO: Ajustar para header móvil más pequeño */
+    padding-top: calc(56px + 10px);
+    padding-bottom: calc(65px + 10px);
+  }
+
+  .user-modal-container {
+    /* CRÍTICO: Calcular correctamente el espacio disponible */
+    max-height: calc(100vh - 56px - 65px - 20px);
+    border-radius: 16px;
+  }
+
+  .user-modal-header {
+    padding: 16px;
+    /* Header sticky en móviles */
+    position: sticky;
+    top: 0;
+    background: var(--bg-card);
+    z-index: 10;
+    border-radius: 16px 16px 0 0;
+  }
+
+  .user-modal-title-section {
+    gap: 8px;
+  }
+
+  .user-modal-title-section h2 {
+    font-size: 16px;
+  }
+
+  .user-modal-title-section svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .user-modal-close {
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+    min-height: 36px;
+  }
+
+  .user-modal-close svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .user-modal-body {
+    padding: 16px;
+    gap: 16px;
+  }
+
+  /* LOADING MÓVIL - COMPACTO Y CENTRADO */
+  .loading-spinner {
+    padding: 40px 16px;
+    min-height: 220px;
+  }
+
+  .loading-content {
+    gap: 16px;
+  }
+
+  .loading-icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .loading-text {
+    font-size: 14px;
+  }
+
+  /* Avatar más pequeño en móviles */
+  .user-modal-banner {
+    height: 80px;
+  }
+
+  .user-modal-avatar {
+    width: 80px;
+    height: 80px;
+    font-size: 32px;
+    border-width: 3px;
+  }
+
+  .user-modal-level-badge {
+    right: calc(50% - 50px);
+    padding: 4px 10px;
+    font-size: 11px;
+    bottom: 12px;
+  }
+
+  .user-modal-level-badge svg {
+    width: 12px;
+    height: 12px;
+  }
+
+  /* Nombre más pequeño */
+  .user-modal-name {
+    font-size: 20px;
+  }
+
+  .user-modal-title-badge {
+    font-size: 12px;
+    padding: 4px 10px;
+  }
+
+  /* Stats en una columna en móviles */
+  .user-modal-stats-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .stat-icon {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+  }
+
+  .stat-icon svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .stat-label {
+    font-size: 11px;
+  }
+
+  .stat-value {
+    font-size: 20px;
+  }
+
+  /* Level card más compacto */
+  .user-modal-level-card {
+    padding: 14px;
+  }
+
+  .level-title-section h4 {
+    font-size: 15px;
+  }
+
+  .level-title-section p {
+    font-size: 12px;
+  }
+
+  .current-points {
+    font-size: 14px;
+  }
+
+  .progress-bar {
+    height: 8px;
+  }
+
+  /* Streaks en una columna en móviles */
+  .user-modal-streaks {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .streak-icon {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+  }
+
+  .streak-icon svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .streak-label {
+    font-size: 11px;
+  }
+
+  .streak-value {
+    font-size: 20px;
+  }
+
+  /* Coronas más compactas */
+  .user-modal-crowns {
+    padding: 14px;
+  }
+
+  .section-header h4 {
+    font-size: 15px;
+  }
+
+  .crown-icon {
+    width: 24px;
+    height: 24px;
+  }
+
+  /* Badges en una columna en móviles */
+  .user-modal-badges-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .user-modal-badge {
+    padding: 12px;
+  }
+
+  .badge-icon {
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+  }
+
+  .badge-icon svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .badge-label {
+    font-size: 10px;
+  }
+
+  .badge-value {
+    font-size: 13px;
+  }
+
+  /* Active title más compacto */
+  .user-modal-active-title {
+    padding: 14px;
+  }
+
+  .current-title-display {
+    padding: 12px;
+  }
+
+  .title-icon-large {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+  }
+
+  .title-icon-large svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .title-details h5 {
+    font-size: 15px;
+  }
+
+  .title-details p {
+    font-size: 12px;
+  }
+
+  /* Achievements en una columna en móviles */
+  .achievements-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .achievement-card {
+    padding: 14px;
+  }
+
+  .achievement-emoji {
+    font-size: 28px;
+  }
+
+  .achievement-info h5 {
+    font-size: 14px;
+  }
+
+  .achievement-info p {
+    font-size: 11px;
+  }
+
+  .achievement-category {
+    font-size: 10px;
+  }
+
+  /* Historial de coronas más compacto */
+  .history-item {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+
+  .crowns-history h5 {
+    font-size: 13px;
+  }
+}
+
+/* ==================== RESPONSIVE: MÓVILES EXTRA PEQUEÑOS ==================== */
+@media (max-width: 360px) {
+  .user-modal-overlay {
+    padding: 8px;
+    padding-top: calc(54px + 8px);
+    padding-bottom: calc(65px + 8px);
+  }
+
+  .user-modal-container {
+    max-height: calc(100vh - 54px - 65px - 16px);
+    border-radius: 14px;
+  }
+
+  .user-modal-header {
+    padding: 14px;
+  }
+
+  .user-modal-body {
+    padding: 14px;
+    gap: 14px;
+  }
+
+  .user-modal-stats-grid,
+  .user-modal-streaks,
+  .user-modal-badges-grid,
+  .achievements-grid {
+    gap: 8px;
+  }
+
+  .stat-value,
+  .streak-value {
+    font-size: 18px;
+  }
+
+  /* Loading extra pequeño */
+  .loading-spinner {
+    padding: 30px 12px;
+    min-height: 200px;
+  }
+
+  .loading-content {
+    gap: 14px;
+  }
+
+  .loading-icon {
+    width: 36px;
+    height: 36px;
+  }
+
+  .loading-text {
+    font-size: 13px;
+  }
+}
 /* ==================== AVATAR SECTION ==================== */
 .user-modal-avatar-section {
   background: var(--bg-tertiary);
@@ -917,65 +1355,6 @@
   letter-spacing: 0.5px;
 }
 
-/* ==================== RESPONSIVE: TABLETS ==================== */
-@media (max-width: 768px) {
-  .user-modal-overlay {
-    padding: 12px;
-    padding-top: calc(70px + 12px);
-    padding-bottom: calc(70px + 12px);
-    align-items: flex-start;
-  }
-
-  .user-modal-container {
-    max-height: calc(100vh - 70px - 70px - 24px);
-    border-radius: 20px;
-  }
-
-  .user-modal-container::-webkit-scrollbar {
-    width: 6px;
-  }
-
-  .user-modal-header {
-    padding: 18px;
-  }
-
-  .user-modal-title-section h2 {
-    font-size: 18px;
-  }
-
-  .user-modal-close {
-    width: 38px;
-    height: 38px;
-    min-width: 38px;
-    min-height: 38px;
-  }
-
-  .user-modal-body {
-    padding: 20px;
-    gap: 20px;
-  }
-
-  /* Stats en 2 columnas en tablets */
-  .user-modal-stats-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  /* Streaks en 2 columnas en tablets */
-  .user-modal-streaks {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  /* Badges en 2 columnas en tablets */
-  .user-modal-badges-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  /* Achievements en 2 columnas en tablets */
-  .achievements-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
 /* ==================== RESPONSIVE: MÓVILES ==================== */
 @media (max-width: 480px) {
   .user-modal-overlay {
@@ -1060,195 +1439,243 @@
   /* Stats en una columna en móviles */
   .user-modal-stats-grid {
     grid-template-columns: 1fr;
-  gap: 10px;
+    gap: 10px;
   }
+
   .stat-icon {
-  width: 40px;
-  height: 40px;
-  min-width: 40px;
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
   }
+
   .stat-icon svg {
-  width: 18px;
-  height: 18px;
+    width: 18px;
+    height: 18px;
   }
+
   .stat-label {
-  font-size: 11px;
+    font-size: 11px;
   }
+
   .stat-value {
-  font-size: 20px;
+    font-size: 20px;
   }
+
   /* Level card más compacto */
   .user-modal-level-card {
-  padding: 14px;
+    padding: 14px;
   }
+
   .level-title-section h4 {
-  font-size: 15px;
+    font-size: 15px;
   }
+
   .level-title-section p {
-  font-size: 12px;
+    font-size: 12px;
   }
+
   .current-points {
-  font-size: 14px;
+    font-size: 14px;
   }
+
   .progress-bar {
-  height: 8px;
+    height: 8px;
   }
+
   /* Streaks en una columna en móviles */
   .user-modal-streaks {
-  grid-template-columns: 1fr;
-  gap: 10px;
+    grid-template-columns: 1fr;
+    gap: 10px;
   }
+
   .streak-icon {
-  width: 44px;
-  height: 44px;
-  min-width: 44px;
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
   }
+
   .streak-icon svg {
-  width: 24px;
-  height: 24px;
+    width: 24px;
+    height: 24px;
   }
+
   .streak-label {
-  font-size: 11px;
+    font-size: 11px;
   }
+
   .streak-value {
-  font-size: 20px;
+    font-size: 20px;
   }
+
   /* Coronas más compactas */
   .user-modal-crowns {
-  padding: 14px;
+    padding: 14px;
   }
+
   .section-header h4 {
-  font-size: 15px;
+    font-size: 15px;
   }
+
   .crown-icon {
-  width: 24px;
-  height: 24px;
+    width: 24px;
+    height: 24px;
   }
+
   /* Badges en una columna en móviles */
   .user-modal-badges-grid {
-  grid-template-columns: 1fr;
-  gap: 10px;
+    grid-template-columns: 1fr;
+    gap: 10px;
   }
+
   .user-modal-badge {
-  padding: 12px;
+    padding: 12px;
   }
+
   .badge-icon {
-  width: 32px;
-  height: 32px;
-  min-width: 32px;
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
   }
+
   .badge-icon svg {
-  width: 14px;
-  height: 14px;
+    width: 14px;
+    height: 14px;
   }
+
   .badge-label {
-  font-size: 10px;
+    font-size: 10px;
   }
+
   .badge-value {
-  font-size: 13px;
+    font-size: 13px;
   }
+
   /* Active title más compacto */
   .user-modal-active-title {
-  padding: 14px;
+    padding: 14px;
   }
+
   .current-title-display {
-  padding: 12px;
+    padding: 12px;
   }
+
   .title-icon-large {
-  width: 40px;
-  height: 40px;
-  min-width: 40px;
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
   }
+
   .title-icon-large svg {
-  width: 22px;
-  height: 22px;
+    width: 22px;
+    height: 22px;
   }
+
   .title-details h5 {
-  font-size: 15px;
+    font-size: 15px;
   }
+
   .title-details p {
-  font-size: 12px;
+    font-size: 12px;
   }
+
   /* Achievements en una columna en móviles */
   .achievements-grid {
-  grid-template-columns: 1fr;
-  gap: 10px;
+    grid-template-columns: 1fr;
+    gap: 10px;
   }
+
   .achievement-card {
-  padding: 14px;
+    padding: 14px;
   }
+
   .achievement-emoji {
-  font-size: 28px;
+    font-size: 28px;
   }
+
   .achievement-info h5 {
-  font-size: 14px;
+    font-size: 14px;
   }
+
   .achievement-info p {
-  font-size: 11px;
+    font-size: 11px;
   }
+
   .achievement-category {
-  font-size: 10px;
+    font-size: 10px;
   }
+
   /* Historial de coronas más compacto */
   .history-item {
-  padding: 8px 12px;
-  font-size: 12px;
+    padding: 8px 12px;
+    font-size: 12px;
   }
+
   .crowns-history h5 {
-  font-size: 13px;
+    font-size: 13px;
   }
+
   /* Loading más compacto */
   .loading-spinner {
-  padding: 40px 20px;
-  min-height: 250px;
+    padding: 40px 20px;
+    min-height: 250px;
   }
+
   .loading-icon {
-  width: 40px;
-  height: 40px;
+    width: 40px;
+    height: 40px;
   }
+
   .loading-text {
-  font-size: 14px;
+    font-size: 14px;
   }
-  }
-  /* ==================== RESPONSIVE: MÓVILES EXTRA PEQUEÑOS ==================== */
-  @media (max-width: 360px) {
+}
+
+/* ==================== RESPONSIVE: MÓVILES EXTRA PEQUEÑOS ==================== */
+@media (max-width: 360px) {
   .user-modal-overlay {
-  padding: 8px;
-  padding-top: calc(60px + 8px);
-  padding-bottom: calc(65px + 8px);
+    padding: 8px;
+    padding-top: calc(60px + 8px);
+    padding-bottom: calc(65px + 8px);
   }
+
   .user-modal-container {
-  border-radius: 14px;
+    border-radius: 14px;
   }
+
   .user-modal-header {
-  padding: 14px;
+    padding: 14px;
   }
+
   .user-modal-body {
-  padding: 14px;
-  gap: 14px;
+    padding: 14px;
+    gap: 14px;
   }
+
   .user-modal-stats-grid,
   .user-modal-streaks,
   .user-modal-badges-grid,
   .achievements-grid {
-  gap: 8px;
+    gap: 8px;
   }
+
   .stat-value,
   .streak-value {
-  font-size: 18px;
+    font-size: 18px;
   }
+
   .loading-spinner {
-  padding: 30px 15px;
-  min-height: 200px;
+    padding: 30px 15px;
+    min-height: 200px;
   }
-  }
-  /* ==================== ACCESIBILIDAD ==================== */
-  @media (prefers-reduced-motion: reduce) {
+}
+
+/* ==================== ACCESIBILIDAD ==================== */
+@media (prefers-reduced-motion: reduce) {
   *,
   *::before,
   *::after {
-  animation-duration: 0.01ms !important;
-  animation-iteration-count: 1 !important;
-  transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }
