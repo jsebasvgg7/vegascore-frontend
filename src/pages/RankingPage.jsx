@@ -15,25 +15,25 @@ export default function RankingPage({ currentUser, onBack }) {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
-  const [rankingType, setRankingType] = useState('global'); // 'global' o 'weekly'
+  const [rankingType, setRankingType] = useState('global'); // 'global' o 'monthly'
   const [sortBy, setSortBy] = useState('points');
   const [selectedUserId, setSelectedUserId] = useState(null);
 
   useEffect(() => {
-    checkAndResetWeekly();
+    checkAndResetMonthly();
     loadUsers();
   }, []);
 
-  // 🔄 FUNCIÓN DE RESET AUTOMÁTICO
-  const checkAndResetWeekly = async () => {
+  // 🔄 FUNCIÓN DE RESET AUTOMÁTICO MENSUAL
+  const checkAndResetMonthly = async () => {
     try {
       const now = new Date();
-      const dayOfWeek = now.getDay(); // 0 = Domingo, 1 = Lunes, etc.
+      const currentDay = now.getDate();
       
       // Obtener la fecha del último reset global
       const { data: config, error: configError } = await supabase
         .from('app_config')
-        .select('last_weekly_reset')
+        .select('last_monthly_reset')
         .eq('id', 1)
         .single();
 
@@ -42,44 +42,37 @@ export default function RankingPage({ currentUser, onBack }) {
         return;
       }
 
-      const lastReset = config?.last_weekly_reset 
-        ? new Date(config.last_weekly_reset) 
+      const lastReset = config?.last_monthly_reset 
+        ? new Date(config.last_monthly_reset) 
         : new Date(0);
       
-      const daysSinceReset = Math.floor((now - lastReset) / (1000 * 60 * 60 * 24));
+      const lastResetMonth = lastReset.getMonth();
+      const currentMonth = now.getMonth();
+      const lastResetYear = lastReset.getFullYear();
+      const currentYear = now.getFullYear();
       
-      // Si pasó más de 7 días Y es lunes (día 1), hacer reset
-      if (daysSinceReset >= 7 && dayOfWeek === 1) {
-        console.log('🔄 Iniciando reset semanal automático...');
+      // Si cambió el mes o el año, y es el primer día del mes, hacer reset
+      const monthChanged = (currentMonth !== lastResetMonth) || (currentYear !== lastResetYear);
+      
+      if (monthChanged && currentDay === 1) {
+        console.log('🔄 Iniciando reset mensual automático...');
         console.log('📅 Último reset:', lastReset.toISOString());
         console.log('📅 Fecha actual:', now.toISOString());
         
         // Llamar a la función RPC
-        const { error: resetError } = await supabase.rpc('reset_weekly_stats');
+        const { error: resetError } = await supabase.rpc('reset_all_monthly_stats');
         
         if (resetError) {
           console.error('❌ Error en reset:', resetError);
           return;
         }
 
-        // Actualizar última fecha de reset
-        const { error: updateError } = await supabase
-          .from('app_config')
-          .upsert({ 
-            id: 1, 
-            last_weekly_reset: now.toISOString() 
-          });
-
-        if (updateError) {
-          console.error('❌ Error actualizando config:', updateError);
-        } else {
-          console.log('✅ Reset semanal completado exitosamente');
-        }
+        console.log('✅ Reset mensual completado exitosamente');
       } else {
-        console.log('ℹ️ No es necesario reset. Días desde último reset:', daysSinceReset);
+        console.log('ℹ️ No es necesario reset. Último reset:', lastReset.toLocaleDateString());
       }
     } catch (error) {
-      console.error('❌ Error en checkAndResetWeekly:', error);
+      console.error('❌ Error en checkAndResetMonthly:', error);
     }
   };
 
@@ -102,12 +95,12 @@ export default function RankingPage({ currentUser, onBack }) {
 
   // Obtener datos según el tipo de ranking
   const getRankingData = () => {
-    if (rankingType === 'weekly') {
+    if (rankingType === 'monthly') {
       return users.map(u => ({
         ...u,
-        rankPoints: u.weekly_points || 0,
-        rankCorrect: u.weekly_correct || 0,
-        rankPredictions: u.weekly_predictions || 0
+        rankPoints: u.monthly_points || 0,
+        rankCorrect: u.monthly_correct || 0,
+        rankPredictions: u.monthly_predictions || 0
       }));
     } else {
       return users.map(u => ({
@@ -174,6 +167,16 @@ export default function RankingPage({ currentUser, onBack }) {
     return null;
   };
 
+  // Obtener el mes actual en formato legible
+  const getCurrentMonthLabel = () => {
+    const months = [
+      'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+      'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
+    ];
+    const now = new Date();
+    return `${months[now.getMonth()]} ${now.getFullYear()}`;
+  };
+
   if (loading) {
     return (
       <div className="ranking-page-loading">
@@ -207,11 +210,14 @@ export default function RankingPage({ currentUser, onBack }) {
             <div className="btn-shine"></div>
           </button>
           <button 
-            className={`ranking-type-btn ${rankingType === 'weekly' ? 'active' : ''}`}
-            onClick={() => setRankingType('weekly')}
+            className={`ranking-type-btn ${rankingType === 'monthly' ? 'active' : ''}`}
+            onClick={() => setRankingType('monthly')}
           >
             <Calendar size={20} />
             <span>Top Mensual</span>
+            {rankingType === 'monthly' && (
+              <span className="month-label">{getCurrentMonthLabel()}</span>
+            )}
             <div className="btn-shine"></div>
           </button>
         </div>
@@ -336,7 +342,9 @@ export default function RankingPage({ currentUser, onBack }) {
             <div className="podium-header-ultra">
               <Award className="podium-icon-ultra" size={32} />
               <h2 className="podium-title-ultra">
-                {rankingType === 'weekly' ? 'Campeones del Mes' : 'Hall of Champions'}
+                {rankingType === 'monthly' 
+                  ? `Campeones de ${getCurrentMonthLabel()}` 
+                  : 'Hall of Champions'}
               </h2>
               <Sparkles className="podium-sparkle" size={24} />
             </div>
