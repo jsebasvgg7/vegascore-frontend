@@ -133,6 +133,11 @@
   color: #6b7280;
 }
 
+.password-toggle-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
 /* Enlace "Olvidaste tu contraseña?" */
 .forgot-password-link {
   text-align: right;
@@ -237,6 +242,7 @@
   font-size: 14px;
   text-align: center;
   font-weight: 500;
+  animation: slideDown 0.3s ease;
 }
 
 .error-message {
@@ -249,6 +255,18 @@
   font-size: 14px;
   text-align: center;
   font-weight: 500;
+  animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Info box (consejos) */
@@ -278,20 +296,34 @@
   color: #4b5563;
   margin-top: -8px;
   margin-bottom: 8px;
+  animation: fadeIn 0.3s ease;
 }
 
-/* Loading spinner */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* ==================== LOADING SPINNER - CORREGIDO ==================== */
 .loading-spinner {
+  display: inline-block; /* ← CRÍTICO: sin esto no se ve correctamente */
   width: 18px;
   height: 18px;
-  border: 2.5px solid white;
-  border-top-color: transparent;
+  border: 2.5px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
   border-radius: 50%;
-  animation: spin 0.6s linear infinite;
+  animation: spin 0.7s linear infinite;
+  flex-shrink: 0; /* Evitar que se comprima */
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to { 
+    transform: rotate(360deg); 
+  }
 }
 
 /* Responsive */
@@ -333,6 +365,12 @@
   .auth-card .btn {
     padding: 15px;
     font-size: 15px;
+  }
+
+  .loading-spinner {
+    width: 16px;
+    height: 16px;
+    border-width: 2px;
   }
 }
 
@@ -399,6 +437,12 @@
     margin-top: 20px;
     padding: 14px;
     font-size: 12px;
+  }
+
+  .loading-spinner {
+    width: 15px;
+    height: 15px;
+    border-width: 2px;
   }
 }
 
@@ -489,4 +533,33 @@
 [data-theme="dark"] .password-strength {
   background: rgba(155, 135, 216, 0.12);
   color: #b4b8d0;
+}
+
+[data-theme="dark"] .success-message {
+  background: rgba(16, 185, 129, 0.15);
+  border-color: rgba(16, 185, 129, 0.4);
+  color: #10b981;
+}
+
+[data-theme="dark"] .error-message {
+  background: rgba(239, 68, 68, 0.15);
+  border-color: rgba(239, 68, 68, 0.4);
+  color: #ef4444;
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .loading-spinner {
+    animation: none;
+    border-top-color: transparent;
+    border-right-color: white;
+  }
 }
