@@ -95,22 +95,26 @@
   background: var(--profile-card);
   border-bottom: 1px solid var(--profile-border);
   position: sticky;
-  top: 73px; /* Altura del header (padding + contenido) */
-  z-index: 100; /* Menor que header */
+  top: 73px;
+  z-index: 100;
   backdrop-filter: blur(12px);
   box-shadow: var(--profile-shadow);
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
+  justify-content: center; /* SIEMPRE CENTRADO */
+  padding: 0 1rem;
+}
+.profile-tabs-modern::-webkit-scrollbar {
+  display: none;
 }
 
-/* DESKTOP: Tabs centrados y con max-width */
 @media (min-width: 1024px) {
   .profile-tabs-modern {
-    justify-content: center;
     max-width: 1400px;
     margin: 0 auto;
     width: 100%;
+    padding: 0 2rem;
   }
 }
 
@@ -120,38 +124,34 @@
   }
 }
 
-/* Ajuste para tablets y escritorio */
-@media (min-width: 769px) {
-  .profile-header-minimal {
-    z-index: 200;
-  }
-  
-  .profile-tabs-modern {
-    top: 73px; /* Ajustar según altura real del header */
-    z-index: 100;
-  }
-}
-
-/* Mobile - mantener comportamiento correcto */
 @media (max-width: 768px) {
-  .profile-header-minimal {
-    z-index: 200;
-    padding: 1rem;
+  .profile-tabs-modern {
+    padding: 0 0.75rem;
   }
   
-  .profile-tabs-modern {
-    top: 68px; /* Altura del header en móvil */
-    z-index: 100;
+  .tab-btn-modern {
+    padding: 1rem 1.125rem;
   }
 }
 
 @media (max-width: 480px) {
-  .profile-header-minimal {
-    padding: 0.875rem;
+  .profile-tabs-modern {
+    padding: 0 0.5rem;
   }
   
+  .tab-btn-modern {
+    padding: 1rem 1rem;
+    font-size: 0.8125rem;
+  }
+}
+
+@media (max-width: 360px) {
   .profile-tabs-modern {
-    top: 64px; /* Altura del header en móviles pequeños */
+    padding: 0 0.25rem;
+  }
+  
+  .tab-btn-modern {
+    padding: 0.875rem 0.875rem;
   }
 }
 
@@ -567,8 +567,7 @@
 }
 
 .tab-btn-modern {
-  flex: 1;
-  min-width: fit-content;
+  flex: 0 0 auto; /* No se estiran ni encogen */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -584,6 +583,7 @@
   transition: all 0.2s ease;
   white-space: nowrap;
   position: relative;
+  min-width: fit-content;
 }
 
 /* MOBILE: Limitar flex para que no se estiren demasiado */
