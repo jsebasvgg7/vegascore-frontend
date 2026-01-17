@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { 
   X, Trophy, Target, Flame, Star, Award, Calendar, 
   TrendingUp, Crown, Shield, Sparkles, Zap, Users,
-  Globe, Heart, Flag, Gem, Layers
+  Globe, Heart, Flag, Gem, Layers, Activity
 } from 'lucide-react';
 import { supabase } from '../utils/supabaseClient';
 import '../styles/UserProfileModal.css';
