@@ -70,6 +70,88 @@
     max-width: 1600px;
   }
 }
+/* ==========================================
+   TABS - STICKY MEJORADO Y SIEMPRE CENTRADO
+========================================== */
+
+.profile-tabs-modern {
+  display: flex;
+  background: var(--profile-card);
+  border-bottom: 1px solid var(--profile-border);
+  position: sticky;
+  top: 73px;
+  z-index: 100;
+  backdrop-filter: blur(12px);
+  box-shadow: var(--profile-shadow);
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  /* CENTRADO ABSOLUTO */
+  justify-content: center;
+  width: 100%;
+  padding: 0;
+  /* Forzar que el scroll se centre */
+  scroll-snap-type: x mandatory;
+}
+
+.profile-tabs-modern::-webkit-scrollbar {
+  display: none;
+}
+
+/* DESKTOP: Tabs centrados y con max-width */
+@media (min-width: 1024px) {
+  .profile-tabs-modern {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+}
+
+@media (min-width: 1200px) {
+  .profile-tabs-modern {
+    max-width: 1600px;
+  }
+}
+
+.tab-btn-modern {
+  flex-shrink: 0; /* CRÍTICO: No se encogen */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 1.5rem;
+  background: transparent;
+  border: none;
+  border-bottom: 3px solid transparent;
+  cursor: pointer;
+  color: var(--profile-text-secondary);
+  font-size: 0.875rem;
+  font-weight: 700;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  position: relative;
+  scroll-snap-align: center;
+}
+
+/* MOBILE: Centrado forzado */
+@media (max-width: 768px) {
+  .tab-btn-modern {
+    padding: 1rem 1.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .tab-btn-modern {
+    padding: 1rem 1.125rem;
+    font-size: 0.8125rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .tab-btn-modern {
+    padding: 0.875rem 1rem;
+  }
+}
 
 /* ==========================================
    FIX: TABS STICKY - NO SUPERPONER HEADER
